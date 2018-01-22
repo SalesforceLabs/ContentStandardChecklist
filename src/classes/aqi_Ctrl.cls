@@ -40,7 +40,7 @@ public with sharing class aqi_Ctrl {
 				idx_api_name = dfr.getName();         	
 				if (dfr.getType() ==Schema.DisplayType.DOUBLE ){
 
-					system.debug('\n'+str+':'+idx_api_name+' - '+dfr.getType());
+					//system.debug('\n'+str+':'+idx_api_name+' - '+dfr.getType());
 					system.debug(aqs);
 					Object obj = aqs.get(idx_api_name);
 					idx_val =  Double.valueOf(obj);   

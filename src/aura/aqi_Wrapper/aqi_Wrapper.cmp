@@ -1,3 +1,143 @@
-<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" 
+				access="global" controller="aqi_WrapperCtrl" extends="c:aqi_Abstract" >
+  
+    <!-- ATTRIBUTES -->
+	<aura:attribute name="indexField1" type="String" default="" />
+	<aura:attribute name="indexField2" type="String" default="" />
+	<aura:attribute name="indexField3" type="String" default="" />
+	<aura:attribute name="indexField4" type="String" default="" />
+	<aura:attribute name="indexField5" type="String" default="" />
+	<aura:attribute name="indexField6" type="String" default="" />
+	<aura:attribute name="indexField7" type="String" default="" />
+	<aura:attribute name="indexField8" type="String" default="" />
+	<aura:attribute name="indexField9" type="String" default="" />
+	<aura:attribute name="indexField10" type="String" default="" />
+
+
+	<aura:attribute name="aqi_record" type="Article_Quality__c" default="{ 'sobjectType': 'Article_Quality__c' }"  />
+
+	<aura:attribute name="apiNames" type="List" default="" />
+
 	
+	<!-- HANDLERS-->
+    
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}" /> 
+	
+
+    <lightning:card class="widgetContainer">
+        <aura:set attribute="title">
+
+			<div class="slds-card__header slds-grid slds-page-header">
+				<header class="slds-media slds-media_center slds-has-flexi-truncate">
+					<div class="slds-media__body">
+						<h2>
+								<ui:outputText value="{!v.aqi_record.Name}" />
+						</h2>
+					</div>
+				</header>
+				<div class="slds-no-flex">
+					<span class="slds-badge slds-badge_lightest slds-p-around_small">Score :{!v.aqi_record.AQ_Score__c}</span>
+				</div>
+			</div>
+
+
+			
+			
+        </aura:set>
+
+        <aura:set attribute="footer">
+            <div class="buttonsContainer">
+                <lightning:button variant="brand" class="slds-button slds-button--brand applyButton" label="Apply" onclick="{!c.updateAQI}" />
+            </div>
+        </aura:set>
+		
+			
+        <p class="slds-p-horizontal--small">
+			<div aura:id="fieldsContainer" class="fieldsContainer" />
+			
+
+			<hr/>
+			<div class="slds-text-heading_medium">Follow Up</div>
+			<!-- Follow up section -->
+			<lightning:layout horizontalAlign="space" verticalAlign="center">
+
+				<!-- Coaching needed -->
+					<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
+						<div class="slds-size_1-of-1">
+						  <p class="slds-truncate" title="{!v.fieldLabel}">
+							  <ui:outputText value="Coaching Needed" />
+						  </p>
+						</div>
+					</lightning:layoutItem>
+
+					<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
+							<force:inputField value="{!v.aqi_record.Action_Needed__c}"/>
+					</lightning:layoutItem>
+
+			</lightning:layout>
+
+			<lightning:layout horizontalAlign="space" verticalAlign="center">
+
+			
+					<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
+						<div class="slds-size_1-of-1">
+						  <p class="slds-truncate" title="Action date">
+							  <ui:outputText value="Action Date" />
+						  </p>
+						</div>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
+							<force:inputField value="{!v.aqi_record.Action_Date__c}"/>
+					</lightning:layoutItem>
+
+				</lightning:layout>
+				<lightning:layout horizontalAlign="space" verticalAlign="center">
+	
+
+					<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
+						<div class="slds-size_1-of-1">
+						  <p class="slds-truncate" title="Action assigned to">
+							  <ui:outputText value="Action assigned to " />
+						  </p>
+						</div>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
+							<force:inputField value="{!v.aqi_record.Action_Assigned_To__c}"/>
+					</lightning:layoutItem>					
+
+				</lightning:layout>
+				<lightning:layout horizontalAlign="space" verticalAlign="center">
+	
+
+					<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
+						<div class="slds-size_1-of-1">
+						  <p class="slds-truncate" title="Action taken">
+							  <ui:outputText value="Action taken " />
+						  </p>
+						</div>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
+							<force:inputField value="{!v.aqi_record.Action_Taken__c}"/>
+					</lightning:layoutItem>					
+
+				</lightning:layout>
+				<lightning:layout horizontalAlign="space" verticalAlign="center">
+	
+
+					<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
+						<div class="slds-size_1-of-1">
+						  <p class="slds-truncate" title="Internal notes">
+							  <ui:outputText value="Internal notes" />
+						  </p>
+						</div>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
+							<force:inputField value="{!v.aqi_record.Internal_Notes__c}"/>
+					</lightning:layoutItem>	
+				</lightning:layout>
+
+        </p>
+
+	</lightning:card>
+
 </aura:component>

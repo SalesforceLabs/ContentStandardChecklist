@@ -4,6 +4,8 @@
         <members>aqi_Ctrl</members>
         <members>aqi_Ctrl_Test</members>
         <members>aqi_DynamicPickList_AQI</members>
+        <members>aqi_DetailCtrl</members>
+        <members>aqi_DetailCtrl_Test</members>
         <members>aqi_KnowledgeSearchCtrl</members>
         <members>aqi_KnowledgeSearchCtrl_Test</members>
         <members>aqi_LightningResponse</members>
@@ -37,6 +39,7 @@
     </types>
     <types>
         <members>ArticleQuality_index__c</members>
+        <members>Article_Quality_Questions__c</members>
         <members>Article_Quality__c</members>
         <name>CustomObject</name>
     </types>
@@ -65,5 +68,5 @@
         <members>aqi_resources</members>
         <name>StaticResource</name>
     </types>
-    <version>36.0</version>
+    <version>38.0</version>
 </Package>

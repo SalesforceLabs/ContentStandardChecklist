@@ -26,6 +26,7 @@
  
 			component.set("v.apiNames",apiNames);
 			helper.doInit(component, event, helper);
+			console.log('do Init');
 	},
 	updateAQI : function(component, event, helper) {
 		var aqi_obj = component.get('v.aqi_record');

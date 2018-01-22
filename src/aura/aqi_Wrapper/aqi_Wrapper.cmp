@@ -54,15 +54,13 @@
 			
         <p class="slds-p-horizontal--small">
 			<div aura:id="fieldsContainer" class="fieldsContainer" />
-			
-
 			<hr/>
 			<div class="slds-text-heading_medium">Follow Up</div>
 			<!-- Follow up section -->
+		
 			<lightning:layout horizontalAlign="space" verticalAlign="center">
 
-				<!-- Coaching needed -->
-					<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
+		 		<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
 						<div class="slds-size_1-of-1">
 						  <p class="slds-truncate" title="{!v.fieldLabel}">
 							  <ui:outputText value="Coaching Needed" />
@@ -134,7 +132,7 @@
 					<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
 							<force:inputField value="{!v.aqi_record.Internal_Notes__c}"/>
 					</lightning:layoutItem>	
-				</lightning:layout>
+				</lightning:layout> 
 
         </p>
 

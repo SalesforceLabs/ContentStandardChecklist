@@ -1,3 +1,39 @@
-<apex:page showHeader="true" sidebar="true">
-    
+<apex:page controller="aqi_SetupCtrl" showHeader="true" sidebar="true">
+    <apex:form id="container">
+        <apex:pageBlock title="Application Setup" mode="edit" rendered="{!editMode}">
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!save}" value="Save" reRender="container"/>
+                <apex:commandButton action="{!cancel}" value="Cancel" reRender="container"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="2">
+                <apex:inputField value="{!aqs.name}"/>
+                <apex:inputField value="{!aqs.Article_Unique_Weight__c}"/>
+                <apex:inputField value="{!aqs.Art_Meets_Content_Standard_Weight__c}"/>
+                <apex:inputField value="{!aqs.Content_Complete_Weight__c}"/>
+                <apex:inputField value="{!aqs.Content_Understandable_Weight__c}"/>
+                <apex:inputField value="{!aqs.Links_In_Article_Valid_Weight__c}"/>
+                <apex:inputField value="{!aqs.Possible_Points__c}"/>
+                <apex:inputField value="{!aqs.Properties_Set_Appropriately_Weight__c}"/>
+                <apex:inputField value="{!aqs.Selected_Languages__c}"/>
+                <apex:inputField value="{!aqs.Title_Accurate_Weight__c}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <apex:pageBlock title="Application Setup" mode="detail" rendered="{!!editMode}" >
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!edit}" value="Edit"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="2">
+                <apex:outputField value="{!aqs.name}"/>
+                <apex:outputField value="{!aqs.Article_Unique_Weight__c}"/>
+                <apex:outputField value="{!aqs.Art_Meets_Content_Standard_Weight__c}"/>
+                <apex:outputField value="{!aqs.Content_Complete_Weight__c}"/>
+                <apex:outputField value="{!aqs.Content_Understandable_Weight__c}"/>
+                <apex:outputField value="{!aqs.Links_In_Article_Valid_Weight__c}"/>
+                <apex:outputField value="{!aqs.Possible_Points__c}"/>
+                <apex:outputField value="{!aqs.Properties_Set_Appropriately_Weight__c}"/>
+                <apex:outputField value="{!aqs.Selected_Languages__c}"/>
+                <apex:outputField value="{!aqs.Title_Accurate_Weight__c}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
 </apex:page>

@@ -3,6 +3,7 @@
     <types>
         <members>aqi_Ctrl</members>
         <members>aqi_Ctrl_Test</members>
+        <members>aqi_DynamicPickList_AQI</members>
         <members>aqi_DetailCtrl</members>
         <members>aqi_DetailCtrl_Test</members>
         <members>aqi_KnowledgeSearchCtrl</members>

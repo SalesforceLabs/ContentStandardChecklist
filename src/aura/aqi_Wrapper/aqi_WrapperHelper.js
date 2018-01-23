@@ -75,20 +75,18 @@
 		var that = ctx;
 
 		if (!$A.util.isUndefinedOrNull(responseMap)){
-
 			console.log('doUpdateCallback');
 			console.log(responseMap);
 			if(!component.isValid()) return;
 			var aqi_record = responseMap.aqi_record;
 			component.set('v.aqi_record',aqi_record);
-			//that.doInit(component,null,that);
 			
 		}
 
 	},
 
 	getIndexInputs : function(cmp) {
-        return cmp.find("fieldsContainer").find({instancesOf: "c:AQI_field"})
+        return cmp.find("fieldsContainer").find({instancesOf: "c:aqi_Field"})
 	}
 	
 })

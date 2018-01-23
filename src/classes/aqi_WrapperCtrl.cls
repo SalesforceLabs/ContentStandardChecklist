@@ -105,23 +105,70 @@ public with sharing class aqi_WrapperCtrl {
                     }  
                 }
 
-                for(String k : allFields.keySet())
-                    system.debug('\n k '+k);
-
                 result.put('aqi_fields',indexList);
                 result.put('aqi_record',aqi_result);
-
                 response.jsonResponse = JSON.serialize(result);
+
             }catch(Exception e){
                 response = new aqi_LightningResponse(e);
             }
         }
-
-
 		return response;
-
-       
     }
+
+    /*
+    * @description
+    *   retrieves initial details to load input fields on AQI component
+    * @params
+    *   String recordStr JSON string containing new values for the AQI record
+    * @return 
+    *   Map with : aqi record  details
+    */
+    @AuraEnabled
+    public static aqi_LightningResponse upsertAQI(String recordStr){
+
+        aqi_LightningResponse response = new aqi_LightningResponse();
+        Map<String,  Object> result = new Map<String,  Object>();
+
+        Map<String,Double>  indexValues = aqi_Ctrl.getindexApiNameToValue();
+        Set<String> apiNamesWhiteLilst = indexValues.keySet();
+        List<String> tmpList  = new List<String>();
+        tmpList.addAll(apiNamesWhiteLilst);
+        String qStringApiNames = String.join(tmpList,', ');
+
+        system.debug(recordStr);
+        if (!String.isNotBlank(recordStr)) return response;
+        try{
+            Article_Quality__c record = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
+            system.debug('\n======== UPDATE AQI =======');
+            system.debug('\n Action_Date__c : '+record.Action_Date__c);
+            system.debug('\n Content_Complete__c : '+record.Content_Complete__c);
+            system.debug('\n Content_Understandable__c : '+record.Content_Understandable__c);
+            system.debug('\n Article_Unique__c : '+record.Article_Unique__c);
+            system.debug('\n Art_Meets_Content_Standard__c : '+record.Art_Meets_Content_Standard__c);
+            system.debug('\n Links_in_article_valid__c : '+record.Links_in_article_valid__c);
+
+            upsert record;
+            //load Score field
+            record = Database.query(   ' SELECT Name, Action_Assigned_To__c , Action_Needed__c, AQ_Score__c, '+
+                                        '           Action_Date__c, Action_Taken__c, Internal_Notes__c, '+
+                                        qStringApiNames +
+                                        ' FROM Article_Quality__c '+
+                                        ' WHERE '+
+                                        ' Id =\''+record.Id+'\'');
+
+            result.put('aqi_record',record);
+            system.debug('\n======== UPDATE AQI =======');
+            system.debug(record);
+            response.jsonResponse = JSON.serialize(result);
+        }catch(Exception e){
+            response = new aqi_LightningResponse(e);
+        }
+    
+        return response;
+
+    }
+
 
     private static Article_Quality__c populateInitialAQI(String kavId){
         Article_Quality__c result = null;

@@ -6,7 +6,7 @@
                 <apex:commandButton action="{!cancel}" value="Cancel" reRender="container"/>
             </apex:pageBlockButtons>
             <apex:pageBlockSection columns="2">
-                <apex:inputField value="{!aqs.name}"/>
+                <apex:inputField value="{!aqs.name}" html-disabled="true" />
                 <apex:inputField value="{!aqs.Article_Unique__c}"/>
                 <apex:inputField value="{!aqs.Art_Meets_Content_Standard__c}"/>
                 <apex:inputField value="{!aqs.Content_complete__c}"/>
@@ -23,7 +23,7 @@
                 <apex:commandButton action="{!edit}" value="Edit"/>
             </apex:pageBlockButtons>
             <apex:pageBlockSection columns="2">
-                <apex:outputField value="{!aqs.name}"/>
+                <apex:outputField value="{!aqs.name}" />
                 <apex:outputField value="{!aqs.Article_Unique__c}"/>
                 <apex:outputField value="{!aqs.Art_Meets_Content_Standard__c}"/>
                 <apex:outputField value="{!aqs.Content_complete__c}"/>

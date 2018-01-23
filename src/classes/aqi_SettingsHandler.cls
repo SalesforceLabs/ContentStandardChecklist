@@ -17,7 +17,6 @@ public class aqi_SettingsHandler {
 
 	public static Boolean isAppConfigured(){
 		ArticleQuality_index__c  aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
-
 		return (aq != null);
 	}
 

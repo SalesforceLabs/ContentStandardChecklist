@@ -4,7 +4,7 @@
             <apex:pageBlockButtons >
                 <apex:commandButton action="{!save}" value="Save" reRender="container"/>
                 <apex:commandButton action="{!cancel}" value="Cancel" reRender="container"/>
-            </apex:pageBlockButtons>
+            </apex:pageBlockButtons> 
             <apex:pageBlockSection columns="2">
                 <apex:inputField value="{!aqs.name}" html-disabled="true" />
                 <apex:inputField value="{!aqs.Article_Unique__c}"/>

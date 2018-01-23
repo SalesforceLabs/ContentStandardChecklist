@@ -38,81 +38,81 @@ public with sharing class aqi_WrapperCtrl {
         system.debug(apiNames);
         
 
-    if (!String.isNotBlank(apiNames)){
-            response.state = 'ERROR';
-            response.error = 'List of API names can not be empty';
-    }else
-        if (!String.isNotBlank(recordId)){
-            response.state = 'ERROR';
-            response.error = 'Article Id  can not be empty';
-        }else{
-            try{
-                system.debug('into try of getInitData');
-                Map<String,  Object> result = new Map<String,  Object>();
-                set<String> apiNamesWhiteLilst = indexValues.keySet();
-                system.debug(apiNamesWhiteLilst);
+        if (!String.isNotBlank(apiNames)){
+                response.state = 'ERROR';
+                response.error = 'List of API names can not be empty';
+        }else
+            if (!String.isNotBlank(recordId)){
+                response.state = 'ERROR';
+                response.error = 'Article Id  can not be empty';
+            }else{
+                try{
+                    system.debug('into try of getInitData');
+                    Map<String,  Object> result = new Map<String,  Object>();
+                    set<String> apiNamesWhiteLilst = indexValues.keySet();
+                    system.debug(apiNamesWhiteLilst);
 
-                set<String> apiList  = new set<String>();
-                apiNames = apiNames.replace('"','').replace('[','').replace(']','');
-                for (String a : apiNames.split(',')){
-                    if (String.isNotBlank(a) && apiNamesWhiteLilst.contains(a)){
-                        apiList.add(a);
-                        system.debug(a);
-                     }
-                }
-
-                //@todo : filter field list according to permissions
-                List<indexWrapper> indexList = new List<indexWrapper>();
-                List<String> uniqueApiNames = new List<String>();
-                uniqueApiNames.addAll(apiList);
-
-                String qStringApiNames = String.join(uniqueApiNames,', ');
-
-                system.debug(qStringApiNames);
-
-                Article_Quality__c aqi_result;
-                String qStr =   ' SELECT Name, Action_Assigned_To__c , Action_Needed__c, AQ_Score__c, '+
-                                '      Action_Date__c, Action_Taken__c, Internal_Notes__c ';
-                
-                if (String.isNotBlank(qStringApiNames)) 
-                        qStr +=  ', '+qStringApiNames;
-
-                qStr += ' FROM Article_Quality__c '+
-                        ' WHERE '+
-                        ' Knowledge_Article_Version_Id__c =\''+recordId+'\'';
-            
-                system.debug(qStr);
-
-                List<Article_Quality__c > l = Database.query(   qStr );
-                if (l.isEmpty()){
-                    aqi_result =populateInitialAQI(recordId);
-                }else{
-                    aqi_result = l.get(0);
-                }
-
-                Map<String, Schema.SObjectField> allFields = Schema.SObjectType.Article_Quality__c.fields.getMap();
-                String tmp;
-                for(String str : uniqueApiNames){
-                    tmp = str.toLowerCase();
-                    if (allFields.containsKey(tmp)){
-                        Schema.DescribeFieldResult dfr = allFields.get(tmp).getDescribe();
-                        if (dfr.isCustom() && dfr.getType() ==Schema.DisplayType.BOOLEAN){
-                            system.debug('\n'+tmp+':'+dfr.getType());
-                            indexList.add(new indexWrapper(dfr.getLabel(),dfr.getName(),true));
+                    set<String> apiList  = new set<String>();
+                    apiNames = apiNames.replace('"','').replace('[','').replace(']','');
+                    for (String a : apiNames.split(',')){
+                        if (String.isNotBlank(a) && apiNamesWhiteLilst.contains(a)){
+                            apiList.add(a);
+                            system.debug(a);
                         }
+                    }
+
+                    //@todo : filter field list according to permissions
+                    List<indexWrapper> indexList = new List<indexWrapper>();
+                    List<String> uniqueApiNames = new List<String>();
+                    uniqueApiNames.addAll(apiList);
+
+                    String qStringApiNames = String.join(uniqueApiNames,', ');
+
+                    system.debug(qStringApiNames);
+
+                    Article_Quality__c aqi_result;
+                    String qStr =   ' SELECT Name, Action_Assigned_To__c , Action_Needed__c, AQ_Score__c, '+
+                                    '      Action_Date__c, Action_Taken__c, Internal_Notes__c ';
+                    
+                    if (String.isNotBlank(qStringApiNames)) 
+                            qStr +=  ', '+qStringApiNames;
+
+                    qStr += ' FROM Article_Quality__c '+
+                            ' WHERE '+
+                            ' Knowledge_Article_Version_Id__c =\''+recordId+'\'';
+                
+                    system.debug(qStr);
+
+                    List<Article_Quality__c > l = Database.query(   qStr );
+                    if (l.isEmpty()){
+                        aqi_result =populateInitialAQI(recordId);
                     }else{
-                        system.debug('\n NOT '+tmp);
-                    }  
+                        aqi_result = l.get(0);
+                    }
+
+                    Map<String, Schema.SObjectField> allFields = Schema.SObjectType.Article_Quality__c.fields.getMap();
+                    String tmp;
+                    for(String str : uniqueApiNames){
+                        tmp = str.toLowerCase();
+                        if (allFields.containsKey(tmp)){
+                            Schema.DescribeFieldResult dfr = allFields.get(tmp).getDescribe();
+                            if (dfr.isCustom() && dfr.getType() ==Schema.DisplayType.BOOLEAN){
+                                system.debug('\n'+tmp+':'+dfr.getType());
+                                indexList.add(new indexWrapper(dfr.getLabel(),dfr.getName(),true));
+                            }
+                        }else{
+                            system.debug('\n NOT '+tmp);
+                        }  
+                    }
+
+                    result.put('aqi_fields',indexList);
+                    result.put('aqi_record',aqi_result);
+                    response.jsonResponse = JSON.serialize(result);
+
+                }catch(Exception e){
+                    response = new aqi_LightningResponse(e);
                 }
-
-                result.put('aqi_fields',indexList);
-                result.put('aqi_record',aqi_result);
-                response.jsonResponse = JSON.serialize(result);
-
-            }catch(Exception e){
-                response = new aqi_LightningResponse(e);
             }
-        }
 		return response;
     }
 
@@ -140,14 +140,6 @@ public with sharing class aqi_WrapperCtrl {
         if (!String.isNotBlank(recordStr)) return response;
         try{
             Article_Quality__c record = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
-            system.debug('\n======== UPDATE AQI =======');
-            system.debug('\n Action_Date__c : '+record.Action_Date__c);
-            system.debug('\n Content_Complete__c : '+record.Content_Complete__c);
-            system.debug('\n Content_Understandable__c : '+record.Content_Understandable__c);
-            system.debug('\n Article_Unique__c : '+record.Article_Unique__c);
-            system.debug('\n Art_Meets_Content_Standard__c : '+record.Art_Meets_Content_Standard__c);
-            system.debug('\n Links_in_article_valid__c : '+record.Links_in_article_valid__c);
-
             upsert record;
             //load Score field
             record = Database.query(   ' SELECT Name, Action_Assigned_To__c , Action_Needed__c, AQ_Score__c, '+
@@ -156,15 +148,13 @@ public with sharing class aqi_WrapperCtrl {
                                         ' FROM Article_Quality__c '+
                                         ' WHERE '+
                                         ' Id =\''+record.Id+'\'');
-
             result.put('aqi_record',record);
             system.debug('\n======== UPDATE AQI =======');
             system.debug(record);
             response.jsonResponse = JSON.serialize(result);
         }catch(Exception e){
             response = new aqi_LightningResponse(e);
-        }
-    
+        }    
         return response;
 
     }

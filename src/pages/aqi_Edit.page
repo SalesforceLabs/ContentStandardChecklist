@@ -1,4 +1,4 @@
-<apex:page controller="aqi_DetailCtrl" sidebar="false" tabStyle="Create_AQI__tab">
+<apex:page controller="aqi_Ctrl" sidebar="false" tabStyle="Create_AQI__tab">
     <apex:stylesheet value="{!URLFOR($Resource.aqi_resources, 'bootstrap.css')}"/>
     <div class="bts-Containter ">
     <apex:outputPanel layout="block" styleClass="alert alert-warning"   rendered="{!!appConfigured}">

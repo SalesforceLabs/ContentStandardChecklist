@@ -1,4 +1,4 @@
-<apex:page standardController="Article_Quality__c" extensions="aqi_DetailCtrl" tabStyle="Article_Quality__c" lightningStylesheets="true">
+<apex:page standardController="Article_Quality__c" extensions="aqi_Ctrl" tabStyle="Article_Quality__c" lightningStylesheets="true">
     <apex:stylesheet value="{!URLFOR($Resource.aqi_resources, 'bootstrap.css')}"/>
 
     <script type="text/javascript">
@@ -12,9 +12,7 @@
             <apex:outputLink value="{!URLFOR($Page.aqi_Setup)}" target="_blank" > Setup page </apex:outputLink>
         </apex:outputPanel>
     </div>
-    <hr/>
-    [custom page ovewritting standard layout]
-    <hr/>
+
     <apex:form >
         <apex:pageMessages escape="false"/>
         <apex:pageBlock title="Article Quality Index details" mode="maindetail">

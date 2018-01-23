@@ -37,7 +37,7 @@
             get{
                 if (appConfigured == null) {
 
-                    appConfigured = Article_Quality_Questions__c.getInstance('ArticleQualityQuestions') != null;
+                    appConfigured = ArticleQuality_index__c.getInstance('default') != null;
                 }
                 return appConfigured;
                 }

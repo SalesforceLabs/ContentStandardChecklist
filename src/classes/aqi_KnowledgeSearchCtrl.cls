@@ -52,7 +52,7 @@ public with sharing class aqi_KnowledgeSearchCtrl {
 	public static Boolean appConfigured {
 		get{
 			if (appConfigured == null) {
-				appConfigured = Article_Quality_Questions__c.getInstance('ArticleQualityQuestions') != null;
+				appConfigured = ArticleQuality_index__c.getInstance('default') != null;
 			}
 			return appConfigured;
 		}
@@ -67,8 +67,8 @@ public with sharing class aqi_KnowledgeSearchCtrl {
 		get{
 			if (allLanguageOptions == null) {
 				set<String> availableLanguages = new set<String>();
-				if (  String.isNotBlank( Article_Quality_Questions__c.getInstance('ArticleQualityQuestions').Selected_Languages__c)  ) {
-					availableLanguages.addAll(Article_Quality_Questions__c.getInstance('ArticleQualityQuestions').Selected_Languages__c.split(','));
+				if (  String.isNotBlank( ArticleQuality_index__c.getInstance('default').Selected_Languages__c)  ) {
+					availableLanguages.addAll(ArticleQuality_index__c.getInstance('default').Selected_Languages__c.split(','));
 				}else{
 					availableLanguages.add(DEFAULT_LANGUAGE);
 				}
@@ -84,10 +84,11 @@ public with sharing class aqi_KnowledgeSearchCtrl {
 		}
 		private set;
 	}
+    
 	public String aLanguage {
 		get{
 			if ( ! String.isNotBlank(aLanguage) ){
-				Article_Quality_Questions__c cSettings = Article_Quality_Questions__c.getInstance('ArticleQualityQuestions');
+				ArticleQuality_index__c cSettings = ArticleQuality_index__c.getInstance('default');
 				if (cSettings != null && String.IsNotBlank(cSettings.Selected_Languages__c) ){
 					aLanguage = cSettings.Selected_Languages__c.split(',').get(0);
 				}else
@@ -741,11 +742,11 @@ public with sharing class aqi_KnowledgeSearchCtrl {
 	*/
     public List<SelectOption> getLanguageOptions() {
         List<SelectOption> options = new List<SelectOption>();
-        Article_Quality_Questions__c aqs = Article_Quality_Questions__c.getInstance('ArticleQualityQuestions');
+        ArticleQuality_index__c aqs = ArticleQuality_index__c.getInstance('default');
         if (aqs != null){
             set<String> availableLanguages = new set<String>();
-            if (  String.isNotBlank( Article_Quality_Questions__c.getInstance('ArticleQualityQuestions').Selected_Languages__c)  ) {
-                availableLanguages.addAll(Article_Quality_Questions__c.getInstance('ArticleQualityQuestions').Selected_Languages__c.split(','));
+            if (  String.isNotBlank( ArticleQuality_index__c.getInstance('default').Selected_Languages__c)  ) {
+                availableLanguages.addAll(ArticleQuality_index__c.getInstance('default').Selected_Languages__c.split(','));
             }else{
                 availableLanguages.add(DEFAULT_LANGUAGE);
             }

@@ -30,6 +30,10 @@
         <name>ApexTrigger</name>
     </types>
     <types>
+        <members>Article_Quality</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
         <members>aqi_Abstract</members>
         <members>aqi_ArticleDetails</members>
         <members>aqi_Field</members>
@@ -39,7 +43,6 @@
     </types>
     <types>
         <members>ArticleQuality_index__c</members>
-        <members>Article_Quality_Questions__c</members>
         <members>Article_Quality__c</members>
         <name>CustomObject</name>
     </types>

@@ -32,7 +32,10 @@
 					</div>
 				</header>
 				<div class="slds-no-flex">
-					<span class="slds-badge slds-badge_lightest slds-p-around_small">Score :{!v.aqi_record.AQ_Score__c}</span>
+					<span class="slds-badge slds-badge_lightest slds-p-around_small">Score :
+					
+						<ui:outputNumber value="{!v.aqi_record.AQ_Score__c}" format=".00"/>
+					</span>
 				</div>
 			</div>
 			

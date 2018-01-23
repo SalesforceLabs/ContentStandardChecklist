@@ -585,7 +585,7 @@ public with sharing class aqi_SecurityHandler {
 
         return res;
     }
-
+ 
 
     public class SecurityException extends Exception {}
 

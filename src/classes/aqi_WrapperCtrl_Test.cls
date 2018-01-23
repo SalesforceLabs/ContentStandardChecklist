@@ -55,12 +55,8 @@ private class aqi_WrapperCtrl_Test {
                     '    PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
                     '   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
         kavObj = (KnowledgeArticleVersion)Database.query(q); 
-        system.debug('\n==========');
-        system.debug(kavObj);
-
+       
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
-        system.debug('\n==========');
-        system.debug(article);
         //call with valid api name, and record Id
         resp = aqi_WrapperCtrl.getInitData(article.Id,'Article_Unique__c');
         system.debug(resp);
@@ -69,8 +65,6 @@ private class aqi_WrapperCtrl_Test {
         
     }
     
-    @isTest static void test_method_two() {
-        // Implement test code
-    }
+    
     
 }

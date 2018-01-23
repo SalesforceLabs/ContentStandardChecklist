@@ -18,7 +18,7 @@
                 <apex:inputField value="{!aqs.Title_Accurate__c}"/>
             </apex:pageBlockSection>
         </apex:pageBlock>
-        <apex:pageBlock title="Application Setup" mode="detail" rendered="{!!editMode}" >
+        <apex:pageBlock title="Application Setup" mode="detail" rendered="{!!editMode}">
             <apex:pageBlockButtons >
                 <apex:commandButton action="{!edit}" value="Edit"/>
             </apex:pageBlockButtons>

@@ -9,16 +9,16 @@ public with sharing class aqi_SetupCtrl {
 
     //************************************************************************
     // Properties & data members
-    public Article_Quality_Questions__c aqs {get;set;}
+    public ArticleQuality_index__c aqs {get;set;}
     public Boolean editMode {get;set;}
     //************************************************************************
     // Methods
 
     public aqi_SetupCtrl() {
-        aqs = Article_Quality_Questions__c.getInstance('ArticleQualityQuestions');
+        aqs = ArticleQuality_index__c.getInstance('ArticleQualityIndex');
         if (aqs == null){
-            aqs  = new Article_Quality_Questions__c();
-            aqs.name = 'ArticleQualityQuestions';
+            aqs  = new ArticleQuality_index__c();
+            aqs.name = 'ArticleQualityIndex';
             aqs.Selected_Languages__c  = 'en_US';
             editMode = true;
         }else{
@@ -49,7 +49,7 @@ public with sharing class aqi_SetupCtrl {
     */
     public pageReference cancel(){
         editMode = false;
-        aqs = Article_Quality_Questions__c.getInstance('ArticleQualityQuestions');
+        aqs = ArticleQuality_index__c.getInstance('ArticleQualityIndex');
         return null;
     }
 
@@ -63,7 +63,7 @@ public with sharing class aqi_SetupCtrl {
     */
     public pageReference save(){
         try{
-            aqi_SecurityHandler.canCreate(Article_Quality_Questions__c.sObjectType);
+            aqi_SecurityHandler.canCreate(ArticleQuality_index__c.sObjectType);
             upsert aqs;
             editMode = false;
         }catch(Exception e){

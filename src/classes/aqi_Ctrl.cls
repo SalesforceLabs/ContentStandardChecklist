@@ -1,8 +1,8 @@
 /**
  * @author Altimetrik
  * @description
- *	started on MM/DD/YYYY
- *	REPLACE_BY_CLASS_LOGIC_RESPONSABILITIES
+ *	started on 1/21/2018
+ *   - this class resolved logic for page aqi_Detail/aqi_Edit
  **/
 public with sharing class aqi_Ctrl {
 	// Constants
@@ -28,7 +28,7 @@ public with sharing class aqi_Ctrl {
 	*	Map<String,Double> : api_name, decimal value ( index weight)
 	*/
 	public static Map<String,Double>  getindexApiNameToValue(){
-        ArticleQuality_index__c aqs = ArticleQuality_index__c.getInstance('default');
+        ArticleQuality_index__c aqs = aqi_SettingsHandler.resolveSettings();
         Map<String, Schema.SObjectField> allFields = Schema.SObjectType.ArticleQuality_index__c.fields.getMap();
 
         Map<String,Double> result = new Map<String,Double>();  

@@ -34,7 +34,7 @@
         <div class="bts-Containter ">
             <apex:outputPanel layout="block" styleClass="alert alert-warning"   rendered="{!!appConfigured}">
                 You need to configure the app :
-                <apex:outputLink value="{!URLFOR($Page.aqi_setup)}" target="_blank" >Setup page </apex:outputLink>
+                <apex:outputLink value="{!URLFOR($Page.aqi_Setup)}" target="_blank" >Setup page </apex:outputLink>
             </apex:outputPanel>
         </div>
         <apex:pageBlock id="searchOptions">

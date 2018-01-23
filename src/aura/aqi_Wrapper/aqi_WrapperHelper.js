@@ -28,7 +28,7 @@
 				var indexObj = aqi_fields[idx];
 				var value = aqi_record[indexObj.fieldName];
 				var inputCmp = [
-					"c:aqi_field",
+					"c:aqi_Field",
 					{"aura:id": indexObj.fieldName,
 					"fieldLabel": indexObj.fieldLabel,
 					"fieldName": indexObj.fieldName,

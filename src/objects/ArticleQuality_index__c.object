@@ -80,17 +80,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Title_Accurate__c</fullName>
-        <externalId>false</externalId>
-        <label>Title Accurate</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
         <fullName>Selected_Languages__c</fullName>
         <description>Comma separated list of Knowledge articles languages for the search page</description>
         <externalId>false</externalId>
@@ -99,6 +88,17 @@
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Title_Accurate__c</fullName>
+        <externalId>false</externalId>
+        <label>Title Accurate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
         <unique>false</unique>
     </fields>
     <label>Article Quality Index Definition</label>

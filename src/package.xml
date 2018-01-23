@@ -3,15 +3,16 @@
     <types>
         <members>aqi_Ctrl</members>
         <members>aqi_Ctrl_Test</members>
-        <members>aqi_DynamicPickList_AQI</members>
         <members>aqi_DetailCtrl</members>
         <members>aqi_DetailCtrl_Test</members>
+        <members>aqi_DynamicPickList_AQI</members>
         <members>aqi_KnowledgeSearchCtrl</members>
         <members>aqi_KnowledgeSearchCtrl_Test</members>
         <members>aqi_LightningResponse</members>
         <members>aqi_LightningResponse_Test</members>
         <members>aqi_SecurityHandler</members>
         <members>aqi_SecurityHandler_Test</members>
+        <members>aqi_SettingsHandler</members>
         <members>aqi_SetupCtrl</members>
         <members>aqi_SetupCtrl_Test</members>
         <members>aqi_WrapperCtrl</members>
@@ -30,16 +31,16 @@
         <name>ApexTrigger</name>
     </types>
     <types>
-        <members>Article_Quality</members>
-        <name>CustomApplication</name>
-    </types>
-    <types>
         <members>aqi_Abstract</members>
         <members>aqi_ArticleDetails</members>
         <members>aqi_Field</members>
         <members>aqi_Toast</members>
         <members>aqi_Wrapper</members>
         <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>Article_Quality</members>
+        <name>CustomApplication</name>
     </types>
     <types>
         <members>ArticleQuality_index__c</members>
@@ -71,5 +72,5 @@
         <members>aqi_resources</members>
         <name>StaticResource</name>
     </types>
-    <version>38.0</version>
+    <version>36.0</version>
 </Package>

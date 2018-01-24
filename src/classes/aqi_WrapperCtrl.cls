@@ -16,7 +16,7 @@ public with sharing class aqi_WrapperCtrl {
     // Methods
 
     public aqi_WrapperCtrl() {
-        
+
     }
 
     /*
@@ -25,18 +25,18 @@ public with sharing class aqi_WrapperCtrl {
     * @params
     *   Id recordId Id of the Knowkedledge version record home page
     *   String apiNames comma separated list of api names for the input to displau
-    * @return 
+    * @return
     *   Map with : aqi record  details
-    *              aqi indexes values 
+    *              aqi indexes values
     */
     @AuraEnabled
     public static aqi_LightningResponse getInitData(String recordId, String apiNames){
 
 	    aqi_LightningResponse response = new aqi_LightningResponse();
-        Map<String,Double>  indexValues = aqi_Ctrl.getindexApiNameToValue();
+        Map<String,Double>  indexValues = aqi_Ctrl.getIndexApiNameToValue();
         system.debug(recordId);
         system.debug(apiNames);
-        
+
 
         if (!String.isNotBlank(apiNames)){
                 response.state = 'ERROR';
@@ -73,14 +73,14 @@ public with sharing class aqi_WrapperCtrl {
                     Article_Quality__c aqi_result;
                     String qStr =   ' SELECT Name, Action_Assigned_To__c , Action_Needed__c, AQ_Score__c, '+
                                     '      Action_Date__c, Action_Taken__c, Internal_Notes__c ';
-                    
-                    if (String.isNotBlank(qStringApiNames)) 
+
+                    if (String.isNotBlank(qStringApiNames))
                             qStr +=  ', '+qStringApiNames;
 
                     qStr += ' FROM Article_Quality__c '+
                             ' WHERE '+
                             ' Knowledge_Article_Version_Id__c =\''+recordId+'\'';
-                
+
                     system.debug(qStr);
 
                     List<Article_Quality__c > l = Database.query(   qStr );
@@ -102,7 +102,7 @@ public with sharing class aqi_WrapperCtrl {
                             }
                         }else{
                             system.debug('\n NOT '+tmp);
-                        }  
+                        }
                     }
 
                     result.put('aqi_fields',indexList);
@@ -121,7 +121,7 @@ public with sharing class aqi_WrapperCtrl {
     *   retrieves initial details to load input fields on AQI component
     * @params
     *   String recordStr JSON string containing new values for the AQI record
-    * @return 
+    * @return
     *   Map with : aqi record  details
     */
     @AuraEnabled
@@ -130,7 +130,7 @@ public with sharing class aqi_WrapperCtrl {
         aqi_LightningResponse response = new aqi_LightningResponse();
         Map<String,  Object> result = new Map<String,  Object>();
 
-        Map<String,Double>  indexValues = aqi_Ctrl.getindexApiNameToValue();
+        Map<String,Double>  indexValues = aqi_Ctrl.getIndexApiNameToValue();
         Set<String> apiNamesWhiteLilst = indexValues.keySet();
         List<String> tmpList  = new List<String>();
         tmpList.addAll(apiNamesWhiteLilst);
@@ -154,27 +154,27 @@ public with sharing class aqi_WrapperCtrl {
             response.jsonResponse = JSON.serialize(result);
         }catch(Exception e){
             response = new aqi_LightningResponse(e);
-        }    
+        }
         return response;
 
     }
 
- 
+
     private static Article_Quality__c populateInitialAQI(String kavId){
         Article_Quality__c result = null;
-        List<Article_Quality__c > l = [Select Id                                               
-                                       from Article_Quality__c  
+        List<Article_Quality__c > l = [Select Id
+                                       from Article_Quality__c
                                        where Knowledge_Article_Version_Id__c =:kavId];
         if (!l.isEmpty()){
             result = l.get(0);
-        
+
         }else{
             result = new Article_Quality__c();
             KnowledgeArticleVersion article = [ SELECT ArticleNumber,CreatedById,CreatedDate,FirstPublishedDate,Id,
                                                 KnowledgeArticleId,Language,LastModifiedDate,LastPublishedDate,
-                                                PublishStatus,Summary,Title,UrlName,VersionNumber,LastModifiedById 
-                                         FROM KnowledgeArticleVersion 
-                                         WHERE 
+                                                PublishStatus,Summary,Title,UrlName,VersionNumber,LastModifiedById
+                                         FROM KnowledgeArticleVersion
+                                         WHERE
                                                 Id =:kavId
             ];
             result = aqi_Ctrl.loadKavDetails( article ,  result);
@@ -187,7 +187,7 @@ public with sharing class aqi_WrapperCtrl {
         @AuraEnabled public  String fieldLabel{get;set;}
         @AuraEnabled public  String fieldName{get;set;}
         @AuraEnabled public  Boolean fieldValue{get;set;}
-        
+
         public indexWrapper(String fLabel, String fName, Boolean fValue){
             fieldLabel = fLabel;
             fieldName = fName;

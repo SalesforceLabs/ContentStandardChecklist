@@ -90,19 +90,19 @@ private class aqi_WrapperCtrl_Test {
         aqi_LightningResponse resp = aqi_WrapperCtrl.getInitData(article.Id,'Article_Unique__c');
         String strR = resp.jsonResponse;
         system.debug(strR);
-        Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(strR);
+         Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(strR);
         string recordStr = Json.serialize(m.get('aqi_record'));
-	 	Article_Quality__c record = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
+	 	    Article_Quality__c record = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
         record.Article_Unique__c = false;
         recordStr = Json.serialize(record);
-		resp = aqi_WrapperCtrl.upsertAQI(recordStr);
+		    resp = aqi_WrapperCtrl.upsertAQI(recordStr);
         system.debug(resp);
         system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS '); 
 
-		Article_Quality__c  aqr = [ select Id , Article_Unique__c from Article_Quality__c where Id =:record.Id];
-		system.assertEquals(aqr.Article_Unique__c,record.Article_Unique__c ,'Article unique index should be set to TRUE '); 
+        Article_Quality__c  aqr = [ select Id , Article_Unique__c from Article_Quality__c where Id =:record.Id];
+        system.assertEquals(aqr.Article_Unique__c,record.Article_Unique__c ,'Article unique index should be set to TRUE '); 
 
-
+ 
     }
 
  

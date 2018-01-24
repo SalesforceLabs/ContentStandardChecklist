@@ -100,5 +100,27 @@ public with sharing class aqi_SetupCtrl {
         return result;
     }
 
-
+    /*
+    * @description
+    *   Return api name of Knowledge object
+    * @params
+    *   N/A
+    * @return
+    *   String
+    */
+    public static String getKnowledgeApiName(){
+        String result='';
+        Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
+        
+        List<String> apiNames = new List<String>();
+        apiNames.addAll(gd.keySet());
+        
+        while ( ! apiNames.isEmpty() && !String.isNotBlank(result)){
+            if (apiNames.get(0).contains('__kav')){
+                result = apiNames.get(0);
+            }
+            apiNames.remove(0);
+        }
+        return result;
+    }
 }

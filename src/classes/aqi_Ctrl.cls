@@ -207,23 +207,7 @@ public with sharing class aqi_Ctrl {
 				article = lKAV.get(0);
 				result = true;
 				if (record.Id == null) {
-					record.Knowledge_Article_Version_Id__c = article.Id;
-					record.Knowledge_Article_Id__c = article.KnowledgeArticleId;
-					record.Article_Title__c = article.Title;
-					record.Article_Created_Date__c = article.CreatedDate;
-					record.Article_Created_By__c = article.CreatedById;
-					// record.Article_Type__c = typesMap.containsKey(article.ArticleType) ? typesMap.get(article.ArticleType) : article.ArticleType ;
-					record.Article_Number__c = article.ArticleNumber;
-					record.Article_Version__c = article.VersionNumber;
-					record.Language__c = article.Language;
-					record.Last_Modified_Date__c = article.LastModifiedDate;
-					record.Last_Published_Date__c = article.LastPublishedDate;
-					record.Last_Modified_By__c = article.LastModifiedById;
-					record.Last_Published_By__c = article.LastModifiedById;
-					record.Agent__c = article.LastModifiedById;
-					record.ArticleFirstPublishedDate__c = article.FirstPublishedDate;
-					record.Article_Link__c = URL.getSalesforceBaseUrl().toExternalForm() + '/' + article.KnowledgeArticleId;
-					record.Name = 'AQI for article '+ article.ArticleNumber +' – '+  article.VersionNumber;
+					record = loadKavDetails( article ,  record);
 					result = true;
 				} else{
 					isCurrentVersion = article.VersionNumber == record.Article_Version__c;
@@ -375,6 +359,37 @@ public with sharing class aqi_Ctrl {
 		}
 
 		return result;
+	}
+
+    /*
+    * @description
+    *   retrieves initial details to load input fields on AQI record
+    * @params
+    *   Id recordId Id of the Knowkedledge version record home page
+    * @return 
+    *   Article_Quality__c record
+    */
+	public static Article_Quality__c loadKavDetails(KnowledgeArticleVersion article , Article_Quality__c record){
+
+		record.Knowledge_Article_Version_Id__c = article.Id;
+		record.Knowledge_Article_Id__c = article.KnowledgeArticleId;
+		record.Article_Title__c = article.Title;
+		record.Article_Created_Date__c = article.CreatedDate;
+		record.Article_Created_By__c = article.CreatedById;
+		// record.Article_Type__c = typesMap.containsKey(article.ArticleType) ? typesMap.get(article.ArticleType) : article.ArticleType ;
+		record.Article_Number__c = article.ArticleNumber;
+		record.Article_Version__c = article.VersionNumber;
+		record.Language__c = article.Language;
+		record.Last_Modified_Date__c = article.LastModifiedDate;
+		record.Last_Published_Date__c = article.LastPublishedDate;
+		record.Last_Modified_By__c = article.LastModifiedById;
+		record.Last_Published_By__c = article.LastModifiedById;
+		record.Agent__c = article.LastModifiedById;
+		record.ArticleFirstPublishedDate__c = article.FirstPublishedDate;
+		record.Article_Link__c = URL.getSalesforceBaseUrl().toExternalForm() + '/' + article.KnowledgeArticleId;
+		record.Name = 'AQI for article '+ article.ArticleNumber +' – '+  article.VersionNumber;
+
+		return record;
 	}
 
 }

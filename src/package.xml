@@ -49,7 +49,6 @@
     <types>
         <members>Article_Quality__c</members>
         <members>Create_AQI</members>
-        <members>Knowledge__kav</members>
         <name>CustomTab</name>
     </types>
     <types>

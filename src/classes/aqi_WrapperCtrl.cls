@@ -159,7 +159,7 @@ public with sharing class aqi_WrapperCtrl {
 
     }
 
-
+ 
     private static Article_Quality__c populateInitialAQI(String kavId){
         Article_Quality__c result = null;
         List<Article_Quality__c > l = [Select Id                                               
@@ -167,32 +167,18 @@ public with sharing class aqi_WrapperCtrl {
                                        where Knowledge_Article_Version_Id__c =:kavId];
         if (!l.isEmpty()){
             result = l.get(0);
-            
+        
         }else{
             result = new Article_Quality__c();
-            Knowledge__kav article = [ SELECT Id,ArticleNumber,CreatedDate, CreatedById, LastPublishedDate, LastModifiedDate, LastModifiedById,
-                 					PublishStatus,Summary,Title,UrlName,VersionNumber,Language,FirstPublishedDate, KnowledgeArticleId
-                                   FROM Knowledge__kav WHERE Id =:kavId
+            KnowledgeArticleVersion article = [ SELECT ArticleNumber,CreatedById,CreatedDate,FirstPublishedDate,Id,
+                                                KnowledgeArticleId,Language,LastModifiedDate,LastPublishedDate,
+                                                PublishStatus,Summary,Title,UrlName,VersionNumber,LastModifiedById 
+                                         FROM KnowledgeArticleVersion 
+                                         WHERE 
+                                                Id =:kavId
             ];
-           
-            result.Knowledge_Article_Version_Id__c = article.Id;
-            result.Knowledge_Article_Id__c = article.KnowledgeArticleId;
-            result.Article_Title__c = article.Title;
-            result.Article_Created_Date__c = article.CreatedDate;
-            result.Article_Created_By__c = article.CreatedById;
-            result.Article_Number__c = article.ArticleNumber;
-            result.Article_Version__c = article.VersionNumber;
-            result.Language__c = article.Language;
-            result.Last_Modified_Date__c = article.LastModifiedDate;
-            result.Last_Published_Date__c = article.LastPublishedDate;
-            result.Last_Modified_By__c = article.LastModifiedById;
-            result.Last_Published_By__c = article.LastModifiedById;
-            result.Agent__c = article.LastModifiedById;
-            result.ArticleFirstPublishedDate__c = article.FirstPublishedDate;
-            result.Article_Link__c = URL.getSalesforceBaseUrl().toExternalForm() + '/' + article.KnowledgeArticleId;
-            result.Name = 'AQI for article '+ article.ArticleNumber +' – '+  article.VersionNumber;
-            
-			insert result;
+            result = aqi_Ctrl.loadKavDetails( article ,  result);
+            insert result;
         }
         return result;
     }

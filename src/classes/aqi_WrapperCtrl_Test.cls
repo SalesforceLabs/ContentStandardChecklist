@@ -105,5 +105,14 @@ private class aqi_WrapperCtrl_Test {
  
     }
 
- 
+    @isTest static void test_aqi_DynamicPickList_AQI() {
+      aqi_DynamicPickList_AQI ctr = new aqi_DynamicPickList_AQI();
+      VisualEditor.DynamicPickListRows rows = ctr.getValues();
+      system.assert(rows!= null);
+      
+      VisualEditor.DataRow defaultVal = ctr.getDefaultValue();
+
+      system.assert(defaultVal!= null);
+
+    }
 }

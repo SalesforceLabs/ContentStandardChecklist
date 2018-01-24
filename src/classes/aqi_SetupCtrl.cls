@@ -75,33 +75,6 @@ public with sharing class aqi_SetupCtrl {
 
     /*
     * @description
-    *   Return a map with the weight of each api name configured previously
-    * @params
-    *   N/A
-    * @return
-    *   Map<String, Double>
-    */
-    public static Map<String,Double>  getindexApiNameToValue(){
-        ArticleQuality_index__c aqs = aqi_SettingsHandler.getSettings();
-        Map<String, Schema.SObjectField> allFields = Schema.SObjectType.ArticleQuality_index__c.fields.getMap();
-
-        Map<String,Double> result = new Map<String,Double>();
-        Double idx_val;
-        String idx_api_name;
-        for(String str : allFields.keySet()){
-            Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
-            idx_api_name = dfr.getName();
-            if (dfr.getType() ==Schema.DisplayType.DOUBLE){
-                idx_val =  Double.valueOf(aqs.get(idx_api_name));
-                //system.debug('\n'+str+':'+idx_api_name+' - '+dfr.getType()+' value '+idx_val);
-                result.put(idx_api_name,idx_val);
-            }
-        }
-        return result;
-    }
-
-    /*
-    * @description
     *   Return api name of Knowledge object
     * @params
     *   N/A
@@ -111,10 +84,10 @@ public with sharing class aqi_SetupCtrl {
     public static String getKnowledgeApiName(){
         String result='';
         Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
-        
+
         List<String> apiNames = new List<String>();
         apiNames.addAll(gd.keySet());
-        
+
         while ( ! apiNames.isEmpty() && !String.isNotBlank(result)){
             if (apiNames.get(0).contains('__kav')){
                 result = apiNames.get(0);

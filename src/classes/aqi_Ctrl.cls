@@ -43,85 +43,57 @@ public with sharing class aqi_Ctrl {
 		private set;
 	}
 
-
 	public aqi_Ctrl(ApexPages.StandardController controller){
-
 		langMap = aqi_KnowledgeSearchCtrl.getActivePicklistOptions('User', 'LanguageLocaleKey');
-
 		Article_Quality__c aqi = (Article_Quality__c)controller.getRecord();
-
 		try{
 			aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
-
-			aqi = [	SELECT Article_Version__c, Language__c , Knowledge_Article_Id__c
-					FROM Article_Quality__c
-					WHERE id=:aqi.Id ];
-
+			aqi = [	SELECT Article_Version__c, Language__c , Knowledge_Article_Id__c FROM Article_Quality__c WHERE id=:aqi.Id ];
 			kaId = aqi.Knowledge_Article_Id__c;
 			kaLang = aqi.Language__c;
 			kaVersion = String.valueOf(aqi.Article_Version__c);
-
 			loadKAVDetails();
-
 		}catch(Exception e){
-			ApexPages.addMessage(new ApexPages.Message(
-									ApexPages.Severity.ERROR,
-									e.getMessage()
-									));
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,e.getMessage()));
 		}
 
 	}
 
 	public aqi_Ctrl() {
-
 		record = new Article_Quality__c();
-
 		try{
-
 			kaId = escapeString(ApexPages.currentPage().getParameters().get('kaId'));
 			kaLang = escapeString(ApexPages.currentPage().getParameters().get('lang'));
 			kaVersion = escapeString(ApexPages.currentPage().getParameters().get('version'));
-
 			loadKAVDetails();
-
 		}catch(Exception e){
-			ApexPages.addMessage(new ApexPages.Message(
-									ApexPages.Severity.ERROR,
-									e.getMessage()
-									));
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,e.getMessage()));
 		}
-
 	}
 
 	//************************************************************************
 	// Methods
-
-
-
 	/*
 	* @description
 	*	returns AQI index api names and values from custom setting
 	* @params
 	*	none
-	* @return 
+	* @return
 	*	Map<String,Double> : api_name, decimal value ( index weight)
 	*/
 	public static Map<String,Double>  getindexApiNameToValue(){
-		
 		ArticleQuality_index__c aqs = aqi_SettingsHandler.resolveSettings();
 		Map<String, Schema.SObjectField> allFields = Schema.SObjectType.ArticleQuality_index__c.fields.getMap();
-
-		Map<String,Double> result = new Map<String,Double>();  
-		Double idx_val;   
+		Map<String,Double> result = new Map<String,Double>();
+		Double idx_val;
 		String idx_api_name;
-	
 		if (aqs != null){
-			for(String str : allFields.keySet()){  
+			for(String str : allFields.keySet()){
 				Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
-				idx_api_name = dfr.getName();         	
+				idx_api_name = dfr.getName();
 				if (dfr.getType() ==Schema.DisplayType.DOUBLE ){
 					Object obj = aqs.get(idx_api_name);
-					idx_val =  Double.valueOf(obj);   
+					idx_val =  Double.valueOf(obj);
 					result.put(idx_api_name,idx_val);
 				}
 			}
@@ -136,15 +108,12 @@ public with sharing class aqi_Ctrl {
 	*	Id kaId Id if kav article related to current AQI record
 	*	String kaLang kav language
 	*   String kaVersion version number
-	* @return 
+	* @return
 	*	Article_Quality__c aqi record
 	*/
 	public static Article_Quality__c findDupe(Id kaId, String kaLang, String kaVersion){
-
 		try{
-
 			aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
-
 			list<Article_Quality__c > kavList = [SELECT
 												Action_Assigned_To__c,Action_Date__c,Action_Needed__c,
 												Action_Taken__c,AQ_Score__c,Article_Link__c,Article_Number__c,
@@ -163,46 +132,29 @@ public with sharing class aqi_Ctrl {
 													Article_Version__c =: Decimal.valueOf(kaVersion) AND
 													Language__c =: kaLang
 													limit 1];
-
 			if (!kavList.isEmpty())
 				return kavList.get(0);
 			else
 				return null;
-
 		}catch(Exception e){
-			ApexPages.addMessage(new ApexPages.Message(
-														ApexPages.Severity.ERROR,
-														e.getMessage()
-														));
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,e.getMessage()));
 		}
 		return null;
 	}
-
-
 	private boolean loadKAVDetails(){
 		//validate access on Kav Type
 		Boolean canReadKav = aqi_securityHandler.getKAVPermissions();
 		Boolean result = false;
-
 		if ( !String.isNotBlank(kaId)) {
-			ApexPages.addMessage(new ApexPages.Message(
-											ApexPages.Severity.ERROR,
-											'Invalid Knowledge Article.'
-											));
-
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,'Invalid Knowledge Article.'));
 			return result;
 		}
-
 		langMap = aqi_KnowledgeSearchCtrl.getActivePicklistOptions('User', 'LanguageLocaleKey');
 		Map<Id,String> typesMap = aqi_securityHandler.getAllowedRecordTypesMap();
-
 		recordLooKup(kaId,kaLang,kaVersion);
-
 		List<KnowledgeArticleVersion> lKAV =  getArticleByPublishedStatus(ARTICLE_STATUS, kaId , kaLang);
-
 		if (!lKAV.isEmpty()) {
 			articleNotAvailable = false;
-
 			if (canReadKav) {
 				article = lKAV.get(0);
 				result = true;
@@ -213,48 +165,29 @@ public with sharing class aqi_Ctrl {
 					isCurrentVersion = article.VersionNumber == record.Article_Version__c;
 					if (!isCurrentVersion){
 						latestArticleVersionNumber =article.VersionNumber;
-						latestArticleUrl = URL.getSalesforceBaseUrl().toExternalForm() +
-												'/' + article.KnowledgeArticleId +
-												'?kavVersion='+article.VersionNumber +
-												'&lang='+article.Language;
+						latestArticleUrl = URL.getSalesforceBaseUrl().toExternalForm() + '/' + article.KnowledgeArticleId +	'?kavVersion='+article.VersionNumber + '&lang='+article.Language;
 					}
 				}
 			}else{
 				result = false;
 				if (!canReadKAv){
-					ApexPages.addMessage(new ApexPages.Message(
-												ApexPages.Severity.ERROR,
-												'You need permissions to access this Article Type.'
-												));
+					ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,'You need permissions to access this Article Type.'));
 				}
 			}
 		}else{
 			//check if article is in Archived
 			lKAV =  getArticleByPublishedStatus('\'Archived\'', kaId , kaLang);
 			if (lKAV.isEmpty()){
-
 				//check if article is in draft
 				lKAV =  getArticleByPublishedStatus('\'Draft\'', kaId , kaLang);
 				if (lKAV.isEmpty()){
-
-					ApexPages.addMessage(new ApexPages.Message(
-												ApexPages.Severity.ERROR,
-												'The related Knowledge Article was not found.'
-											));
+					ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,'The related Knowledge Article was not found.'));
 				}else{
-					ApexPages.addMessage(new ApexPages.Message(
-					ApexPages.Severity.WARNING,
-					'The related Knowledge Article is in draft.'
-					));
+					ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING,'The related Knowledge Article is in draft.'));
 				}
 			}else{
-
-				ApexPages.addMessage(new ApexPages.Message(
-															ApexPages.Severity.WARNING,
-															'The related Knowledge Article is archived.'
-															));
+				ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING,'The related Knowledge Article is archived.'));
 			}
-
 			result = false;
 			articleNotAvailable = true;
 		}
@@ -262,102 +195,70 @@ public with sharing class aqi_Ctrl {
 	}
 
 	public static List<KnowledgeArticleVersion> getArticleByPublishedStatus(String status, String articleId , String articleLanguage){
-
 		string query =  '	SELECT Id,ArticleNumber,CreatedDate, CreatedById, LastPublishedDate, ' +
 						'			LastModifiedDate, LastModifiedById, PublishStatus,Summary,Title, ' +
 						'			UrlName,VersionNumber,Language,FirstPublishedDate, KnowledgeArticleId '+
 						'	FROM KnowledgeArticleVersion ' +
-						'	WHERE PublishStatus = '+ status + 
+						'	WHERE PublishStatus = '+ status +
 									' and KnowledgeArticleId =\''+articleId+'\' '+
 									' and Language =  \''+articleLanguage+'\'';
-
 		try{
 			aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
-
 			return Database.query(query);
-
 		}catch(Exception e){
-			ApexPages.addMessage(new ApexPages.Message(
-											ApexPages.Severity.ERROR,
-											e.getMessage()
-											));
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,e.getMessage()));
 		}
 	return null;
-
 	}
 
-
 	private void recordLooKup(Id kaId, String kaLang, String kaVersion){
-
 		try{
 			aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
 			Article_Quality__c tmp = findDupe(kaId, kaLang, kaVersion);
 			if (tmp != null)
 				record = tmp;
 		}catch (SecurityException e) {
-			ApexPages.addMessage(new ApexPages.Message(
-														ApexPages.Severity.ERROR,
-														e.getDmlMessage(0)
-														));
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,e.getDmlMessage(0)));
 		}
-
 	}
 
 	public PageReference save(){
-
 		if (!String.isNotBlank(record.Knowledge_Article_Version_Id__c)){
-			ApexPages.addMessage(new ApexPages.Message(
-															ApexPages.Severity.ERROR,
-															'Please specify Article Version reference'
-															));
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,'Please specify Article Version reference'));
 			iserror = true;
 			return null;
 		}
-
-
 		try{
 			if (String.isNotBlank(record.Id))
 				aqi_SecurityHandler.canUpdate(Article_Quality__c.sObjectType);
 			else
 				aqi_SecurityHandler.canCreate(Article_Quality__c.sObjectType);
-
 			upsert record;
 			saved = true;
 			PageReference ppage = new PageReference('/'+record.id);
 			ppage.setRedirect(true);
 			return ppage;
 		}catch (SecurityException e) {
-			ApexPages.addMessage(new ApexPages.Message(
-											ApexPages.Severity.ERROR,
-											e.getDmlMessage(0)
-											));
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,e.getDmlMessage(0)));
 			iserror = true;
-		}	
+		}
 		catch(System.DmlException e) {
-			ApexPages.addMessage(new ApexPages.Message(
-											ApexPages.Severity.ERROR,
-											e.getDmlMessage(0)
-											));
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,e.getDmlMessage(0)));
 			iserror = true;
 		}catch(Exception e){
-			ApexPages.addMessage(new ApexPages.Message(
-											ApexPages.Severity.ERROR,
-											e.getMessage()
-											));
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,e.getMessage()));
 			iserror = true;
-		}	
+		}
 		return null;
 	}
 
 	private String escapeString(String str){
 		String result = null;
-
 		if (String.isNotBlank(str)){
 			result = String.escapeSingleQuotes(str.trim());
 		}else{
 			result ='';
 		}
-
 		return result;
 	}
 
@@ -366,17 +267,15 @@ public with sharing class aqi_Ctrl {
     *   retrieves initial details to load input fields on AQI record
     * @params
     *   Id recordId Id of the Knowkedledge version record home page
-    * @return 
+    * @return
     *   Article_Quality__c record
     */
 	public static Article_Quality__c loadKavDetails(KnowledgeArticleVersion article , Article_Quality__c record){
-
 		record.Knowledge_Article_Version_Id__c = article.Id;
 		record.Knowledge_Article_Id__c = article.KnowledgeArticleId;
 		record.Article_Title__c = article.Title;
 		record.Article_Created_Date__c = article.CreatedDate;
 		record.Article_Created_By__c = article.CreatedById;
-		// record.Article_Type__c = typesMap.containsKey(article.ArticleType) ? typesMap.get(article.ArticleType) : article.ArticleType ;
 		record.Article_Number__c = article.ArticleNumber;
 		record.Article_Version__c = article.VersionNumber;
 		record.Language__c = article.Language;
@@ -388,8 +287,6 @@ public with sharing class aqi_Ctrl {
 		record.ArticleFirstPublishedDate__c = article.FirstPublishedDate;
 		record.Article_Link__c = URL.getSalesforceBaseUrl().toExternalForm() + '/' + article.KnowledgeArticleId;
 		record.Name = 'AQI for article '+ article.ArticleNumber +' – '+  article.VersionNumber;
-
 		return record;
 	}
-
 }

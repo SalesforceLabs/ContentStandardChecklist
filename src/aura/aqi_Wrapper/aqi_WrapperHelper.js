@@ -79,8 +79,20 @@
 			console.log(responseMap);
 			if(!component.isValid()) return;
 			var aqi_record = responseMap.aqi_record;
-			component.set('v.aqi_record',aqi_record);
+			component.set('v.aqi_record',aqi_record);	
+		 	var toastCmp =  component.find("toastNotif");
+			toastCmp.set("v.title",'AQI Succesfully updated');
+			toastCmp.set("v.description",'the AQI was updated new value is : '+aqi_record.AQ_Score__c);
+			toastCmp.set("v.className",'');
+			toastCmp.set("v.severity",'info'); 
+
 			
+		}else{
+			var toastCmp =  component.find("toastNotif");
+			toastCmp.set("v.title",'ResponseMap empty');
+			toastCmp.set("v.description",'tbd');
+			toastCmp.set("v.className",'');
+			toastCmp.set("v.severity",'warning');
 		}
 
 	},

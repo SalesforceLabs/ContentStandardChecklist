@@ -32,7 +32,7 @@ private class aqi_Ctrl_Test {
         	}
         }
 
-        String default_language = [SELECT LanguageLocaleKey FROM Organization limit 1].LanguageLocaleKey;
+        String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
 
         String objType = kavNames.get(0);
 

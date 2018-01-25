@@ -10,7 +10,7 @@ public with sharing class aqi_KnowledgeSearchCtrl {
     public static String DATA_CATEGORY_OPERATOR = ' BELOW ';
     public static String DEFAULT_SITE_NAME = Site.getName();
     public static Id NETWORK_ID = (Network.getNetworkId() != null) ? Network.getNetworkId() : UserInfo.getOrganizationId();
-    public final static String DEFAULT_LANGUAGE = [SELECT LanguageLocaleKey FROM Organization limit 1].LanguageLocaleKey ;
+    public final static String DEFAULT_LANGUAGE = aqi_SettingsHandler.customOrDefaultLanguage();
     public final static Integer QUERY_LIMIT = 5000;
     public static String knowledgeObject = aqi_securityHandler.knowledgeObject;
 
@@ -84,7 +84,7 @@ public with sharing class aqi_KnowledgeSearchCtrl {
 		}
 		private set;
 	}
-    
+
 	public String aLanguage {
 		get{
 			if ( ! String.isNotBlank(aLanguage) ){
@@ -220,8 +220,7 @@ public with sharing class aqi_KnowledgeSearchCtrl {
 	*/
     public String resolveArticleSearch(){
         String artFilter = recordTypeFilters();
-        String knowledgeQuery = 'SELECT KnowledgeArticleId FROM ' + knowledgeObject +
-                                ' WHERE PublishStatus = \'Online\' AND Language =\'' + escapeString(aLanguage) + '\' AND ' + artFilter;
+        String knowledgeQuery = 'SELECT KnowledgeArticleId FROM ' + knowledgeObject + ' WHERE PublishStatus = \'Online\' AND Language =\'' + escapeString(aLanguage) + '\' AND ' + artFilter;
         System.debug('knowledgeQuery: ' + knowledgeQuery);
         List<sObject> sObjList = Database.query(knowledgeQuery);
         Set<String> knowledgeArticles = new Set<String>();

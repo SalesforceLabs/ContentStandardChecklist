@@ -31,7 +31,8 @@ private class aqi_KnowledgeSearchCtrl_Test {
         	}
         }
 
-        String default_language = [SELECT LanguageLocaleKey FROM Organization limit 1].LanguageLocaleKey;
+        String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
+
 
         String objType = kavNames.get(0);
 
@@ -94,8 +95,6 @@ private class aqi_KnowledgeSearchCtrl_Test {
 
         populateData();
 
-        //System.assert(aqi_KnowledgeSearchCtrl.allLanguageOptions.containsKey(aqi_KnowledgeSearchCtrl.DEFAULT_LANGUAGE)); //temporal line remove
-
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
         ctr.anumber = article.ArticleNumber;
         ctr.author = '';
@@ -103,6 +102,7 @@ private class aqi_KnowledgeSearchCtrl_Test {
         ctr.runSearch();
 
         System.assertNotEquals(null,ctr.getLanguageOptions());
+        System.debug('getMyArticle: ' + ctr.getMyArticles().size());
         System.assertEquals(1,ctr.getMyArticles().size());
 
         System.assertEquals(false,ctr.hasNext);

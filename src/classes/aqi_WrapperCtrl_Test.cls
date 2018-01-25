@@ -1,7 +1,7 @@
 @isTest
 private class aqi_WrapperCtrl_Test {
     static SObject kavObj;
-     
+
     @testSetup static void setup() {
         ArticleQuality_index__c aqs = new ArticleQuality_index__c();
         aqs.name = 'default';
@@ -37,7 +37,7 @@ private class aqi_WrapperCtrl_Test {
           }
         }
 
-        String default_language = [SELECT LanguageLocaleKey FROM Organization limit 1].LanguageLocaleKey;
+        String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
         String objType = kavNames.get(0);
         kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
         kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
@@ -49,19 +49,19 @@ private class aqi_WrapperCtrl_Test {
         String q =  '    SELECT Id,ArticleNumber,CreatedDate,LastPublishedDate, LastModifiedDate, LastModifiedById,'+
                     '    PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
                     '   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
-        kavObj = (KnowledgeArticleVersion)Database.query(q); 
-       
+        kavObj = (KnowledgeArticleVersion)Database.query(q);
+
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
         //call with valid api name, and record Id
         resp = aqi_WrapperCtrl.getInitData(article.Id,'Article_Unique__c');
         system.debug(resp);
-        system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS '); 
+        system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS ');
     }
 
 
     @isTest static void test_upsertAQI() {
 
-      // creates Custom Article 
+      // creates Custom Article
         string publishStatus = 'draft';
         Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
         List<String> kavNames = new List<String>();
@@ -71,7 +71,7 @@ private class aqi_WrapperCtrl_Test {
           }
         }
 
-        String default_language = [SELECT LanguageLocaleKey FROM Organization limit 1].LanguageLocaleKey;
+        String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
         String objType = kavNames.get(0);
         kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
         kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
@@ -83,8 +83,8 @@ private class aqi_WrapperCtrl_Test {
         String q =  '    SELECT Id,ArticleNumber,CreatedDate,LastPublishedDate, LastModifiedDate, LastModifiedById,'+
                     '    PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
                     '   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
-        kavObj = (KnowledgeArticleVersion)Database.query(q); 
-       
+        kavObj = (KnowledgeArticleVersion)Database.query(q);
+
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
         //call with valid api name, and record Id
         aqi_LightningResponse resp = aqi_WrapperCtrl.getInitData(article.Id,'Article_Unique__c');
@@ -97,19 +97,19 @@ private class aqi_WrapperCtrl_Test {
         recordStr = Json.serialize(record);
 		    resp = aqi_WrapperCtrl.upsertAQI(recordStr);
         system.debug(resp);
-        system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS '); 
+        system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS ');
 
         Article_Quality__c  aqr = [ select Id , Article_Unique__c from Article_Quality__c where Id =:record.Id];
-        system.assertEquals(aqr.Article_Unique__c,record.Article_Unique__c ,'Article unique index should be set to TRUE '); 
+        system.assertEquals(aqr.Article_Unique__c,record.Article_Unique__c ,'Article unique index should be set to TRUE ');
 
- 
+
     }
 
     @isTest static void test_aqi_DynamicPickList_AQI() {
       aqi_DynamicPickList_AQI ctr = new aqi_DynamicPickList_AQI();
       VisualEditor.DynamicPickListRows rows = ctr.getValues();
       system.assert(rows!= null);
-      
+
       VisualEditor.DataRow defaultVal = ctr.getDefaultValue();
 
       system.assert(defaultVal!= null);

@@ -15,6 +15,18 @@ public class aqi_SettingsHandler {
 		return ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
 	}
 
+
+	public static String customOrDefaultLanguage(){
+		ArticleQuality_index__c  aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
+		String result = [SELECT LanguageLocaleKey FROM Organization limit 1].LanguageLocaleKey;
+		if(aq != null){
+			if(String.isNotBlank(ArticleQuality_index__c.getInstance('default').Selected_Languages__c)){
+				result = ArticleQuality_index__c.getInstance('default').Selected_Languages__c;
+			}
+		}
+		return result;
+	}
+
 	public static Boolean isAppConfigured(){
 		ArticleQuality_index__c  aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
 		return (aq != null);

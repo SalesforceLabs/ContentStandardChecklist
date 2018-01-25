@@ -1,7 +1,7 @@
 @isTest
-private class aqi_LightningResponse_Test  {
-
-    private static aqi_LightningResponse lightningResponse = new aqi_LightningResponse();
+private class aqi_LightningResponse_Test {
+	
+	private static aqi_LightningResponse lightningResponse = new aqi_LightningResponse();
     @isTest
     static void test_getAttributes() {
         lightningResponse.jsonResponse = 'testJSON';

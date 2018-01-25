@@ -1,3 +1,37 @@
 <aura:component >
-	
+	<aura:attribute name="title" type="String" default="default title"/>
+	<aura:attribute name="description" type="String" default="default description"/>
+	<aura:attribute name="severity" type="String" default="info"/>
+	<aura:attribute name="className" type="String" default=""/>
+
+
+	<ui:message title="" severity="{!v.severity}" closable="false" class="{!v.className}">
+		<div class="slds-p-around_x-small">
+			<div class="slds-clearfix">
+				<div class="slds-float_left">
+					<h2 class="slds-text-heading_small">{!v.title}</h2>
+				</div>
+				<div class="slds-float_right">
+					<lightning:buttonIcon iconName="utility:close" variant="bare" onclick="{! c.closeWindow }" 
+						alternativeText="Close window." 
+						class="slds-button slds-button_icon slds-button_icon-container slds-button_icon-border-inverse" />
+				</div>
+			</div>
+
+			<div class="slds-grid slds-gutters">
+				<div class="slds-col slds-size_1-of-6  slds-text-align_left">
+					<b>details: </b>
+				</div>
+				<div class="slds-col slds-size_5-of-6 slds-text-align_left slds-p-around_xx-small">
+					<p>{!v.description}</p>
+				</div>
+			</div>
+		</div>
+
+	</ui:message>
+
+
+
+
+
 </aura:component>

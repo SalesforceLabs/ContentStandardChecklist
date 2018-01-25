@@ -2,7 +2,7 @@
 	<aura:attribute name="title" type="String" default="default title"/>
 	<aura:attribute name="description" type="String" default="default description"/>
 	<aura:attribute name="severity" type="String" default="info"/>
-	<aura:attribute name="className" type="String" default=""/>
+	<aura:attribute name="className" type="String" default="slds-hide"/>
 
 
 	<ui:message title="" severity="{!v.severity}" closable="false" class="{!v.className}">

@@ -47,64 +47,73 @@ public with sharing class aqi_WrapperCtrl {
                 response.error = 'Article Id  can not be empty';
             }else{
                 try{
-                    system.debug('into try of getInitData');
+                    Article_Quality__c aqi_result;
+                    List<indexWrapper> indexList = new List<indexWrapper>();
+                    Boolean appIsConfigured = aqi_SettingsHandler.isAppConfigured();
                     Map<String,  Object> result = new Map<String,  Object>();
-                    set<String> apiNamesWhiteLilst = indexValues.keySet();
-                    system.debug(apiNamesWhiteLilst);
 
-                    set<String> apiList  = new set<String>();
-                    apiNames = apiNames.replace('"','').replace('[','').replace(']','');
-                    for (String a : apiNames.split(',')){
-                        if (String.isNotBlank(a) && apiNamesWhiteLilst.contains(a)){
-                            apiList.add(a);
-                            system.debug(a);
+                    if (appIsConfigured){
+
+                         ArticleQuality_index__c aqs = aqi_SettingsHandler.getSettings();
+                   
+                        system.debug('into try of getInitData');
+                        set<String> apiNamesWhiteLilst = indexValues.keySet();
+                        system.debug(apiNamesWhiteLilst);
+
+                        set<String> apiList  = new set<String>();
+                        apiNames = apiNames.replace('"','').replace('[','').replace(']','');
+                        for (String a : apiNames.split(',')){
+                            if (String.isNotBlank(a) && apiNamesWhiteLilst.contains(a)){
+                                apiList.add(a);
+                                system.debug(a);
+                            }
+                        }
+
+                        //@todo : filter field list according to permissions
+                        List<String> uniqueApiNames = new List<String>();
+                        uniqueApiNames.addAll(apiList);
+
+                        String qStringApiNames = String.join(uniqueApiNames,', ');
+
+                        system.debug(qStringApiNames);
+
+                       
+                        String qStr =   ' SELECT Name, Action_Assigned_To__c , Action_Needed__c, AQ_Score__c, '+
+                                        '      Action_Date__c, Action_Taken__c, Internal_Notes__c ';
+                        
+                        if (String.isNotBlank(qStringApiNames)) 
+                                qStr +=  ', '+qStringApiNames;
+
+                        qStr += ' FROM Article_Quality__c '+
+                                ' WHERE '+
+                                ' Knowledge_Article_Version_Id__c =\''+recordId+'\'';
+                    
+                        system.debug(qStr);
+
+                        List<Article_Quality__c > l = Database.query(   qStr );
+                        if (l.isEmpty()){
+                            aqi_result =populateInitialAQI(recordId);
+                        }else{
+                            aqi_result = l.get(0);
+                        }
+
+                        Map<String, Schema.SObjectField> allFields = Schema.SObjectType.Article_Quality__c.fields.getMap();
+                        String tmp;
+                        for(String str : uniqueApiNames){
+                            tmp = str.toLowerCase();
+                            if (allFields.containsKey(tmp)){
+                                Schema.DescribeFieldResult dfr = allFields.get(tmp).getDescribe();
+                                if (dfr.isCustom() && dfr.getType() ==Schema.DisplayType.BOOLEAN){
+                                    system.debug('\n'+tmp+':'+dfr.getType());
+                                    indexList.add(new indexWrapper(dfr.getLabel(),dfr.getName(),true));
+                                }
+                            }else{
+                                system.debug('\n NOT '+tmp);
+                            }  
                         }
                     }
 
-                    //@todo : filter field list according to permissions
-                    List<indexWrapper> indexList = new List<indexWrapper>();
-                    List<String> uniqueApiNames = new List<String>();
-                    uniqueApiNames.addAll(apiList);
-
-                    String qStringApiNames = String.join(uniqueApiNames,', ');
-
-                    system.debug(qStringApiNames);
-
-                    Article_Quality__c aqi_result;
-                    String qStr =   ' SELECT Name, Action_Assigned_To__c , Action_Needed__c, AQ_Score__c, '+
-                                    '      Action_Date__c, Action_Taken__c, Internal_Notes__c ';
-                    
-                    if (String.isNotBlank(qStringApiNames)) 
-                            qStr +=  ', '+qStringApiNames;
-
-                    qStr += ' FROM Article_Quality__c '+
-                            ' WHERE '+
-                            ' Knowledge_Article_Version_Id__c =\''+recordId+'\'';
-                
-                    system.debug(qStr);
-
-                    List<Article_Quality__c > l = Database.query(   qStr );
-                    if (l.isEmpty()){
-                        aqi_result =populateInitialAQI(recordId);
-                    }else{
-                        aqi_result = l.get(0);
-                    }
-
-                    Map<String, Schema.SObjectField> allFields = Schema.SObjectType.Article_Quality__c.fields.getMap();
-                    String tmp;
-                    for(String str : uniqueApiNames){
-                        tmp = str.toLowerCase();
-                        if (allFields.containsKey(tmp)){
-                            Schema.DescribeFieldResult dfr = allFields.get(tmp).getDescribe();
-                            if (dfr.isCustom() && dfr.getType() ==Schema.DisplayType.BOOLEAN){
-                                system.debug('\n'+tmp+':'+dfr.getType());
-                                indexList.add(new indexWrapper(dfr.getLabel(),dfr.getName(),true));
-                            }
-                        }else{
-                            system.debug('\n NOT '+tmp);
-                        }  
-                    }
-
+                    result.put('aqi_appIsConfigured',appIsConfigured);
                     result.put('aqi_fields',indexList);
                     result.put('aqi_record',aqi_result);
                     response.jsonResponse = JSON.serialize(result);

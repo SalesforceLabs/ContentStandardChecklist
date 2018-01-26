@@ -21,38 +21,44 @@
 			var fieldLabel;
 			var aqi_fields = responseMap.aqi_fields;
 			var aqi_record = responseMap.aqi_record;
-			
-			component.set('v.aqi_record',aqi_record);
-			    
-			for (var idx in aqi_fields) {
-				var indexObj = aqi_fields[idx];
-				var value = aqi_record[indexObj.fieldName];
-				var inputCmp = [
-					"c:aqi_Field",
-					{"aura:id": indexObj.fieldName,
-					"fieldLabel": indexObj.fieldLabel,
-					"fieldName": indexObj.fieldName,
-					"fieldValue" : value}
-					];
-				inputComponents.push(inputCmp);
-			}
-                
-			$A.createComponents(inputComponents,
-				function(components, status, statusMessagesList){
-					if(status === "SUCCESS"){
-						var fieldsContainer = component.find("fieldsContainer");
-						if (fieldsContainer.isValid()){
-							var body = fieldsContainer.get("v.body");
-							Array.prototype.push.apply(body, components);
-							fieldsContainer.set("v.body", body);
-						}
+			var aqi_appIsConfigured = responseMap.aqi_appIsConfigured;
 
-						console.log('do Init callback add fields'+body.length);
-					}
+			component.set('v.aqi_appIsConfigured',aqi_appIsConfigured);
+			console.log('>> aqi_appIsConfigured '+aqi_appIsConfigured);
+			if (aqi_appIsConfigured){
+				component.set('v.aqi_record',aqi_record);
+			   for (var idx in aqi_fields) {
+					var indexObj = aqi_fields[idx];
+					var value = aqi_record[indexObj.fieldName];
+					var inputCmp = [
+						"c:aqi_Field",
+						{"aura:id": indexObj.fieldName,
+						"fieldLabel": indexObj.fieldLabel,
+						"fieldName": indexObj.fieldName,
+						"fieldValue" : value}
+						];
+					inputComponents.push(inputCmp);
 				}
-			);
+					
+				$A.createComponents(inputComponents,
+					function(components, status, statusMessagesList){
+						if(status === "SUCCESS"){
+							var fieldsContainer = component.find("fieldsContainer");
+							if (fieldsContainer.isValid()){
+								var body = fieldsContainer.get("v.body");
+								Array.prototype.push.apply(body, components);
+								fieldsContainer.set("v.body", body);
+							}
+	
+							console.log('do Init callback add fields'+body.length);
+						}
+					}
+				);
+				
+				console.log(responseMap);
+			}
 			
-			console.log(responseMap);
+
 		}
 
 	},
@@ -79,8 +85,20 @@
 			console.log(responseMap);
 			if(!component.isValid()) return;
 			var aqi_record = responseMap.aqi_record;
-			component.set('v.aqi_record',aqi_record);
+			component.set('v.aqi_record',aqi_record);	
+		 	var toastCmp =  component.find("toastNotif");
+			toastCmp.set("v.title",'AQI Succesfully updated');
+			toastCmp.set("v.description",'the AQI was updated new value is : '+aqi_record.AQ_Score__c);
+			toastCmp.set("v.className",'');
+			toastCmp.set("v.severity",'info'); 
+
 			
+		}else{
+			var toastCmp =  component.find("toastNotif");
+			toastCmp.set("v.title",'ResponseMap empty');
+			toastCmp.set("v.description",'tbd');
+			toastCmp.set("v.className",'');
+			toastCmp.set("v.severity",'warning');
 		}
 
 	},

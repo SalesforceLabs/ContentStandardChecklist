@@ -1,7 +1,7 @@
 trigger aqi_score on Article_Quality__c (before insert, before update) {
 
 
-    ArticleQuality_index__c aqs = ArticleQuality_index__c.getInstance('default');
+    ArticleQuality_index__c aqs = aqi_SettingsHandler.getSettings();
 
     Map<String,Double>  indexValues = aqi_Ctrl.getindexApiNameToValue();
    

@@ -471,6 +471,6 @@
         <description>Agent field is required</description>
         <errorConditionFormula>ISBLANK( Agent__c   )</errorConditionFormula>
         <errorDisplayField>Agent__c</errorDisplayField>
-        <errorMessage>You must  specify and Agent.</errorMessage>
+        <errorMessage>You must  specify an Agent.</errorMessage>
     </validationRules>
 </CustomObject>

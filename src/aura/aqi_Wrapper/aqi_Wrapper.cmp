@@ -1,6 +1,6 @@
-<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" 
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId"
 				access="global" controller="aqi_WrapperCtrl" extends="c:aqi_Abstract" >
-  
+
     <!-- ATTRIBUTES -->
 	<aura:attribute name="indexField1" type="String" default="none" />
 	<aura:attribute name="indexField2" type="String" default="none" />
@@ -17,9 +17,9 @@
 	<aura:attribute name="aqi_record" type="Article_Quality__c" default="{ 'sobjectType': 'Article_Quality__c' }"  />
 	<aura:attribute name="apiNames" type="List" default="" />
 	<aura:attribute name="aqi_appIsConfigured" type="Boolean" default="true"/>
-	
+
 	<!-- HANDLERS-->
-	<aura:handler name="init" action="{!c.doInit}" value="{!this}" /> 
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}" />
 
 <aura:if isTrue="{!v.aqi_appIsConfigured}">
 
@@ -49,9 +49,9 @@
 				<div aura:id="fieldsContainer" class="fieldsContainer" />
 				<hr/>
 				<div class="slds-text-heading_medium">Follow Up</div>
-				
+
 				<!-- Follow up section -->
-			
+
 				<lightning:layout horizontalAlign="space" verticalAlign="center">
 
 					<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
@@ -63,7 +63,7 @@
 					</lightning:layoutItem>
 
 					<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
-						<force:inputField value="{!v.aqi_record.Action_Needed__c}"/>
+						<force:inputField aura:id="Action_Needed__c" value="{!v.aqi_record.Action_Needed__c}"/>
 					</lightning:layoutItem>
 
 				</lightning:layout>
@@ -85,12 +85,12 @@
 					<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
 						<div class="slds-size_1-of-1">
 							<p class="slds-truncate" title="Action assigned to">
-								<ui:outputText value="Action assigned to " />
+								<ui:outputText value="Action assigned to "/>
 							</p>
 						</div>
 					</lightning:layoutItem>
 					<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
-							<force:inputField value="{!v.aqi_record.Action_Assigned_To__c}"/>
+							<force:inputField aura:id="Action_Assigned_To__c" value="{!v.aqi_record.Action_Assigned_To__c}"/>
 					</lightning:layoutItem>
 				</lightning:layout>
 
@@ -117,11 +117,11 @@
 					</lightning:layoutItem>
 					<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
 							<force:inputField value="{!v.aqi_record.Internal_Notes__c}"/>
-					</lightning:layoutItem>	
-				</lightning:layout> 
+					</lightning:layoutItem>
+				</lightning:layout>
 
 			</p>
-	
+
 	</div>
 	<footer class="slds-card__footer">
 		<c:aqi_Toast aura:id="toastNotif"/>
@@ -136,9 +136,9 @@
     <lightning:card>
         <p class="slds-p-horizontal_small">
 			<ui:message title="Warning" severity="warning" closable="false">
-			You need to configure the app 
+			You need to configure the app
 			</ui:message>
-		
+
         </p>
 
     </lightning:card>

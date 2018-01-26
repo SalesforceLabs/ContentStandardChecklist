@@ -30,14 +30,14 @@
 
 				<div class="slds-media__body">
 					<h2>
-						<a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="[object Object]">
-							<span class="slds-text-heading_small"><ui:outputText value="{!v.aqi_record.Name}" /></span>
+						<a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="{!v.aqi_record.Name}">
+							<span class="slds-text-heading_small">Article Quality Index</span>
 						</a>
 					</h2>
 				</div>
 				<div class="slds-no-flex">
 					<span class="slds-badge slds-badge_lightest slds-p-around_small">Score :
-						<ui:outputNumber value="{!v.aqi_record.AQ_Score__c}" format=".00"/>
+						<ui:outputNumber value="{!v.aqi_record.AQ_Score__c}" format="."/>
 					</span>
 				</div>
 			</header>

@@ -115,11 +115,11 @@
                             for="lastpublisheddate"/>
                     <apex:outputField value="{!record.Last_Published_Date__c}" id="lastpublisheddate"/>
                 </apex:pageBlockSectionItem>
-                <!-- <apex:pageBlockSectionItem >
-                     <apex:outputLabel value="{!$ObjectType.KnowledgeArticleVersion.fields.ArticleType.label}"
+                <apex:pageBlockSectionItem >
+                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Type__c.label}"
                             for="type"/>
-                    <apex:outputField value="{!record.Article_Type__c}" id="type"/>
-                </apex:pageBlockSectionItem> -->
+                    <apex:outputLabel value="{!recordTypesMap[record.Article_Type__c]}" id="type"/>
+                </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Last_Published_By__c.label}" for="ArticleNumber"/>
                     <apex:outputField value="{!record.Last_Published_By__c}" id="Last_Published_By__c"/>
@@ -134,7 +134,7 @@
                 </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.KnowledgeArticleVersion.fields.Language.label}" for="language"/>
-                    <apex:outputText rendered="{!$ObjectType.Article_Quality__c.fields.Language__c.Accessible}" value="{!langMap[record.Language__c]}" id="language"  />
+                    <apex:outputText rendered="{!$ObjectType.Article_Quality__c.fields.Language__c.Accessible}" value="{!record.Language__c}" id="language"  />
                 </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Last_Modified_By__c.label}" for="ArticleNumber"/>

@@ -43,6 +43,21 @@ public with sharing class aqi_Ctrl {
 		private set;
 	}
 
+	/*
+	* @description
+	*    Returns Map with recordType Id and Name
+	* @return Boolean
+	*/
+	public static Map<Id,String> recordTypesMap{
+		get{
+			if (recordTypesMap == null) {
+				recordTypesMap = aqi_SecurityHandler.getAllowedRecordTypesMap();
+			}
+			return recordTypesMap;
+		}
+		private set;
+	}
+
 
 	public aqi_Ctrl(ApexPages.StandardController controller){
 
@@ -371,12 +386,26 @@ public with sharing class aqi_Ctrl {
     */
 	public static Article_Quality__c loadKavDetails(KnowledgeArticleVersion article , Article_Quality__c record){
 
+
+		//resolve record type
+		Id thisIs = article.Id;
+		Schema.SObjectType token = thisIs.getSObjectType();
+		// Using the token, do a describe 
+		// and construct a query dynamically. 
+		Schema.DescribeSObjectResult dr = token.getDescribe();
+		String queryString = 	'	SELECT Id, RecordTypeId FROM ' + dr.getName() + 
+								'	WHERE '+
+								' 		Id =: thisIs'  ;
+
+		sObject obj = Database.query(queryString);
+		String recordType = String.valueOf(obj.get('RecordTypeId'));
+	
 		record.Knowledge_Article_Version_Id__c = article.Id;
 		record.Knowledge_Article_Id__c = article.KnowledgeArticleId;
 		record.Article_Title__c = article.Title;
 		record.Article_Created_Date__c = article.CreatedDate;
 		record.Article_Created_By__c = article.CreatedById;
-		// record.Article_Type__c = typesMap.containsKey(article.ArticleType) ? typesMap.get(article.ArticleType) : article.ArticleType ;
+		record.Article_Type__c = recordType;
 		record.Article_Number__c = article.ArticleNumber;
 		record.Article_Version__c = article.VersionNumber;
 		record.Language__c = article.Language;

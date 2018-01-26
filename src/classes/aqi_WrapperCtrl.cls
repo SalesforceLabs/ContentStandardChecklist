@@ -192,6 +192,20 @@ public with sharing class aqi_WrapperCtrl {
         return result;
     }
 
+
+
+	@AuraEnabled 
+    public static String loadKAVId(String recordId){
+        String result = null;
+        List<Article_Quality__c > l = [Select Id, Knowledge_Article_Version_Id__c  from Article_Quality__c  where id=:recordId];
+        if (!l.isEmpty()){
+            result = l.get(0).Knowledge_Article_Version_Id__c;
+            
+        }
+        
+        return result;
+    }
+
   public class indexWrapper{
         @AuraEnabled public  String fieldLabel{get;set;}
         @AuraEnabled public  String fieldName{get;set;}

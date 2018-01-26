@@ -220,8 +220,13 @@ public with sharing class aqi_KnowledgeSearchCtrl {
 	*/
     public String resolveArticleSearch(){
         String artFilter = recordTypeFilters();
-        String knowledgeQuery = 'SELECT KnowledgeArticleId FROM ' + knowledgeObject + ' WHERE PublishStatus = \'Online\' AND Language =\'' + escapeString(aLanguage) + '\' AND ' + artFilter;
-        System.debug('knowledgeQuery: ' + knowledgeQuery);
+		String knowledgeQuery = '';
+		if(string.isBlank(artFilter)){
+			knowledgeQuery = 'SELECT KnowledgeArticleId FROM ' + knowledgeObject + ' WHERE PublishStatus = \'Online\' AND Language =\'' + escapeString(aLanguage) + '\'' ;
+		}
+		else {
+			knowledgeQuery = 'SELECT KnowledgeArticleId FROM ' + knowledgeObject + ' WHERE PublishStatus = \'Online\' AND Language =\'' + escapeString(aLanguage) + '\' AND ' + artFilter;
+		}
         List<sObject> sObjList = Database.query(knowledgeQuery);
         Set<String> knowledgeArticles = new Set<String>();
         for (sObject obj : sObjList) {
@@ -503,7 +508,8 @@ public with sharing class aqi_KnowledgeSearchCtrl {
             kavIdsString.addAll(kavIds);
             String knowledgeQuery = 'SELECT Id, KnowledgeArticleId, RecordTypeId FROM ' + knowledgeObject +
                                     ' WHERE PublishStatus = \'Online\' AND Language =\'' + escapeString(aLanguage) + '\' AND KnowledgeArticleId IN (\'' + String.join(kavIdsString, '\' ,\'') + '\')';
-            List<sObject> sObjList = Database.query(knowledgeQuery);
+
+			List<sObject> sObjList = Database.query(knowledgeQuery);
             Map<Id,Id> knowledgeIdToRecordType = new Map<Id,Id>();
             for (sObject obj : sObjList) {
                 Id recordTypeId = (Id) obj.get('RecordTypeId');
@@ -727,7 +733,11 @@ public with sharing class aqi_KnowledgeSearchCtrl {
                     lIds.add(rtNameToIds.get(finalFilter));
             }
             typesFilter = ' RecordTypeId IN (\'' + String.join(lIds, '\' ,\'') + '\')';
+			if(String.isBlank(String.join(lIds, '\' ,\''))){
+					return '';
+			}
         }
+
         return typesFilter;
     }
 

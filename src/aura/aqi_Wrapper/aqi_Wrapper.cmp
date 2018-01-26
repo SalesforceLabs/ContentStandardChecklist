@@ -2,16 +2,16 @@
 				access="global" controller="aqi_WrapperCtrl" extends="c:aqi_Abstract" >
   
     <!-- ATTRIBUTES -->
-	<aura:attribute name="indexField1" type="String" default="" />
-	<aura:attribute name="indexField2" type="String" default="" />
-	<aura:attribute name="indexField3" type="String" default="" />
-	<aura:attribute name="indexField4" type="String" default="" />
-	<aura:attribute name="indexField5" type="String" default="" />
-	<aura:attribute name="indexField6" type="String" default="" />
-	<aura:attribute name="indexField7" type="String" default="" />
-	<aura:attribute name="indexField8" type="String" default="" />
-	<aura:attribute name="indexField9" type="String" default="" />
-	<aura:attribute name="indexField10" type="String" default="" />
+	<aura:attribute name="indexField1" type="String" default="none" />
+	<aura:attribute name="indexField2" type="String" default="none" />
+	<aura:attribute name="indexField3" type="String" default="none" />
+	<aura:attribute name="indexField4" type="String" default="none" />
+	<aura:attribute name="indexField5" type="String" default="none" />
+	<aura:attribute name="indexField6" type="String" default="none" />
+	<aura:attribute name="indexField7" type="String" default="none" />
+	<aura:attribute name="indexField8" type="String" default="none" />
+	<aura:attribute name="indexField9" type="String" default="none" />
+	<aura:attribute name="indexField10" type="String" default="none" />
 
 
 	<aura:attribute name="aqi_record" type="Article_Quality__c" default="{ 'sobjectType': 'Article_Quality__c' }"  />

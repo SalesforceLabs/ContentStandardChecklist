@@ -10,7 +10,9 @@ global class aqi_DynamicPickList_AQI extends VisualEditor.DynamicPickList{
         myValues.addRow(new VisualEditor.DataRow('none','none'));
         Map<String,Double>  indexValues = aqi_Ctrl.getIndexApiNameToValue();
         for(String k :indexValues.keySet() ){
-			myValues.addRow(new VisualEditor.DataRow(k, k));
+            if(k != 'Possible_Points__c'){
+    			myValues.addRow(new VisualEditor.DataRow(k, k));
+            }
         }
 
         return myValues;

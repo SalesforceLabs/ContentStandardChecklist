@@ -170,8 +170,7 @@
                                 </apex:commandlink>
                             </apex:outputpanel>
                         </apex:facet>
-                        <apex:outputText value="{!article['articleArticleNumber']}"/>
-                        <!-- <apex:outputLink value="/articles/{!IF(CONTAINS(article['ArticleType'], '__kav'), SUBSTITUTE(article['ArticleType'], '__kav', ''), '')}{!IF(AND(CONTAINS(article['ArticleType'], '__ka'), NOT(CONTAINS(article['ArticleType'], '__kav'))), SUBSTITUTE(article['ArticleType'], '__ka', ''), '')}/{!URLENCODE(article['UrlName'])}" target="_blank" >{!article['ArticleNumber']}</apex:outputLink> -->
+                         <apex:outputLink value="/{!article['articleKnowledgeArticleId']}" target="_blank" >{!article['articleArticleNumber']}</apex:outputLink>
                     </apex:column>
                     <apex:column >
                         <apex:facet name="header">Record Type</apex:facet>

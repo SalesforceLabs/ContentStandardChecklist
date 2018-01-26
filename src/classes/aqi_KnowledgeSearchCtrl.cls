@@ -501,7 +501,7 @@ public with sharing class aqi_KnowledgeSearchCtrl {
             }
             List<Id> kavIdsString = new List<Id>();
             kavIdsString.addAll(kavIds);
-            String knowledgeQuery = 'SELECT KnowledgeArticleId, RecordTypeId FROM ' + knowledgeObject +
+            String knowledgeQuery = 'SELECT Id, KnowledgeArticleId, RecordTypeId FROM ' + knowledgeObject +
                                     ' WHERE PublishStatus = \'Online\' AND Language =\'' + escapeString(aLanguage) + '\' AND KnowledgeArticleId IN (\'' + String.join(kavIdsString, '\' ,\'') + '\')';
             List<sObject> sObjList = Database.query(knowledgeQuery);
             Map<Id,Id> knowledgeIdToRecordType = new Map<Id,Id>();

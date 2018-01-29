@@ -133,7 +133,7 @@
 
 <aura:set attribute="else">
 
-    <lightning:card>
+    <lightning:card >
         <p class="slds-p-horizontal_small">
 			<ui:message title="Warning" severity="warning" closable="false">
 			You need to configure the app

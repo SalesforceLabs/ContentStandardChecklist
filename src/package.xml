@@ -52,6 +52,10 @@
         <name>CustomTab</name>
     </types>
     <types>
+        <members>Article_Quality_Index_Record_Page</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
         <members>Article_Quality__c-Article Quality Layout</members>
         <name>Layout</name>
     </types>
@@ -70,5 +74,5 @@
         <members>aqi_resources</members>
         <name>StaticResource</name>
     </types>
-    <version>38.0</version>
+    <version>36.0</version>
 </Package>

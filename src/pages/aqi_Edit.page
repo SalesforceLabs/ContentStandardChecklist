@@ -7,9 +7,9 @@
     </apex:outputPanel>
     </div>
     <apex:form id="recordForm">
-        <apex:pageBlock title="Article Quality Index details" mode="detail">
+        <apex:pageBlock id="formBlockAqi" title="Article Quality Index details" mode="detail">
             <apex:pageBlockButtons location="top">
-                <apex:commandButton action="{!save}" value="Save"  />
+                <apex:commandButton onclick="checkActNeededIssue();return false;" value="Save"  />
                 <input type="button" value="Cancel" onclick="history.back();" class="btn" />
             </apex:pageBlockButtons>
             <apex:pageMessage summary="Record saved" severity="confirm" strength="1" rendered="{!saved}" />
@@ -67,13 +67,13 @@
                 </apex:pageBlockSectionItem>
             </apex:pageBlockSection>
         </apex:pageBlock>
-        <apex:pageBlock title="Follow Up details" mode="detail">
-            <apex:pageBlockSection title="Information" columns="2">
-                <apex:pageBlockSectionItem >
+        <apex:pageBlock id="formBlockFollow" title="Follow Up details" mode="detail">
+            <apex:pageBlockSection id="formBlockSectionFollow" title="Information" columns="2">
+                <apex:pageBlockSectionItem id="formBlockSectionItemANFollow">
                      <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Action_Needed__c.label}" for="actionneeded"/>
                     <apex:inputField value="{!record.Action_Needed__c}" id="actionneeded"/>
                 </apex:pageBlockSectionItem>
-                <apex:pageBlockSectionItem >
+                <apex:pageBlockSectionItem id="formBlockSectionAAFollow">
                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Action_Assigned_To__c.label}" for="Action_Assigned_To__c"/>
                     <apex:inputField value="{!record.Action_Assigned_To__c}" id="Action_Assigned_To__c"/>
                 </apex:pageBlockSectionItem>
@@ -94,7 +94,7 @@
                 </apex:pageBlockSectionItem>
             </apex:pageBlockSection>
         </apex:pageBlock>
-        <apex:pageBlock title="Related Article Details" mode="detail">
+        <apex:pageBlock id="formBlockRelated" title="Related Article Details" mode="detail">
             <apex:pageBlockSection columns="2">
                 <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Number__c.label}" for="ArticleNumber"/>
@@ -157,9 +157,23 @@
                 </apex:pageBlockSectionItem>
             </apex:pageBlockSection>
             <apex:pageBlockButtons location="bottom">
-                <apex:commandButton action="{!save}" value="Save"  />
+                <apex:commandButton onclick="checkActNeededIssue();return false;" value="Save"  />
                 <input type="button" value="Cancel" onclick="history.back();" class="btn" />
             </apex:pageBlockButtons>
         </apex:pageBlock>
+        <apex:actionFunction action="{!save}" name="saveAF">
+        </apex:actionFunction>
+
+        <script>
+            function checkActNeededIssue(){
+                var actionNeeded = document.getElementById('{!$Component.recordForm.formBlockFollow.formBlockSectionFollow.formBlockSectionItemANFollow.actionneeded}').checked;
+                var asignedTo = document.getElementById('{!$Component.recordForm.formBlockFollow.formBlockSectionFollow.formBlockSectionAAFollow.Action_Assigned_To__c}').value;
+                if(actionNeeded && (asignedTo === undefined || asignedTo === '')){
+                    alert('Please specify coaching provided by');
+                }else{
+                    saveAF();
+                }
+            }
+        </script>
     </apex:form>
 </apex:page>

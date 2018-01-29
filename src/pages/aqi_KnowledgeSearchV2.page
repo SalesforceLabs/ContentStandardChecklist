@@ -1,0 +1,726 @@
+<apex:page showHeader="true" standardStylesheets="false" sidebar="false" docType="html-5.0" controller="aqi_KnowledgeSearchCtrlV2" applyBodyTag="False" applyHtmlTag="true">
+<head>
+  <title>Create AQI</title>
+  <apex:slds /> 
+
+ <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+
+  <!-- Load JsRender latest version, from www.jsviews.com: -->
+  <script src="//www.jsviews.com/download/jsrender.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.0/moment.js"></script>
+
+
+  <script type="text/javascript">
+
+		var pageSize = {!pageSize};		
+		var sortBy = "Title";
+		var sortAsc = false;
+		var pageNum = 0;
+  
+
+function formatDate(mili){
+            var tmpOffset =parseFloat('{!JSENCODE(tzOffset)}');
+            var intOffset = (tmpOffset)*60;
+            var d_offset = moment(mili).utcOffset(intOffset);
+            return d_offset.format('MM/DD/YYYY h:mm A');
+		}
+
+        function unescapeMe(content) {
+            if (content != null && content != undefined && content != '') {
+                if (content.includes('&amp')) {
+                    if (content.includes(';lt;')) {
+                        content = content.replace(/&amp/g, '&');
+                        content = content.replace(/;lt;/g, '<');
+
+                        content = content.replace(/&</g, '<');
+                    }
+
+                    if (content.includes(';gt;')) {
+                        content = content.replace(/&amp/g, '&');
+                        content = content.replace(/;gt;/g, '>');
+
+                        content = content.replace(/&>/g, '>');
+                    }
+    			}
+            }
+
+            return content;
+		}
+
+        // Shortens names longer that 25 characters
+        function truncName(name) {
+            if (name !== undefined && name !== null && name !== '' && name.length > 0) {
+                if (name.length > 30) {
+                    name = name.substr(0, 30) + '&hellip;';
+                }
+            }
+
+            return name;
+        }
+
+ function getRemoteArticles(refresh) {
+		 if (refresh){
+			 pageNum = 0;
+			 $("tbody#articleList").html('');
+		}
+			 
+        var searchString 	= $('#searchByString').val();
+        var articleNumber	= $('#searchByArticleNumber').val();
+        var articleLanguage = $('#searchByLanguage').val();
+        var articleCreatedBy = $('#articleCreatedBy').val();
+        var articlelastModifiedBy = $('#articlelastModifiedBy').val();
+        var articleRecordType =		$('#searchByrecordType').val();
+        var articlePublishDateFrom = $('#articlePublishDateFrom').val();
+		var articlePublishDateTo = $('#articlePublishDateTo').val();
+		var articleLastModifiedDateFrom = $('#articleLastModifiedDateFrom').val();
+		var articleLastModifiedDateTo = $('#articleLastModifiedDateTo').val();
+
+		if (articlePublishDateFrom!='' && articlePublishDateTo!='' && 
+				articlePublishDateFrom > articlePublishDateTo ){
+			alert('Date Range in First Published Range is invalid ');
+			return;
+		}
+
+		if ( articleLastModifiedDateFrom!='' && articleLastModifiedDateTo!='' && 
+			articleLastModifiedDateFrom > articleLastModifiedDateTo){
+			alert('Date Range in Last Modified  Range is invalid ');
+			return;
+		}
+console.log(' searchString: '+searchString);
+console.log(' articleNumber: '+articleNumber);
+console.log(' articleLanguage: '+articleLanguage);
+console.log(' articleCreatedBy: '+articleCreatedBy);
+console.log(' articlelastModifiedBy: '+articlelastModifiedBy);
+console.log(' articleRecordType: '+articleRecordType);
+console.log(' articlePublishDateFrom: '+articlePublishDateFrom);
+console.log(' articlePublishDateTo: '+articlePublishDateTo);
+console.log(' articleLastModifiedDateFrom: '+articleLastModifiedDateFrom);
+console.log(' articleLastModifiedDateTo: '+articleLastModifiedDateTo);
+console.log(' sortBy: '+sortBy);
+console.log(' sortAsc: '+sortAsc);
+console.log(' pageNum: '+pageNum);
+
+        // This remoting call will use the page's timeout value
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.aqi_KnowledgeSearchCtrlV2.getArticles}',
+			searchString, articleNumber,articleLanguage,
+			articleCreatedBy,articlelastModifiedBy,articleRecordType,
+			articlePublishDateFrom,articlePublishDateTo,
+			articleLastModifiedDateFrom,articleLastModifiedDateTo,
+			pageNum,sortBy,sortAsc,
+            handleResult
+        );
+    }
+
+    function handleResult(result, event) { 
+		console.log(result);
+
+
+	var tplTableRow = $.templates("#tplTableRow");
+	if (event.status) {
+		//debugger;
+		$(result.items).each(function (i,e){
+				var htmlOutput = tplTableRow.render(e,{
+                                truncName: function(name) {
+                                    return truncName(name);
+                                },
+								formatDate: function(mili) {
+									return formatDate(mili);
+								},
+                                unescapeMe: function(content) {
+									return unescapeMe(content);
+								}
+							});
+				$("tbody#articleList").append(htmlOutput);
+			});
+			hasMore(result.items.length);
+	} else if (event.type === 'exception') {
+		document.getElementById("responseErrors").innerHTML =
+			event.message + "<br/>\n<pre>" + event.where + "</pre>";
+	} else {
+		document.getElementById("responseErrors").innerHTML = event.message;
+	}
+
+	 }
+ 	function loadMore(){
+		if ( isNaN(pageNum))
+			pageNum = -1;
+		pageNum++;
+		console.log('loadMore pageNum: '+pageNum);
+		getRemoteArticles(false);
+	}
+	
+	function hasMore(rSize){
+		if (rSize < pageSize){
+			//hideLoadMore
+			$('#loadMoreBtn').hide();
+		}else{
+			$('#loadMoreBtn').show()
+		}
+	}
+
+
+	function navigateToEdit(kavId,language,version){
+			/*<!-- a href="{!URLFOR($Page.aqi_Edit, null,  [kaId=article['articleKnowledgeArticleId'],lang=article['articleLanguage'],version=article['articleVersionNumber']])}" onclick="" role="button" class="new_aq" id="{!article['articleTitle']}">
+			 New AQI </a -->
+			*/
+			var editPage = "{!$Page.aqi_Edit}";
+			var newUrl = editPage+'?kaId='+kavId+'&lang='+language+'&version='+version;
+			console.log('navigate to Edit : '+newUrl);  
+			window.navigateToUrl(newUrl);
+	}
+ 
+	$(document).ready(function() {
+		getRemoteArticles(true);
+	});
+
+ </script>
+  <script id="myTmpl" type="text/x-jsrender">{{:name}}</script>
+
+<script id="tplTableRow" type="text/x-jsrender">
+
+ <tr class="slds-hint-parent">
+	<td class="slds-text-align_right slds-cell-buffer_left" role="gridcell">
+		
+	 <a href="#" onclick="navigateToEdit('{{:KnowledgeArticleId}}','{{:Language}}','{{:VersionNumber}}');" role="button" class="new_aqi"> New AQI </a>
+                  
+	</td>
+	<td class="slds-cell-buffer_left" role="gridcell">
+		<div class="slds-truncate" title="{{:Title}}">{{:Title}}</div>
+	</td>
+	<th class="slds-cell-buffer_left"  scope="row">
+		<div class="slds-truncate" title="{{:ArticleNumber}}">
+			<a href="/{{:Id}}" tabindex="0" target="_blank">{{:ArticleNumber}}</a>
+		</div>
+	</th>
+
+	<td class="slds-cell-buffer_left"  role="gridcell">
+		<div class="slds-truncate" title="Record Type">
+		{{if RecordType  }}
+			{{:RecordType.Name}}
+		{{/if}}
+		</div>
+	</td>
+	<td class="slds-cell-buffer_left"  role="gridcell">
+		<div class="slds-truncate" title="{{:VersionNumber}}">{{:VersionNumber}}</div>
+	</td>
+	<td class="slds-cell-buffer_left"  role="gridcell">
+		<div class="slds-truncate" title="{{:Summary}}">{{:Summary}}</div>
+	</td>
+	<td class="slds-cell-buffer_left"  role="gridcell">
+		<div class="slds-truncate" title="LastModifiedDate ">{{:~formatDate(LastModifiedDate)}}</div>
+	</td>
+	<td class="slds-cell-buffer_left"  role="gridcell">
+		<div class="slds-truncate" title="First Published Date">
+			{{:~formatDate(FirstPublishedDate)}}
+		</div>
+	</td>
+	<td class="slds-cell-buffer_left"  role="gridcell">
+		<div class="slds-truncate" title="Last Modified By">
+			{{:LastModifiedBy.Name}}
+		</div>
+	</td>
+	<td class="slds-cell-buffer_left"  role="gridcell">
+		<div class="slds-truncate" title="Created By ">
+			{{:CreatedBy.Name}}
+		</div>
+	</td>
+	<td class="slds-cell-buffer_left"  role="gridcell">
+		<span class="slds-checkbox">
+			<input type="checkbox" name="options" id="checkbox-01" tabindex="0" value="on" />
+			<label class="slds-checkbox__label" for="checkbox-01">
+				<span class="slds-checkbox_faux"></span>
+				<span class="slds-form-element__label slds-assistive-text">Select item 1</span>
+			</label>
+		</span>
+	</td>
+</tr> 
+
+
+
+		
+	</script>
+
+
+</head>
+
+<body >
+
+  
+    <!-- PAGE HEADER -->
+    <div class="slds-page-header" role="banner">
+ 	
+	 <!--  1st filter row -->
+      <div class="slds-grid slds-p-bottom_small  slds-grid_pull-padded-medium">
+
+		<!-- SEARCH KNOWLEDGE FIELD-->
+		<div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+		<span>
+		
+			<div class="slds-form-element">
+				<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+					<svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
+					</svg>
+				<input type="text" id="searchByString" class="slds-input" placeholder="Search Knowledge..." />
+				</div>
+			</div>
+		
+		</span>
+		</div>
+
+
+		<!-- SEARCH ARTICLE NUMBER FIELD-->
+		<div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+		<span>
+		
+			<div class="slds-form-element">
+				<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+					<svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
+					</svg>
+				<input type="number" id="searchByArticleNumber" class="slds-input" placeholder="Search Article Number..." />
+				</div>
+			</div>
+		
+		</span>
+		</div>
+
+		<!-- LANGUAGE  FIELD-->
+		<div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+		<span>
+		
+			<div class="slds-form-element">
+				<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+					
+					<select id="searchByLanguage">
+						<apex:repeat value="{!allLanguageOptions}" var="k">
+							<option value="{!k}"> {!allLanguageOptions[k]}</option>
+						</apex:repeat>
+					</select>
+					
+				</div>
+			</div>
+	
+		</span>
+		</div>      
+      </div>
+	<!--  2nd filter row -->
+
+<div class="slds-grid  slds-p-bottom_small slds-grid_pull-padded-medium">
+
+		<!-- SEARCH CREATED BY FIELD-->
+		<div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+		<span>
+		
+			<div class="slds-form-element">
+				<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+					<svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
+					</svg>
+				<input type="text" id="articleCreatedBy" class="slds-input" placeholder="Search Created By..." />
+				</div>
+			</div>
+		
+		</span>
+		</div>
+
+
+		<!-- SEARCH LAST MODIFIED BY FIELD-->
+		<div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+		<span>
+		
+			<div class="slds-form-element">
+				<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+					<svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
+					</svg>
+				<input type="text" id="articlelastModifiedBy" class="slds-input" placeholder="Search Last Modified By..." />
+				</div>
+			</div>
+		
+		</span>
+		</div>
+
+		<!-- RECORD TYPE  FIELD-->
+		<div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+		<span>
+		
+			<div class="slds-form-element">
+				<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+					<select id="searchByrecordType">
+						<option value="all"> All </option>
+						<apex:repeat value="{!availableRecordTypes}" var="k">
+							<option value="{!k}"> {!availableRecordTypes[k]}</option>
+						</apex:repeat>
+					</select>
+				</div>
+			</div>
+		
+		</span>
+		</div>      
+      </div>
+
+	<!--  3rd filter row -->
+
+	<div class="slds-grid  slds-p-bottom_small slds-grid_pull-padded-medium">
+
+		<!-- FIRST PUBLISHED DATE FROM-->
+		<div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+		<span>
+		
+			<div class="slds-form-element">
+				<label class="slds-form-element__label" for="input-id-01">First Published date from Pattern</label>
+				<div class="slds-form-element__control">
+					<input type="date" id="articlePublishDateFrom" class="slds-input"   pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>
+				</div>
+			</div>
+		
+		</span>
+		</div>
+
+
+		<!-- LAST  MODIFIED DATE FROM FIELD-->
+		<div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+		<span>
+		
+			<div class="slds-form-element">
+				<label class="slds-form-element__label" for="input-id-01">Last Modified date from </label>
+				<div class="slds-form-element__control">
+					<input type="date" id="articleLastModifiedDateFrom" class="slds-input"  />
+				</div>
+			</div>
+		
+		</span>
+		</div>
+
+		<!-- -->
+		<div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+			<span>&nbsp;</span>
+		</div>
+
+      </div>
+
+<!--  4th filter row -->
+
+	<div class="slds-grid  slds-p-bottom_small slds-grid_pull-padded-medium">
+
+		<!-- FIRST PUBLISHED DATE TO-->
+		<div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+		<span>
+		
+			<div class="slds-form-element">
+				<label class="slds-form-element__label" for="input-id-01">First Published date to </label>
+				<div class="slds-form-element__control">
+					<input type="date" id="articlePublishDateTo" class="slds-input"  />
+				</div>
+			</div>
+		
+		</span>
+		</div>
+
+
+		<!-- LAST  MODIFIED DATE TO FIELD-->
+		<div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+		<span>
+		
+			<div class="slds-form-element">
+				<label class="slds-form-element__label" for="input-id-01">Last Modified date to </label>
+				<div class="slds-form-element__control">
+					<input type="date" id="articleLastModifiedDateTo" class="slds-input"  />
+				</div>
+			</div>
+		
+		</span>
+		</div>
+
+		<!-- -->
+		<div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+			<span>
+			<button class="slds-button slds-button_brand" onclick="getRemoteArticles(true);">Search</button>
+			</span>
+		</div>
+
+      </div>
+
+
+    </div>
+    <!-- / PAGE HEADER -->
+
+    <!-- DATA RESULTS  -->
+    <div class="slds-panel slds-grid slds-grid--vertical slds-nowrap">
+      <div class="slds-form--stacked slds-grow slds-scrollable--y">
+
+
+
+	<table class="slds-table slds-table_bordered slds-table_resizable-cols slds-table_fixed-layout" role="grid">
+	<thead>
+		<tr class="slds-line-height_reset">
+		<th class="slds-text-align_right" scope="col" style="width: 3.25rem;">
+			<div class="slds-th__action slds-th__action_form">
+				<!-- <span class="slds-checkbox">
+					<input type="checkbox" name="options" id="checkbox-129" tabindex="0" value="on" />
+					<label class="slds-checkbox__label" for="checkbox-129">
+						<span class="slds-checkbox_faux"></span>
+						<span class="slds-form-element__label slds-assistive-text">Select All</span>
+					</label>
+				</span> -->
+				AQI
+			</div>
+		</th>
+	<!-- TITLE COLUMN --> 		
+	<th aria-sort="ascending" class="slds-is-sortable slds-is-resizable slds-text-title_caps slds-is-sorted slds-is-sorted_asc" aria-label="Name" scope="col">
+		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
+			<span class="slds-assistive-text">Sort by: </span>
+			<span class="slds-truncate" title="Name">Title</span>
+			<div class="slds-icon_container">
+				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
+				</svg>
+			</div>
+		</a>
+		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted ascending</span>
+		<div class="slds-resizable">
+			<input type="range" min="20" max="1000" aria-label="Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-197" tabindex="0" />
+			<span class="slds-resizable__handle">
+				<span class="slds-resizable__divider"></span>
+			</span>
+		</div>
+	</th>
+	<!-- Article Number -->
+	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Account Name" scope="col">
+		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
+			<span class="slds-assistive-text">Sort by: </span>
+			<span class="slds-truncate" title="Account Name">Article Number</span>
+			<div class="slds-icon_container">
+				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
+				</svg>
+			</div>
+		</a>
+		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+		<div class="slds-resizable">
+			<input type="range" min="20" max="1000" aria-label="Account Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-198" tabindex="0" />
+			<span class="slds-resizable__handle">
+				<span class="slds-resizable__divider"></span>
+			</span>
+		</div>
+	</th>	
+	<!-- Record Type  -->
+	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Close Date" scope="col">
+		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
+			<span class="slds-assistive-text">Sort by: </span>
+			<span class="slds-truncate" title="Close Date">Record Type</span>
+			<div class="slds-icon_container">
+				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
+				</svg>
+			</div>
+		</a>
+		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+		<div class="slds-resizable">
+			<input type="range" min="20" max="1000" aria-label="Close Date column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-199" tabindex="0" />
+			<span class="slds-resizable__handle">
+				<span class="slds-resizable__divider"></span>
+			</span>
+		</div>
+	</th>
+	<!-- Version  -->
+	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Stage" scope="col">
+		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
+			<span class="slds-assistive-text">Sort by: </span>
+			<span class="slds-truncate" title="Stage">Version</span>
+			<div class="slds-icon_container">
+				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
+				</svg>
+			</div>
+		</a>
+		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+		<div class="slds-resizable">
+			<input type="range" min="20" max="1000" aria-label="Stage column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-200" tabindex="0" />
+			<span class="slds-resizable__handle">
+				<span class="slds-resizable__divider"></span>
+			</span>
+		</div>
+	</th>
+	<!-- Summary -->
+	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Confidence" scope="col">
+		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
+			<span class="slds-assistive-text">Sort by: </span>
+			<span class="slds-truncate" title="Summary">Summary</span>
+			<div class="slds-icon_container">
+				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
+				</svg>
+			</div>
+		</a>
+		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+		<div class="slds-resizable">
+			<input type="range" min="20" max="1000" aria-label="Confidence column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-201" tabindex="0" />
+			<span class="slds-resizable__handle">
+				<span class="slds-resizable__divider"></span>
+			</span>
+		</div>
+	</th>
+	<!--  Last Modified Date-->
+	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Amount" scope="col">
+		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
+			<span class="slds-assistive-text">Sort by: </span>
+			<span class="slds-truncate" title="Amount">Last Modified Date</span>
+			<div class="slds-icon_container">
+				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
+				</svg>
+			</div>
+		</a>
+		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+		<div class="slds-resizable">
+			<input type="range" min="20" max="1000" aria-label="Amount column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-202" tabindex="0" />
+			<span class="slds-resizable__handle">
+				<span class="slds-resizable__divider"></span>
+			</span>
+		</div>
+	</th>
+	<!-- First Published date -->
+	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Contact" scope="col">
+		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
+			<span class="slds-assistive-text">Sort by: </span>
+			<span class="slds-truncate" title="Contact">First Published Date</span>
+			<div class="slds-icon_container">
+				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
+				</svg>
+			</div>
+		</a>
+		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+		<div class="slds-resizable">
+			<input type="range" min="20" max="1000" aria-label="Contact column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-203" tabindex="0" />
+			<span class="slds-resizable__handle">
+				<span class="slds-resizable__divider"></span>
+			</span>
+		</div>
+	</th>
+	<!-- Last modified by -->
+	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Contact" scope="col">
+		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
+			<span class="slds-assistive-text">Sort by: </span>
+			<span class="slds-truncate" title="Contact">Last Modified Date</span>
+			<div class="slds-icon_container">
+				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
+				</svg>
+			</div>
+		</a>
+		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+		<div class="slds-resizable">
+			<input type="range" min="20" max="1000" aria-label="Contact column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-203" tabindex="0" />
+			<span class="slds-resizable__handle">
+				<span class="slds-resizable__divider"></span>
+			</span>
+		</div>
+	</th>
+
+	<!-- Created by -->
+	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Contact" scope="col">
+		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
+			<span class="slds-assistive-text">Sort by: </span>
+			<span class="slds-truncate" title="Contact">Created By</span>
+			<div class="slds-icon_container">
+				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
+				</svg>
+			</div>
+		</a>
+		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+		<div class="slds-resizable">
+			<input type="range" min="20" max="1000" aria-label="Contact column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-203" tabindex="0" />
+			<span class="slds-resizable__handle">
+				<span class="slds-resizable__divider"></span>
+			</span>
+		</div>
+	</th>
+
+	<th scope="col" style="width: 3.25rem;">
+	<div class="slds-th__action">
+	<span class="slds-assistive-text">Actions</span>
+	</div>
+	</th>
+</tr>
+</thead>
+<tbody id="articleList">
+<!-- <tr  class="slds-hint-parent">
+	<td class="slds-text-align_right" role="gridcell">
+		<button class="slds-button slds-button_icon slds-button_icon-border-filled slds-button_icon-x-small" tabindex="0" title="Show More">
+			<svg class="slds-button__icon slds-button__icon_hint slds-button__icon_small" aria-hidden="true">
+				<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down" />
+			</svg>
+			<span class="slds-assistive-text">Show More</span>
+		</button>
+
+	</td>
+	<td role="gridcell">
+		<div class="slds-truncate" title="Acme">article tile</div>
+	</td>
+	<th scope="row">
+		<div class="slds-truncate" title="Acme - 1,200 Widgets">
+			<a href="javascript:void(0);" tabindex="0">article number</a>
+		</div>
+	</th>
+
+	<td role="gridcell">
+		<div class="slds-truncate" title="4/10/15">record type data</div>
+	</td>
+	<td role="gridcell">
+		<div class="slds-truncate" title="Value Proposition">version num</div>
+	</td>
+	<td role="gridcell">
+		<div class="slds-truncate" title="30%">Summary</div>
+	</td>
+	<td role="gridcell">
+		<div class="slds-truncate" title="$25,000,000">last Modified date</div>
+	</td>
+	<td role="gridcell">
+		<div class="slds-truncate" title="jrogers@acme.com">
+			first Published date
+		</div>
+	</td>
+	<td role="gridcell">
+		<div class="slds-truncate" title="jrogers@acme.com">
+			last modified by
+		</div>
+	</td>
+	<td role="gridcell">
+		<div class="slds-truncate" title="jrogers@acme.com">
+			created by
+		</div>
+	</td>
+	<td role="gridcell">
+		<span class="slds-checkbox">
+			<input type="checkbox" name="options" id="checkbox-01" tabindex="0" value="on" />
+			<label class="slds-checkbox__label" for="checkbox-01">
+				<span class="slds-checkbox_faux"></span>
+				<span class="slds-form-element__label slds-assistive-text">Select item 1</span>
+			</label>
+		</span>
+	</td>
+</tr> -->
+
+</tbody>
+</table>
+
+
+
+        
+	<div class="slds-panel__section slds-has-divider--bottom">
+		<button id="loadMoreBtn"  class="slds-button slds-button_brand" onclick="loadMore();">Load more</button>
+	</div>
+      </div>
+    </div>
+    <!-- / ACCOUNT DETAIL CARD -->
+</body>
+
+
+
+
+</apex:page>

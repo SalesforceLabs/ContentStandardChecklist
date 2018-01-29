@@ -5,6 +5,7 @@
         <members>aqi_Ctrl_Test</members>
         <members>aqi_DynamicPickList_AQI</members>
         <members>aqi_KnowledgeSearchCtrl</members>
+        <members>aqi_KnowledgeSearchCtrlV2</members>
         <members>aqi_KnowledgeSearchCtrl_Test</members>
         <members>aqi_LightningResponse</members>
         <members>aqi_LightningResponse_Test</members>
@@ -22,6 +23,7 @@
         <members>aqi_Detail</members>
         <members>aqi_Edit</members>
         <members>aqi_KnowledgeSearch</members>
+        <members>aqi_KnowledgeSearchV2</members>
         <members>aqi_Setup</members>
         <name>ApexPage</name>
     </types>

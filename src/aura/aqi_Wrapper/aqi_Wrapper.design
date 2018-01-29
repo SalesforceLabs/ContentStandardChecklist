@@ -1,4 +1,6 @@
 <design:component >
+	<design:attribute name="displayFollowUpSection" label="Display Follow Up section?"/>
+
 	<design:attribute name="indexField1" label="Select aqi first field" datasource="apex://aqi_DynamicPickList_AQI"/>
 	<design:attribute name="indexField2" label="Select aqi second field" datasource="apex://aqi_DynamicPickList_AQI"/>
 	<design:attribute name="indexField3" label="Select aqi third field" datasource="apex://aqi_DynamicPickList_AQI"/>

@@ -118,25 +118,25 @@ public with sharing class aqi_Ctrl {
 	*	returns AQI index api names and values from custom setting
 	* @params
 	*	none
-	* @return 
+	* @return
 	*	Map<String,Double> : api_name, decimal value ( index weight)
 	*/
 	public static Map<String,Double>  getindexApiNameToValue(){
-		
+
 		ArticleQuality_index__c aqs = aqi_SettingsHandler.resolveSettings();
 		Map<String, Schema.SObjectField> allFields = Schema.SObjectType.ArticleQuality_index__c.fields.getMap();
 
-		Map<String,Double> result = new Map<String,Double>();  
-		Double idx_val;   
+		Map<String,Double> result = new Map<String,Double>();
+		Double idx_val;
 		String idx_api_name;
-	
+
 		if (aqs != null){
-			for(String str : allFields.keySet()){  
+			for(String str : allFields.keySet()){
 				Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
-				idx_api_name = dfr.getName();         	
+				idx_api_name = dfr.getName();
 				if (dfr.getType() ==Schema.DisplayType.DOUBLE ){
 					Object obj = aqs.get(idx_api_name);
-					idx_val =  Double.valueOf(obj);   
+					idx_val =  Double.valueOf(obj);
 					result.put(idx_api_name,idx_val);
 				}
 			}
@@ -151,7 +151,7 @@ public with sharing class aqi_Ctrl {
 	*	Id kaId Id if kav article related to current AQI record
 	*	String kaLang kav language
 	*   String kaVersion version number
-	* @return 
+	* @return
 	*	Article_Quality__c aqi record
 	*/
 	public static Article_Quality__c findDupe(Id kaId, String kaLang, String kaVersion){
@@ -282,7 +282,7 @@ public with sharing class aqi_Ctrl {
 						'			LastModifiedDate, LastModifiedById, PublishStatus,Summary,Title, ' +
 						'			UrlName,VersionNumber,Language,FirstPublishedDate, KnowledgeArticleId '+
 						'	FROM KnowledgeArticleVersion ' +
-						'	WHERE PublishStatus = '+ status + 
+						'	WHERE PublishStatus = '+ status +
 									' and KnowledgeArticleId =\''+articleId+'\' '+
 									' and Language =  \''+articleLanguage+'\'';
 
@@ -318,6 +318,14 @@ public with sharing class aqi_Ctrl {
 
 	}
 
+	public PageReference setErrorOnSave(){
+		ApexPages.addMessage(new ApexPages.Message(
+														ApexPages.Severity.ERROR,
+														'Please specify coaching provided by'
+														));
+		iserror = true;
+		return null;
+	}
 	public PageReference save(){
 
 		if (!String.isNotBlank(record.Knowledge_Article_Version_Id__c)){
@@ -347,7 +355,7 @@ public with sharing class aqi_Ctrl {
 											e.getDmlMessage(0)
 											));
 			iserror = true;
-		}	
+		}
 		catch(System.DmlException e) {
 			ApexPages.addMessage(new ApexPages.Message(
 											ApexPages.Severity.ERROR,
@@ -360,7 +368,7 @@ public with sharing class aqi_Ctrl {
 											e.getMessage()
 											));
 			iserror = true;
-		}	
+		}
 		return null;
 	}
 
@@ -381,7 +389,7 @@ public with sharing class aqi_Ctrl {
     *   retrieves initial details to load input fields on AQI record
     * @params
     *   Id recordId Id of the Knowkedledge version record home page
-    * @return 
+    * @return
     *   Article_Quality__c record
     */
 	public static Article_Quality__c loadKavDetails(KnowledgeArticleVersion article , Article_Quality__c record){
@@ -390,16 +398,16 @@ public with sharing class aqi_Ctrl {
 		//resolve record type
 		Id thisIs = article.Id;
 		Schema.SObjectType token = thisIs.getSObjectType();
-		// Using the token, do a describe 
-		// and construct a query dynamically. 
+		// Using the token, do a describe
+		// and construct a query dynamically.
 		Schema.DescribeSObjectResult dr = token.getDescribe();
-		String queryString = 	'	SELECT Id, RecordTypeId FROM ' + dr.getName() + 
+		String queryString = 	'	SELECT Id, RecordTypeId FROM ' + dr.getName() +
 								'	WHERE '+
 								' 		Id =: thisIs'  ;
 
 		sObject obj = Database.query(queryString);
 		String recordType = String.valueOf(obj.get('RecordTypeId'));
-	
+
 		record.Knowledge_Article_Version_Id__c = article.Id;
 		record.Knowledge_Article_Id__c = article.KnowledgeArticleId;
 		record.Article_Title__c = article.Title;

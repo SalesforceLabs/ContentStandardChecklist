@@ -163,13 +163,15 @@
         </apex:pageBlock>
         <apex:actionFunction action="{!save}" name="saveAF">
         </apex:actionFunction>
+        <apex:actionFunction action="{!setErrorOnSave}" name="setErrorOnSave">
+        </apex:actionFunction>
 
         <script>
             function checkActNeededIssue(){
                 var actionNeeded = document.getElementById('{!$Component.recordForm.formBlockFollow.formBlockSectionFollow.formBlockSectionItemANFollow.actionneeded}').checked;
                 var asignedTo = document.getElementById('{!$Component.recordForm.formBlockFollow.formBlockSectionFollow.formBlockSectionAAFollow.Action_Assigned_To__c}').value;
                 if(actionNeeded && (asignedTo === undefined || asignedTo === '')){
-                    alert('Please specify coaching provided by');
+                    setErrorOnSave();
                 }else{
                     saveAF();
                 }

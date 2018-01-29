@@ -1,14 +1,18 @@
 ({
 	doInit : function(component, event, helper) {
+		// If there are no fields
+		if (!component.get("v.displayFollowUpSection") && component.get("v.noFieldsAvailable")) {
+			var btn = component.find('applyButton');
+			// Disable apply button
+        	btn.set("v.disabled", true);
+		} else {
+			var tmp = JSON.stringify(component.get("v.apiNames"));
+			var actionParams ={	recordId: component.get("v.recordId"),
+								apiNames :  tmp};
 
-		var tmp = JSON.stringify(component.get("v.apiNames"));
-		var actionParams ={	recordId: component.get("v.recordId"),
-							apiNames :  tmp};
-
-		this.handleAction(component, actionParams, 'c.getInitData', this.doInitCallback);
-
-	}
-	,
+			this.handleAction(component, actionParams, 'c.getInitData', this.doInitCallback);
+		}
+	},
 
 	//Logic to run on success.
 	doInitCallback : function(component, responseMap, ctx){
@@ -103,8 +107,8 @@
 			var aqi_record = responseMap.aqi_record;
 			component.set('v.aqi_record',aqi_record);
 		 	var toastCmp =  component.find("toastNotif");
-			toastCmp.set("v.title",'AQI Succesfully updated');
-			toastCmp.set("v.description",'the AQI was updated new value is : '+aqi_record.AQ_Score__c);
+			toastCmp.set("v.title",'AQI Successfully updated');
+			toastCmp.set("v.description",'The AQI has been updated. The new value is : '+Math.ceil(aqi_record.AQ_Score__c));
 			toastCmp.set("v.className",'');
 			toastCmp.set("v.severity",'info');
 

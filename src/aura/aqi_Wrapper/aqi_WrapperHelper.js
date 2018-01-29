@@ -87,8 +87,8 @@
 			var aqi_record = responseMap.aqi_record;
 			component.set('v.aqi_record',aqi_record);	
 		 	var toastCmp =  component.find("toastNotif");
-			toastCmp.set("v.title",'AQI Succesfully updated');
-			toastCmp.set("v.description",'the AQI was updated new value is : '+aqi_record.AQ_Score__c);
+			toastCmp.set("v.title",'AQI Successfully updated');
+			toastCmp.set("v.description",'The AQI has been updated. The new value is : '+Math.ceil(aqi_record.AQ_Score__c));
 			toastCmp.set("v.className",'');
 			toastCmp.set("v.severity",'info'); 
 

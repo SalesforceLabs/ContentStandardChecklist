@@ -92,10 +92,13 @@
 			component.set('v.aqi_record',aqi_record);
 		 	var toastCmp =  component.find("toastNotif");
 			toastCmp.set("v.title",'AQI Successfully updated');
-			toastCmp.set("v.description",'The AQI has been updated. The new value is : '+Math.ceil(aqi_record.AQ_Score__c));
 			toastCmp.set("v.className",'');
 			toastCmp.set("v.severity",'info');
 
+			if (!component.get("v.noFieldsAvailable"))
+				toastCmp.set("v.description",'The AQI has been updated. The new value is : '+Math.ceil(aqi_record.AQ_Score__c));
+			else
+				toastCmp.set("v.description",'The AQI has been updated.');
 
 		}else{
 			var toastCmp =  component.find("toastNotif");

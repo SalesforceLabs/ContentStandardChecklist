@@ -44,17 +44,20 @@
 				</header>
 			</div>
 
-			<!-- If there are no fields selected in the app builder this paragraph will be displayed. Otherwise it is hidden -->
-			<aura:if isTrue="{!v.noFieldsAvailable}">
-				<p>&nbsp; No fields were selected in the App Builder</p>
-			</aura:if>
+			<div class="slds-card__body slds-card__body_inner slds-border_top">
+				<p class="slds-p-horizontal--small">
+					<div class="slds-text-heading_medium mediumTitle">Index Fields</div>
 
-			<aura:if isTrue="{!v.displayFollowUpSection}">
-				<div class="slds-card__body slds-card__body_inner slds-border_top">
-					<p class="slds-p-horizontal--small">
+					<!-- If there are no fields selected in the app builder this paragraph will be displayed. Otherwise it is hidden -->
+					<aura:if isTrue="{!v.noFieldsAvailable}">
+						<p class="noFieldsMessage">&nbsp; No index fields were selected in the App Builder</p>
+					</aura:if>
+
+					<!-- Fields container -->
+					<div aura:id="fieldsContainer" class="fieldsContainer" />
+
+					<aura:if isTrue="{!v.displayFollowUpSection}">
 						<!-- AQI input fileds section -->
-						<div aura:id="fieldsContainer" class="fieldsContainer" />
-
 						<hr/>
 
 						<div class="slds-text-heading_medium">Follow Up</div>
@@ -129,9 +132,9 @@
 									<force:inputField value="{!v.aqi_record.Internal_Notes__c}"/>
 							</lightning:layoutItem>
 						</lightning:layout>
-					</p>
-				</div>
-			</aura:if>
+					</aura:if>
+				</p>
+			</div>
 
 			<footer class="slds-card__footer">
 				<c:aqi_Toast aura:id="toastNotif"/>

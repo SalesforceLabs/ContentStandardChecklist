@@ -25,6 +25,10 @@
 			console.log(apiNames);
 
 			component.set("v.apiNames",apiNames);
+
+
+
+
 			helper.doInit(component, event, helper);
 			console.log('do Init');
 	},
@@ -36,15 +40,13 @@
 
 		var actionNeeded = component.find('Action_Needed__c').get('v.value');
 		var asignedTo = component.find('Action_Assigned_To__c').get('v.value');
-
+		
         for(var i = 0; i < indexInputs.length; i++){
 			var aqiIndex = indexInputs[i];
 			aqi_obj[aqiIndex.get("v.fieldName")] = aqiIndex.get("v.fieldValue");
 
 			console.log('updateAQI '+aqiIndex.get("v.fieldName")+':'+aqiIndex.get("v.fieldValue"));
 		}
-		console.log('asignedTo: ' + asignedTo );
-		console.log('actionneeded: ' + actionNeeded);
 		if(actionNeeded && (asignedTo === undefined || asignedTo === '')){
 			var toastCmp =  component.find("toastNotif");
 			toastCmp.set("v.title",'Error');

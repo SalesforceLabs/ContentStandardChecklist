@@ -4,7 +4,7 @@
 		var tmp = JSON.stringify(component.get("v.apiNames"));
 		var actionParams ={	recordId: component.get("v.recordId"),
 							apiNames :  tmp};
-		
+
 		this.handleAction(component, actionParams, 'c.getInitData', this.doInitCallback);
 
 	}
@@ -39,7 +39,7 @@
 						];
 					inputComponents.push(inputCmp);
 				}
-					
+
 				$A.createComponents(inputComponents,
 					function(components, status, statusMessagesList){
 						if(status === "SUCCESS"){
@@ -49,15 +49,31 @@
 								Array.prototype.push.apply(body, components);
 								fieldsContainer.set("v.body", body);
 							}
-	
+
 							console.log('do Init callback add fields'+body.length);
 						}
 					}
 				);
-				
+
+				if(!(aqi_record.Action_Assigned_To__r === undefined || aqi_record.Action_Assigned_To__r === '')){
+					var valuesOwner = [{
+						type : 'User',
+						id: aqi_record.Action_Assigned_To__r.Id,
+						label: aqi_record.Action_Assigned_To__r.Name,
+						icon : {
+							url:aqi_record.Action_Assigned_To__r.FullPhotoUrl,
+							backgroundColor:'65CAE4',
+							alt:'User'
+						},
+						record: aqi_record.Action_Assigned_To__r.Id,
+						placeHolder: 'Search Users'
+					}];
+					component.find("Action_Assigned_To__c").get("v.body")[0].set("v.values", valuesOwner);
+				}
+
 				console.log(responseMap);
 			}
-			
+
 
 		}
 
@@ -85,14 +101,14 @@
 			console.log(responseMap);
 			if(!component.isValid()) return;
 			var aqi_record = responseMap.aqi_record;
-			component.set('v.aqi_record',aqi_record);	
+			component.set('v.aqi_record',aqi_record);
 		 	var toastCmp =  component.find("toastNotif");
 			toastCmp.set("v.title",'AQI Succesfully updated');
 			toastCmp.set("v.description",'the AQI was updated new value is : '+aqi_record.AQ_Score__c);
 			toastCmp.set("v.className",'');
-			toastCmp.set("v.severity",'info'); 
+			toastCmp.set("v.severity",'info');
 
-			
+
 		}else{
 			var toastCmp =  component.find("toastNotif");
 			toastCmp.set("v.title",'ResponseMap empty');
@@ -106,5 +122,5 @@
 	getIndexInputs : function(cmp) {
         return cmp.find("fieldsContainer").find({instancesOf: "c:aqi_Field"})
 	}
-	
+
 })

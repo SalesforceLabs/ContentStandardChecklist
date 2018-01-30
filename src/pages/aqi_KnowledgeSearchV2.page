@@ -9,6 +9,11 @@
   <script src="//www.jsviews.com/download/jsrender.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.0/moment.js"></script>
 
+	 <style type="text/css">
+        span.sorting{
+		}
+	</style>
+
 
   <script type="text/javascript">
 
@@ -396,7 +401,7 @@ console.log(' pageNum: '+pageNum);
 
       </div>
 
-<!--  4th filter row -->
+	<!--  4th filter row -->
 
 	<div class="slds-grid  slds-p-bottom_small slds-grid_pull-padded-medium">
 
@@ -448,259 +453,87 @@ console.log(' pageNum: '+pageNum);
 
 
 
-	<table class="slds-table slds-table_bordered slds-table_resizable-cols slds-table_fixed-layout" role="grid">
+	<table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped">
 	<thead>
-		<tr class="slds-line-height_reset">
-		<th class="slds-text-align_right" scope="col" style="width: 3.25rem;">
-			<div class="slds-th__action slds-th__action_form">
-				<!-- <span class="slds-checkbox">
-					<input type="checkbox" name="options" id="checkbox-129" tabindex="0" value="on" />
-					<label class="slds-checkbox__label" for="checkbox-129">
-						<span class="slds-checkbox_faux"></span>
-						<span class="slds-form-element__label slds-assistive-text">Select All</span>
-					</label>
-				</span> -->
-				AQI
-			</div>
-		</th>
-	<!-- TITLE COLUMN --> 		
-	<th aria-sort="ascending" class="slds-is-sortable slds-is-resizable slds-text-title_caps slds-is-sorted slds-is-sorted_asc" aria-label="Name" scope="col">
-		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
-			<span class="slds-assistive-text">Sort by: </span>
-			<span class="slds-truncate" title="Name">Title</span>
-			<div class="slds-icon_container">
-				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
-				</svg>
-			</div>
-		</a>
-		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted ascending</span>
-		<div class="slds-resizable">
-			<input type="range" min="20" max="1000" aria-label="Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-197" tabindex="0" />
-			<span class="slds-resizable__handle">
-				<span class="slds-resizable__divider"></span>
-			</span>
-		</div>
-	</th>
-	<!-- Article Number -->
-	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Account Name" scope="col">
-		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
-			<span class="slds-assistive-text">Sort by: </span>
-			<span class="slds-truncate" title="Account Name">Article Number</span>
-			<div class="slds-icon_container">
-				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
-				</svg>
-			</div>
-		</a>
-		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
-		<div class="slds-resizable">
-			<input type="range" min="20" max="1000" aria-label="Account Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-198" tabindex="0" />
-			<span class="slds-resizable__handle">
-				<span class="slds-resizable__divider"></span>
-			</span>
-		</div>
-	</th>	
-	<!-- Record Type  -->
-	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Close Date" scope="col">
-		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
-			<span class="slds-assistive-text">Sort by: </span>
-			<span class="slds-truncate" title="Close Date">Record Type</span>
-			<div class="slds-icon_container">
-				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
-				</svg>
-			</div>
-		</a>
-		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
-		<div class="slds-resizable">
-			<input type="range" min="20" max="1000" aria-label="Close Date column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-199" tabindex="0" />
-			<span class="slds-resizable__handle">
-				<span class="slds-resizable__divider"></span>
-			</span>
-		</div>
-	</th>
-	<!-- Version  -->
-	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Stage" scope="col">
-		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
-			<span class="slds-assistive-text">Sort by: </span>
-			<span class="slds-truncate" title="Stage">Version</span>
-			<div class="slds-icon_container">
-				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
-				</svg>
-			</div>
-		</a>
-		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
-		<div class="slds-resizable">
-			<input type="range" min="20" max="1000" aria-label="Stage column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-200" tabindex="0" />
-			<span class="slds-resizable__handle">
-				<span class="slds-resizable__divider"></span>
-			</span>
-		</div>
-	</th>
-	<!-- Summary -->
-	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Confidence" scope="col">
-		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
-			<span class="slds-assistive-text">Sort by: </span>
-			<span class="slds-truncate" title="Summary">Summary</span>
-			<div class="slds-icon_container">
-				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
-				</svg>
-			</div>
-		</a>
-		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
-		<div class="slds-resizable">
-			<input type="range" min="20" max="1000" aria-label="Confidence column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-201" tabindex="0" />
-			<span class="slds-resizable__handle">
-				<span class="slds-resizable__divider"></span>
-			</span>
-		</div>
-	</th>
-	<!--  Last Modified Date-->
-	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Amount" scope="col">
-		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
-			<span class="slds-assistive-text">Sort by: </span>
-			<span class="slds-truncate" title="Amount">Last Modified Date</span>
-			<div class="slds-icon_container">
-				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
-				</svg>
-			</div>
-		</a>
-		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
-		<div class="slds-resizable">
-			<input type="range" min="20" max="1000" aria-label="Amount column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-202" tabindex="0" />
-			<span class="slds-resizable__handle">
-				<span class="slds-resizable__divider"></span>
-			</span>
-		</div>
-	</th>
-	<!-- First Published date -->
-	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Contact" scope="col">
-		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
-			<span class="slds-assistive-text">Sort by: </span>
-			<span class="slds-truncate" title="Contact">First Published Date</span>
-			<div class="slds-icon_container">
-				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
-				</svg>
-			</div>
-		</a>
-		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
-		<div class="slds-resizable">
-			<input type="range" min="20" max="1000" aria-label="Contact column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-203" tabindex="0" />
-			<span class="slds-resizable__handle">
-				<span class="slds-resizable__divider"></span>
-			</span>
-		</div>
-	</th>
-	<!-- Last modified by -->
-	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Contact" scope="col">
-		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
-			<span class="slds-assistive-text">Sort by: </span>
-			<span class="slds-truncate" title="Contact">Last Modified Date</span>
-			<div class="slds-icon_container">
-				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
-				</svg>
-			</div>
-		</a>
-		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
-		<div class="slds-resizable">
-			<input type="range" min="20" max="1000" aria-label="Contact column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-203" tabindex="0" />
-			<span class="slds-resizable__handle">
-				<span class="slds-resizable__divider"></span>
-			</span>
-		</div>
-	</th>
+		<tr class="slds-text-title_caps">
+			<th scope="col" class="sortableRow" >
+				<div class="slds-truncate" title="New AQI">new aqi</div>
+			</th>
+			<!-- TITLE COLUMN --> 		
+			<th  scope="col"  class="sortableRow">
+				<span class="slds-truncate" title="Name">
+					Title
+					<span id="sortTitle" class="sorting">▲</span>
+				</span>
+				
+			</th>
+			<!-- Article Number -->
+			<th scope="col" class="sortableRow">
+				<span class="slds-truncate" title="Account Name">
+					Article Number
+					<span id="sortArticleNumber" class="sorting">▲</span>
+				</span>
+			</th>	
+			<!-- Record Type  -->
+			<th  scope="col" class="sortableRow">
+				<span class="slds-truncate" title="Record Type">
+					Record Type
+					<span id="sortRecordType" class="sorting">▲</span>
+				</span>
+			</th>
+			<!-- Version  -->
+			<th  scope="col" class="sortableRow">
+				<span class="slds-truncate" title="Version">
+					Version
+					<span id="sortVersion" class="sorting">▲</span>
+				</span>
+			</th>
+			<!-- Summary -->
+			<th  scope="col" class="sortableRow">
+				<span class="slds-truncate" title="Summary">
+					Summary
+					<span id="sortSummary" class="sorting">▲</span>
+				</span>
+			</th>
+			<!--  Last Modified Date-->
+			<th  scope="col" class="sortableRow">
+				<span class="slds-truncate" title="Last Modified Date">
+					Last Modified Date
+					<span id="sortLastModifiedDate" class="sorting">▲</span>
+				</span>
+			</th>
+			<!-- First Published date -->
+			<th   scope="col" class="sortableRow">
+				<span class="slds-truncate" title="First Published Date">
+					First Published Date
+					<span id="sortFirstPublishedDate" class="sorting">▲</span>
+				</span>
+			</th>
+			<!-- Last modified by -->
+			<th  scope="col" class="sortableRow">
+				<span class="slds-truncate" title="Last Modified Date">
+					Last Modified Date
+					<span id="sortLastModifiedDate" class="sorting">▲</span>
+				</span>
+			</th>
 
-	<!-- Created by -->
-	<th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Contact" scope="col">
-		<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0">
-			<span class="slds-assistive-text">Sort by: </span>
-			<span class="slds-truncate" title="Contact">Created By</span>
-			<div class="slds-icon_container">
-				<svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" />
-				</svg>
-			</div>
-		</a>
-		<span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
-		<div class="slds-resizable">
-			<input type="range" min="20" max="1000" aria-label="Contact column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-203" tabindex="0" />
-			<span class="slds-resizable__handle">
-				<span class="slds-resizable__divider"></span>
-			</span>
-		</div>
-	</th>
+			<!-- Created by -->
+			<th scope="col" class="sortableRow" >
+				<span class="slds-truncate" title="Created By">
+					Created By
+					<span id="sortLastModifiedDate" class="sorting">▲</span>
+				</span>
+			</th>
 
-	<th scope="col" style="width: 3.25rem;">
-	<span class="slds-truncate" title="Has AQI">AQI</span>
-	</th>
-</tr>
-</thead>
-<tbody id="articleList">
-<!-- <tr  class="slds-hint-parent">
-	<td class="slds-text-align_right" role="gridcell">
-		<button class="slds-button slds-button_icon slds-button_icon-border-filled slds-button_icon-x-small" tabindex="0" title="Show More">
-			<svg class="slds-button__icon slds-button__icon_hint slds-button__icon_small" aria-hidden="true">
-				<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down" />
-			</svg>
-			<span class="slds-assistive-text">Show More</span>
-		</button>
+			<th scope="col" style="width: 3.25rem;">
+				<span class="slds-truncate" title="Has AQI">AQI</span>
+			</th>
+		</tr>
+	</thead>
+	<tbody id="articleList">
 
-	</td>
-	<td role="gridcell">
-		<div class="slds-truncate" title="Acme">article tile</div>
-	</td>
-	<th scope="row">
-		<div class="slds-truncate" title="Acme - 1,200 Widgets">
-			<a href="javascript:void(0);" tabindex="0">article number</a>
-		</div>
-	</th>
-
-	<td role="gridcell">
-		<div class="slds-truncate" title="4/10/15">record type data</div>
-	</td>
-	<td role="gridcell">
-		<div class="slds-truncate" title="Value Proposition">version num</div>
-	</td>
-	<td role="gridcell">
-		<div class="slds-truncate" title="30%">Summary</div>
-	</td>
-	<td role="gridcell">
-		<div class="slds-truncate" title="$25,000,000">last Modified date</div>
-	</td>
-	<td role="gridcell">
-		<div class="slds-truncate" title="jrogers@acme.com">
-			first Published date
-		</div>
-	</td>
-	<td role="gridcell">
-		<div class="slds-truncate" title="jrogers@acme.com">
-			last modified by
-		</div>
-	</td>
-	<td role="gridcell">
-		<div class="slds-truncate" title="jrogers@acme.com">
-			created by
-		</div>
-	</td>
-	<td role="gridcell">
-		<span class="slds-checkbox">
-			<input type="checkbox" name="options" id="checkbox-01" tabindex="0" value="on" />
-			<label class="slds-checkbox__label" for="checkbox-01">
-				<span class="slds-checkbox_faux"></span>
-				<span class="slds-form-element__label slds-assistive-text">Select item 1</span>
-			</label>
-		</span>
-	</td>
-</tr> -->
-
-</tbody>
-</table>
+	</tbody>
+	</table>
 
 
 

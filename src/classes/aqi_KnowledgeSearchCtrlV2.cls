@@ -231,14 +231,14 @@ global class aqi_KnowledgeSearchCtrlV2 {
         }
 
 
-        sObjList = checkForAQIRecords(sObjList);
+        List<Object> resultList = checkForAQIRecords(sObjList,escapeString(articleLanguage));
 
 	
 
         //result
         Map<String,Object> result = new Map<String,Object>();
         result.put('success',true);
-        result.put('items',sObjList);
+        result.put('items',resultList);
         result.put('pageNum',pageNum);
         result.put('errorList',errorsOnInput);
 
@@ -252,10 +252,44 @@ global class aqi_KnowledgeSearchCtrlV2 {
 	*   @param List<Object>
 	*   @return List<Object>
 	*/
-	public static List<SObject> checkForAQIRecords(List<SObject> kavList) {
+	public static List<Object> checkForAQIRecords(List<SObject> kavList, String lang) {
 		List<Object> result = new List<Object>();
             //check if this article already has an AQI related
-		return kavList;
+        Set<Id> kavIds          = new Set<Id>();
+        Set<Decimal> versions   = new Set<Decimal>();
+
+        for(SObject sobj : kavList){
+            kavIds.add(String.valueOf(sobj.get('KnowledgeArticleId')));
+            versions.add(Decimal.valueOf(String.valueOf(sobj.get('VersionNumber'))));
+        }
+
+        List<Article_Quality__c> aqis = [ SELECT Id, Knowledge_Article_Id__c, Language__c, Article_Version__c
+                                          FROM Article_Quality__c
+                                          WHERE Knowledge_Article_Id__c in: kavIds
+                                          AND Language__c =: lang
+                                          AND Article_Version__c in: versions];
+
+        Map<String,Article_Quality__c> mapAqi = new Map<String, Article_Quality__c>();
+        
+        for(Article_Quality__c aqi : aqis){
+            mapAqi.put(aqi.Knowledge_Article_Id__c + aqi.Language__c + aqi.Article_Version__c, aqi);
+        }
+        String tmpK;
+        for(SObject sObj : kavList){
+           
+
+        	String jString = JSON.serialize(sObj);
+			Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(jString);
+			
+            tmpK = String.valueOf(sobj.get('KnowledgeArticleId'))+lang+Decimal.valueOf(String.valueOf(sobj.get('VersionNumber')));
+            m.put('hasAQI', mapAqi.containsKey(tmpK));
+            result.add(m);
+
+        }
+
+
+
+		return result;
 
 	}
 

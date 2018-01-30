@@ -30,6 +30,9 @@
 			component.set('v.aqi_appIsConfigured',aqi_appIsConfigured);
 			console.log('>> aqi_appIsConfigured '+aqi_appIsConfigured);
 			if (aqi_appIsConfigured){
+				if(aqi_record.AQ_Score__c !== undefined && aqi_record.AQ_Score__c !== ''){
+					aqi_record.AQ_Score__c = Math.ceil(aqi_record.AQ_Score__c);
+				}
 				component.set('v.aqi_record',aqi_record);
 			   for (var idx in aqi_fields) {
 					var indexObj = aqi_fields[idx];
@@ -105,6 +108,9 @@
 			console.log(responseMap);
 			if(!component.isValid()) return;
 			var aqi_record = responseMap.aqi_record;
+			if(aqi_record.AQ_Score__c !== undefined && aqi_record.AQ_Score__c !== ''){
+				aqi_record.AQ_Score__c = Math.ceil(aqi_record.AQ_Score__c);
+			}
 			component.set('v.aqi_record',aqi_record);
 		 	var toastCmp =  component.find("toastNotif");
 			toastCmp.set("v.title",'AQI Successfully updated');

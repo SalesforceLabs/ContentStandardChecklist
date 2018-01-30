@@ -161,13 +161,9 @@ console.log(' pageNum: '+pageNum);
 
 
 	function navigateToEdit(kavId,language,version){
-			/*<!-- a href="{!URLFOR($Page.aqi_Edit, null,  [kaId=article['articleKnowledgeArticleId'],lang=article['articleLanguage'],version=article['articleVersionNumber']])}" onclick="" role="button" class="new_aq" id="{!article['articleTitle']}">
-			 New AQI </a -->
-			*/
-			var editPage = "{!$Page.aqi_Edit}";
-			var newUrl = editPage+'?kaId='+kavId+'&lang='+language+'&version='+version;
-			console.log('navigate to Edit : '+newUrl);  
-			window.navigateToUrl(newUrl);
+		var newUrl = '{!$Page.aqi_Edit}?kaId='+kavId+'&lang='+language+'&version='+version;
+		console.log('navigate to Edit : '+newUrl);  
+		window.navigateToUrl(newUrl);
 	}
  
 	$(document).ready(function() {
@@ -226,12 +222,11 @@ console.log(' pageNum: '+pageNum);
 		</div>
 	</td>
 	<td class="slds-cell-buffer_left"  role="gridcell">
-		<span class="slds-checkbox">
-			<input type="checkbox" name="options" id="checkbox-01" tabindex="0" value="on" />
-			<label class="slds-checkbox__label" for="checkbox-01">
-				<span class="slds-checkbox_faux"></span>
-				<span class="slds-form-element__label slds-assistive-text">Select item 1</span>
-			</label>
+		{{if hasAQI  }}
+			<input type="checkbox" disabled="true" name="options" id="checkbox-01" tabindex="0" value="on" checked="{{:hasAQI}}" />
+		{{else}}
+		<input type="checkbox" disabled="true" name="options" id="checkbox-01" tabindex="0" value="on"  />
+		{{/if}}	
 		</span>
 	</td>
 </tr> 
@@ -642,9 +637,7 @@ console.log(' pageNum: '+pageNum);
 	</th>
 
 	<th scope="col" style="width: 3.25rem;">
-	<div class="slds-th__action">
-	<span class="slds-assistive-text">Actions</span>
-	</div>
+	<span class="slds-truncate" title="Has AQI">AQI</span>
 	</th>
 </tr>
 </thead>

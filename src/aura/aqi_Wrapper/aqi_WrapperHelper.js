@@ -31,7 +31,7 @@
 			console.log('>> aqi_appIsConfigured '+aqi_appIsConfigured);
 			if (aqi_appIsConfigured){
 				if(aqi_record.AQ_Score__c !== undefined && aqi_record.AQ_Score__c !== ''){
-					aqi_record.AQ_Score__c = Math.ceil(aqi_record.AQ_Score__c);
+					aqi_record.AQ_Score__c = Math.round(aqi_record.AQ_Score__c);
 				}
 				component.set('v.aqi_record',aqi_record);
 			   for (var idx in aqi_fields) {
@@ -109,7 +109,7 @@
 			if(!component.isValid()) return;
 			var aqi_record = responseMap.aqi_record;
 			if(aqi_record.AQ_Score__c !== undefined && aqi_record.AQ_Score__c !== ''){
-				aqi_record.AQ_Score__c = Math.ceil(aqi_record.AQ_Score__c);
+				aqi_record.AQ_Score__c = Math.round(aqi_record.AQ_Score__c);
 			}
 			component.set('v.aqi_record',aqi_record);
 		 	var toastCmp =  component.find("toastNotif");
@@ -118,7 +118,7 @@
 			toastCmp.set("v.severity",'info');
 
 			if (!component.get("v.noFieldsAvailable"))
-				toastCmp.set("v.description",'The AQI has been updated. The new value is : '+Math.ceil(aqi_record.AQ_Score__c));
+				toastCmp.set("v.description",'The AQI has been updated. The new value is : '+Math.round(aqi_record.AQ_Score__c));
 			else
 				toastCmp.set("v.description",'The AQI has been updated.');
 

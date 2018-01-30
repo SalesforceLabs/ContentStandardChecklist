@@ -1,5 +1,13 @@
-.THIS .slds-card__header{
+.THIS .slds-card__header {
     background-color: rgb(249, 249, 250);
     padding : 1rem;
     margin : 0;
+}
+
+.THIS .noFieldsMessage {
+    padding-top: 1%;
+}
+
+.THIS .mediumTitle {
+    padding-top: 3%;
 }

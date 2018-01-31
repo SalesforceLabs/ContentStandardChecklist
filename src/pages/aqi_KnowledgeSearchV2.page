@@ -173,6 +173,9 @@ console.log(' pageNum: '+pageNum);
  
 	$(document).ready(function() {
 		getRemoteArticles(true);
+		$('th.sortableRow').click(function(i,e){
+			console.log('click row');
+		});
 	});
 
  </script>
@@ -191,7 +194,7 @@ console.log(' pageNum: '+pageNum);
 	</td>
 	<th class="slds-cell-buffer_left"  scope="row">
 		<div class="slds-truncate" title="{{:ArticleNumber}}">
-			<a href="/{{:Id}}" tabindex="0" target="_blank">{{:ArticleNumber}}</a>
+			<a href="/{{:KnowledgeArticleId}}" tabindex="0" target="_blank">{{:ArticleNumber}}</a>
 		</div>
 	</th>
 

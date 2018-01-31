@@ -88,6 +88,13 @@
                 var articleLastModifiedDateFrom = $('#articleLastModifiedDateFrom').val();
                 var articleLastModifiedDateTo = $('#articleLastModifiedDateTo').val();
 
+                // If articleNumber is negative get the absolute and replace value in input
+                if (articleNumber < 0) {
+                    articleNumber = Math.abs(articleNumber);
+
+                    $('#searchByArticleNumber').val(articleNumber);
+                }
+
                 if (articlePublishDateFrom!='' && articlePublishDateTo!='' &&
                     articlePublishDateFrom > articlePublishDateTo ){
                     alert('Date Range in First Published Range is invalid ');
@@ -289,7 +296,7 @@
                                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
                                     </svg>
 
-                                    <input type="number" id="searchByArticleNumber" class="slds-input" placeholder="Search Article Number..." />
+                                    <input type="number" min="0" id="searchByArticleNumber" class="slds-input" placeholder="Search Article Number..." />
                                 </div>
                             </div>
                         </span>
@@ -446,7 +453,7 @@
                 <div class="slds-form--stacked slds-grow slds-scrollable--y">
                     <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped">
                         <thead>
-                            <tr>
+                             <tr>
                                 <th scope="col" class="sortableRow" >
                                     <div class="slds-truncate slds-align_absolute-center" title="New AQI">&nbsp;</div>
                                 </th>

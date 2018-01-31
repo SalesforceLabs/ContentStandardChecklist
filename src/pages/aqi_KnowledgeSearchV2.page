@@ -283,7 +283,7 @@
                     <span>
                         <div class="slds-form-element">
                             <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
-                                <select id="searchByLanguage">
+                                <select id="searchByLanguage" class="slds-select">
                                     <apex:repeat value="{!allLanguageOptions}" var="k">
                                         <option value="{!k}"> {!allLanguageOptions[k]}</option>
                                     </apex:repeat>
@@ -331,7 +331,7 @@
                     <span>
                         <div class="slds-form-element">
                             <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
-                                <select id="searchByrecordType">
+                                <select id="searchByrecordType" class="slds-select">
                                     <option value="all"> All </option>
 
                                     <apex:repeat value="{!availableRecordTypes}" var="k">
@@ -409,7 +409,13 @@
                 <!-- -->
                 <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
                     <span>
-                        <button class="slds-button slds-button_brand" onclick="getRemoteArticles(true);">Search</button>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="input-id-01">&nbsp;</label>
+
+                            <div class="slds-form-element__control">
+                                <button class="slds-button slds-button_brand" onclick="getRemoteArticles(true);">Search</button>
+                            </div>
+                        </div>
                     </span>
                 </div>
             </div>

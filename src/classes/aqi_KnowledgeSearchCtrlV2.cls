@@ -5,6 +5,9 @@ global class aqi_KnowledgeSearchCtrlV2 {
 	public static final Integer PAGE_SIZE 	= 2;
     public static String sortBy 	= 'Title';
     public static Boolean sortAsc 	= false;
+	public static final Integer PAGE_SIZE = 10;
+    public static String sortBy = 'Title';
+    public static Boolean sortAsc = false;
     public static String knowledgeObject = aqi_securityHandler.knowledgeObject;
 
     public String tzOffset{
@@ -175,9 +178,9 @@ global class aqi_KnowledgeSearchCtrlV2 {
         String  limitClause = ' LIMIT :PAGE_SIZE OFFSET :queryOffset ';
         String queryString = '';
         List<sObject> sObjList;
-		system.debug('errorsOnInput: ' + errorsOnInput);
+		 
         if (errorsOnInput.isEmpty()){
-			system.debug('searchString: ' + searchString);
+			 
             if (String.isNotBlank(searchString)){
                 //SOSL
                 queryString =   ' FIND \''+  searchString  +'*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( ' + fieldsToRetrieve + whereClause + orderByClause + limitClause + ')';

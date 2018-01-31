@@ -98,8 +98,16 @@ private class aqi_WrapperCtrl_Test {
 		    resp = aqi_WrapperCtrl.upsertAQI(recordStr);
         system.debug(resp);
         system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS ');
+        
+        strR = resp.jsonResponse;
+        system.debug(strR);
+        m = (Map<String, Object>)JSON.deserializeUntyped(strR);
+        recordStr = Json.serialize(m.get('aqi_record'));
 
-        Article_Quality__c  aqr = [ select Id , Article_Unique__c from Article_Quality__c where Id =:record.Id];
+        Article_Quality__c recordUpserted = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
+
+        system.debug(recordUpserted.Name);       
+        Article_Quality__c  aqr = [ select Id , Article_Unique__c from Article_Quality__c where Id =:recordUpserted.Id];
         system.assertEquals(aqr.Article_Unique__c,record.Article_Unique__c ,'Article unique index should be set to TRUE ');
 
 

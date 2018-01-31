@@ -2,9 +2,9 @@ global class aqi_KnowledgeSearchCtrlV2 {
 
 	public static String PUBLISH_STATUS = System.Test.isRunningTest() ? 'Draft' : 'Online';
     public final static String DEFAULT_LANGUAGE = aqi_SettingsHandler.customOrDefaultLanguage();
-	public static final Integer PAGE_SIZE 	= 2;
-    public static String sortBy 	= 'Title';
-    public static Boolean sortAsc 	= false;
+	public static final Integer PAGE_SIZE = 10;
+    public static String sortBy = 'Title';
+    public static Boolean sortAsc = false;
     //public final static Integer QUERY_LIMIT = 5000;
     public static String knowledgeObject = aqi_securityHandler.knowledgeObject;
 
@@ -75,11 +75,6 @@ global class aqi_KnowledgeSearchCtrlV2 {
 		private set;
 	}
 
-
-
-
-
-
     public static Integer resolveOffset(String p){
 		Integer queryOffset = 0;
 		if (String.isNotBlank(p)){
@@ -89,6 +84,7 @@ global class aqi_KnowledgeSearchCtrlV2 {
 		}
 		return queryOffset;
 	}
+
 	@RemoteAction
     global static Object getArticles(String searchString, String articleNumber, String articleLanguage,
 			String articleCreatedBy,String articlelastModifiedBy,
@@ -113,14 +109,14 @@ global class aqi_KnowledgeSearchCtrlV2 {
         List<String> errorsOnInput = new list<String>();
 
 
-        // Search String              # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        // Search String              # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if(String.isNotBlank(searchString)){
             if(searchString.length() < 2){
                   errorsOnInput.add('Search criteria must be at least two characters ');
             }
         }
 
-        // Search String              # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #        
+        // Search String              # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         // validate Article Number
         if(String.isNotBlank(articleNumber)){
             if(!articleNumber.isNumeric()){
@@ -128,29 +124,29 @@ global class aqi_KnowledgeSearchCtrlV2 {
             }else{
                 whereConditions.add(' articlenumber LIKE \'%' + escapeString(articleNumber) + '%\' ');
             }
-        }  
+        }
 
-        // ARTICLE RECORD TYPE                  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        // ARTICLE RECORD TYPE                  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if(String.isNotBlank(articleRecordType) & (articleRecordType !='all')){
             whereConditions.add(' RecordTypeId = \'' + escapeString(articleRecordType) + '\' ');
-        } 
+        }
 
-        // IS MASTER LANGUAGE                   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        // IS MASTER LANGUAGE                   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if (isMasterLanguage)
             whereConditions.add(' IsMasterLanguage = true ');
-        // Search String                        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        // Search String                        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         whereConditions.add(' PublishStatus=\''+ PUBLISH_STATUS +'\'');
 
-        // Search String                        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #    
+        // Search String                        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         whereConditions.add(' language =\'' + escapeString(articleLanguage) + '\' ');
-        // Search String                        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        // Search String                        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if (String.isNotBlank(articleCreatedBy))
              whereConditions.add(' createdby.name LIKE \'%' + escapeString(articleCreatedBy) + '%\' ');
-        // Search String                        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        // Search String                        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if (String.isNotBlank(articlelastModifiedBy))
              whereConditions.add(' lastmodifiedby.name LIKE \'%' + escapeString(articlelastModifiedBy) + '%\' ');
-     
-        // LAST MODIFIED DATE RANGE             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+        // LAST MODIFIED DATE RANGE             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         String aux;
         DateTime auxdt;
         DateTime auxDTT_from = strToDateTime(escapeString(articleLastModifiedDateFrom),false);
@@ -173,7 +169,7 @@ global class aqi_KnowledgeSearchCtrlV2 {
             whereConditions.add('  LastModifiedDate <=  ' + aux   );
         }
 
-        // FIRST PUBLISHED DATE RANGE             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        // FIRST PUBLISHED DATE RANGE             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         auxDTT_from = strToDateTime(escapeString(articlePublishDateFrom),false);
         auxDTT_to = strToDateTime(escapeString(articlePublishDateTo),true);
         if (auxDTT_from != null && auxDTT_to!= null){
@@ -199,7 +195,7 @@ global class aqi_KnowledgeSearchCtrlV2 {
 
         String orderByClause =    '   ORDER BY '+String.escapeSingleQuotes(sortBy)  ;
                 orderByClause +=    sortAsc ? ' ASC ' : ' DESC '  ;
-        
+
         String  limitClause = ' LIMIT :PAGE_SIZE OFFSET :queryOffset ';
 
         String queryString = '';
@@ -209,9 +205,9 @@ global class aqi_KnowledgeSearchCtrlV2 {
                 //SOSL
                  queryString =   ' FIND \''+  searchString  +'*\' IN ALL FIELDS RETURNING '+
                             knowledgeObject +
-                            ' ( ' + fieldsToRetrieve + 
+                            ' ( ' + fieldsToRetrieve +
                                     whereClause +
-                                    orderByClause + 
+                                    orderByClause +
                                     limitClause + ')';
             List<List<SObject>> articlesQueried = search.query(queryString);
             sObjList = ((List<Sobject>)articlesQueried[0]);
@@ -219,12 +215,12 @@ global class aqi_KnowledgeSearchCtrlV2 {
                 //SOQL
                 queryString = '  SELECT  ' + fieldsToRetrieve +
                             ' FROM '+
-                                knowledgeObject + 
+                                knowledgeObject +
                                 whereClause +
-                                orderByClause+ 
+                                orderByClause+
                                 limitClause;
 		system.debug('\n=== THE QUERY STRING :\n'+queryString);
- 
+
                 sObjList = Database.query(queryString);
             }
 
@@ -234,7 +230,7 @@ global class aqi_KnowledgeSearchCtrlV2 {
 
         List<Object> resultList = checkForAQIRecords(sObjList,escapeString(articleLanguage));
 
-	
+
 
         //result
         Map<String,Object> result = new Map<String,Object>();
@@ -271,17 +267,17 @@ global class aqi_KnowledgeSearchCtrlV2 {
                                           AND Article_Version__c in: versions];
 
         Map<String,Article_Quality__c> mapAqi = new Map<String, Article_Quality__c>();
-        
+
         for(Article_Quality__c aqi : aqis){
             mapAqi.put(aqi.Knowledge_Article_Id__c + aqi.Language__c + aqi.Article_Version__c, aqi);
         }
         String tmpK;
         for(SObject sObj : kavList){
-           
+
 
         	String jString = JSON.serialize(sObj);
 			Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(jString);
-			
+
             tmpK = String.valueOf(sobj.get('KnowledgeArticleId'))+lang+Decimal.valueOf(String.valueOf(sobj.get('VersionNumber')));
             m.put('hasAQI', mapAqi.containsKey(tmpK));
             result.add(m);

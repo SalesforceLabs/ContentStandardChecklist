@@ -30,6 +30,9 @@
             var sortBy = "Title";
             var sortAsc = false;
             var pageNum = 0;
+            var SORT_ASC ='&nbsp;&nbsp;&uarr;';
+            var SORT_DESC = '&nbsp;&nbsp;&darr;';
+            
 
             function formatDate(mili){
                 var tmpOffset =parseFloat('{!JSENCODE(tzOffset)}');
@@ -185,12 +188,30 @@
                 window.navigateToUrl(newUrl);
             }
 
+            function switchSortAndSearch(obj){
+                console.log("[IN] switchSortAndSearch :"+ sortBy+" sortAsc :"+sortAsc); 
+                //remove all sort indicators
+                $('.sortableRow span').html('');
+
+                sortBy = $(obj).find('span').attr('id');
+                sortAsc = !sortAsc;
+                if (sortAsc){
+                    $(obj).find('span').html(SORT_ASC);
+                }else{
+                    $(obj).find('span').html(SORT_DESC);
+                }
+
+                console.log("[OUT] switchSortAndSearch :"+ sortBy+" sortAsc :"+sortAsc);
+                   
+                    getRemoteArticles(true);
+            }
+
             $(document).ready(function() {
                 getRemoteArticles(true);
 
-                $('th.sortableRow').click(function(i,e){
-                    console.log('click row');
-                });
+                $('.sortableRow').on('click', function (e) {
+                    switchSortAndSearch($(this));
+                });  
             });
 
             $('#searchForm').submit(function (e) {
@@ -454,79 +475,79 @@
                     <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped">
                         <thead>
                              <tr>
-                                <th scope="col" class="sortableRow" >
+                                <th scope="col" >
                                     <div class="slds-truncate slds-align_absolute-center" title="New AQI">&nbsp;</div>
                                 </th>
 
                                 <!-- TITLE COLUMN -->
-                                <th scope="col"  class="sortableRow">
-                                    <span class="slds-truncate slds-align_absolute-center" title="Name">
+                                <th scope="col"  >
+                                    <span class="sortableRow slds-truncate slds-align_absolute-center" title="Name">
                                         Title
-                                        <span id="sortTitle" class="sorting">&nbsp;&nbsp;▲</span>
+                                        <span id="Title" class="sorting">&nbsp;&nbsp;&darr;</span>
                                     </span>
                                 </th>
 
                                 <!-- Article Number -->
-                                <th scope="col" class="sortableRow">
-                                    <span class="slds-truncate slds-align_absolute-center" title="Account Name">
+                                <th scope="col" >
+                                    <span class="sortableRow slds-truncate slds-align_absolute-center" title="Account Name">
                                         Article Number
-                                        <span id="sortArticleNumber" class="sorting">&nbsp;&nbsp;▲</span>
+                                        <span id="ArticleNumber" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Record Type  -->
-                                <th scope="col" class="sortableRow">
-                                    <span class="slds-truncate slds-align_absolute-center" title="Record Type">
+                                <th scope="col" >
+                                    <span class="sortableRow slds-truncate slds-align_absolute-center" title="Record Type">
                                         Record Type
-                                        <span id="sortRecordType" class="sorting">&nbsp;&nbsp;▲</span>
+                                        <span id="RecordType.Name" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Version  -->
-                                <th scope="col" class="sortableRow">
-                                    <span class="slds-truncate slds-align_absolute-center" title="Version">
+                                <th scope="col" >
+                                    <span class="sortableRow slds-truncate slds-align_absolute-center" title="Version">
                                         Version
-                                        <span id="sortVersion" class="sorting">&nbsp;&nbsp;▲</span>
+                                        <span id="VersionNumber" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Summary -->
-                                <th scope="col" class="sortableRow">
-                                    <span class="slds-truncate slds-align_absolute-center" title="Summary">
+                                <th scope="col" >
+                                    <span class="sortableRow  slds-truncate slds-align_absolute-center" title="Summary">
                                         Summary
-                                        <span id="sortSummary" class="sorting">&nbsp;&nbsp;▲</span>
+                                        <span id="Summary" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!--  Last Modified Date-->
-                                <th scope="col" class="sortableRow">
-                                    <span class="slds-truncate slds-align_absolute-center" title="Last Modified Date">
+                                <th scope="col" >
+                                    <span class="sortableRow  slds-truncate slds-align_absolute-center" title="Last Modified Date">
                                         Last Modified Date
-                                        <span id="sortLastModifiedDate" class="sorting">&nbsp;&nbsp;▲</span>
+                                        <span id="LastModifiedDate" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- First Published date -->
-                                <th scope="col" class="sortableRow">
-                                    <span class="slds-truncate slds-align_absolute-center" title="First Published Date">
+                                <th scope="col" >
+                                    <span class="sortableRow  slds-truncate slds-align_absolute-center" title="First Published Date">
                                         First Published Date
-                                        <span id="sortFirstPublishedDate" class="sorting">&nbsp;&nbsp;▲</span>
+                                        <span id="FirstPublishedDate" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Last modified by -->
-                                <th scope="col" class="sortableRow">
-                                    <span class="slds-truncate slds-align_absolute-center" title="Last Modified Date">
+                                <th scope="col" >
+                                    <span class="sortableRow  slds-truncate slds-align_absolute-center" title="Last Modified Date">
                                         Last Modified By
-                                        <span id="sortLastModifiedDate" class="sorting">&nbsp;&nbsp;▲</span>
+                                        <span id="lastmodifiedby.Name" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Created by -->
-                                <th scope="col" class="sortableRow" >
-                                    <span class="slds-truncate slds-align_absolute-center" title="Created By">
+                                <th scope="col"  >
+                                    <span class="sortableRow  slds-truncate slds-align_absolute-center" title="Created By">
                                         Created By
-                                        <span id="sortLastModifiedDate" class="sorting">&nbsp;&nbsp;▲</span>
+                                        <span id="createdby.name" class="sorting"></span>
                                     </span>
                                 </th>
 

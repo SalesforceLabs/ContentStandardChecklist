@@ -33,6 +33,7 @@ global class aqi_KnowledgeSearchCtrlV2 {
 		get{
             if (availableRecordTypes == null){
                 availableRecordTypes = aqi_SecurityHandler.getAllowedRecordTypesMap();
+                availableRecordTypes.put(null,'None');
             }
 			return availableRecordTypes;
 		}

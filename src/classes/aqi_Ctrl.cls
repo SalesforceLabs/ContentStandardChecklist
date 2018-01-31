@@ -52,6 +52,8 @@ public with sharing class aqi_Ctrl {
 		get{
 			if (recordTypesMap == null) {
 				recordTypesMap = aqi_SecurityHandler.getAllowedRecordTypesMap();
+
+                recordTypesMap.put(null,'This article has no record type');
 			}
 			return recordTypesMap;
 		}

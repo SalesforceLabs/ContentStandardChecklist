@@ -187,7 +187,7 @@ public with sharing class aqi_WrapperCtrl {
                                                 Id =:kavId
             ];
             result = aqi_Ctrl.loadKavDetails( article ,  result);
-            insert result;
+            //insert result;
         }
         return result;
     }

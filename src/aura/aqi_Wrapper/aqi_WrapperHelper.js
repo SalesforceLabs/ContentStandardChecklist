@@ -62,20 +62,22 @@
 					}
 				);
 
-				if(!(aqi_record.Action_Assigned_To__r === undefined || aqi_record.Action_Assigned_To__r === '')){
-					var valuesOwner = [{
-						type : 'User',
-						id: aqi_record.Action_Assigned_To__r.Id,
-						label: aqi_record.Action_Assigned_To__r.Name,
-						icon : {
-							url:aqi_record.Action_Assigned_To__r.FullPhotoUrl,
-							backgroundColor:'65CAE4',
-							alt:'User'
-						},
-						record: aqi_record.Action_Assigned_To__r.Id,
-						placeHolder: 'Search Users'
-					}];
-					component.find("Action_Assigned_To__c").get("v.body")[0].set("v.values", valuesOwner);
+				if (component.get("v.displayFollowUpSection")) {
+					if(!(aqi_record.Action_Assigned_To__r === undefined || aqi_record.Action_Assigned_To__r === '')){
+						var valuesOwner = [{
+							type : 'User',
+							id: aqi_record.Action_Assigned_To__r.Id,
+							label: aqi_record.Action_Assigned_To__r.Name,
+							icon : {
+								url:aqi_record.Action_Assigned_To__r.FullPhotoUrl,
+								backgroundColor:'65CAE4',
+								alt:'User'
+							},
+							record: aqi_record.Action_Assigned_To__r.Id,
+							placeHolder: 'Search Users'
+						}];
+						component.find("Action_Assigned_To__c").get("v.body")[0].set("v.values", valuesOwner);
+					}
 				}
 
 				console.log(responseMap);

@@ -115,23 +115,27 @@
         <fullName>Action_Taken__c</fullName>
         <externalId>false</externalId>
         <label>Action Taken</label>
-        <picklist>
-            <picklistValues>
-                <fullName>Article Archived</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Article Updated</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>No Action Needed</fullName>
-                <default>false</default>
-            </picklistValues>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <value>
+                    <fullName>Article Archived</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Article Updated</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No Action Needed</fullName>
+                    <default>false</default>
+                </value>
             <sorted>false</sorted>
-        </picklist>
+            </valueSetDefinition>
+        </valueSet>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
+
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>

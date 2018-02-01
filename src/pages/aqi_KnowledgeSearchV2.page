@@ -30,6 +30,7 @@
             var sortBy = "Title";
             var sortAsc = false;
             var pageNum = 0;
+            var reachedEndOfList = false;
             var SORT_ASC ='&nbsp;&nbsp;&uarr;';
             var SORT_DESC = '&nbsp;&nbsp;&darr;';
             
@@ -110,18 +111,13 @@
                     return;
                 }
                 console.log(' searchString: '+searchString);
-                console.log(' articleNumber: '+articleNumber);
-                console.log(' articleLanguage: '+articleLanguage);
+                console.log(' articleNumber: '+articleNumber+' articleLanguage: '+articleLanguage);
                 console.log(' articleCreatedBy: '+articleCreatedBy);
                 console.log(' articlelastModifiedBy: '+articlelastModifiedBy);
                 console.log(' articleRecordType: '+articleRecordType);
-                console.log(' articlePublishDateFrom: '+articlePublishDateFrom);
-                console.log(' articlePublishDateTo: '+articlePublishDateTo);
-                console.log(' articleLastModifiedDateFrom: '+articleLastModifiedDateFrom);
-                console.log(' articleLastModifiedDateTo: '+articleLastModifiedDateTo);
-                console.log(' sortBy: '+sortBy);
-                console.log(' sortAsc: '+sortAsc);
-                console.log(' pageNum: '+pageNum);
+                console.log(' articlePublishDateFrom: '+articlePublishDateFrom + ' To: '+articlePublishDateTo);
+                console.log(' articleLastModifiedDateFrom: '+articleLastModifiedDateFrom +' To: '+articleLastModifiedDateTo);
+                console.log(' sortBy: '+sortBy +' sortAsc: '+sortAsc+' pageNum: '+pageNum);
 
                 // This remoting call will use the page's timeout value
                 Visualforce.remoting.Manager.invokeAction(
@@ -139,6 +135,7 @@
                 console.log(result);
 
                 var tplTableRow = $.templates("#tplTableRow");
+                $("tbody#articleList").html('');
                 if (event.status) {
                     //debugger;
                     $(result.items).each(function (i,e){
@@ -155,7 +152,7 @@
                         });
                         $("tbody#articleList").append(htmlOutput);
                     });
-                    hasMore(result.items.length);
+                    handlePagination(result.items.length);
                 } else if (event.type === 'exception') {
                     document.getElementById("responseErrors").innerHTML =
                         event.message + "<br/>\n<pre>" + event.where + "</pre>";
@@ -165,21 +162,65 @@
 
             }
 
-            function loadMore(){
+            function gotoPage(pageStr){
+                var actualPage = pageNum;
+                if (reachedEndOfList && pageStr =='+1') return;
+               
                 if ( isNaN(pageNum))
-                    pageNum = -1;
-                pageNum++;
-                console.log('loadMore pageNum: '+pageNum);
-                getRemoteArticles(false);
+                    pageNum = 0;
+
+                switch (pageStr) {
+                     case '0':
+                        pageNum = 0;
+                        break;
+                    case '-1':
+                        pageNum--;
+                        break;pageNum
+                    case '+1':
+                        pageNum++;
+                        break;
+                
+                    default:
+                        break;
+
+                    if (pageNum<0)
+                        pageNum ==0 ;
+                }
+                console.log('gotoPage pageNum: '+pageNum);
+                if (actualPage!= pageNum)
+                    getRemoteArticles(false);
+
             }
 
-            function hasMore(rSize){
-                if (rSize < pageSize){
-                    //hideLoadMore
-                    $('#loadMoreBtn').hide();
+            function handlePagination(rSize){
+
+
+                $('#paginationBtns button').attr('disabled',true);
+                reachedEndOfList = false;
+
+                if (rSize == 0 && pageNum == 0 ){
+                    $('#noResultsMsg').show();
                 }else{
-                    $('#loadMoreBtn').show()
+                    $('#noResultsMsg').hide();
                 }
+//btnStart btnPrev btnNext
+                if (pageNum == 0 ){
+                    $('#btnNext').attr('disabled',false);
+                }else
+                    if (pageNum > 0){
+                        $('#btnStart').attr('disabled',false);
+                        $('#btnPrev').attr('disabled',false);
+
+                        if (rSize < pageSize){
+                            //hideLoadMore
+                            $('#btnNext').attr('disabled',true);
+                            reachedEndOfList= true;
+                        }else{
+                            $('#btnNext').attr('disabled',false);
+                        }
+                    }
+
+               
             }
 
             function navigateToEdit(kavId,language,version){
@@ -393,7 +434,7 @@
                 <div class="slds-grid  slds-p-bottom_small slds-grid_pull-padded-medium">
                     <!-- FIRST PUBLISHED DATE FROM-->
                     <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <span>
+                        <div class="slds-form slds-form_horizontal">
                             <div class="slds-form-element">
                                 <label class="slds-form-element__label" for="input-id-01">First Published date from</label>
 
@@ -401,12 +442,12 @@
                                     <input type="date" id="articlePublishDateFrom" class="slds-input" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>
                                 </div>
                             </div>
-                        </span>
+                        </div>
                     </div>
 
                     <!-- LAST  MODIFIED DATE FROM FIELD-->
                     <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <span>
+                        <div class="slds-form slds-form_horizontal">
                             <div class="slds-form-element">
                                 <label class="slds-form-element__label" for="input-id-01">Last Modified date from </label>
 
@@ -414,7 +455,7 @@
                                     <input type="date" id="articleLastModifiedDateFrom" class="slds-input"  />
                                 </div>
                             </div>
-                        </span>
+                        </div>
                     </div>
 
                     <!-- -->
@@ -427,7 +468,7 @@
                 <div class="slds-grid  slds-p-bottom_small slds-grid_pull-padded-medium">
                     <!-- FIRST PUBLISHED DATE TO-->
                     <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <span>
+                        <div class="slds-form slds-form_horizontal">
                             <div class="slds-form-element">
                                 <label class="slds-form-element__label" for="input-id-01">First Published date to </label>
 
@@ -435,12 +476,12 @@
                                     <input type="date" id="articlePublishDateTo" class="slds-input"  />
                                 </div>
                             </div>
-                        </span>
+                        </div>
                     </div>
 
                     <!-- LAST  MODIFIED DATE TO FIELD-->
                     <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <span>
+                        <div class="slds-form slds-form_horizontal">
                             <div class="slds-form-element">
                                 <label class="slds-form-element__label" for="input-id-01">Last Modified date to </label>
 
@@ -448,12 +489,12 @@
                                     <input type="date" id="articleLastModifiedDateTo" class="slds-input"  />
                                 </div>
                             </div>
-                        </span>
+                        </div>
                     </div>
 
                     <!-- -->
                     <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <span>
+                        <div class="slds-form slds-form_horizontal">
                             <div class="slds-form-element">
                                 <label class="slds-form-element__label" for="input-id-01">&nbsp;</label>
 
@@ -461,7 +502,7 @@
                                     <button class="slds-button slds-button_brand" onclick="getRemoteArticles(true); return false;">Search</button>
                                 </div>
                             </div>
-                        </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -472,7 +513,7 @@
             <!-- DATA RESULTS  -->
             <div class="slds-panel slds-grid slds-grid--vertical slds-nowrap">
                 <div class="slds-form--stacked slds-grow slds-scrollable--y">
-                    <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped">
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped slds-table_fixed-layout">
                         <thead>
                              <tr>
                                 <th scope="col" >
@@ -560,8 +601,16 @@
                         <tbody id="articleList"></tbody>
                     </table>
 
-                    <div class="slds-panel__section slds-has-divider--bottom">
-                        <button id="loadMoreBtn"  class="slds-button slds-button_brand" onclick="loadMore();">Load more</button>
+                    <div class="slds-panel__section slds-has-divider--bottom slds-align_absolute-center ">
+                          
+                            <div id="paginationBtns" class="slds-button-group" role="group">
+                                <button id="btnStart" onclick="gotoPage('0');" class="slds-button slds-button_neutral" >First</button>
+                                <button id="btnPrev" onclick="gotoPage('-1');"  class="slds-button slds-button_neutral">Previous</button>
+                                <button id="btnNext" onclick="gotoPage('+1');"  class="slds-button slds-button_neutral">Next</button>
+                            </div>
+                            <div id="noResultsMsg" class="slds-text-heading_small">
+                              No records to display
+                            </div>
                     </div>
                 </div>
             </div>

@@ -139,6 +139,7 @@
                 console.log(result);
 
                 var tplTableRow = $.templates("#tplTableRow");
+                $("tbody#articleList").html('');
                 if (event.status) {
                     //debugger;
                     $(result.items).each(function (i,e){
@@ -155,7 +156,7 @@
                         });
                         $("tbody#articleList").append(htmlOutput);
                     });
-                    hasMore(result.items.length);
+                    handlePagination(result.items.length);
                 } else if (event.type === 'exception') {
                     document.getElementById("responseErrors").innerHTML =
                         event.message + "<br/>\n<pre>" + event.where + "</pre>";
@@ -172,8 +173,35 @@
                 console.log('loadMore pageNum: '+pageNum);
                 getRemoteArticles(false);
             }
+            function gotoPage(pageStr){
+                var localpageNum = pageNum;
+                if ( isNaN(localpageNum))
+                    localpageNum = 0;
 
-            function hasMore(rSize){
+                switch (pageStr) {
+                   
+                    case '-1':
+                        localpageNum--;
+                        break;
+                    case '+1':
+                        localpageNum++;
+                        break;
+                
+                    default:
+                        break;
+                }
+                 console.log('gotoPage : '+pageNum +' localpageNum:'+localpageNum);
+
+            }
+
+            function handlePagination(rSize){
+
+                if (rSize == 0 && pageNum == 0 ){
+                    $('#noResultsMsg').show();
+                }else{
+                    $('#noResultsMsg').hide();
+                }
+
                 if (rSize < pageSize){
                     //hideLoadMore
                     $('#loadMoreBtn').hide();
@@ -560,8 +588,16 @@
                         <tbody id="articleList"></tbody>
                     </table>
 
-                    <div class="slds-panel__section slds-has-divider--bottom">
+                    <div class="slds-panel__section slds-has-divider--bottom slds-text-align_center ">
                         <button id="loadMoreBtn"  class="slds-button slds-button_brand" onclick="loadMore();">Load more</button>
+                   
+                   <div class="slds-button-group" role="group">
+                        <button id="btnStart" onclick="gotoPage('0');" class="slds-button slds-button_neutral" disabled="">First</button>
+                        <button id="btnPrev" onclick="gotoPage('-1');"  class="slds-button slds-button_neutral">Previous</button>
+                        <button id="btnNext" onclick="gotoPage('+1');"  class="slds-button slds-button_neutral">Next</button>
+                        <button id="btnLast" onclick="gotoPage('N');"  class="slds-button slds-button_neutral" disabled="">Last</button>
+                    </div>
+                   
                     </div>
                 </div>
             </div>

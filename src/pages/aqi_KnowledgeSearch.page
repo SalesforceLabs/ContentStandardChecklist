@@ -1,13 +1,12 @@
-<apex:page showHeader="true" standardStylesheets="false" sidebar="false" docType="html-5.0" controller="aqi_KnowledgeSearchCtrl" applyBodyTag="False" applyHtmlTag="true">
+<apex:page showHeader="true" standardStylesheets="false" sidebar="false" docType="html-5.0" controller="aqi_KnowledgeSearchCtrl" applyBodyTag="False" applyHtmlTag="true" >
+  <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <head>
         <title>Create AQI</title>
         <apex:slds />
 
-
-        <script src="//code.jquery.com/jquery-1.12.4.js"></script>
-        <!-- Load JsRender latest version, from www.jsviews.com: -->
-        <script src="//www.jsviews.com/download/jsrender.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.0/moment.js"></script>
+        <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/jquery-1.12.4.js')}" />
+        <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/jsrender.js')}" />
+        <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/moment.js')}" />
 
         <style type="text/css">
             span.sorting {
@@ -23,6 +22,67 @@
             input[type=number]::-webkit-outer-spin-button {
               -webkit-appearance: none;
             }
+
+            th.col_NEWAQI{
+                width: 3%;
+            }
+            th.col_Title{
+                width: 12%;
+            }
+            th.col_ArticleNumber{
+                width: 8%;
+            }
+            th.col_RecordType{
+                width: 7%;
+            }
+            th.col_VersionNumber{
+                width: 3%;
+            }
+            th.col_SummaryEXT{
+                width: 35%;
+            }
+            th.col_Summary{
+                width: 25%;
+            }
+
+            th.col_validationstatus{
+                width: 5%;
+            }
+
+            th.col_LastModifiedDate{
+                width: 9%;
+            }
+
+            th.col_FirstPublishedDate{
+                width: 9%;
+            }
+
+            th.col_lastmodifiedby{
+                width: 7%;
+            }
+
+            th.col_createdby{
+                width: 7%;
+            }
+
+            /* has aqi col */
+            th.col_HASAQI{
+                width: 4%;
+            }
+
+            div.newAQI_Icon{
+              
+                background-image: url("{!URLFOR($Resource.aqi_resources, 'images/edit_120.png')}");
+                background-repeat: no-repeat;
+                background-size: cover;
+                cursor: pointer;
+                background-position: 0 0;
+            }
+
+            td.newAQI_IconContainer{
+                padding: 0.7rem !important;
+            }
+
         </style>
 
         <script type="text/javascript">
@@ -39,7 +99,7 @@
                 var tmpOffset =parseFloat('{!JSENCODE(tzOffset)}');
                 var intOffset = (tmpOffset)*60;
                 var d_offset = moment(mili).utcOffset(intOffset);
-                return d_offset.format('MM/DD/YYYY h:mm A');
+                return d_offset.format('MM/DD/YYYY');
             }
 
             function unescapeMe(content) {
@@ -241,7 +301,7 @@
             function switchSortAndSearch(obj){
                 console.log("[IN] switchSortAndSearch :"+ sortBy+" sortAsc :"+sortAsc); 
                 //remove all sort indicators
-                $('.sortableRow span').html('');
+                $('.sortableRow  span').html('');
 
                 sortBy = $(obj).find('span').attr('id');
                 sortAsc = !sortAsc;
@@ -259,7 +319,7 @@
             $(document).ready(function() {
                 getRemoteArticles(true);
 
-                $('.sortableRow').on('click', function (e) {
+                $('.sortableRow ').on('click', function (e) {
                     switchSortAndSearch($(this));
                 });  
             });
@@ -275,8 +335,11 @@
 
         <script id="tplTableRow" type="text/x-jsrender">
             <tr class="slds-hint-parent">
-                <td class="slds-text-align_right slds-cell-buffer_left" role="gridcell">
-                    <a href="#" onclick="navigateToEdit('{{:KnowledgeArticleId}}','{{:Language}}','{{:VersionNumber}}');" role="button" class="new_aqi"> New AQI </a>
+                <td class="slds-text-align_right slds-cell-buffer_left newAQI_IconContainer" role="gridcell" title="Create or Edit" >
+                    <div class="slds-truncate slds-text-body_small newAQI_Icon" onclick="navigateToEdit('{{:KnowledgeArticleId}}','{{:Language}}','{{:VersionNumber}}');">
+                  &nbsp;
+                    </div>
+                    
                 </td>
 
                 <td class="slds-cell-buffer_left" role="gridcell">
@@ -527,48 +590,48 @@
             <!-- DATA RESULTS  -->
             <div class="slds-panel slds-grid slds-grid--vertical slds-nowrap">
                 <div class="slds-form--stacked slds-grow slds-scrollable--y">
-                    <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped slds-table_fixed-layout">
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped slds-table_fixed-layout slds-text-body_small">
                         <thead>
                              <tr>
-                                <th scope="col" >
+                                <th scope="col" class="col_NEWAQI">
                                     <div class="slds-truncate slds-align_absolute-center" title="New AQI">&nbsp;</div>
                                 </th>
 
                                 <!-- TITLE COLUMN -->
-                                <th scope="col"  >
-                                    <span class="sortableRow slds-truncate slds-align_absolute-center" title="Name">
+                                <th scope="col"  class="col_Title" >
+                                    <span class="sortableRow slds-align_absolute-center" title="Name">
                                         Title
                                         <span id="Title" class="sorting">&nbsp;&nbsp;&darr;</span>
                                     </span>
                                 </th>
 
                                 <!-- Article Number -->
-                                <th scope="col" >
-                                    <span class="sortableRow slds-truncate slds-align_absolute-center" title="Account Name">
+                                <th scope="col" class="col_ArticleNumber" >
+                                    <span class="sortableRow slds-align_absolute-center" title="Account Name">
                                         Article Number
                                         <span id="ArticleNumber" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Record Type  -->
-                                <th scope="col" >
-                                    <span class="sortableRow slds-truncate slds-align_absolute-center" title="Record Type">
+                                <th scope="col"  class="col_RecordType">
+                                    <span class="sortableRow slds-align_absolute-center" title="Record Type">
                                         Record Type
                                         <span id="RecordType.Name" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Version  -->
-                                <th scope="col" >
-                                    <span class="sortableRow slds-truncate slds-align_absolute-center" title="Version">
+                                <th scope="col"  class="col_VersionNumber">
+                                    <span class="sortableRow slds-align_absolute-center" title="Version">
                                         Version
                                         <span id="VersionNumber" class="sorting"></span>
                                     </span>
                                 </th>
 
-                                <!-- Summary -->
-                                <th scope="col" >
-                                    <span class="sortableRow  slds-truncate slds-align_absolute-center" title="Summary">
+                                <!-- Summary      -->
+                                <th scope="col"  class="{!IF(isValidationStatusActive,'col_Summary','col_SummaryEXT')}">
+                                    <span class="sortableRow slds-align_absolute-center" title="Summary">
                                         Summary
                                         <span id="Summary" class="sorting"></span>
                                     </span>
@@ -576,8 +639,8 @@
 
                                 <!-- validationstatus -->
                                 <apex:outputPanel rendered="{!isValidationStatusActive}">
-                                <th scope="col" >
-                                    <span class="sortableRow  slds-truncate slds-align_absolute-center" title="Validaition Status">
+                                <th scope="col"  class="col_validationstatus">
+                                    <span class="sortableRow slds-align_absolute-center" title="Validaition Status">
                                         Validaition Status
                                         <span id="validationstatus" class="sorting"></span>
                                     </span>
@@ -585,38 +648,38 @@
                                 </apex:outputPanel>
 
                                 <!--  Last Modified Date-->
-                                <th scope="col" >
-                                    <span class="sortableRow  slds-truncate slds-align_absolute-center" title="Last Modified Date">
+                                <th scope="col"  class="col_LastModifiedDate">
+                                    <span class="sortableRow slds-align_absolute-center" title="Last Modified Date">
                                         Last Modified Date
                                         <span id="LastModifiedDate" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- First Published date -->
-                                <th scope="col" >
-                                    <span class="sortableRow  slds-truncate slds-align_absolute-center" title="First Published Date">
+                                <th scope="col"  class="col_FirstPublishedDate">
+                                    <span class="sortableRow slds-align_absolute-center" title="First Published Date">
                                         First Published Date
                                         <span id="FirstPublishedDate" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Last modified by -->
-                                <th scope="col" >
-                                    <span class="sortableRow  slds-truncate slds-align_absolute-center" title="Last Modified Date">
+                                <th scope="col"  class="col_lastmodifiedby">
+                                    <span class="sortableRow slds-align_absolute-center" title="Last Modified Date">
                                         Last Modified By
                                         <span id="lastmodifiedby.Name" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Created by -->
-                                <th scope="col"  >
-                                    <span class="sortableRow  slds-truncate slds-align_absolute-center" title="Created By">
+                                <th scope="col"  class="col_createdby" >
+                                    <span class="sortableRow slds-align_absolute-center" title="Created By">
                                         Created By
                                         <span id="createdby.name" class="sorting"></span>
                                     </span>
                                 </th>
 
-                                <th scope="col" style="width: 3.25rem;">
+                                <th scope="col" class="col_HASAQI">
                                     <span class="slds-truncate slds-align_absolute-center" title="Has AQI">AQI</span>
                                 </th>
                             </tr>
@@ -640,4 +703,5 @@
             </div>
         <!-- / ACCOUNT DETAIL CARD -->
     </body>
+    </html>
 </apex:page>

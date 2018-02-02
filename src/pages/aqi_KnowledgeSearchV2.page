@@ -1,7 +1,6 @@
 <apex:page showHeader="true" standardStylesheets="false" sidebar="false" docType="html-5.0" controller="aqi_KnowledgeSearchCtrlV2" applyBodyTag="False" applyHtmlTag="true">
     <head>
         <title>Create AQI</title>
-
         <apex:slds />
 
         <script src="//code.jquery.com/jquery-1.12.4.js"></script>
@@ -135,9 +134,11 @@
                 console.log(result);
 
                 var tplTableRow = $.templates("#tplTableRow");
+                var tplIsStatusValidated = $.templates("#tplIsStatusValidated");
+                
                 $("tbody#articleList").html('');
                 if (event.status) {
-                    //debugger;
+                    debugger;
                     $(result.items).each(function (i,e){
                         var htmlOutput = tplTableRow.render(e,{
                             truncName: function(name) {
@@ -151,7 +152,14 @@
                             }
                         });
                         $("tbody#articleList").append(htmlOutput);
+                        if (e.isValidationStatusActive){
+                            var innerHtml = tplIsStatusValidated.render(e);
+                            $("tbody#articleList").append(htmlOutput);
+                        }
+
+
                     });
+
                     handlePagination(result.items.length);
                 } else if (event.type === 'exception') {
                     document.getElementById("responseErrors").innerHTML =
@@ -263,6 +271,7 @@
 
         <script id="myTmpl" type="text/x-jsrender">{{:name}}</script>
 
+
         <script id="tplTableRow" type="text/x-jsrender">
             <tr class="slds-hint-parent">
                 <td class="slds-text-align_right slds-cell-buffer_left" role="gridcell">
@@ -294,7 +303,11 @@
                 <td class="slds-cell-buffer_left"  role="gridcell">
                     <div class="slds-truncate" title="{{:Summary}}">{{:Summary}}</div>
                 </td>
-
+                {{if isValidationStatusEnabled  }} 
+                <td class="slds-cell-buffer_left"  role="gridcell">
+                    <div class="slds-truncate" title="{{:ValidationStatus}}">{{:ValidationStatus}}</div>
+                </td>
+                {{/if}}
                 <td class="slds-cell-buffer_left"  role="gridcell">
                     <div class="slds-truncate" title="LastModifiedDate ">{{:~formatDate(LastModifiedDate)}}</div>
                 </td>
@@ -559,6 +572,16 @@
                                         <span id="Summary" class="sorting"></span>
                                     </span>
                                 </th>
+
+                                <!-- validationstatus -->
+                                <apex:outputPanel rendered="{!isValidationStatusActive}">
+                                <th scope="col" >
+                                    <span class="sortableRow  slds-truncate slds-align_absolute-center" title="Validaition Status">
+                                        Validaition Status
+                                        <span id="validationstatus" class="sorting"></span>
+                                    </span>
+                                </th>
+                                </apex:outputPanel>
 
                                 <!--  Last Modified Date-->
                                 <th scope="col" >

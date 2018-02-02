@@ -6,6 +6,7 @@ global class aqi_KnowledgeSearchCtrlV2 {
     public static String sortBy 	= 'Title';
     public static Boolean sortAsc 	= false;
     public static String knowledgeObject = aqi_securityHandler.knowledgeObject;
+    public static  Boolean isValidationStActive = checkForSchemaFieldActive('validationstatus');
 
     public String tzOffset{
         get{
@@ -26,6 +27,16 @@ global class aqi_KnowledgeSearchCtrlV2 {
         }
         set;
     }
+
+	public Boolean isValidationStatusActive {
+		get{
+            if (isValidationStatusActive == null){
+                isValidationStatusActive = checkForSchemaFieldActive('validationstatus');
+            }
+			return isValidationStatusActive;
+		}
+		set;
+	}
 
 	public Map<Id,String> availableRecordTypes {
 		get{
@@ -90,11 +101,11 @@ global class aqi_KnowledgeSearchCtrlV2 {
             String pageNum, String sortBy, Boolean sortAsc) {
 
         Integer queryOffset =  resolveOffset(pageNum);
-        Boolean isValidationStatusActive = checkForSchemaFieldActive('validationstatus');
+       
         Boolean isMasterLanguage = checkForSchemaFieldActive('ismasterlanguage');
         String fieldsToRetrieve = ' Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,  '+
                                   ' Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary ';
-        if (isValidationStatusActive)
+        if (isValidationStActive)
             fieldsToRetrieve += ',ValidationStatus ';
         List<String> whereConditions = new list<String>();
         List<String> errorsOnInput = new list<String>();
@@ -232,6 +243,7 @@ global class aqi_KnowledgeSearchCtrlV2 {
 			Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(jString);
             tmpK = String.valueOf(sobj.get('KnowledgeArticleId'))+lang+Decimal.valueOf(String.valueOf(sobj.get('VersionNumber')));
             m.put('hasAQI', mapAqi.containsKey(tmpK));
+            m.put('isValidationStatusEnabled',isValidationStActive);
             result.add(m);
         }
 		return result;
@@ -264,7 +276,10 @@ global class aqi_KnowledgeSearchCtrlV2 {
 	*	Boolean
 	*/
     public static boolean checkForSchemaFieldActive(String fieldName){
-        Set<String> objectFields = Schema.SObjectType.KnowledgeArticleVersion.fields.getMap().keySet();
+         Schema.DescribeSObjectResult sor = Schema.getGlobalDescribe().get(knowledgeObject).getDescribe();
+        Map<String,Schema.SObjectField> sofs = sor.fields.getMap();
+      
+        Set<String> objectFields = sofs.keySet();
         return objectFields.contains(fieldName);
     }
 
@@ -332,4 +347,5 @@ global class aqi_KnowledgeSearchCtrlV2 {
         }
        return result;
     }
+
 }

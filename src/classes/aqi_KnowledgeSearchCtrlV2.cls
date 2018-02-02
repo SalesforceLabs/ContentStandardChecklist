@@ -115,10 +115,7 @@ public with sharing class aqi_KnowledgeSearchCtrlV2 {
 	                        qString = resolveArticleSearch();
 	                    }
 	                }catch(Exception e){
-	                    ApexPages.addMessage(new ApexPages.Message(
-	                    ApexPages.Severity.ERROR,
-	                    e.getMessage()
-	                    ));
+	                    ApexPages.addMessage(new ApexPages.Message( ApexPages.Severity.ERROR,  e.getMessage() ));
 	                }
 	                system.debug('\n======*************** queryString :'+qString  );
 	                if(String.isNotBlank(qString)){
@@ -319,9 +316,7 @@ public with sharing class aqi_KnowledgeSearchCtrlV2 {
                 return '';
             }
             /* SOSL QUERY */
-            queryString =   ' FIND \''+  scapedSubject  +'*\' IN ALL FIELDS RETURNING '+
-                            ' KnowledgeArticleVersion ' +
-                            ' (Id ' + whereClause + soqlRecFilters + ')';
+            queryString =   ' FIND \''+  scapedSubject  +'*\' IN ALL FIELDS RETURNING '+ ' KnowledgeArticleVersion ' + ' (Id ' + whereClause + soqlRecFilters + ')';
             articlesQueried = search.query(queryString);
             articles = ((List<Sobject>)articlesQueried[0]);
             List<String> lIds = new List<String>();
@@ -368,12 +363,7 @@ public with sharing class aqi_KnowledgeSearchCtrlV2 {
         set<String> theIds = aqiIds.keySet();
         set<String> idToFilter = new set<String>();
         Integer tmpVersionN=0;
-        for( KnowledgeArticleVersion ktmp :Database.query(  ' SELECT VersionNumber, KnowledgeArticleId '+
-                                                            '  FROM KnowledgeArticleVersion '+
-                                                            ' WHERE  '+
-                                                            '    PublishStatus=\''+ PUBLISH_STATUS +'\' '+
-                                                            '   AND language =\'' + escapeString(aLanguage) + '\''+
-                                                            ' LIMIT ' + QUERY_LIMIT)){
+        for( KnowledgeArticleVersion ktmp :Database.query(  ' SELECT VersionNumber, KnowledgeArticleId '+ '  FROM KnowledgeArticleVersion '+ ' WHERE  '+ '    PublishStatus=\''+ PUBLISH_STATUS +'\' '+ '   AND language =\'' + escapeString(aLanguage) + '\''+ ' LIMIT ' + QUERY_LIMIT)){
 			if (aqiIds.containsKey(ktmp.KnowledgeArticleId)){
                 tmpVersionN = ktmp.VersionNumber;
                 if (tmpVersionN == Integer.valueOf(aqiIds.get(ktmp.KnowledgeArticleId))){
@@ -397,7 +387,6 @@ public with sharing class aqi_KnowledgeSearchCtrlV2 {
 		return queryArticles;
 	}
 
-
 	/*
 	* @description
 	*	Method that generate the query string for the popular articles
@@ -408,14 +397,9 @@ public with sharing class aqi_KnowledgeSearchCtrlV2 {
 	*/
     public String queryPopularArticles(){
         setCon = null;
-
         String queryArticles;
         String artFilter = recordTypeFilters();
-
-        String queryStats = ' SELECT Id,NormalizedScore,ParentId '+
-                            ' FROM KnowledgeArticleViewStat '+
-                            ' WHERE Channel = \'AllChannels\' '+
-                            ' ORDER BY NormalizedScore DESC LIMIT 5';
+        String queryStats = ' SELECT Id,NormalizedScore,ParentId '+ ' FROM KnowledgeArticleViewStat '+ ' WHERE Channel = \'AllChannels\' '+ ' ORDER BY NormalizedScore DESC LIMIT 5';
         list<String> theIds = new list<String>();
         list<SObject> theviews = new list<SObject>();
         theviews = Database.query(queryStats);
@@ -425,17 +409,12 @@ public with sharing class aqi_KnowledgeSearchCtrlV2 {
             theIds.add(String.valueOf(theview.get('ParentId')));
 
         }
-
         String idString = ' (\''+String.join(theIds,'\',\'')+'\') ';
-
-        queryArticles =  '  SELECT Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,  '+
-                                    ' Title, CreatedDate, FirstPublishedDate, LastPublishedDate, LastModifiedDate, Summary ';
+        queryArticles =  '  SELECT Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,  '+ ' Title, CreatedDate, FirstPublishedDate, LastPublishedDate, LastModifiedDate, Summary ';
         if (isValidationStatusActive)
             queryArticles += ', ValidationStatus ';
 
-        queryArticles += ' FROM KnowledgeArticleVersion '+
-                            ' where PublishStatus=\''+ PUBLISH_STATUS +'\' AND language =\'' + escapeString(aLanguage) + '\' '+
-                            ' AND KnowledgeArticleId IN  '+idString;
+        queryArticles += ' FROM KnowledgeArticleVersion '+ ' where PublishStatus=\''+ PUBLISH_STATUS +'\' AND language =\'' + escapeString(aLanguage) + '\' '+ ' AND KnowledgeArticleId IN  '+idString;
          if (isMasterLanguage)
             queryArticles += '  AND IsMasterLanguage = true ';
 
@@ -506,8 +485,7 @@ public with sharing class aqi_KnowledgeSearchCtrlV2 {
             }
             List<Id> kavIdsString = new List<Id>();
             kavIdsString.addAll(kavIds);
-            String knowledgeQuery = 'SELECT Id, KnowledgeArticleId, RecordTypeId FROM ' + knowledgeObject +
-                                    ' WHERE PublishStatus = \'Online\' AND Language =\'' + escapeString(aLanguage) + '\' AND KnowledgeArticleId IN (\'' + String.join(kavIdsString, '\' ,\'') + '\')';
+            String knowledgeQuery = 'SELECT Id, KnowledgeArticleId, RecordTypeId FROM ' + knowledgeObject + ' WHERE PublishStatus = \'Online\' AND Language =\'' + escapeString(aLanguage) + '\' AND KnowledgeArticleId IN (\'' + String.join(kavIdsString, '\' ,\'') + '\')';
 
 			List<sObject> sObjList = Database.query(knowledgeQuery);
             Map<Id,Id> knowledgeIdToRecordType = new Map<Id,Id>();
@@ -811,13 +789,11 @@ public with sharing class aqi_KnowledgeSearchCtrlV2 {
 	*/
     private String escapeString(String str){
         String result = null;
-
         if (String.isNotBlank(str)){
             result = String.escapeSingleQuotes(str.trim());
         }else{
             result ='';
         }
-
         return result;
     }
 
@@ -843,7 +819,6 @@ public with sharing class aqi_KnowledgeSearchCtrlV2 {
         }
        return result;
     }
-
 	/*
 	* @description
 	*	Method that escape reserved chars
@@ -852,19 +827,15 @@ public with sharing class aqi_KnowledgeSearchCtrlV2 {
 	* @return
 	*	String
 	*/
-    private String escapeReservedChars(String str){
+    public String escapeReservedChars(String str){
 
         String result = null;
         Pattern p = Pattern.compile('([-&\\|!\\(\\){}\\[\\]\\^\"\'\\~\\+\\-\\?:\\\\])');
-
         if (String.isNotBlank(str)){
             result = p.matcher(str.trim()).replaceAll('');
         }else{
             result ='';
         }
-
         return escapeString(result);
-
     }
-
 }

@@ -6,6 +6,7 @@
         <members>aqi_DynamicPickList_AQI</members>
         <members>aqi_KnowledgeSearchCtrl</members>
         <members>aqi_KnowledgeSearchCtrlV2</members>
+        <members>aqi_KnowledgeSearchCtrlV2_Test</members>
         <members>aqi_KnowledgeSearchCtrl_Test</members>
         <members>aqi_LightningResponse</members>
         <members>aqi_LightningResponse_Test</members>

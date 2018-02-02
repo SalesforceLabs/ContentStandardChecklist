@@ -18,6 +18,23 @@ public with sharing class aqi_WrapperCtrl {
     public aqi_WrapperCtrl() {
 
     }
+    @AuraEnabled
+    public static Boolean kavIsArchived( String kavIdParameter ){
+        Boolean result = false;
+        string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId '+
+                        '	FROM KnowledgeArticleVersion ' +
+                        '	WHERE PublishStatus = \'Archived\' ' +
+                                    ' and Id = \'' + kavIdParameter + '\' ';
+        system.debug('query:' + query);
+        List<KnowledgeArticleVersion> actualKavs =  Database.query(query);
+        system.debug('actualKavs: ' + actualKavs);
+        if(!actualKavs.isEmpty()){
+            result = true;
+        }
+        return result;
+    }
+
+
 
     /*
     * @description

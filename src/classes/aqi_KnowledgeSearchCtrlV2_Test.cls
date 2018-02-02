@@ -75,7 +75,11 @@ private class aqi_KnowledgeSearchCtrlV2_Test {
         Id[] fixedSearchResults= new Id[1];
         fixedSearchResults[0] = article.Id;
         Test.setFixedSearchResults(fixedSearchResults);
-        List<List<SObject>> knowledgeKavSosl = [FIND 'test' IN ALL FIELDS RETURNING Knowledge__kav ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = 'Draft'  AND  language = 'en_US'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )];
+
+        String knowledgeObject = aqi_securityHandler.knowledgeObject; 
+        String queryStringSosl =   ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
+        List<List<SObject>> knowledgeKavSosl = search.query(queryStringSosl);
+
         System.assertNotEquals(null,knowledgeKavSosl);
         Map<Id,String> availableRecordTypes = ctr.availableRecordTypes;
         String tzOffset = ctr.tzOffset;

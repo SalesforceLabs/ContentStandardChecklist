@@ -5,6 +5,7 @@
     <tab>standard-Knowledge</tab>
     <tab>standard-KnowledgePublishing</tab>
     <tab>Create_AQI</tab>
+    <tab>OLD_Create_AQI</tab>
     <tab>Article_Quality__c</tab>
     <tab>standard-report</tab>
 </CustomApplication>

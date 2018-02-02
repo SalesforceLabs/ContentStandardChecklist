@@ -2,7 +2,7 @@ global class aqi_KnowledgeSearchCtrl {
 
 	public static String PUBLISH_STATUS = System.Test.isRunningTest() ? 'Draft' : 'Online';
     public final static String DEFAULT_LANGUAGE = aqi_SettingsHandler.customOrDefaultLanguage();
-	public static final Integer PAGE_SIZE 	= 2;
+	public static final Integer PAGE_SIZE 	= 10;
     public static String sortBy 	= 'Title';
     public static Boolean sortAsc 	= false;
     public static String knowledgeObject = aqi_securityHandler.knowledgeObject;

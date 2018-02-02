@@ -1,11 +1,9 @@
 ({
 	myAction : function(component, event, helper) {
-        
+
     },
-    
+
     doInit: function(cmp, event, helper) {
-     
-        var helper = this;
         var action = cmp.get("c.loadKAVId");
 
         action.setParams({ recordId: cmp.get("v.recordId")});
@@ -14,10 +12,9 @@
             var state = response.getState();
 
             if (state === "SUCCESS") {
-                //Fire updated event
                 var responseMap = response.getReturnValue();
-				console.log(responseMap);
               	cmp.set("v.kavId",responseMap);
+				helper.afterInit(cmp,event,helper);
 
             }
 			else if (state === "INCOMPLETE") {
@@ -29,7 +26,7 @@
 		   }
         });
         $A.enqueueAction(action);
-        
-        
+
+
     }
 })

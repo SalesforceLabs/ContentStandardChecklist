@@ -1,7 +1,6 @@
 @isTest
 private class aqi_KnowledgeSearchCtrlV2_Test {
     static SObject kavObj;
-
     static void populateCustomSetting(){
         //creates a Custom Setting at the organization level
         ArticleQuality_index__c setting= new ArticleQuality_index__c();
@@ -18,42 +17,31 @@ private class aqi_KnowledgeSearchCtrlV2_Test {
         insert setting;
     }
 
-	static void populateData(){
-
-    	// creates Custom Article type
-        string publishStatus = 'draft';
+    static void populateData(){
+        // creates Custom Article type
+        string publishStatus = 'Draft';
         Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
-
         List<String> kavNames = new List<String>();
         for (String s : gd.keySet()) {
-        	if (s.contains('__kav')) {
-    			kavNames.add(s);
-        	}
+            if (s.contains('__kav')) {
+                kavNames.add(s);
+            }
         }
-
         String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
-
-
         String objType = kavNames.get(0);
-
-
         kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
-        kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
-        kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
-        kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');
+        kavObj.put('Title','test');
+        kavObj.put('UrlName', 'foo-foo-foo-test'+String.valueOf(Crypto.getRandomInteger()));
+        kavObj.put('Summary', 'This is a summary test!!! Foo. Foo. Foo.');
         kavObj.put('Language', default_language);
         insert kavObj;
-
-        // requery the kavObj to get the KnowledgeArticleId on it that is created automatically
         String q =  '    SELECT Id,ArticleNumber,CreatedDate,LastPublishedDate, LastModifiedDate, LastModifiedById,'+
                     '    PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
                     '   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
         kavObj = (KnowledgeArticleVersion)Database.query(q);
-
     }
 
-	static Article_Quality__c populateFields (KnowledgeArticleVersion article){
-
+    static Article_Quality__c populateFields (KnowledgeArticleVersion article){
            Article_Quality__c result = new Article_Quality__c();
            result.Knowledge_Article_Version_Id__c = article.Id;
            result.Article_Title__c = article.Title;
@@ -70,68 +58,40 @@ private class aqi_KnowledgeSearchCtrlV2_Test {
            result.Art_Meets_Content_Standard__c = true;
            result.Content_Complete__c = true;
            result.Agent__c = UserInfo.getUserId();
-
            return result;
     }
 
-
     @isTest static void test_list() {
         populateCustomSetting();
-
         System.Test.startTest();
         PageReference tpageRef = Page.aqi_KnowledgeSearch;
         Test.setCurrentPage(tpageRef);
-
         ApexPages.currentPage().getParameters().put('kavId', UserInfo.getUserId());
-
         ApexPages.Message[] pageMessages = ApexPages.getMessages();
         System.assertEquals(0, pageMessages.size());
-
         aqi_KnowledgeSearchCtrlV2 ctr = new aqi_KnowledgeSearchCtrlV2();
-        System.assertEquals(0,ctr.getMyArticles().size());//without AQI
-        System.assertNotEquals(0,aqi_KnowledgeSearchCtrlV2.allLanguageOptions.size());
-        System.assertNotEquals(0,aqi_securityHandler.getAllowedRecordTypesMap().size());
-        System.assertNotEquals(0,ctr.getTheRecordTypes().size());
-
         populateData();
-
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
-        ctr.anumber = article.ArticleNumber;
-        ctr.author = '';
-        ctr.lastpublisher = '';
-        ctr.runSearch();
 
-        System.assertNotEquals(null,ctr.getLanguageOptions());
-        System.debug('getMyArticle: ' + ctr.getMyArticles().size());
-        System.assertEquals(1,ctr.getMyArticles().size());
+        String queryString = ctr.resolveArticleSearch();
+        System.assertNotEquals(true, String.isBlank(queryString));
+        ctr.subject = 'test';
+        String queryStringWithSubject = ctr.resolveArticleSearch();
+        System.assertNotEquals(true, String.isBlank(queryStringWithSubject)); 
+        String queryDefaultArticles = ctr.queryDefaultArticles();
+        System.assertNotEquals(true, String.isBlank(queryDefaultArticles));
+        String aLanguage = ctr.aLanguage;
+        System.assertNotEquals(true, String.isBlank(aLanguage));
+        Map<String,String> allLanguageOptions = aqi_KnowledgeSearchCtrlV2.allLanguageOptions;
+        System.assertNotEquals(null, allLanguageOptions);
+        System.assertNotEquals(false, aqi_KnowledgeSearchCtrlV2.appConfigured);
+        String queryPopularArticles = ctr.queryPopularArticles();
+        System.assertNotEquals(true, String.isBlank(queryPopularArticles));
+        System.assertNotEquals(null, ctr.getMyArticles());
+        System.assertNotEquals(null, ctr.getLanguageOptions());
+        System.assertEquals(2,(ctr.escapeReservedChars('fa\\')).length());
+        List<SelectOption> listRecTypes = ctr.getTheRecordTypes();
 
-        System.assertEquals(false,ctr.hasNext);
-        System.assertEquals(false,ctr.hasPrevious);
-        System.assertEquals(1,ctr.pageNumber);
-        ctr.first();
-        ctr.last();
-        ctr.previous();
-        ctr.next();
-
-
-		ctr.subject = article.Title;
-        ctr.author = '';
-        ctr.lastpublisher = '';
-        ctr.runSearch();
-        ctr.updateSort();
-
-        System.assertNotEquals(null,ctr.getLanguageOptions());
-        System.assertEquals(0,ctr.getMyArticles().size());
-
-
-        ctr.dateLastModifiedFrom ='01/01/2015';
-        ctr.dateLastModifiedTO ='01/01/2015';
-        ctr.dateFirstPublishedFrom ='01/01/2015';
-        ctr.dateFirstPublishedTo ='01/01/2015';
-        ctr.runSearch();
-        System.assertNotEquals(null,ctr.getLanguageOptions());
-        System.assertEquals(0,ctr.getMyArticles().size());
-        system.assertEquals(true, aqi_KnowledgeSearchCtrlV2.appConfigured);
+        System.Test.stopTest();
      }
-
 }

@@ -71,7 +71,7 @@
             }
 
             div.newAQI_Icon{
-              
+
                 background-image: url("{!URLFOR($Resource.aqi_resources, 'images/edit_120.png')}");
                 background-repeat: no-repeat;
                 background-size: cover;
@@ -93,7 +93,7 @@
             var reachedEndOfList = false;
             var SORT_ASC ='&nbsp;&nbsp;&uarr;';
             var SORT_DESC = '&nbsp;&nbsp;&darr;';
-            
+
 
             function formatDate(mili){
                 var tmpOffset =parseFloat('{!JSENCODE(tzOffset)}');
@@ -138,7 +138,6 @@
             function getRemoteArticles(refresh) {
                 if (refresh){
                     pageNum = 0;
-                    $("tbody#articleList").html('');
                 }
 
                 var searchString 	= $('#searchByString').val();
@@ -193,11 +192,10 @@
 
             function handleResult(result, event) {
                 console.log(result);
-
                 var tplTableRow = $.templates("#tplTableRow");
                 var tplIsStatusValidated = $.templates("#tplIsStatusValidated");
-                
-                $("tbody#articleList").html('');
+
+                $("tbody#articleList").empty('');
                 if (event.status) {
                     //debugger;
                     $(result.items).each(function (i,e){
@@ -212,6 +210,7 @@
                                 return unescapeMe(content);
                             }
                         });
+
                         $("tbody#articleList").append(htmlOutput);
                         if (e.isValidationStatusActive){
                             var innerHtml = tplIsStatusValidated.render(e);
@@ -234,7 +233,7 @@
             function gotoPage(pageStr){
                 var actualPage = pageNum;
                 if (reachedEndOfList && pageStr =='+1') return;
-               
+
                 if ( isNaN(pageNum))
                     pageNum = 0;
 
@@ -248,7 +247,7 @@
                     case '+1':
                         pageNum++;
                         break;
-                
+
                     default:
                         break;
 
@@ -289,7 +288,7 @@
                         }
                     }
 
-               
+
             }
 
             function navigateToEdit(kavId,language,version){
@@ -299,7 +298,7 @@
             }
 
             function switchSortAndSearch(obj){
-                console.log("[IN] switchSortAndSearch :"+ sortBy+" sortAsc :"+sortAsc); 
+                console.log("[IN] switchSortAndSearch :"+ sortBy+" sortAsc :"+sortAsc);
                 //remove all sort indicators
                 $('.sortableRow  span').html('');
 
@@ -312,7 +311,7 @@
                 }
 
                 console.log("[OUT] switchSortAndSearch :"+ sortBy+" sortAsc :"+sortAsc);
-                   
+
                     getRemoteArticles(true);
             }
 
@@ -321,7 +320,7 @@
 
                 $('.sortableRow ').on('click', function (e) {
                     switchSortAndSearch($(this));
-                });  
+                });
             });
 
             $('#searchForm').submit(function (e) {
@@ -339,7 +338,7 @@
                     <div class="slds-truncate slds-text-body_small newAQI_Icon" onclick="navigateToEdit('{{:KnowledgeArticleId}}','{{:Language}}','{{:VersionNumber}}');">
                   &nbsp;
                     </div>
-                    
+
                 </td>
 
                 <td class="slds-cell-buffer_left" role="gridcell">
@@ -348,7 +347,7 @@
 
                 <th class="slds-cell-buffer_left"  scope="row">
                     <div class="slds-truncate" title="{{:ArticleNumber}}">
-                        <a href="/{{:Id}}" tabindex="0" target="_blank">{{:ArticleNumber}}</a>
+                        <a href="/{{:KnowledgeArticleId}}" tabindex="0" target="_blank">{{:ArticleNumber}}</a>
                     </div>
                 </th>
 
@@ -367,7 +366,7 @@
                 <td class="slds-cell-buffer_left"  role="gridcell">
                     <div class="slds-truncate" title="{{:Summary}}">{{:Summary}}</div>
                 </td>
-                {{if isValidationStatusEnabled  }} 
+                {{if isValidationStatusEnabled  }}
                 <td class="slds-cell-buffer_left"  role="gridcell">
                     <div class="slds-truncate" title="{{:ValidationStatus}}">{{:ValidationStatus}}</div>
                 </td>
@@ -689,7 +688,7 @@
                     </table>
 
                     <div class="slds-panel__section slds-has-divider--bottom slds-align_absolute-center ">
-                          
+
                             <div id="paginationBtns" class="slds-button-group" role="group">
                                 <button id="btnStart" onclick="gotoPage('0');" class="slds-button slds-button_neutral" >First</button>
                                 <button id="btnPrev" onclick="gotoPage('-1');"  class="slds-button slds-button_neutral">Previous</button>

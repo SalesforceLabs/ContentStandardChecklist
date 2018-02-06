@@ -27,26 +27,26 @@
                 width: 3%;
             }
             th.col_Title{
-                width: 12%;
+                width: 11%;
             }
             th.col_ArticleNumber{
                 width: 8%;
             }
             th.col_RecordType{
-                width: 7%;
+                width: 8%;
             }
             th.col_VersionNumber{
-                width: 3%;
+                width: 4%;
             }
             th.col_SummaryEXT{
                 width: 35%;
             }
             th.col_Summary{
-                width: 25%;
+                width: 22%;
             }
 
             th.col_validationstatus{
-                width: 5%;
+                width: 8%;
             }
 
             th.col_LastModifiedDate{
@@ -58,18 +58,20 @@
             }
 
             th.col_lastmodifiedby{
-                width: 7%;
+                width: 8%;
             }
 
             th.col_createdby{
-                width: 7%;
+                width: 6%;
             }
 
             /* has aqi col */
             th.col_HASAQI{
                 width: 4%;
             }
-
+            th.paddingLeftText {
+                padding-left:22%;
+            }
             div.newAQI_Icon{
 
                 background-image: url("{!URLFOR($Resource.aqi_resources, 'images/edit_120.png')}");
@@ -341,17 +343,17 @@
 
                 </td>
 
-                <td class="slds-cell-buffer_left" role="gridcell">
+                <td class=" slds-text-align_left" role="gridcell">
                     <div class="slds-truncate" title="{{:Title}}">{{:Title}}</div>
                 </td>
 
-                <th class="slds-cell-buffer_left"  scope="row">
+                <th class=" slds-text-align_left"  scope="row">
                     <div class="slds-truncate" title="{{:ArticleNumber}}">
                         <a href="/{{:KnowledgeArticleId}}" tabindex="0" target="_blank">{{:ArticleNumber}}</a>
                     </div>
                 </th>
 
-                <td class="slds-cell-buffer_left"  role="gridcell">
+                <td class=" slds-text-align_left"  role="gridcell">
                     <div class="slds-truncate" title="Record Type">
                         {{if RecordType  }}
                             {{:RecordType.Name}}
@@ -359,41 +361,41 @@
                     </div>
                 </td>
 
-                <td class="slds-cell-buffer_left"  role="gridcell">
+                <td class=" slds-text-align_left"  role="gridcell">
                     <div class="slds-truncate" title="{{:VersionNumber}}">{{:VersionNumber}}</div>
                 </td>
 
-                <td class="slds-cell-buffer_left"  role="gridcell">
+                <td class=" slds-text-align_left"  role="gridcell">
                     <div class="slds-truncate" title="{{:Summary}}">{{:Summary}}</div>
                 </td>
                 {{if isValidationStatusEnabled  }}
-                <td class="slds-cell-buffer_left"  role="gridcell">
+                <td class=" slds-text-align_left"  role="gridcell">
                     <div class="slds-truncate" title="{{:ValidationStatus}}">{{:ValidationStatus}}</div>
                 </td>
                 {{/if}}
-                <td class="slds-cell-buffer_left"  role="gridcell">
+                <td class="slds-text-align_left"  role="gridcell">
                     <div class="slds-truncate" title="LastModifiedDate ">{{:~formatDate(LastModifiedDate)}}</div>
                 </td>
 
-                <td class="slds-cell-buffer_left"  role="gridcell">
+                <td class="slds-text-align_left"  role="gridcell">
                     <div class="slds-truncate" title="First Published Date">
                         {{:~formatDate(FirstPublishedDate)}}
                     </div>
                 </td>
 
-                <td class="slds-cell-buffer_left"  role="gridcell">
+                <td class="slds-text-align_left"  role="gridcell">
                     <div class="slds-truncate" title="Last Modified By">
                         {{:LastModifiedBy.Name}}
                     </div>
                 </td>
 
-                <td class="slds-cell-buffer_left"  role="gridcell">
+                <td class="slds-text-align_left"  role="gridcell">
                     <div class="slds-truncate" title="Created By ">
                         {{:CreatedBy.Name}}
                     </div>
                 </td>
 
-                <td class="slds-cell-buffer_left"  role="gridcell">
+                <td class="slds-text-align_left"  role="gridcell">
                     {{if hasAQI  }}
                         <input type="checkbox" disabled="true" name="options" id="checkbox-01" tabindex="0" value="on" checked="{{:hasAQI}}" />
                     {{else}}
@@ -593,45 +595,45 @@
                         <thead>
                              <tr>
                                 <th scope="col" class="col_NEWAQI">
-                                    <div class="slds-truncate slds-align_absolute-center" title="New AQI">&nbsp;</div>
+                                    <div class="slds-truncate slds-align_absolute-left" title="New AQI">&nbsp;</div>
                                 </th>
 
                                 <!-- TITLE COLUMN -->
                                 <th scope="col"  class="col_Title" >
-                                    <span class="sortableRow slds-align_absolute-center" title="Name">
-                                        Title
+                                    <span class="sortableRow slds-align_absolute-left " title="Name">
+                                         Title
                                         <span id="Title" class="sorting">&nbsp;&nbsp;&darr;</span>
                                     </span>
                                 </th>
 
                                 <!-- Article Number -->
                                 <th scope="col" class="col_ArticleNumber" >
-                                    <span class="sortableRow slds-align_absolute-center" title="Account Name">
-                                        Article Number
+                                    <span class="sortableRow slds-align_absolute-left" title="Account Name">
+                                         Article Number
                                         <span id="ArticleNumber" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Record Type  -->
                                 <th scope="col"  class="col_RecordType">
-                                    <span class="sortableRow slds-align_absolute-center" title="Record Type">
-                                        Record Type
+                                    <span class="sortableRow slds-align_absolute-left" title="Record Type">
+                                         Record Type
                                         <span id="RecordType.Name" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Version  -->
                                 <th scope="col"  class="col_VersionNumber">
-                                    <span class="sortableRow slds-align_absolute-center" title="Version">
-                                        Version
+                                    <span class="sortableRow slds-align_absolute-left" title="Version">
+                                         Version
                                         <span id="VersionNumber" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Summary      -->
                                 <th scope="col"  class="{!IF(isValidationStatusActive,'col_Summary','col_SummaryEXT')}">
-                                    <span class="sortableRow slds-align_absolute-center" title="Summary">
-                                        Summary
+                                    <span class="sortableRow slds-align_absolute-left" title="Summary">
+                                         Summary
                                         <span id="Summary" class="sorting"></span>
                                     </span>
                                 </th>
@@ -639,8 +641,8 @@
                                 <!-- validationstatus -->
                                 <apex:outputPanel rendered="{!isValidationStatusActive}">
                                 <th scope="col"  class="col_validationstatus">
-                                    <span class="sortableRow slds-align_absolute-center" title="Validaition Status">
-                                        Validaition Status
+                                    <span class="sortableRow slds-align_absolute-left" title="Validaition Status">
+                                         Validation Status
                                         <span id="validationstatus" class="sorting"></span>
                                     </span>
                                 </th>
@@ -648,38 +650,40 @@
 
                                 <!--  Last Modified Date-->
                                 <th scope="col"  class="col_LastModifiedDate">
-                                    <span class="sortableRow slds-align_absolute-center" title="Last Modified Date">
-                                        Last Modified Date
+                                    <span class="sortableRow slds-align_absolute-left" title="Last Modified Date">
+                                         Last Modified Date
                                         <span id="LastModifiedDate" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- First Published date -->
                                 <th scope="col"  class="col_FirstPublishedDate">
-                                    <span class="sortableRow slds-align_absolute-center" title="First Published Date">
-                                        First Published Date
+                                    <span class="sortableRow slds-align_absolute-left" title="First Published Date">
+                                         First Published Date
                                         <span id="FirstPublishedDate" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Last modified by -->
                                 <th scope="col"  class="col_lastmodifiedby">
-                                    <span class="sortableRow slds-align_absolute-center" title="Last Modified Date">
-                                        Last Modified By
+                                    <span class="sortableRow slds-align_absolute-left" title="Last Modified Date">
+                                         Last Modified By
                                         <span id="lastmodifiedby.Name" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <!-- Created by -->
                                 <th scope="col"  class="col_createdby" >
-                                    <span class="sortableRow slds-align_absolute-center" title="Created By">
-                                        Created By
+                                    <span class="sortableRow slds-align_absolute-left" title="Created By">
+                                         Created By
                                         <span id="createdby.name" class="sorting"></span>
                                     </span>
                                 </th>
 
                                 <th scope="col" class="col_HASAQI">
-                                    <span class="slds-truncate slds-align_absolute-center" title="Has AQI">AQI</span>
+                                    <span class="slds-truncate slds-align_absolute-left" title="Has AQI">
+                                         AQI
+                                    </span>
                                 </th>
                             </tr>
                         </thead>
@@ -694,7 +698,7 @@
                                 <button id="btnPrev" onclick="gotoPage('-1');"  class="slds-button slds-button_neutral">Previous</button>
                                 <button id="btnNext" onclick="gotoPage('+1');"  class="slds-button slds-button_neutral">Next</button>
                             </div>
-                            <div id="noResultsMsg" class="slds-text-heading_small">
+                            <div id="noResultsMsg" class="slds-text-heading_small slds-p-left_medium">
                               No records to display
                             </div>
                     </div>

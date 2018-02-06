@@ -19,19 +19,26 @@ public with sharing class aqi_WrapperCtrl {
 
     }
     @AuraEnabled
-    public static Boolean kavIsArchived( String kavIdParameter ){
-        Boolean result = false;
-        string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId '+
-                        '	FROM KnowledgeArticleVersion ' +
-                        '	WHERE PublishStatus = \'Archived\' ' +
-                                    ' and Id = \'' + kavIdParameter + '\' ';
-        system.debug('query:' + query);
-        List<KnowledgeArticleVersion> actualKavs =  Database.query(query);
-        system.debug('actualKavs: ' + actualKavs);
-        if(!actualKavs.isEmpty()){
-            result = true;
+    public static aqi_LightningResponse kavIsArchived( String kavIdParameter ){
+        aqi_LightningResponse response = new aqi_LightningResponse();
+        try{
+            Boolean result = false;
+            string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId '+
+                            '	FROM KnowledgeArticleVersion ' +
+                            '	WHERE PublishStatus = \'Archived\' ' +
+                                        ' and Id = \'' + kavIdParameter + '\' ';
+            system.debug('query:' + query);
+            List<KnowledgeArticleVersion> actualKavs =  Database.query(query);
+            system.debug('actualKavs: ' + actualKavs);
+            if(!actualKavs.isEmpty()){
+                result = true;
+            }
+            response.jsonResponse = JSON.serialize(result);
+
+        }catch(Exception e){
+            response = new aqi_LightningResponse(e);
         }
-        return result;
+        return response;
     }
 
 
@@ -212,15 +219,22 @@ public with sharing class aqi_WrapperCtrl {
 
 
 	@AuraEnabled
-    public static String loadKAVId(String recordId){
+    public static aqi_LightningResponse loadKAVId(String recordId){
+        aqi_LightningResponse response = new aqi_LightningResponse();
         String result = null;
-        List<Article_Quality__c > l = [Select Id, Knowledge_Article_Version_Id__c  from Article_Quality__c  where id=:recordId];
-        if (!l.isEmpty()){
-            result = l.get(0).Knowledge_Article_Version_Id__c;
-
+        try{
+            response.state = 'SUCCESS';
+            List<Article_Quality__c > l = [Select Id, Knowledge_Article_Version_Id__c  from Article_Quality__c  where id=:recordId];
+            if (!l.isEmpty()){
+                result = l.get(0).Knowledge_Article_Version_Id__c;
+            }
+            system.debug('call to apex with result: ' + result);
+            response.jsonResponse = JSON.serialize(result);
         }
-
-        return result;
+        catch(Exception e){
+            response.state = 'ERROR';
+        }
+        return response;
     }
 
   public class indexWrapper{

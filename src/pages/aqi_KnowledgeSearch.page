@@ -46,7 +46,7 @@
             }
 
             th.col_validationstatus{
-                width: 8%;
+                width: 9%;
             }
 
             th.col_LastModifiedDate{
@@ -84,7 +84,14 @@
             td.newAQI_IconContainer{
                 padding: 0.7rem !important;
             }
+            div.wordWrap{
+                white-space: normal;
+                word-wrap: inherit;
+            }
 
+            .sortableRow{
+                    text-align: center;
+            }
         </style>
 
         <script type="text/javascript">
@@ -537,6 +544,7 @@
                     </div>
 
                     <!-- -->
+
                     <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
                         <span>&nbsp;</span>
                     </div>
@@ -600,84 +608,83 @@
 
                                 <!-- TITLE COLUMN -->
                                 <th scope="col"  class="col_Title" >
-                                    <span class="sortableRow slds-align_absolute-left " title="Name">
+                                    <div class="sortableRow slds-align_absolute-left wordWrap " title="Name">
                                          Title
                                         <span id="Title" class="sorting">&nbsp;&nbsp;&darr;</span>
-                                    </span>
+                                    </div>
                                 </th>
 
                                 <!-- Article Number -->
                                 <th scope="col" class="col_ArticleNumber" >
-                                    <span class="sortableRow slds-align_absolute-left" title="Account Name">
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Account Name">
                                          Article Number
                                         <span id="ArticleNumber" class="sorting"></span>
-                                    </span>
+                                    </div>
                                 </th>
 
                                 <!-- Record Type  -->
                                 <th scope="col"  class="col_RecordType">
-                                    <span class="sortableRow slds-align_absolute-left" title="Record Type">
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Record Type">
                                          Record Type
                                         <span id="RecordType.Name" class="sorting"></span>
-                                    </span>
+                                    </div>
                                 </th>
 
                                 <!-- Version  -->
                                 <th scope="col"  class="col_VersionNumber">
-                                    <span class="sortableRow slds-align_absolute-left" title="Version">
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Version">
                                          Version
                                         <span id="VersionNumber" class="sorting"></span>
-                                    </span>
+                                    </div>
                                 </th>
 
                                 <!-- Summary      -->
                                 <th scope="col"  class="{!IF(isValidationStatusActive,'col_Summary','col_SummaryEXT')}">
-                                    <span class="sortableRow slds-align_absolute-left" title="Summary">
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Summary">
                                          Summary
                                         <span id="Summary" class="sorting"></span>
-                                    </span>
+                                    </div>
                                 </th>
 
                                 <!-- validationstatus -->
                                 <apex:outputPanel rendered="{!isValidationStatusActive}">
                                 <th scope="col"  class="col_validationstatus">
-                                    <span class="sortableRow slds-align_absolute-left" title="Validaition Status">
+                                    <div class=" slds-align_absolute-left wordWrap" title="Validation Status">
                                          Validation Status
-                                        <span id="validationstatus" class="sorting"></span>
-                                    </span>
+                                    </div>
                                 </th>
                                 </apex:outputPanel>
 
                                 <!--  Last Modified Date-->
                                 <th scope="col"  class="col_LastModifiedDate">
-                                    <span class="sortableRow slds-align_absolute-left" title="Last Modified Date">
-                                         Last Modified Date
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Last Modified Date">
+                                         Last Modified
                                         <span id="LastModifiedDate" class="sorting"></span>
-                                    </span>
+                                    </div>
                                 </th>
 
                                 <!-- First Published date -->
                                 <th scope="col"  class="col_FirstPublishedDate">
-                                    <span class="sortableRow slds-align_absolute-left" title="First Published Date">
-                                         First Published Date
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="First Published Date">
+                                         First Published
                                         <span id="FirstPublishedDate" class="sorting"></span>
-                                    </span>
+                                    </div>
                                 </th>
 
                                 <!-- Last modified by -->
                                 <th scope="col"  class="col_lastmodifiedby">
-                                    <span class="sortableRow slds-align_absolute-left" title="Last Modified Date">
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Last Modified Date">
                                          Last Modified By
                                         <span id="lastmodifiedby.Name" class="sorting"></span>
-                                    </span>
+                                    </div>
                                 </th>
 
                                 <!-- Created by -->
                                 <th scope="col"  class="col_createdby" >
-                                    <span class="sortableRow slds-align_absolute-left" title="Created By">
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Created By">
                                          Created By
                                         <span id="createdby.name" class="sorting"></span>
-                                    </span>
+                                    </div>
                                 </th>
 
                                 <th scope="col" class="col_HASAQI">

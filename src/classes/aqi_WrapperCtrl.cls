@@ -27,9 +27,7 @@ public with sharing class aqi_WrapperCtrl {
                             '	FROM KnowledgeArticleVersion ' +
                             '	WHERE PublishStatus = \'Archived\' ' +
                                         ' and Id = \'' + kavIdParameter + '\' ';
-            system.debug('query:' + query);
             List<KnowledgeArticleVersion> actualKavs =  Database.query(query);
-            system.debug('actualKavs: ' + actualKavs);
             if(!actualKavs.isEmpty()){
                 result = true;
             }
@@ -58,8 +56,6 @@ public with sharing class aqi_WrapperCtrl {
 
 	    aqi_LightningResponse response = new aqi_LightningResponse();
         Map<String,Double>  indexValues = aqi_Ctrl.getindexApiNameToValue();
-        system.debug(recordId);
-        system.debug(apiNames);
 
 
         if (!String.isNotBlank(apiNames)){
@@ -80,16 +76,13 @@ public with sharing class aqi_WrapperCtrl {
 
                          ArticleQuality_index__c aqs = aqi_SettingsHandler.getSettings();
 
-                        system.debug('into try of getInitData');
                         set<String> apiNamesWhiteLilst = indexValues.keySet();
-                        system.debug(apiNamesWhiteLilst);
 
                         set<String> apiList  = new set<String>();
                         apiNames = apiNames.replace('"','').replace('[','').replace(']','');
                         for (String a : apiNames.split(',')){
                             if (String.isNotBlank(a) && apiNamesWhiteLilst.contains(a)){
                                 apiList.add(a);
-                                system.debug(a);
                             }
                         }
 
@@ -99,7 +92,7 @@ public with sharing class aqi_WrapperCtrl {
 
                         String qStringApiNames = String.join(uniqueApiNames,', ');
 
-                        system.debug(qStringApiNames);
+
 
 
                         String qStr =   ' SELECT Name, Action_Assigned_To__r.Name, Action_Assigned_To__r.Id , Action_Assigned_To__r.FullPhotoUrl, Action_Needed__c, AQ_Score__c, '+
@@ -112,7 +105,6 @@ public with sharing class aqi_WrapperCtrl {
                                 ' WHERE '+
                                 ' Knowledge_Article_Version_Id__c =\''+recordId+'\'';
 
-                        system.debug(qStr);
 
                         List<Article_Quality__c > l = Database.query(   qStr );
                         if (l.isEmpty()){
@@ -128,11 +120,9 @@ public with sharing class aqi_WrapperCtrl {
                             if (allFields.containsKey(tmp)){
                                 Schema.DescribeFieldResult dfr = allFields.get(tmp).getDescribe();
                                 if (dfr.isCustom() && dfr.getType() ==Schema.DisplayType.BOOLEAN){
-                                    system.debug('\n'+tmp+':'+dfr.getType());
+
                                     indexList.add(new indexWrapper(dfr.getLabel(),dfr.getName(),true));
                                 }
-                            }else{
-                                system.debug('\n NOT '+tmp);
                             }
                         }
                     }
@@ -228,7 +218,6 @@ public with sharing class aqi_WrapperCtrl {
             if (!l.isEmpty()){
                 result = l.get(0).Knowledge_Article_Version_Id__c;
             }
-            system.debug('call to apex with result: ' + result);
             response.jsonResponse = JSON.serialize(result);
         }
         catch(Exception e){

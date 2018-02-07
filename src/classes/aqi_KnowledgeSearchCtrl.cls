@@ -91,7 +91,7 @@ global class aqi_KnowledgeSearchCtrl {
 				queryOffset = ( pageNum  ) * PAGE_SIZE;
 		}
 		return queryOffset;
-	} 
+	}
 	@RemoteAction
     global static Object getArticles(String searchString, String articleNumber, String articleLanguage,
 			String articleCreatedBy,String articlelastModifiedBy,
@@ -101,7 +101,7 @@ global class aqi_KnowledgeSearchCtrl {
             String pageNum, String sortBy, Boolean sortAsc) {
 
         Integer queryOffset =  resolveOffset(pageNum);
-       
+
         Boolean isMasterLanguage = checkForSchemaFieldActive('ismasterlanguage');
         String fieldsToRetrieve = ' Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,  '+
                                   ' Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary ';
@@ -210,6 +210,13 @@ global class aqi_KnowledgeSearchCtrl {
         result.put('items',resultList);
         result.put('pageNum',pageNum);
         result.put('errorList',errorsOnInput);
+
+		Boolean showNext = true;
+
+		if(resultList.size() < PAGE_SIZE){
+			showNext = false;
+		}
+		result.put('showNext',showNext);
 		return result;
     }
 
@@ -278,7 +285,7 @@ global class aqi_KnowledgeSearchCtrl {
     public static boolean checkForSchemaFieldActive(String fieldName){
          Schema.DescribeSObjectResult sor = Schema.getGlobalDescribe().get(knowledgeObject).getDescribe();
         Map<String,Schema.SObjectField> sofs = sor.fields.getMap();
-      
+
         Set<String> objectFields = sofs.keySet();
         return objectFields.contains(fieldName);
     }

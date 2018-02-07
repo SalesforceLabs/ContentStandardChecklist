@@ -229,7 +229,7 @@
 
                     });
 
-                    handlePagination(result.items.length);
+                    handlePagination(result.items.length , result.showNext);
                 } else if (event.type === 'exception') {
                     document.getElementById("responseErrors").innerHTML =
                         event.message + "<br/>\n<pre>" + event.where + "</pre>";
@@ -269,7 +269,7 @@
 
             }
 
-            function handlePagination(rSize){
+            function handlePagination(rSize, showNext){
 
 
                 $('#paginationBtns button').attr('disabled',true);
@@ -281,21 +281,22 @@
                     $('#noResultsMsg').hide();
                 }
 //btnStart btnPrev btnNext
-                if (pageNum == 0 ){
+                if (pageNum == 0){
                     $('#btnNext').attr('disabled',false);
-                }else
+                }else{
                     if (pageNum > 0){
                         $('#btnStart').attr('disabled',false);
                         $('#btnPrev').attr('disabled',false);
 
-                        if (rSize < pageSize){
-                            //hideLoadMore
-                            $('#btnNext').attr('disabled',true);
-                            reachedEndOfList= true;
-                        }else{
-                            $('#btnNext').attr('disabled',false);
-                        }
                     }
+                 }
+                 if (!showNext) {
+                        //hideLoadMore
+                        $('#btnNext').attr('disabled',true);
+                        reachedEndOfList= true;
+                 } else {
+                        $('#btnNext').attr('disabled',false);
+                 }
 
 
             }

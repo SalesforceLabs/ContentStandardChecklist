@@ -354,7 +354,7 @@
                 </th>
 
                 <td class=" slds-text-align_left"  role="gridcell">
-                    <div class="slds-truncate" title="Record Type">
+                    <div class="slds-truncate" title="{{:RecordType.Name}}">
                         {{if RecordType  }}
                             {{:RecordType.Name}}
                         {{/if}}
@@ -374,23 +374,23 @@
                 </td>
                 {{/if}}
                 <td class="slds-text-align_left"  role="gridcell">
-                    <div class="slds-truncate" title="LastModifiedDate ">{{:~formatDate(LastModifiedDate)}}</div>
+                    <div class="slds-truncate" title="{{:~formatDate(LastModifiedDate)}} ">{{:~formatDate(LastModifiedDate)}}</div>
                 </td>
 
                 <td class="slds-text-align_left"  role="gridcell">
-                    <div class="slds-truncate" title="First Published Date">
+                    <div class="slds-truncate" title="{{:~formatDate(FirstPublishedDate)}}">
                         {{:~formatDate(FirstPublishedDate)}}
                     </div>
                 </td>
 
                 <td class="slds-text-align_left"  role="gridcell">
-                    <div class="slds-truncate" title="Last Modified By">
+                    <div class="slds-truncate" title="{{:LastModifiedBy.Name}}">
                         {{:LastModifiedBy.Name}}
                     </div>
                 </td>
 
                 <td class="slds-text-align_left"  role="gridcell">
-                    <div class="slds-truncate" title="Created By ">
+                    <div class="slds-truncate" title="{{:CreatedBy.Name}} ">
                         {{:CreatedBy.Name}}
                     </div>
                 </td>
@@ -517,7 +517,7 @@
                                 <label class="slds-form-element__label" for="input-id-01">First Published date from</label>
 
                                 <div class="slds-form-element__control">
-                                    <input type="date" id="articlePublishDateFrom" class="slds-input" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>
+                                    <input type="date" min="2000-01-01" id="articlePublishDateFrom" class="slds-input" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>
                                 </div>
                             </div>
                         </div>
@@ -530,7 +530,7 @@
                                 <label class="slds-form-element__label" for="input-id-01">Last Modified date from </label>
 
                                 <div class="slds-form-element__control">
-                                    <input type="date" id="articleLastModifiedDateFrom" class="slds-input"  />
+                                    <input type="date" min="2000-01-01" id="articleLastModifiedDateFrom" class="slds-input"  />
                                 </div>
                             </div>
                         </div>
@@ -551,7 +551,7 @@
                                 <label class="slds-form-element__label" for="input-id-01">First Published date to </label>
 
                                 <div class="slds-form-element__control">
-                                    <input type="date" id="articlePublishDateTo" class="slds-input"  />
+                                    <input type="date" min="2000-01-01" id="articlePublishDateTo" class="slds-input"  />
                                 </div>
                             </div>
                         </div>
@@ -564,7 +564,7 @@
                                 <label class="slds-form-element__label" for="input-id-01">Last Modified date to </label>
 
                                 <div class="slds-form-element__control">
-                                    <input type="date" id="articleLastModifiedDateTo" class="slds-input"  />
+                                    <input type="date" min="2000-01-01" id="articleLastModifiedDateTo" class="slds-input"  />
                                 </div>
                             </div>
                         </div>

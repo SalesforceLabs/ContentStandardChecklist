@@ -27,22 +27,22 @@
                 width: 3%;
             }
             th.col_Title{
-                width: 11%;
+                width: 7%;
             }
             th.col_ArticleNumber{
-                width: 8%;
+                width: 10%;
             }
             th.col_RecordType{
                 width: 8%;
             }
             th.col_VersionNumber{
-                width: 4%;
+                width: 6%;
             }
             th.col_SummaryEXT{
                 width: 35%;
             }
             th.col_Summary{
-                width: 22%;
+                width: 20%;
             }
 
             th.col_validationstatus{
@@ -58,16 +58,16 @@
             }
 
             th.col_lastmodifiedby{
-                width: 8%;
+                width: 11%;
             }
 
             th.col_createdby{
-                width: 6%;
+                width: 9%;
             }
 
             /* has aqi col */
             th.col_HASAQI{
-                width: 4%;
+                width: 3%;
             }
             th.paddingLeftText {
                 padding-left:22%;

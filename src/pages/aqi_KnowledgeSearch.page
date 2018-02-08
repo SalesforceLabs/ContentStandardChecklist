@@ -199,8 +199,7 @@
                 );
             }
 
-            function handleResult(result, event) {
-                console.log(result);
+            function handleResult(result, event) { 
                 var tplTableRow = $.templates("#tplTableRow");
                 var tplIsStatusValidated = $.templates("#tplIsStatusValidated");
 
@@ -362,11 +361,18 @@
                 </th>
 
                 <td class=" slds-text-align_left"  role="gridcell">
-                    <div class="slds-truncate" title="{{:RecordType.Name}}">
+
                         {{if RecordType  }}
-                            {{:RecordType.Name}}
+                            <div class="slds-truncate" title="{{:RecordType.Name}}">
+                                 {{:RecordType.Name}}
+                            </div>
                         {{/if}}
-                    </div>
+                        {{if !RecordType}}
+                            <div class="slds-truncate" title="">
+
+                            </div>
+                        {{/if}}
+
                 </td>
 
                 <td class=" slds-text-align_left"  role="gridcell">

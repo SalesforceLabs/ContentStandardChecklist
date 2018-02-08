@@ -217,10 +217,15 @@ public with sharing class aqi_WrapperCtrl {
             List<Article_Quality__c > l = [Select Id, Knowledge_Article_Version_Id__c  from Article_Quality__c  where id=:recordId];
             if (!l.isEmpty()){
                 result = l.get(0).Knowledge_Article_Version_Id__c;
+                response.jsonResponse = JSON.serialize(result);
             }
-            response.jsonResponse = JSON.serialize(result);
+            else{
+                response.state = 'ERROR';
+                response.error = 'An error occurred getting the id of the related article, please check that the component is in the correct record page.';
+            }
+
         }
-        catch(Exception e){
+        catch(Exception e){ 
             response.state = 'ERROR';
         }
         return response;

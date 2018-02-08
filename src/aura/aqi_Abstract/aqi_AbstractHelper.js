@@ -4,26 +4,25 @@
 		var action = component.get(actionName);
 		action.setParams(actionParams);
 		var self = this;
-
 		action.setCallback(self,function(a){
 			try{
-
 				if(a.getState() !== 'SUCCESS'){
 					throw {'message' : 'An undetermined error occurred with the Apex call.'};
 				}
 
 				var result = a.getReturnValue();
-
 				//Some error likely inside of the Apex code occurred.
 				if(result.state !== 'SUCCESS'){
 					//Try to get the error message from the lightningdmlerror object
-					alert(result.state);
+
 					var errorEncountered;
-					if (!$A.util.isUndefinedOrNull(result.errors) )
+					if (!$A.util.isUndefinedOrNull(result.errors) ){
 						errorEncountered = result.errors[0].message;
-						else	
+					}
+					else{
 							if (!$A.util.isUndefinedOrNull(result.error) )
 								errorEncountered = result.error;
+						}
 					throw {
 						'message' : 'An error occurred in the apex call',
 						'extendedMessage' : errorEncountered
@@ -69,7 +68,7 @@
 			toastEvent.setParams({
 				"title" : title,
 				"type" : type,
-				"message" : message, 
+				"message" : message,
 				"mode" : "sticky",
 				"duration" : 30000
 			});

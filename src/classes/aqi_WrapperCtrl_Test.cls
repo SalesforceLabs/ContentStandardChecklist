@@ -1,9 +1,8 @@
 @isTest
 private class aqi_WrapperCtrl_Test {
     static SObject kavObj;
-    static ArticleQuality_index__c aqs;
     @testSetup static void setup() {
-        aqs = new ArticleQuality_index__c();
+        ArticleQuality_index__c aqs = new ArticleQuality_index__c();
         aqs.name = 'default';
         aqs.Art_Meets_Content_Standard__c  = 5;
         aqs.Article_Unique__c  = 5;
@@ -113,7 +112,7 @@ private class aqi_WrapperCtrl_Test {
         system.assertEquals(aqr.Article_Unique__c,record.Article_Unique__c ,'Article unique index should be set to TRUE ');
 
 
-        aqi_LightningResponse responseLKID = aqi_WrapperCtrl.loadKAVId(recordUpserted.Id); 
+        aqi_LightningResponse responseLKID = aqi_WrapperCtrl.loadKAVId(recordUpserted.Id);
         // Output in list Format
         List<Object> lst_JsonParse = (List<Object>)Json.deserializeUntyped(responseLKID.jsonResponse);
         // use forloop

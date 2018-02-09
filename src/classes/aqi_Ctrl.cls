@@ -402,13 +402,22 @@ public with sharing class aqi_Ctrl {
 		Schema.SObjectType token = thisIs.getSObjectType();
 		// Using the token, do a describe
 		// and construct a query dynamically.
-		Schema.DescribeSObjectResult dr = token.getDescribe();
-		String queryString = 	'	SELECT Id, RecordTypeId FROM ' + dr.getName() +
-								'	WHERE '+
-								' 		Id =: thisIs'  ;
 
+		Schema.DescribeSObjectResult dr = token.getDescribe();
+		Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
+		String queryString = '';
+		String filter = '';
+		Boolean hasRecordTypeId = false;
+		if(drfs.containsKey('RecordTypeId')){
+			hasRecordTypeId = true;
+			filter = 'Id, RecordTypeId';
+		}
+		else{
+			filter = 'Id';
+		}
+		queryString = 'SELECT '+ filter +' FROM ' + dr.getName() + '	WHERE ' + ' Id =: thisIs' ;
 		sObject obj = Database.query(queryString);
-		String recordType = String.valueOf(obj.get('RecordTypeId'));
+		String recordType = hasRecordTypeId ? String.valueOf(obj.get('RecordTypeId')) : '';
 
 		record.Knowledge_Article_Version_Id__c = article.Id;
 		record.Knowledge_Article_Id__c = article.KnowledgeArticleId;
@@ -429,6 +438,11 @@ public with sharing class aqi_Ctrl {
 		record.Name = 'AQI for article '+ article.ArticleNumber +' – '+  article.VersionNumber;
 
 		return record;
+	}
+
+	public static String getPackagePrefix(){
+		ApexClass ap = [SELECT ApiVersion,Name,NamespacePrefix FROM ApexClass where name='aqi_Ctrl' ];
+		return String.isNotBlank(ap.NamespacePrefix)? (ap.NamespacePrefix+'__' ):'';
 	}
 
 }

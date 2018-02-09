@@ -2,19 +2,19 @@
 				access="global" controller="aqi_WrapperCtrl" extends="c:aqi_Abstract" >
 
     <!-- ATTRIBUTES -->
-	<aura:attribute name="displayFollowUpSection" type="Boolean" default="true" />
+	<aura:attribute access="global" name="displayFollowUpSection" type="Boolean" default="true" />
 	<aura:attribute name="noFieldsAvailable" type="Boolean" default="false" />
 
-	<aura:attribute name="indexField1" type="String" default="none" />
-	<aura:attribute name="indexField2" type="String" default="none" />
-	<aura:attribute name="indexField3" type="String" default="none" />
-	<aura:attribute name="indexField4" type="String" default="none" />
-	<aura:attribute name="indexField5" type="String" default="none" />
-	<aura:attribute name="indexField6" type="String" default="none" />
-	<aura:attribute name="indexField7" type="String" default="none" />
-	<aura:attribute name="indexField8" type="String" default="none" />
-	<aura:attribute name="indexField9" type="String" default="none" />
-	<aura:attribute name="indexField10" type="String" default="none" />
+	<aura:attribute access="global" name="indexField1" type="String" default="none" />
+	<aura:attribute access="global" name="indexField2" type="String" default="none" />
+	<aura:attribute access="global" name="indexField3" type="String" default="none" />
+	<aura:attribute access="global" name="indexField4" type="String" default="none" />
+	<aura:attribute access="global" name="indexField5" type="String" default="none" />
+	<aura:attribute access="global" name="indexField6" type="String" default="none" />
+	<aura:attribute access="global" name="indexField7" type="String" default="none" />
+	<aura:attribute access="global" name="indexField8" type="String" default="none" />
+	<aura:attribute access="global" name="indexField9" type="String" default="none" />
+	<aura:attribute access="global" name="indexField10" type="String" default="none" />
 
 	<aura:attribute name="aqi_record" type="Article_Quality__c" default="{ 'sobjectType': 'Article_Quality__c' }"  />
 	<aura:attribute name="apiNames" type="List" default="" />

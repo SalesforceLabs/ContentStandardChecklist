@@ -18,26 +18,6 @@ public with sharing class aqi_WrapperCtrl {
     public aqi_WrapperCtrl() {
 
     }
-    @AuraEnabled
-    public static aqi_LightningResponse kavIsArchived( String kavIdParameter ){
-        aqi_LightningResponse response = new aqi_LightningResponse();
-        try{
-            Boolean result = false;
-            string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId '+
-                            '	FROM KnowledgeArticleVersion ' +
-                            '	WHERE PublishStatus = \'Archived\' ' +
-                                        ' and Id = \'' + kavIdParameter + '\' ';
-            List<KnowledgeArticleVersion> actualKavs =  Database.query(query);
-            if(!actualKavs.isEmpty()){
-                result = true;
-            }
-            response.jsonResponse = JSON.serialize(result);
-
-        }catch(Exception e){
-            response = new aqi_LightningResponse(e);
-        }
-        return response;
-    }
 
 
 
@@ -211,21 +191,35 @@ public with sharing class aqi_WrapperCtrl {
 	@AuraEnabled
     public static aqi_LightningResponse loadKAVId(String recordId){
         aqi_LightningResponse response = new aqi_LightningResponse();
-        String result = null;
+        Map<String,  Object> result = new Map<String,  Object>();
+        String kavId = '';
         try{
             response.state = 'SUCCESS';
             List<Article_Quality__c > l = [Select Id, Knowledge_Article_Version_Id__c  from Article_Quality__c  where id=:recordId];
+
             if (!l.isEmpty()){
-                result = l.get(0).Knowledge_Article_Version_Id__c;
-                response.jsonResponse = JSON.serialize(result);
+                kavId =  l.get(0).Knowledge_Article_Version_Id__c;
+                result.put('kavId', kavId);
+                Boolean isArchived = false;
+                string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId '+
+                                '	FROM KnowledgeArticleVersion ' +
+                                '	WHERE PublishStatus = \'Archived\' ' +
+                                            ' and Id = \'' + kavId + '\' ';
+                List<KnowledgeArticleVersion> actualKavs =  Database.query(query);
+                if(!actualKavs.isEmpty()){
+                    isArchived = true;
+                }
+                result.put('isArchived', isArchived);
             }
-            else{
+            else {
                 response.state = 'ERROR';
                 response.error = 'An error occurred getting the id of the related article, please check that the component is in the correct record page.';
             }
 
+            response.jsonResponse = JSON.serialize(result);
+
         }
-        catch(Exception e){ 
+        catch(Exception e){
             response.state = 'ERROR';
         }
         return response;

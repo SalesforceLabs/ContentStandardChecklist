@@ -16,9 +16,11 @@
 	<aura:attribute access="global" name="indexField9" type="String" default="none" />
 	<aura:attribute access="global" name="indexField10" type="String" default="none" />
 
-	<aura:attribute name="aqi_record" type="Article_Quality__c" default="{ 'sobjectType': 'Article_Quality__c' }"  />
-	<aura:attribute name="apiNames" type="List" default="" />
-	<aura:attribute name="aqi_appIsConfigured" type="Boolean" default="true"/>
+	<aura:attribute access="global" name="prefixOrg" type="String" default="none" />
+
+	<aura:attribute access="global" name="aqi_record" type="Article_Quality__c" default="{ 'sobjectType': 'Article_Quality__c' }"  />
+	<aura:attribute access="global" name="apiNames" type="List" default="" />
+	<aura:attribute access="global" name="aqi_appIsConfigured" type="Boolean" default="true"/>
 
 	<!-- HANDLERS-->
 	<aura:handler name="init" action="{!c.doInit}" value="{!this}" />
@@ -43,6 +45,7 @@
 					</div>
 				</header>
 			</div>
+
 
 			<div class="slds-card__body slds-card__body_inner slds-border_top">
 				<p class="slds-p-horizontal--small">

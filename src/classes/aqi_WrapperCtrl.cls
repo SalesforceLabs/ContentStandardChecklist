@@ -110,6 +110,7 @@ public with sharing class aqi_WrapperCtrl {
                     result.put('aqi_appIsConfigured',appIsConfigured);
                     result.put('aqi_fields',indexList);
                     result.put('aqi_record',aqi_result);
+                    result.put('prefixOrg',aqi_Ctrl.getPackagePrefix());
                     response.jsonResponse = JSON.serialize(result);
 
                 }catch(Exception e){

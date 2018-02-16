@@ -81,7 +81,24 @@ private class aqi_KnowledgeSearchCtrl_Test {
         Test.setFixedSearchResults(fixedSearchResults);
 
         String knowledgeObject = aqi_securityHandler.knowledgeObject;
-        String queryStringSosl =   ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
+
+
+
+        //check if exist the field RecordType
+
+        SObjectType objToken = Schema.getGlobalDescribe().get(knowledgeObject);
+		Schema.DescribeSObjectResult dr = objToken.getDescribe();
+		Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
+		String queryStringSosl = '';
+		Boolean hasRecordTypeId = false;
+		if(drfs.containsKey('RecordTypeId')){
+			hasRecordTypeId = true;
+			queryStringSosl =  ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
+        }
+        else{
+            queryStringSosl =  ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
+        }
+
         List<List<SObject>> knowledgeKavSosl = search.query(queryStringSosl);
 
         System.assertNotEquals(null,knowledgeKavSosl);

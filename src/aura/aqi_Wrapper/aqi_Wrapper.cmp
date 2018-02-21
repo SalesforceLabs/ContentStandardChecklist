@@ -90,7 +90,7 @@
 							</lightning:layoutItem>
 
 							<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
-									<force:inputField value="{!v.aqi_record.Action_Date__c}"/>
+									<force:inputField aura:id="Action_Date__c" value="{!v.aqi_record.Action_Date__c}"/>
 							</lightning:layoutItem>
 						</lightning:layout>
 

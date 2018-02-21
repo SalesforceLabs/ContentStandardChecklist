@@ -27,7 +27,7 @@ public with sharing class aqi_Ctrl {
 	public Map<String,String> langMap {get;set;}
 	public KnowledgeArticleVersion article{get;set;}
 	public Article_Quality__c record{get;set;}
-
+	public static Boolean showNoRecordTypeMessage {get;set;}
 	/*
 	* @description
 	*    Returns Boolean value indicating if custom setting record was properly created
@@ -415,6 +415,7 @@ public with sharing class aqi_Ctrl {
 		else{
 			filter = 'Id';
 		}
+		showNoRecordTypeMessage = !hasRecordTypeId;
 		queryString = 'SELECT '+ filter +' FROM ' + dr.getName() + '	WHERE ' + ' Id =: thisIs' ;
 		sObject obj = Database.query(queryString);
 		String recordType = hasRecordTypeId ? String.valueOf(obj.get('RecordTypeId')) : '';

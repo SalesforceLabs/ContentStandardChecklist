@@ -105,14 +105,16 @@ public with sharing class aqi_WrapperCtrl {
                                 }
                             }
                         }
-                    }
+                        result.put('aqi_appIsConfigured',appIsConfigured);
+                        result.put('aqi_fields',indexList);
+                        result.put('aqi_record',aqi_result);
 
-                    result.put('aqi_appIsConfigured',appIsConfigured);
-                    result.put('aqi_fields',indexList);
-                    result.put('aqi_record',aqi_result);
-                    result.put('prefixOrg',aqi_Ctrl.getPackagePrefix());
-                    response.jsonResponse = JSON.serialize(result);
-
+                        result.put('prefixOrg',aqi_Ctrl.getPackagePrefix());
+                        response.jsonResponse = JSON.serialize(result);
+                    }  else {
+                                        response.state = 'ERROR';
+                                        response.error = 'The AQI component is not configured. Please go to the setup page found in the package configuration.';
+                                    }
                 }catch(Exception e){
                     response = new aqi_LightningResponse(e);
                 }
@@ -153,6 +155,8 @@ public with sharing class aqi_WrapperCtrl {
                                         ' WHERE '+
                                         ' Id =\''+record.Id+'\'');
             result.put('aqi_record',record);
+
+
             system.debug('\n======== UPDATE AQI =======');
             system.debug(record);
             response.jsonResponse = JSON.serialize(result);
@@ -162,6 +166,8 @@ public with sharing class aqi_WrapperCtrl {
         return response;
 
     }
+
+
 
 
     private static Article_Quality__c populateInitialAQI(String kavId){

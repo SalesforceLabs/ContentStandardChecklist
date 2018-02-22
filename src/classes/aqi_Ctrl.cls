@@ -425,7 +425,9 @@ public with sharing class aqi_Ctrl {
 		record.Article_Title__c = article.Title;
 		record.Article_Created_Date__c = article.CreatedDate;
 		record.Article_Created_By__c = article.CreatedById;
-		record.Article_Type__c = recordType;
+		if(hasRecordTypeId) {
+			record.Article_Type__c = recordType;
+		}
 		record.Article_Number__c = article.ArticleNumber;
 		record.Article_Version__c = article.VersionNumber;
 		record.Language__c = article.Language;

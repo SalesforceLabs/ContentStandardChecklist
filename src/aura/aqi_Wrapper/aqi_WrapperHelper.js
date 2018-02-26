@@ -29,7 +29,6 @@
 			var aqi_appIsConfigured = responseMap.aqi_appIsConfigured;
 
 			component.set('v.aqi_appIsConfigured',aqi_appIsConfigured);
-			console.log('>> aqi_appIsConfigured '+aqi_appIsConfigured);
 
 			if (aqi_appIsConfigured){
 				if(aqi_record.AQ_Score__c !== undefined && aqi_record.AQ_Score__c !== ''){
@@ -59,7 +58,8 @@
 								fieldsContainer.set("v.body", body);
 							}
 
-							console.log('do Init callback add fields'+body.length);
+
+
 						}
 					}
 				);
@@ -83,7 +83,7 @@
 					}
 				}
 
-				console.log(responseMap);
+
 			}
 
 
@@ -98,27 +98,27 @@
         if(component.get('v.displayFollowUpSection')){
             var actionDateC = component.find('Action_Date__c').get('v.value');
 
-            if( actionDateC != null && actionDateC == ''){
-                console.log('action date empty');
+            if( actionDateC != null && actionDateC === ''){
+
                 aqi_record[component.get('v.prefixOrg')+'Action_Date__c'] = null;
             }
-		} 
+		}
 		component.set("v.aqi_record",aqi_record);
 
 		var actionParams ={	recordStr :JSON.stringify(aqi_record)};
-		console.log('doUpdate');
-		console.log(actionParams);
+
+
 		this.handleAction(component, actionParams, 'c.upsertAQI', this.doUpdateCallback);
 
 	},
 
 	//Logic to run on success.
 	doUpdateCallback : function(component, responseMap, ctx){
-		var that = ctx;
-
+		var that = ctx; 
+		var toastCmp =  component.find("toastNotif");
 		if (!$A.util.isUndefinedOrNull(responseMap)){
-			console.log('doUpdateCallback');
-			console.log(responseMap);
+
+
 			if(!component.isValid()) return;
 			var aqi_record = responseMap.aqi_record;
 			var aq_score = aqi_record[component.get('v.prefixOrg')+'AQ_Score__c'];
@@ -126,7 +126,6 @@
 				aq_score = Math.round(aq_score);
 			}
 			component.set('v.aqi_record',aqi_record);
-		 	var toastCmp =  component.find("toastNotif");
 			toastCmp.set("v.title",'AQI Successfully updated');
 			toastCmp.set("v.className",'');
 			toastCmp.set("v.severity",'info');
@@ -137,7 +136,6 @@
 				toastCmp.set("v.description",'The AQI has been updated.');
 
 		}else{
-			var toastCmp =  component.find("toastNotif");
 			toastCmp.set("v.title",'ResponseMap empty');
 			toastCmp.set("v.description",'tbd');
 			toastCmp.set("v.className",'');

@@ -8,11 +8,11 @@
 			if  (!$A.util.isUndefinedOrNull(component.get(field)) && component.get(field) !== 'none')
 				apiNames.push(component.get(field));
 
-			console.log('component.get(field): ' + component.get(field));
+
 		}
 
-		console.log('all api names: ' + apiNames);
-		console.log('apiNames.length: ' + apiNames.length);
+
+
 
 		if (apiNames.length === 0)
 			component.set('v.noFieldsAvailable', true);
@@ -20,7 +20,7 @@
 		component.set("v.apiNames",apiNames);
 		helper.doInit(component, event, helper);
 
-		console.log('do Init');
+
 	},
 
 	updateAQI : function(component, event, helper) {
@@ -33,7 +33,7 @@
 			var aqiIndex = indexInputs[i];
 			aqi_obj[aqiIndex.get("v.fieldName")] = aqiIndex.get("v.fieldValue");
 
-			console.log('updateAQI '+aqiIndex.get("v.fieldName")+':'+aqiIndex.get("v.fieldValue"));
+
 		}
 
 		if (component.get("v.displayFollowUpSection")) {
@@ -47,9 +47,9 @@
 				toastCmp.set("v.className",'');
 				toastCmp.set("v.severity",'warning');
 			} else{
-				console.log('updatedAQI');
 
-				console.log(aqi_obj);
+
+
 				component.set('v.aqi_record',aqi_obj)
 				helper.doUpdate(component);
 			}

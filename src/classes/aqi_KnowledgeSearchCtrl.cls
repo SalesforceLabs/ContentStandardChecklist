@@ -107,6 +107,7 @@ global class aqi_KnowledgeSearchCtrl {
 
 
 		SObjectType objToken = Schema.getGlobalDescribe().get(knowledgeObject);
+		aqi_SecurityHandler.canAccess(objToken);
 		Schema.DescribeSObjectResult dr = objToken.getDescribe();
 		Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
 		String fieldsToRetrieve = '';
@@ -217,6 +218,7 @@ global class aqi_KnowledgeSearchCtrl {
         List<sObject> sObjList;
 
         if (errorsOnInput.isEmpty()){
+
 
             if (String.isNotBlank(searchString)){
                 //SOSL

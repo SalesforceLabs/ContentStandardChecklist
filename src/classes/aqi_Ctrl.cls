@@ -416,6 +416,7 @@ public with sharing class aqi_Ctrl {
 			filter = 'Id';
 		}
 		showNoRecordTypeMessage = !hasRecordTypeId;
+		aqi_SecurityHandler.canAccess(token);
 		queryString = 'SELECT '+ filter +' FROM ' + dr.getName() + '	WHERE ' + ' Id =: thisIs' ;
 		sObject obj = Database.query(queryString);
 		String recordType = hasRecordTypeId ? String.valueOf(obj.get('RecordTypeId')) : '';

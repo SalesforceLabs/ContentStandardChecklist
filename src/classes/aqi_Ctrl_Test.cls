@@ -36,19 +36,20 @@ private class aqi_Ctrl_Test {
 
         String objType = kavNames.get(0);
 
+		aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+		
+		kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
+		kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
+		kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
+		kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');
+		kavObj.put('Language', default_language);
+		insert kavObj;
 
-        kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
-        kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
-        kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
-        kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');
-        kavObj.put('Language', default_language);
-        insert kavObj;
-
-        // requery the kavObj to get the KnowledgeArticleId on it that is created automatically
-        String q =  '    SELECT Id,ArticleNumber,CreatedDate,LastPublishedDate, LastModifiedDate, LastModifiedById,'+
-                    '    PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
-                    '   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
-        kavObj = (KnowledgeArticleVersion)Database.query(q);
+		// requery the kavObj to get the KnowledgeArticleId on it that is created automatically
+		String q =  '    SELECT Id,ArticleNumber,CreatedDate,LastPublishedDate, LastModifiedDate, LastModifiedById,'+
+					'    PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
+					'   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
+	    kavObj = (KnowledgeArticleVersion)Database.query(q);
 
     }
 
@@ -88,6 +89,7 @@ private class aqi_Ctrl_Test {
 		populateCustomSetting();
 		populateData();
 	    System.Test.startTest();
+		system.assertNotEquals(null, kavObj,'An issue has been detected trying to get the knowledge object');
 		KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
 		PageReference tpageRef = Page.aqi_Edit;
 	    Test.setCurrentPage(tpageRef);
@@ -120,6 +122,7 @@ private class aqi_Ctrl_Test {
         populateData();
 
         System.Test.startTest();
+		system.assertNotEquals(null, kavObj,'An issue has been detected trying to get the knowledge object');
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
 
         PageReference tpageRef = Page.aqi_Edit;

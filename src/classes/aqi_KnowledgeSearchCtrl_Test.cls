@@ -29,12 +29,14 @@ private class aqi_KnowledgeSearchCtrl_Test {
         }
         String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
         String objType = kavNames.get(0);
+        aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
         kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
         kavObj.put('Title','test');
         kavObj.put('UrlName', 'foo-foo-foo-test'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('Summary', 'This is a summary test!!! Foo. Foo. Foo.');
         kavObj.put('Language', default_language);
         insert kavObj;
+
         String q =  '    SELECT Id,ArticleNumber,CreatedDate,LastPublishedDate, LastModifiedDate, LastModifiedById,'+
                     '    PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
                     '   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
@@ -87,6 +89,7 @@ private class aqi_KnowledgeSearchCtrl_Test {
         //check if exist the field RecordType
 
         SObjectType objToken = Schema.getGlobalDescribe().get(knowledgeObject);
+        aqi_SecurityHandler.canAccess(objToken);
 		Schema.DescribeSObjectResult dr = objToken.getDescribe();
 		Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
 		String queryStringSosl = '';

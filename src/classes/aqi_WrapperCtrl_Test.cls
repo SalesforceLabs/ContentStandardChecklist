@@ -38,7 +38,11 @@ private class aqi_WrapperCtrl_Test {
 
         String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
         String objType = kavNames.get(0);
+        aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+
         kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
+
+        aqi_SecurityHandler.canAccess(Schema.getGlobalDescribe().get(objType));
         kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');
@@ -74,7 +78,10 @@ private class aqi_WrapperCtrl_Test {
 
         String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
         String objType = kavNames.get(0);
+
         kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
+        aqi_SecurityHandler.canAccess(Schema.getGlobalDescribe().get(objType));
+        aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
         kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');

@@ -25,10 +25,11 @@
 			var fieldLabel;
 			var aqi_fields = responseMap.aqi_fields;
 			var aqi_record = responseMap.aqi_record;
+			component.set('v.prefixOrg',responseMap.prefixOrg);
 			var aqi_appIsConfigured = responseMap.aqi_appIsConfigured;
 
 			component.set('v.aqi_appIsConfigured',aqi_appIsConfigured);
-			console.log('>> aqi_appIsConfigured '+aqi_appIsConfigured);
+
 			if (aqi_appIsConfigured){
 				if(aqi_record.AQ_Score__c !== undefined && aqi_record.AQ_Score__c !== ''){
 					aqi_record.AQ_Score__c = Math.round(aqi_record.AQ_Score__c);
@@ -57,30 +58,32 @@
 								fieldsContainer.set("v.body", body);
 							}
 
-							console.log('do Init callback add fields'+body.length);
+
+
 						}
 					}
 				);
 
 				if (component.get("v.displayFollowUpSection")) {
-					if(!(aqi_record.Action_Assigned_To__r === undefined || aqi_record.Action_Assigned_To__r === '')){
+					var asignedToVar = aqi_record[component.get('v.prefixOrg') + 'Action_Assigned_To__r'];
+					if(!(asignedToVar === undefined || asignedToVar === '')){
 						var valuesOwner = [{
 							type : 'User',
-							id: aqi_record.Action_Assigned_To__r.Id,
-							label: aqi_record.Action_Assigned_To__r.Name,
+							id: asignedToVar.Id,
+							label: asignedToVar.Name,
 							icon : {
-								url:aqi_record.Action_Assigned_To__r.FullPhotoUrl,
+								url:asignedToVar.FullPhotoUrl,
 								backgroundColor:'65CAE4',
 								alt:'User'
 							},
-							record: aqi_record.Action_Assigned_To__r.Id,
+							record: asignedToVar.Id,
 							placeHolder: 'Search Users'
 						}];
 						component.find("Action_Assigned_To__c").get("v.body")[0].set("v.values", valuesOwner);
 					}
 				}
 
-				console.log(responseMap);
+
 			}
 
 
@@ -91,41 +94,48 @@
 	doUpdate : function(component) {
 
 		var aqi_record = component.get("v.aqi_record");
-		delete aqi_record['Action_Assigned_To__r'];
+		delete aqi_record[component.get('v.prefixOrg')+'Action_Assigned_To__r'];
+        if(component.get('v.displayFollowUpSection')){
+            var actionDateC = component.find('Action_Date__c').get('v.value');
+
+            if( actionDateC != null && actionDateC === ''){
+
+                aqi_record[component.get('v.prefixOrg')+'Action_Date__c'] = null;
+            }
+		}
 		component.set("v.aqi_record",aqi_record);
 
 		var actionParams ={	recordStr :JSON.stringify(aqi_record)};
-		console.log('doUpdate');
-		console.log(actionParams);
+
+
 		this.handleAction(component, actionParams, 'c.upsertAQI', this.doUpdateCallback);
 
 	},
 
 	//Logic to run on success.
 	doUpdateCallback : function(component, responseMap, ctx){
-		var that = ctx;
-
+		var that = ctx; 
+		var toastCmp =  component.find("toastNotif");
 		if (!$A.util.isUndefinedOrNull(responseMap)){
-			console.log('doUpdateCallback');
-			console.log(responseMap);
+
+
 			if(!component.isValid()) return;
 			var aqi_record = responseMap.aqi_record;
-			if(aqi_record.AQ_Score__c !== undefined && aqi_record.AQ_Score__c !== ''){
-				aqi_record.AQ_Score__c = Math.round(aqi_record.AQ_Score__c);
+			var aq_score = aqi_record[component.get('v.prefixOrg')+'AQ_Score__c'];
+			if(aq_score !== undefined && aq_score !== ''){
+				aq_score = Math.round(aq_score);
 			}
 			component.set('v.aqi_record',aqi_record);
-		 	var toastCmp =  component.find("toastNotif");
 			toastCmp.set("v.title",'AQI Successfully updated');
 			toastCmp.set("v.className",'');
 			toastCmp.set("v.severity",'info');
 
 			if (!component.get("v.noFieldsAvailable"))
-				toastCmp.set("v.description",'The AQI has been updated. The new value is : '+Math.round(aqi_record.AQ_Score__c));
+				toastCmp.set("v.description",'The AQI has been updated. The new value is : '+Math.round(aq_score));
 			else
 				toastCmp.set("v.description",'The AQI has been updated.');
 
 		}else{
-			var toastCmp =  component.find("toastNotif");
 			toastCmp.set("v.title",'ResponseMap empty');
 			toastCmp.set("v.description",'tbd');
 			toastCmp.set("v.className",'');

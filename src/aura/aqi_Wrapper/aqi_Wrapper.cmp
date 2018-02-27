@@ -2,23 +2,25 @@
 				access="global" controller="aqi_WrapperCtrl" extends="c:aqi_Abstract" >
 
     <!-- ATTRIBUTES -->
-	<aura:attribute name="displayFollowUpSection" type="Boolean" default="true" />
+	<aura:attribute access="global" name="displayFollowUpSection" type="Boolean" default="true" />
 	<aura:attribute name="noFieldsAvailable" type="Boolean" default="false" />
 
-	<aura:attribute name="indexField1" type="String" default="none" />
-	<aura:attribute name="indexField2" type="String" default="none" />
-	<aura:attribute name="indexField3" type="String" default="none" />
-	<aura:attribute name="indexField4" type="String" default="none" />
-	<aura:attribute name="indexField5" type="String" default="none" />
-	<aura:attribute name="indexField6" type="String" default="none" />
-	<aura:attribute name="indexField7" type="String" default="none" />
-	<aura:attribute name="indexField8" type="String" default="none" />
-	<aura:attribute name="indexField9" type="String" default="none" />
-	<aura:attribute name="indexField10" type="String" default="none" />
+	<aura:attribute access="global" name="indexField1" type="String" default="none" />
+	<aura:attribute access="global" name="indexField2" type="String" default="none" />
+	<aura:attribute access="global" name="indexField3" type="String" default="none" />
+	<aura:attribute access="global" name="indexField4" type="String" default="none" />
+	<aura:attribute access="global" name="indexField5" type="String" default="none" />
+	<aura:attribute access="global" name="indexField6" type="String" default="none" />
+	<aura:attribute access="global" name="indexField7" type="String" default="none" />
+	<aura:attribute access="global" name="indexField8" type="String" default="none" />
+	<aura:attribute access="global" name="indexField9" type="String" default="none" />
+	<aura:attribute access="global" name="indexField10" type="String" default="none" />
 
-	<aura:attribute name="aqi_record" type="Article_Quality__c" default="{ 'sobjectType': 'Article_Quality__c' }"  />
-	<aura:attribute name="apiNames" type="List" default="" />
-	<aura:attribute name="aqi_appIsConfigured" type="Boolean" default="true"/>
+	<aura:attribute access="global" name="prefixOrg" type="String" default="none" />
+
+	<aura:attribute access="global" name="aqi_record" type="Article_Quality__c" default="{ 'sobjectType': 'Article_Quality__c' }"  />
+	<aura:attribute access="global" name="apiNames" type="List" default="" />
+	<aura:attribute access="global" name="aqi_appIsConfigured" type="Boolean" default="true"/>
 
 	<!-- HANDLERS-->
 	<aura:handler name="init" action="{!c.doInit}" value="{!this}" />
@@ -43,6 +45,7 @@
 					</div>
 				</header>
 			</div>
+
 
 			<div class="slds-card__body slds-card__body_inner slds-border_top">
 				<p class="slds-p-horizontal--small">
@@ -87,7 +90,7 @@
 							</lightning:layoutItem>
 
 							<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
-									<force:inputField value="{!v.aqi_record.Action_Date__c}"/>
+									<force:inputField aura:id="Action_Date__c" value="{!v.aqi_record.Action_Date__c}"/>
 							</lightning:layoutItem>
 						</lightning:layout>
 

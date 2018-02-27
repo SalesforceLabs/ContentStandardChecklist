@@ -18,26 +18,6 @@ public with sharing class aqi_WrapperCtrl {
     public aqi_WrapperCtrl() {
 
     }
-    @AuraEnabled
-    public static aqi_LightningResponse kavIsArchived( String kavIdParameter ){
-        aqi_LightningResponse response = new aqi_LightningResponse();
-        try{
-            Boolean result = false;
-            string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId '+
-                            '	FROM KnowledgeArticleVersion ' +
-                            '	WHERE PublishStatus = \'Archived\' ' +
-                                        ' and Id = \'' + kavIdParameter + '\' ';
-            List<KnowledgeArticleVersion> actualKavs =  Database.query(query);
-            if(!actualKavs.isEmpty()){
-                result = true;
-            }
-            response.jsonResponse = JSON.serialize(result);
-
-        }catch(Exception e){
-            response = new aqi_LightningResponse(e);
-        }
-        return response;
-    }
 
 
 
@@ -105,7 +85,7 @@ public with sharing class aqi_WrapperCtrl {
                                 ' WHERE '+
                                 ' Knowledge_Article_Version_Id__c =\''+recordId+'\'';
 
-
+                        aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
                         List<Article_Quality__c > l = Database.query(   qStr );
                         if (l.isEmpty()){
                             aqi_result =populateInitialAQI(recordId);
@@ -125,13 +105,16 @@ public with sharing class aqi_WrapperCtrl {
                                 }
                             }
                         }
-                    }
+                        result.put('aqi_appIsConfigured',appIsConfigured);
+                        result.put('aqi_fields',indexList);
+                        result.put('aqi_record',aqi_result);
 
-                    result.put('aqi_appIsConfigured',appIsConfigured);
-                    result.put('aqi_fields',indexList);
-                    result.put('aqi_record',aqi_result);
-                    response.jsonResponse = JSON.serialize(result);
-
+                        result.put('prefixOrg',aqi_Ctrl.getPackagePrefix());
+                        response.jsonResponse = JSON.serialize(result);
+                    }  else {
+                                        response.state = 'ERROR';
+                                        response.error = 'The AQI component is not configured. Please go to the setup page found in the package configuration.';
+                                    }
                 }catch(Exception e){
                     response = new aqi_LightningResponse(e);
                 }
@@ -165,6 +148,7 @@ public with sharing class aqi_WrapperCtrl {
             Article_Quality__c record = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
             upsert record;
             //load Score field
+            aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
             record = Database.query(   ' SELECT Name, Action_Assigned_To__c , Action_Needed__c, AQ_Score__c, '+
                                         '           Action_Date__c, Action_Taken__c, Internal_Notes__c, '+
                                         qStringApiNames +
@@ -172,6 +156,8 @@ public with sharing class aqi_WrapperCtrl {
                                         ' WHERE '+
                                         ' Id =\''+record.Id+'\'');
             result.put('aqi_record',record);
+
+
             system.debug('\n======== UPDATE AQI =======');
             system.debug(record);
             response.jsonResponse = JSON.serialize(result);
@@ -181,6 +167,8 @@ public with sharing class aqi_WrapperCtrl {
         return response;
 
     }
+
+
 
 
     private static Article_Quality__c populateInitialAQI(String kavId){
@@ -211,21 +199,36 @@ public with sharing class aqi_WrapperCtrl {
 	@AuraEnabled
     public static aqi_LightningResponse loadKAVId(String recordId){
         aqi_LightningResponse response = new aqi_LightningResponse();
-        String result = null;
+        Map<String,  Object> result = new Map<String,  Object>();
+        String kavId = '';
         try{
             response.state = 'SUCCESS';
             List<Article_Quality__c > l = [Select Id, Knowledge_Article_Version_Id__c  from Article_Quality__c  where id=:recordId];
+
             if (!l.isEmpty()){
-                result = l.get(0).Knowledge_Article_Version_Id__c;
-                response.jsonResponse = JSON.serialize(result);
+                kavId =  l.get(0).Knowledge_Article_Version_Id__c;
+                result.put('kavId', kavId);
+                Boolean isArchived = false;
+                string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId '+
+                                '	FROM KnowledgeArticleVersion ' +
+                                '	WHERE PublishStatus = \'Archived\' ' +
+                                            ' and Id = \'' + kavId + '\' ';
+                aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+                List<KnowledgeArticleVersion> actualKavs =  Database.query(query);
+                if(!actualKavs.isEmpty()){
+                    isArchived = true;
+                }
+                result.put('isArchived', isArchived);
             }
-            else{
+            else {
                 response.state = 'ERROR';
                 response.error = 'An error occurred getting the id of the related article, please check that the component is in the correct record page.';
             }
 
+            response.jsonResponse = JSON.serialize(result);
+
         }
-        catch(Exception e){ 
+        catch(Exception e){
             response.state = 'ERROR';
         }
         return response;

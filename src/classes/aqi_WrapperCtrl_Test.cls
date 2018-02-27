@@ -1,7 +1,6 @@
 @isTest
 private class aqi_WrapperCtrl_Test {
     static SObject kavObj;
-
     @testSetup static void setup() {
         ArticleQuality_index__c aqs = new ArticleQuality_index__c();
         aqs.name = 'default';
@@ -39,7 +38,11 @@ private class aqi_WrapperCtrl_Test {
 
         String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
         String objType = kavNames.get(0);
+        aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+
         kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
+
+        aqi_SecurityHandler.canAccess(Schema.getGlobalDescribe().get(objType));
         kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');
@@ -56,6 +59,8 @@ private class aqi_WrapperCtrl_Test {
         resp = aqi_WrapperCtrl.getInitData(article.Id,'Article_Unique__c');
         system.debug(resp);
         system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS ');
+
+
     }
 
 
@@ -73,7 +78,10 @@ private class aqi_WrapperCtrl_Test {
 
         String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
         String objType = kavNames.get(0);
+
         kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
+        aqi_SecurityHandler.canAccess(Schema.getGlobalDescribe().get(objType));
+        aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
         kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');
@@ -98,7 +106,7 @@ private class aqi_WrapperCtrl_Test {
 		    resp = aqi_WrapperCtrl.upsertAQI(recordStr);
         system.debug(resp);
         system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS ');
-        
+
         strR = resp.jsonResponse;
         system.debug(strR);
         m = (Map<String, Object>)JSON.deserializeUntyped(strR);
@@ -106,11 +114,21 @@ private class aqi_WrapperCtrl_Test {
 
         Article_Quality__c recordUpserted = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
 
-        system.debug(recordUpserted.Name);       
+        system.debug(recordUpserted.Name);
         Article_Quality__c  aqr = [ select Id , Article_Unique__c from Article_Quality__c where Id =:recordUpserted.Id];
         system.assertEquals(aqr.Article_Unique__c,record.Article_Unique__c ,'Article unique index should be set to TRUE ');
 
 
+        aqi_LightningResponse responseLKID = aqi_WrapperCtrl.loadKAVId(recordUpserted.Id);
+        // Output in list Format
+        Map<String,  Object> lst_JsonParse = (Map<String,  Object>)Json.deserializeUntyped(responseLKID.jsonResponse);
+        // use forloop
+        // for(String key : lst_JsonParse.keySet())
+        // {
+        //     Map<String,Object> mp_StrObj = (Map<string,Object>)obj;
+        //     system.assertNotEquals(true, mp_StrObj.get('isArchived'));
+        //     system.assertNotEquals('', mp_StrObj.get('kavId'));
+        // }
     }
 
     @isTest static void test_aqi_DynamicPickList_AQI() {

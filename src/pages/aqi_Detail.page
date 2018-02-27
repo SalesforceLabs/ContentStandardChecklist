@@ -132,11 +132,11 @@
                     <apex:outputField value="{!Article_Quality__c.Last_Published_Date__c}" id="lastpublisheddate"/>
                 </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
-                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Type__c.label}"
-                            for="type"/>
-                     
-                    <apex:outputLabel style="{! If(Article_Quality__c.Article_Type__c ==null ,'font-style: italic;','') }"  value="{!recordTypesMap[Article_Quality__c.Article_Type__c]}" id="type"/>
-                </apex:pageBlockSectionItem> 
+                <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Type__c.label}"
+                       for="type"/>
+               <apex:outputLabel style="{! If( showNoRecordTypeMessage ,'font-style: italic;','') }"  value="{! If( showNoRecordTypeMessage ,'This article has no record type',recordTypesMap[record.Article_Type__c]) }" id="type"/>
+
+                </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Last_Published_By__c.label}" for="Last_Published_By__c   "/>
                     <apex:outputField value="{!Article_Quality__c.Last_Published_By__c}" id="Last_Published_By__c"/>

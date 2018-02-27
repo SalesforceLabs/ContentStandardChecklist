@@ -103,9 +103,31 @@ global class aqi_KnowledgeSearchCtrl {
         Integer queryOffset =  resolveOffset(pageNum);
 
         Boolean isMasterLanguage = checkForSchemaFieldActive('ismasterlanguage');
-        String fieldsToRetrieve = ' Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,  '+
-                                  ' Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary ';
-        if (isValidationStActive)
+
+
+
+		SObjectType objToken = Schema.getGlobalDescribe().get(knowledgeObject);
+		aqi_SecurityHandler.canAccess(objToken);
+		Schema.DescribeSObjectResult dr = objToken.getDescribe();
+		Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
+		String fieldsToRetrieve = '';
+		Boolean hasRecordTypeId = false;
+		if(drfs.containsKey('RecordTypeId')){
+			hasRecordTypeId = true;
+			fieldsToRetrieve = ' Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,  '+
+	                                  ' Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary ';
+		}
+		else{
+			fieldsToRetrieve = ' Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,  '+
+	                                  ' Title, CreatedDate, FirstPublishedDate, LastPublishedDate, LastModifiedDate, Summary ';
+		}
+
+
+		//check if exist RecordTypeId
+
+
+
+		if (isValidationStActive)
             fieldsToRetrieve += ',ValidationStatus ';
         List<String> whereConditions = new list<String>();
         List<String> errorsOnInput = new list<String>();
@@ -125,9 +147,17 @@ global class aqi_KnowledgeSearchCtrl {
             }
         }
         // ARTICLE RECORD TYPE                  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if(String.isNotBlank(articleRecordType) & (articleRecordType !='all')){
+
+
+
+
+
+		//check if exist RecordTypeId
+        if(hasRecordTypeId && String.isNotBlank(articleRecordType) & (articleRecordType !='all')){
             whereConditions.add(' RecordTypeId = \'' + escapeString(articleRecordType) + '\' ');
         }
+
+
         // IS MASTER LANGUAGE                   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if (isMasterLanguage)
             whereConditions.add(' IsMasterLanguage = true ');
@@ -188,6 +218,7 @@ global class aqi_KnowledgeSearchCtrl {
         List<sObject> sObjList;
 
         if (errorsOnInput.isEmpty()){
+
 
             if (String.isNotBlank(searchString)){
                 //SOSL

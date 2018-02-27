@@ -29,12 +29,14 @@ private class aqi_KnowledgeSearchCtrl_Test {
         }
         String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
         String objType = kavNames.get(0);
+        aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
         kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
         kavObj.put('Title','test');
         kavObj.put('UrlName', 'foo-foo-foo-test'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('Summary', 'This is a summary test!!! Foo. Foo. Foo.');
         kavObj.put('Language', default_language);
         insert kavObj;
+
         String q =  '    SELECT Id,ArticleNumber,CreatedDate,LastPublishedDate, LastModifiedDate, LastModifiedById,'+
                     '    PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
                     '   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
@@ -81,7 +83,25 @@ private class aqi_KnowledgeSearchCtrl_Test {
         Test.setFixedSearchResults(fixedSearchResults);
 
         String knowledgeObject = aqi_securityHandler.knowledgeObject;
-        String queryStringSosl =   ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
+
+
+
+        //check if exist the field RecordType
+
+        SObjectType objToken = Schema.getGlobalDescribe().get(knowledgeObject);
+        aqi_SecurityHandler.canAccess(objToken);
+		Schema.DescribeSObjectResult dr = objToken.getDescribe();
+		Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
+		String queryStringSosl = '';
+		Boolean hasRecordTypeId = false;
+		if(drfs.containsKey('RecordTypeId')){
+			hasRecordTypeId = true;
+			queryStringSosl =  ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
+        }
+        else{
+            queryStringSosl =  ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
+        }
+
         List<List<SObject>> knowledgeKavSosl = search.query(queryStringSosl);
 
         System.assertNotEquals(null,knowledgeKavSosl);

@@ -27,7 +27,7 @@ public with sharing class aqi_Ctrl {
 	public Map<String,String> langMap {get;set;}
 	public KnowledgeArticleVersion article{get;set;}
 	public Article_Quality__c record{get;set;}
-
+	public static Boolean showNoRecordTypeMessage {get;set;}
 	/*
 	* @description
 	*    Returns Boolean value indicating if custom setting record was properly created
@@ -402,20 +402,33 @@ public with sharing class aqi_Ctrl {
 		Schema.SObjectType token = thisIs.getSObjectType();
 		// Using the token, do a describe
 		// and construct a query dynamically.
-		Schema.DescribeSObjectResult dr = token.getDescribe();
-		String queryString = 	'	SELECT Id, RecordTypeId FROM ' + dr.getName() +
-								'	WHERE '+
-								' 		Id =: thisIs'  ;
 
+		Schema.DescribeSObjectResult dr = token.getDescribe();
+		Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
+		String queryString = '';
+		String filter = '';
+		Boolean hasRecordTypeId = false;
+		if(drfs.containsKey('RecordTypeId')){
+			hasRecordTypeId = true;
+			filter = 'Id, RecordTypeId';
+		}
+		else{
+			filter = 'Id';
+		}
+		showNoRecordTypeMessage = !hasRecordTypeId;
+		aqi_SecurityHandler.canAccess(token);
+		queryString = 'SELECT '+ filter +' FROM ' + dr.getName() + '	WHERE ' + ' Id =: thisIs' ;
 		sObject obj = Database.query(queryString);
-		String recordType = String.valueOf(obj.get('RecordTypeId'));
+		String recordType = hasRecordTypeId ? String.valueOf(obj.get('RecordTypeId')) : '';
 
 		record.Knowledge_Article_Version_Id__c = article.Id;
 		record.Knowledge_Article_Id__c = article.KnowledgeArticleId;
 		record.Article_Title__c = article.Title;
 		record.Article_Created_Date__c = article.CreatedDate;
 		record.Article_Created_By__c = article.CreatedById;
-		record.Article_Type__c = recordType;
+		if(hasRecordTypeId) {
+			record.Article_Type__c = recordType;
+		}
 		record.Article_Number__c = article.ArticleNumber;
 		record.Article_Version__c = article.VersionNumber;
 		record.Language__c = article.Language;
@@ -429,6 +442,11 @@ public with sharing class aqi_Ctrl {
 		record.Name = 'AQI for article '+ article.ArticleNumber +' – '+  article.VersionNumber;
 
 		return record;
+	}
+
+	public static String getPackagePrefix(){
+		ApexClass ap = [SELECT ApiVersion,Name,NamespacePrefix FROM ApexClass where name='aqi_Ctrl' ];
+		return String.isNotBlank(ap.NamespacePrefix)? (ap.NamespacePrefix+'__' ):'';
 	}
 
 }

@@ -1,11 +1,11 @@
-<apex:page controller="aqi_Ctrl" sidebar="false" tabStyle="Create_AQI__tab">
+<apex:page standardController="Article_Quality__c" extensions="aqi_Ctrl"  tabStyle="Create_AQI__tab">
     <apex:stylesheet value="{!URLFOR($Resource.aqi_resources, 'bootstrap.css')}"/>
     <div class="bts-Containter ">
     <apex:outputPanel layout="block" styleClass="alert alert-warning"   rendered="{!!appConfigured}">
         You need to configure the app :
         <apex:outputLink value="{!URLFOR($Page.aqi_Setup)}" target="_blank" > Setup page </apex:outputLink>
     </apex:outputPanel>
-    </div>
+    </div> 
     <apex:form id="recordForm">
         <apex:pageBlock id="formBlockAqi" title="Article Quality Index details" mode="detail">
             <apex:pageBlockButtons location="top">

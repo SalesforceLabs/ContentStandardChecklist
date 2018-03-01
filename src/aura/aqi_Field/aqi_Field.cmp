@@ -3,23 +3,24 @@
     <aura:attribute name="fieldName" 	type="String" 	default="FieldApiName" 	description="Name of the Sobject field"/>
     <aura:attribute name="fieldLabel" 	type="String" 	default="Field Label"	description="Label of the Sobject field"/>
 	<aura:attribute name="fieldValue" 	type="Boolean" 	default="False" 		description="Value of the Sobject field"/>
-	
-	<aura:attribute name="checkboxValue" type="Boolean" default="false"/>
 
+	<aura:attribute name="checkboxValue" type="Boolean" default="false"/>
 
 	<!-- Handlers -->
 	<aura:handler name="init" action="{!c.doInit}" value="{!this}" />
-		<lightning:layout horizontalAlign="space" verticalAlign="center">
 
-			<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
-				<div class="slds-size_1-of-1">
-					<p class="slds-truncate" title="{!v.fieldLabel}">
-						<ui:outputText value="{!v.fieldLabel}" />
-					</p>
-				</div>
-			</lightning:layoutItem>
-			<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
-				<ui:inputCheckbox value="{!v.fieldValue}" change="{!c.handleCheckboxChange}"/>
-			</lightning:layoutItem>
+    <!-- Body -->
+	<lightning:layout horizontalAlign="space" verticalAlign="center">
+		<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
+			<div class="slds-size_1-of-1">
+				<p class="slds-truncate" title="{!v.fieldLabel}">
+					<ui:outputText value="{!v.fieldLabel}" />
+				</p>
+			</div>
+		</lightning:layoutItem>
+
+		<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
+			<ui:inputCheckbox class="checkBox" value="{!v.fieldValue}" change="{!c.handleCheckboxChange}"/>
+		</lightning:layoutItem>
     </lightning:layout>
 </aura:component>

@@ -5,6 +5,10 @@
 			var btn = component.find('applyButton');
 			// Disable apply button
         	btn.set("v.disabled", true);
+			var btnTop = component.find('applyButtonTop');
+			// Disable apply button
+        	btnTop.set("v.disabled", true);
+
 		} else {
 			var tmp = JSON.stringify(component.get("v.apiNames"));
 			var actionParams ={	recordId: component.get("v.recordId"),
@@ -114,7 +118,7 @@
 
 	//Logic to run on success.
 	doUpdateCallback : function(component, responseMap, ctx){
-		var that = ctx; 
+		var that = ctx;
 		var toastCmp =  component.find("toastNotif");
 		if (!$A.util.isUndefinedOrNull(responseMap)){
 

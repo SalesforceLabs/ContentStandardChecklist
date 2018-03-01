@@ -38,6 +38,7 @@
         <members>aqi_Field</members>
         <members>aqi_Toast</members>
         <members>aqi_Wrapper</members>
+        <members>aqi_recordEdit</members>
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
@@ -78,5 +79,5 @@
         <members>aqi_resources</members>
         <name>StaticResource</name>
     </types>
-    <version>41.0</version>
+    <version>36.0</version>
 </Package>

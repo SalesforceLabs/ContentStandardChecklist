@@ -1,7 +1,7 @@
 <aura:component implements="flexipage:availableForRecordHome,force:hasRecordId"
 				access="global" controller="aqi_WrapperCtrl" extends="c:aqi_Abstract" >
 
-    <!-- ATTRIBUTES -->
+    <!-- Attributes -->
 	<aura:attribute access="global" name="displayFollowUpSection" type="Boolean" default="true" />
 	<aura:attribute name="noFieldsAvailable" type="Boolean" default="false" />
 
@@ -22,10 +22,10 @@
 	<aura:attribute access="global" name="apiNames" type="List" default="" />
 	<aura:attribute access="global" name="aqi_appIsConfigured" type="Boolean" default="true"/>
 
-	<!-- HANDLERS-->
+	<!-- Handlers-->
 	<aura:handler name="init" action="{!c.doInit}" value="{!this}" />
 
-
+	<!-- Body-->
 	<aura:if isTrue="{!v.aqi_appIsConfigured}">
 		<article class="slds-card">
 			<div class="slds-card__header slds-grid ">
@@ -59,13 +59,14 @@
 					<!-- Fields container -->
 					<div aura:id="fieldsContainer" class="fieldsContainer" />
 
+					<!-- Follow up section -->
 					<aura:if isTrue="{!v.displayFollowUpSection}">
 						<!-- AQI input fileds section -->
 						<hr/>
 
 						<div class="slds-text-heading_medium">Follow Up</div>
 
-						<!-- Follow up section -->
+						<!-- Coaching Needed -->
 						<lightning:layout horizontalAlign="space" verticalAlign="center">
 							<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
 								<div class="slds-size_1-of-1">
@@ -76,66 +77,76 @@
 							</lightning:layoutItem>
 
 							<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
-								<force:inputField aura:id="Action_Needed__c" value="{!v.aqi_record.Action_Needed__c}"/>
+								<force:inputField class="checkBox" aura:id="Action_Needed__c" value="{!v.aqi_record.Action_Needed__c}"/>
 							</lightning:layoutItem>
 						</lightning:layout>
+						<!-- Coaching Needed -->
 
+						<!-- Action Date -->
 						<lightning:layout horizontalAlign="space" verticalAlign="center">
-							<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
+							<lightning:layoutItem size="12" flexibility="auto" padding="around-small">
 								<div class="slds-size_1-of-1">
-									<p class="slds-truncate" title="Action date">
-										<ui:outputText value="Action Date" />
+									<p class="slds-truncate inputLabel" title="Action date">
+										<ui:outputText value="Action Date"/>
 									</p>
 								</div>
-							</lightning:layoutItem>
 
-							<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
+								<div class="slds-size_1-of-1">
 									<force:inputField aura:id="Action_Date__c" value="{!v.aqi_record.Action_Date__c}"/>
+								</div>
 							</lightning:layoutItem>
 						</lightning:layout>
+						<!-- Action Date -->
 
+						<!-- Action assigned to -->
 						<lightning:layout horizontalAlign="space" verticalAlign="center">
-							<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
+							<lightning:layoutItem size="12" flexibility="auto" padding="around-small">
 								<div class="slds-size_1-of-1">
-									<p class="slds-truncate" title="Action assigned to">
+									<p class="slds-truncate inputLabel" title="Action assigned to">
 										<ui:outputText value="Action assigned to "/>
 									</p>
 								</div>
-							</lightning:layoutItem>
 
-							<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
-									<force:inputField aura:id="Action_Assigned_To__c" value="{!v.aqi_record.Action_Assigned_To__c}"/>
-							</lightning:layoutItem>
-						</lightning:layout>
-
-						<lightning:layout horizontalAlign="space" verticalAlign="center">
-							<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
 								<div class="slds-size_1-of-1">
-									<p class="slds-truncate" title="Action taken">
-										<ui:outputText value="Action taken " />
-									</p>
+									<force:inputField aura:id="Action_Assigned_To__c" value="{!v.aqi_record.Action_Assigned_To__c}"/>
 								</div>
 							</lightning:layoutItem>
+						</lightning:layout>
+						<!-- Action assigned to -->
 
-							<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
+						<!-- Action taken -->
+						<lightning:layout horizontalAlign="space" verticalAlign="center">
+							<lightning:layoutItem size="12" flexibility="auto" padding="around-small">
+								<div class="slds-size_1-of-1">
+									<p class="slds-truncate inputLabel" title="Action taken">
+										<ui:outputText value="Action taken" />
+									</p>
+								</div>
+
+								<div class="slds-size_1-of-1">
 									<force:inputField value="{!v.aqi_record.Action_Taken__c}"/>
+								</div>
 							</lightning:layoutItem>
 						</lightning:layout>
+						<!-- Action taken -->
 
+						<!-- Internal notes -->
 						<lightning:layout horizontalAlign="space" verticalAlign="center">
-							<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
+							<lightning:layoutItem size="12" flexibility="auto" padding="around-small">
 								<div class="slds-size_1-of-1">
-									<p class="slds-truncate" title="Internal notes">
+									<p class="slds-truncate inputLabel" title="Internal notes">
 										<ui:outputText value="Internal notes" />
 									</p>
 								</div>
-							</lightning:layoutItem>
 
-							<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
+								<div class="slds-size_1-of-1">
 									<force:inputField value="{!v.aqi_record.Internal_Notes__c}"/>
+								</div>
 							</lightning:layoutItem>
 						</lightning:layout>
+						<!-- Internal notes -->
 					</aura:if>
+					<!-- Follow up section -->
 				</p>
 			</div>
 

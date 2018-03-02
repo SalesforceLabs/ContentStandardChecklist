@@ -22,7 +22,6 @@
         <members>aqi_Detail</members>
         <members>aqi_Edit</members>
         <members>aqi_KnowledgeSearch</members>
-        <members>aqi_KnowledgeSearchV2</members>
         <members>aqi_Setup</members>
         <name>ApexPage</name>
     </types>

@@ -40,6 +40,7 @@
     </types>
     <types>
         <members>Article_Quality</members>
+        <members>AQI_APP</members>
         <name>CustomApplication</name>
     </types>
     <types>

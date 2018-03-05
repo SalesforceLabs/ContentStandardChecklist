@@ -14,8 +14,8 @@
         <members>aqi_SettingsHandler_Test</members>
         <members>aqi_SetupCtrl</members>
         <members>aqi_SetupCtrl_Test</members>
-        <members>aqi_WrapperCtrl</members>
-        <members>aqi_WrapperCtrl_Test</members>
+        <members>aqi_ArticleQualityIndexCtrl</members>
+        <members>aqi_ArticleQualityIndexCtrl_Test</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -34,8 +34,8 @@
         <members>aqi_ArticleDetails</members>
         <members>aqi_Field</members>
         <members>aqi_Toast</members>
-        <members>aqi_Wrapper</members>
-        <members>aqi_recordEdit</members>
+        <members>aqi_ArticleQualityIndex</members>
+        <members>aqi_RecordEdit</members>
         <name>AuraDefinitionBundle</name>
     </types>
     <types>

@@ -4,7 +4,7 @@
  *  started on MM/DD/YYYY
  *  REPLACE_BY_CLASS_LOGIC_RESPONSABILITIES
  **/
-public with sharing class aqi_WrapperCtrl {
+public with sharing class aqi_ArticleQualityIndexCtrl {
     // Constants
 
     //************************************************************************
@@ -15,7 +15,7 @@ public with sharing class aqi_WrapperCtrl {
     //************************************************************************
     // Methods
 
-    public aqi_WrapperCtrl() {
+    public aqi_ArticleQualityIndexCtrl() {
 
     }
 
@@ -48,7 +48,7 @@ public with sharing class aqi_WrapperCtrl {
             }else{
                 try{
                     Article_Quality__c aqi_result;
-                    List<indexWrapper> indexList = new List<indexWrapper>();
+                    List<indexArticleQualityIndex> indexList = new List<indexArticleQualityIndex>();
                     Boolean appIsConfigured = aqi_SettingsHandler.isAppConfigured();
                     Map<String,  Object> result = new Map<String,  Object>();
 
@@ -101,7 +101,7 @@ public with sharing class aqi_WrapperCtrl {
                                 Schema.DescribeFieldResult dfr = allFields.get(tmp).getDescribe();
                                 if (dfr.isCustom() && dfr.getType() ==Schema.DisplayType.BOOLEAN){
 
-                                    indexList.add(new indexWrapper(dfr.getLabel(),dfr.getName(),true));
+                                    indexList.add(new indexArticleQualityIndex(dfr.getLabel(),dfr.getName(),true));
                                 }
                             }
                         }
@@ -234,12 +234,12 @@ public with sharing class aqi_WrapperCtrl {
         return response;
     }
 
-  public class indexWrapper{
+  public class indexArticleQualityIndex{
         @AuraEnabled public  String fieldLabel{get;set;}
         @AuraEnabled public  String fieldName{get;set;}
         @AuraEnabled public  Boolean fieldValue{get;set;}
 
-        public indexWrapper(String fLabel, String fName, Boolean fValue){
+        public indexArticleQualityIndex(String fLabel, String fName, Boolean fValue){
             fieldLabel = fLabel;
             fieldName = fName;
             fieldValue = fValue;

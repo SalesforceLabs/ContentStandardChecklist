@@ -1,5 +1,5 @@
 <aura:component implements="flexipage:availableForRecordHome,force:hasRecordId"
-				access="global" controller="aqi_WrapperCtrl" extends="c:aqi_Abstract" >
+				access="global" controller="aqi_ArticleQualityIndexCtrl" extends="c:aqi_Abstract" >
 
     <!-- Attributes -->
 	<aura:attribute access="global" name="displayFollowUpSection" type="Boolean" default="true" />

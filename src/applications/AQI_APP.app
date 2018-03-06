@@ -10,5 +10,4 @@
     <tabs>Article_Quality__c</tabs>
     <tabs>standard-report</tabs>
     <uiType>Lightning</uiType>
-    <utilityBar>knowledge_1_UtilityBar</utilityBar>
 </CustomApplication>

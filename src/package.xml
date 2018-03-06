@@ -51,7 +51,6 @@
     <types>
         <members>Article_Quality__c</members>
         <members>Create_AQI</members>
-        <members>OLD_Create_AQI</members>
         <name>CustomTab</name>
     </types>
     <types>

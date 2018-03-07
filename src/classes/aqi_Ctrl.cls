@@ -52,7 +52,9 @@ public with sharing class aqi_Ctrl {
 		get{
 			if (recordTypesMap == null) {
 				recordTypesMap = aqi_SecurityHandler.getAllowedRecordTypesMap();
-
+                if(recordTypesMap == null){
+                    recordTypesMap = new Map<Id,String>();
+                }
                 recordTypesMap.put(null,'This article has no record type');
 			}
 			return recordTypesMap;
@@ -66,18 +68,26 @@ public with sharing class aqi_Ctrl {
 		langMap = aqi_KnowledgeSearchCtrl.getActivePicklistOptions('User', 'LanguageLocaleKey');
 
 		Article_Quality__c aqi = (Article_Quality__c)controller.getRecord();
-
 		try{
+
 			aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
 
-			aqi = [	SELECT Article_Version__c, Language__c , Knowledge_Article_Id__c
-					FROM Article_Quality__c
-					WHERE id=:aqi.Id ];
+			if(aqi.Id != null){
+				aqi = [	SELECT Article_Version__c, Language__c , Knowledge_Article_Id__c
+						FROM Article_Quality__c
+						WHERE id=:aqi.Id ];
 
-			kaId = aqi.Knowledge_Article_Id__c;
-			kaLang = aqi.Language__c;
-			kaVersion = String.valueOf(aqi.Article_Version__c);
+				kaId = aqi.Knowledge_Article_Id__c;
+				kaLang = aqi.Language__c;
+				kaVersion = String.valueOf(aqi.Article_Version__c);
+			}
+			else{
+				record = new Article_Quality__c();
 
+				kaId = escapeString(ApexPages.currentPage().getParameters().get('kaId'));
+				kaLang = escapeString(ApexPages.currentPage().getParameters().get('lang'));
+				kaVersion = escapeString(ApexPages.currentPage().getParameters().get('version'));
+			}
 			loadKAVDetails();
 
 		}catch(Exception e){
@@ -130,8 +140,7 @@ public with sharing class aqi_Ctrl {
 
 		Map<String,Double> result = new Map<String,Double>();
 		Double idx_val;
-		String idx_api_name;
-
+		String idx_api_name; 
 		if (aqs != null){
 			for(String str : allFields.keySet()){
 				Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();

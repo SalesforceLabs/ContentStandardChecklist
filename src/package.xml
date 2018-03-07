@@ -23,6 +23,7 @@
         <members>aqi_Edit</members>
         <members>aqi_KnowledgeSearch</members>
         <members>aqi_Setup</members>
+        <members>aqi_WarningPageNewAQI</members>
         <name>ApexPage</name>
     </types>
     <types>

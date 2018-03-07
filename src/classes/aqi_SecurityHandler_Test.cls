@@ -1,23 +1,29 @@
 @isTest
 private class aqi_SecurityHandler_Test {
-    
-   
+
+
  /**
     * Security Manager Test Methods
     */
     public static testMethod void test_allRecordTypes(){
         List<RecordType> allRecord = aqi_SecurityHandler.allRecordTypes;
-        system.assert(!allRecord.isEmpty());
+        if(aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')){
+        	system.assertNotEquals(null,allRecord,'The Record Type Map should not be null');
+        }
     }
 
     public static testMethod void test_getAllowedRecordTypesMap(){
         Map<Id,String> all = aqi_SecurityHandler.getAllowedRecordTypesMap() ;
-        system.assert(!all.isEmpty());
+        if(aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')){
+        	system.assertNotEquals(null,all,'The Record Type Map should not be null');
+        }
     }
 
     public static testMethod void test_getAllowedRecordTypeNameToIdMap(){
         Map<String,Id> all = aqi_SecurityHandler.getAllowedRecordTypeNameToIdMap() ;
-        system.assert(!all.isEmpty());
+        if(aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')){
+        	system.assertNotEquals(null,all,'The Record Type Map should not be null');
+        }
     }
 
     public static testMethod void testSecurityEnabled() {
@@ -151,5 +157,5 @@ private class aqi_SecurityHandler_Test {
 
     }
 
-    
+
 }

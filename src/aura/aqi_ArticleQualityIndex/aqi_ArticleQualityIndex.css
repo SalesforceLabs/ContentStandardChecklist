@@ -20,3 +20,6 @@
 .THIS .checkBox {
     float: right;
 }
+.THIS .inner {
+    vertical-align: middle;
+}

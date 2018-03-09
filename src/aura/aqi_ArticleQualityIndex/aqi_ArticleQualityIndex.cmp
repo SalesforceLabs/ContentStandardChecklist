@@ -49,7 +49,7 @@
 			</div>
 
 			<div class="buttonsContainer slds-align_absolute-center">
-				<lightning:button aura:id="applyButtonTop" variant="brand" class="slds-button slds-button--brand applyButton" label="Apply" onclick="{!c.updateAQI}" />
+				<lightning:button aura:id="applyButtonTop" variant="brand" class="slds-m-top_medium slds-button slds-button--brand applyButton" label="Apply" onclick="{!c.updateAQI}" />
 			</div>
 			<div class="slds-card__body slds-card__body_inner slds-border_top slds-m-top_medium">
 				<p class="slds-p-horizontal--small">

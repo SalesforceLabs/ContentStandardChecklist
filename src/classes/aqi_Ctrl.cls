@@ -62,6 +62,13 @@ public with sharing class aqi_Ctrl {
 		private set;
 	}
 
+	public void setNewRecordAndParameters(){
+		record = new Article_Quality__c();
+
+		kaId = escapeString(ApexPages.currentPage().getParameters().get('kaId'));
+		kaLang = escapeString(ApexPages.currentPage().getParameters().get('lang'));
+		kaVersion = escapeString(ApexPages.currentPage().getParameters().get('version'));
+	}
 
 	public aqi_Ctrl(ApexPages.StandardController controller){
 
@@ -82,14 +89,9 @@ public with sharing class aqi_Ctrl {
 				kaVersion = String.valueOf(aqi.Article_Version__c);
 			}
 			else{
-				record = new Article_Quality__c();
-
-				kaId = escapeString(ApexPages.currentPage().getParameters().get('kaId'));
-				kaLang = escapeString(ApexPages.currentPage().getParameters().get('lang'));
-				kaVersion = escapeString(ApexPages.currentPage().getParameters().get('version'));
+				setNewRecordAndParameters();
 			}
 			loadKAVDetails();
-
 		}catch(Exception e){
 			ApexPages.addMessage(new ApexPages.Message(
 									ApexPages.Severity.ERROR,
@@ -100,15 +102,8 @@ public with sharing class aqi_Ctrl {
 	}
 
 	public aqi_Ctrl() {
-
-		record = new Article_Quality__c();
-
 		try{
-
-			kaId = escapeString(ApexPages.currentPage().getParameters().get('kaId'));
-			kaLang = escapeString(ApexPages.currentPage().getParameters().get('lang'));
-			kaVersion = escapeString(ApexPages.currentPage().getParameters().get('version'));
-
+			setNewRecordAndParameters();
 			loadKAVDetails();
 
 		}catch(Exception e){
@@ -117,7 +112,6 @@ public with sharing class aqi_Ctrl {
 									e.getMessage()
 									));
 		}
-
 	}
 
 	//************************************************************************
@@ -140,7 +134,7 @@ public with sharing class aqi_Ctrl {
 
 		Map<String,Double> result = new Map<String,Double>();
 		Double idx_val;
-		String idx_api_name; 
+		String idx_api_name;
 		if (aqs != null){
 			for(String str : allFields.keySet()){
 				Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();

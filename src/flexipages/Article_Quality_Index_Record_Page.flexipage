@@ -30,7 +30,7 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentName>aqi_ArticleDetails</componentName>
+            <componentName>aqi_RelatedArticle</componentName>
         </componentInstances>
         <name>facet-e3ffdc6f-5179-4f8e-b45e-28204b581e68</name>
         <type>Facet</type>

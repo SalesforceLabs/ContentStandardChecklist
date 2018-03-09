@@ -2,7 +2,6 @@
  <aura:attribute name="isErrorOnSave" type="Boolean" default="false" />
  <aura:handler name="onSaveSuccess" event="force:recordSaveSuccess" action="{!c.handleSaveSuccess}"/>
  <aura:handler event="aura:doneWaiting" action="{!c.handleDoneWaiting}"/>
-    [isErrorOnSave:{!v.isErrorOnSave}]
      <lightning:card title="AQI"  >
         <aura:set attribute="actions">
              <lightning:button label="Cancel" onclick="{!c.cancel}"/>
@@ -12,7 +11,7 @@
           <force:recordEdit aura:id="edit" recordId="{!v.recordId}"/>
         </p>
     </lightning:card>
-    
 
-   
+
+
 </aura:component>

@@ -2,9 +2,9 @@
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <defaultLandingTab>standard-home</defaultLandingTab>
     <label>Article Quality Index</label>
-    <tab>standard-Knowledge</tab>
-    <tab>standard-KnowledgePublishing</tab>
-    <tab>Create_AQI</tab>
-    <tab>Article_Quality__c</tab>
-    <tab>standard-report</tab>
+    <tabs>standard-Knowledge</tabs>
+    <tabs>standard-KnowledgePublishing</tabs>
+    <tabs>Create_AQI</tabs>
+    <tabs>Article_Quality__c</tabs>
+    <tabs>standard-report</tabs>
 </CustomApplication>

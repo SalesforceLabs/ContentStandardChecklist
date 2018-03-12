@@ -11,3 +11,15 @@
 .THIS .mediumTitle {
     padding-top: 3%;
 }
+
+.THIS .inputLabel {
+    padding-bottom: 2%;
+    color : rgb(62, 62, 60);    /* Matches font style */
+}
+
+.THIS .checkBox {
+    float: right;
+}
+.THIS .inner {
+    vertical-align: middle;
+}

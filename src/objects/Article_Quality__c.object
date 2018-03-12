@@ -18,11 +18,16 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>Edit</actionName>
-        <type>Default</type>
+        <content>aqi_Edit</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
+        <actionName>Edit</actionName>
+        <content>aqi_RecordEdit</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>LightningComponent</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>List</actionName>
@@ -30,7 +35,9 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>New</actionName>
-        <type>Default</type>
+        <content>aqi_WarningPageNewAQI</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>SaveEdit</actionName>
@@ -115,9 +122,15 @@
         <fullName>Action_Taken__c</fullName>
         <externalId>false</externalId>
         <label>Action Taken</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
         <valueSet>
             <restricted>true</restricted>
             <valueSetDefinition>
+                <sorted>false</sorted>
                 <value>
                     <fullName>Article Archived</fullName>
                     <default>false</default>
@@ -130,15 +143,8 @@
                     <fullName>No Action Needed</fullName>
                     <default>false</default>
                 </value>
-            <sorted>false</sorted>
             </valueSetDefinition>
         </valueSet>
-        <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
-
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Picklist</type>
     </fields>
     <fields>
         <fullName>Agent__c</fullName>

@@ -22,13 +22,17 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentName>aqi_ArticleDetails</componentName>
-        </componentInstances>
-        <componentInstances>
             <componentName>force:relatedListContainer</componentName>
         </componentInstances>
         <mode>Replace</mode>
         <name>relatedTabContent</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>aqi_RelatedArticle</componentName>
+        </componentInstances>
+        <name>facet-e3ffdc6f-5179-4f8e-b45e-28204b581e68</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -55,6 +59,17 @@
             <componentInstanceProperties>
                 <name>title</name>
                 <value>Standard.Tab.relatedLists</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>facet-e3ffdc6f-5179-4f8e-b45e-28204b581e68</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Article Information</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
         </componentInstances>

@@ -70,6 +70,10 @@
 					toastCmp.set("v.description",'Please specify coaching provided by');
 					toastCmp.set("v.className",'slds-show');
 					toastCmp.set("v.severity",'warning');
+					setTimeout(
+					    function() {
+					      toastCmp.set("v.className",'slds-hide');
+					  }, 2000);
 				} else{
 
 

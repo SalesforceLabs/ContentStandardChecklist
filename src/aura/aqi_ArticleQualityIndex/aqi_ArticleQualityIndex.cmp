@@ -156,7 +156,7 @@
 				<c:aqi_Toast aura:id="toastNotifBot"/>
 
 				<div class="buttonsContainer slds-align_absolute-center">
-					<lightning:button aura:id="applyButtonBot" variant="brand" class="slds-button slds-button--brand applyButton" label="Apply" onclick="{!c.updateAQI}" />
+					<lightning:button aura:id="applyButtonBot" variant="brand" class="slds-m-top_small slds-button slds-button--brand applyButton" label="Apply" onclick="{!c.updateAQI}" />
 				</div>
 			</footer>
 		</article>

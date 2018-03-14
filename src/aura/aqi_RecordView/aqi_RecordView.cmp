@@ -1,0 +1,10 @@
+<aura:component extends="c:aqi_Abstract"   implements="flexipage:availableForRecordHome,lightning:actionOverride,force:hasRecordId,force:hasSObjectName" access="global" >
+
+     <aura:handler event="aura:doneWaiting" action="{!c.handleDoneWaiting}"/>
+        <lightning:card title="AQI"  > 
+            <p class="slds-p-horizontal_small">
+              <force:recordView aura:id="edit" recordId="{!v.recordId}"/>
+            </p>
+        </lightning:card>
+
+    </aura:component>

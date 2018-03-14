@@ -38,7 +38,7 @@
 				continueWithUpdate = continueWithUpdate && lengthOfChars <= 8;
 			}
 		}
-		if( continueWithUpdate )
+		if( continueWithUpdate || advalue === undefined )
 		{
 			var aqi_obj = component.get('v.aqi_record');
 			var indexInputs = helper.getIndexInputs(component);

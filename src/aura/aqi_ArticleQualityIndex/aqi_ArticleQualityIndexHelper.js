@@ -120,11 +120,14 @@
 	doUpdateCallback : function(component, responseMap, ctx){
 		var that = ctx;
 		var toastCmp;
+		var lastToastCmp;
 		if(component.get('v.upButtonIsPress')){
 			toastCmp =  component.find("toastNotifUp");
+			lastToastCmp =  component.find("toastNotifBot");
 		}
 		else{
 			toastCmp =  component.find("toastNotifBot");
+			lastToastCmp =  component.find("toastNotifUp");
 		}
 		if (!$A.util.isUndefinedOrNull(responseMap)){
 
@@ -151,10 +154,8 @@
 			toastCmp.set("v.className",'slds-show');
 			toastCmp.set("v.severity",'warning');
 		}
-		setTimeout(
-		    function() {
-		      toastCmp.set("v.className",'slds-hide');
-		  }, 2000);
+		
+		lastToastCmp.set("v.className",'slds-hide');
 	},
 
 	getIndexInputs : function(cmp) {

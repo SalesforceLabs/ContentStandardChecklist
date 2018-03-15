@@ -62,20 +62,20 @@
 
 				if (actionNeeded && (asignedTo === undefined || asignedTo === '')){
 					var toastCmp;
+					var lastToastCmp;
 					if(component.get('v.upButtonIsPress')) {
 						toastCmp = component.find("toastNotifUp");
+						lastToastCmp = component.find("toastNotifBot");
 					}
 					else{
 						toastCmp = component.find("toastNotifBot");
+						lastToastCmp = component.find("toastNotifUp");
 					}
 					toastCmp.set("v.title",'Error');
 					toastCmp.set("v.description",'Please specify coaching provided by');
 					toastCmp.set("v.className",'slds-show');
 					toastCmp.set("v.severity",'warning');
-					setTimeout(
-					    function() {
-					      toastCmp.set("v.className",'slds-hide');
-					  }, 2000);
+					lastToastCmp.set("v.className",'slds-hide');
 				} else{
 
 

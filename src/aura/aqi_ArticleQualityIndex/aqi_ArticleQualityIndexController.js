@@ -24,6 +24,7 @@
 	},
 
 	updateAQI : function(component, event, helper) {
+
 		var buttonAuraId = event.getSource().getLocalId();
 
 		var continueWithUpdate = false;
@@ -60,29 +61,18 @@
 				var actionNeeded = component.find('Action_Needed__c').get('v.value');
 				var asignedTo = component.find('Action_Assigned_To__c').get('v.value');
 
-				if (actionNeeded && (asignedTo === undefined || asignedTo === '')){
-					var toastCmp;
-					var lastToastCmp;
-					if(component.get('v.upButtonIsPress')) {
-						toastCmp = component.find("toastNotifUp");
-						lastToastCmp = component.find("toastNotifBot");
-					}
-					else{
-						toastCmp = component.find("toastNotifBot");
-						lastToastCmp = component.find("toastNotifUp");
-					}
-					toastCmp.set("v.title",'Error');
-					toastCmp.set("v.description",'Please specify coaching provided by');
-					toastCmp.set("v.className",'slds-show');
-					toastCmp.set("v.severity",'warning');
-					lastToastCmp.set("v.className",'slds-hide');
-				} else{
 
-
-
-					component.set('v.aqi_record',aqi_obj)
-					helper.doUpdate(component);
+				var lastToastCmp;
+				if(component.get('v.upButtonIsPress')) {
+					lastToastCmp = component.find("toastNotifBot");
 				}
+				else{
+					lastToastCmp = component.find("toastNotifUp");
+				}
+				lastToastCmp.set("v.className",'slds-hide');
+				component.set('v.aqi_record',aqi_obj)
+				helper.doUpdate(component);
+
 			} else {
 				component.set('v.aqi_record',aqi_obj)
 				helper.doUpdate(component);

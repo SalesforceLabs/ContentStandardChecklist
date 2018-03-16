@@ -119,7 +119,16 @@
 	//Logic to run on success.
 	doUpdateCallback : function(component, responseMap, ctx){
 		var that = ctx;
-		var toastCmp =  component.find("toastNotif");
+		var toastCmp;
+		var lastToastCmp;
+		if(component.get('v.upButtonIsPress')){
+			toastCmp =  component.find("toastNotifUp");
+			lastToastCmp =  component.find("toastNotifBot");
+		}
+		else{
+			toastCmp =  component.find("toastNotifBot");
+			lastToastCmp =  component.find("toastNotifUp");
+		}
 		if (!$A.util.isUndefinedOrNull(responseMap)){
 
 
@@ -131,7 +140,7 @@
 			}
 			component.set('v.aqi_record',aqi_record);
 			toastCmp.set("v.title",'AQI Successfully updated');
-			toastCmp.set("v.className",'');
+			toastCmp.set("v.className",'slds-show');
 			toastCmp.set("v.severity",'info');
 
 			if (!component.get("v.noFieldsAvailable"))
@@ -142,10 +151,11 @@
 		}else{
 			toastCmp.set("v.title",'ResponseMap empty');
 			toastCmp.set("v.description",'tbd');
-			toastCmp.set("v.className",'');
+			toastCmp.set("v.className",'slds-show');
 			toastCmp.set("v.severity",'warning');
 		}
-
+		
+		lastToastCmp.set("v.className",'slds-hide');
 	},
 
 	getIndexInputs : function(cmp) {

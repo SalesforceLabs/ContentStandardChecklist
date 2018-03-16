@@ -14,7 +14,7 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentName>force:detailPanel</componentName>
+            <componentName>aqi_RecordView</componentName>
         </componentInstances>
         <mode>Replace</mode>
         <name>detailTabContent</name>

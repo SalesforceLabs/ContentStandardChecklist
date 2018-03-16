@@ -163,6 +163,10 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             response.jsonResponse = JSON.serialize(result);
         }catch(Exception e){
             response = new aqi_LightningResponse(e);
+            String errorMsg = e.getMessage();
+			if(errorMsg.contains('FIELD_CUSTOM_VALIDATION_EXCEPTION')){
+				response.error = errorMsg.substringBetween('FIELD_CUSTOM_VALIDATION_EXCEPTION, ', ': ');
+			}
         }
         return response;
 

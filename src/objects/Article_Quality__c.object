@@ -491,4 +491,10 @@
         <errorDisplayField>Agent__c</errorDisplayField>
         <errorMessage>You must  specify an Agent.</errorMessage>
     </validationRules>
+    <validationRules>
+        <fullName>CheckActionProviderBy</fullName>
+        <active>true</active>
+        <errorConditionFormula>Action_Needed__c &amp;&amp;  ISBLANK( Action_Assigned_To__c )</errorConditionFormula>
+        <errorMessage>&apos;Coaching Provided By&apos; must not be empty if coaching needed was selected.</errorMessage>
+    </validationRules>
 </CustomObject>

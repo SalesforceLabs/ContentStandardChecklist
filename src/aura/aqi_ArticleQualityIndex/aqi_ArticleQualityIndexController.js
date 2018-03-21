@@ -39,17 +39,18 @@
 				continueWithUpdate = continueWithUpdate && lengthOfChars <= 8;
 			}
 		}
-		if( continueWithUpdate || advalue === undefined )
+		var aqi_obj = component.get('v.aqi_record');
+		var indexInputs = helper.getIndexInputs(component);
+		if (!indexInputs) return;
+		if(buttonAuraId === 'applyButtonTop'){
+			component.set('v.upButtonIsPress',true);
+		}
+		else{
+			component.set('v.upButtonIsPress',false);
+		}
+		if( continueWithUpdate || advalue === undefined || advalue === '')
 		{
-			var aqi_obj = component.get('v.aqi_record');
-			var indexInputs = helper.getIndexInputs(component);
-	        if (!indexInputs) return;
-			if(buttonAuraId === 'applyButtonTop'){
-				component.set('v.upButtonIsPress',true);
-			}
-			else{
-				component.set('v.upButtonIsPress',false);
-			}
+
 	        for (var i = 0; i < indexInputs.length; i++){
 				var aqiIndex = indexInputs[i];
 				aqi_obj[aqiIndex.get("v.fieldName")] = aqiIndex.get("v.fieldValue");
@@ -77,6 +78,27 @@
 				component.set('v.aqi_record',aqi_obj)
 				helper.doUpdate(component);
 			}
+		}
+		else{
+			var lastToastCmp;
+			var toastCmp;
+			if(component.get('v.upButtonIsPress')) {
+				lastToastCmp = component.find("toastNotifBot");
+				toastCmp = component.find("toastNotifUp");
+			}
+			else{
+				lastToastCmp = component.find("toastNotifUp");
+				toastCmp = component.find("toastNotifBot");
+			}
+			toastCmp.set("v.title",'Warning');
+			toastCmp.set("v.description",'Please select a valid Action Date.');
+			toastCmp.set("v.className",'slds-show');
+			toastCmp.set("v.severity",'warning');
+			lastToastCmp.set("v.className",'slds-hide');
+
+
+
+
 		}
 	}
 })

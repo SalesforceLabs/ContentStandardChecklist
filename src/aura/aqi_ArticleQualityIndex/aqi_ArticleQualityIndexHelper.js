@@ -149,13 +149,14 @@
 				toastCmp.set("v.description",'The AQI has been updated.');
 
 		}else{
-			toastCmp.set("v.title",'ResponseMap empty');
-			toastCmp.set("v.description",'tbd');
+			toastCmp.set("v.title",'Warning');
+			toastCmp.set("v.description",'ResponseMap empty');
 			toastCmp.set("v.className",'slds-show');
 			toastCmp.set("v.severity",'warning');
 		}
-		
+
 		lastToastCmp.set("v.className",'slds-hide');
+		
 	},
 
 	getIndexInputs : function(cmp) {

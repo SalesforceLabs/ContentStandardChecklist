@@ -314,11 +314,16 @@ global class aqi_KnowledgeSearchCtrl {
 	*	Boolean
 	*/
     public static boolean checkForSchemaFieldActive(String fieldName){
-         Schema.DescribeSObjectResult sor = Schema.getGlobalDescribe().get(knowledgeObject).getDescribe();
-        Map<String,Schema.SObjectField> sofs = sor.fields.getMap();
-
-        Set<String> objectFields = sofs.keySet();
-        return objectFields.contains(fieldName);
+		boolean boolFieldActive = false;
+        if(knowledgeObject != null){
+            if(Schema.getGlobalDescribe().get(knowledgeObject) != null) {
+                Schema.DescribeSObjectResult sor = Schema.getGlobalDescribe().get(knowledgeObject).getDescribe();
+                Map<String,Schema.SObjectField> sofs = sor.fields.getMap();
+                Set<String> objectFields = sofs.keySet();
+                boolFieldActive = objectFields.contains(fieldName);
+            }
+        }
+        return boolFieldActive;
     }
 
 	/*

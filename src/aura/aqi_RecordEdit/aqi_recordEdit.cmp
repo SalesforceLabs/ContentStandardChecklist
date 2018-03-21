@@ -3,10 +3,10 @@
 
  <aura:attribute name="isErrorOnSave" type="Boolean" default="false" />
  <aura:handler name="onSaveSuccess" event="force:recordSaveSuccess" action="{!c.handleSaveSuccess}"/>
- <aura:handler event="aura:doneWaiting" action="{!c.handleDoneWaiting}"/> 
+ <aura:handler event="aura:doneWaiting" action="{!c.handleDoneWaiting}"/>
 
  <div>
-     <lightning:card title="AQI"  >
+     <lightning:card title="">
         <aura:set attribute="actions">
              <lightning:button label="Cancel" onclick="{!c.cancel}"/>
              <lightning:button label="Save" onclick="{!c.save}"/>

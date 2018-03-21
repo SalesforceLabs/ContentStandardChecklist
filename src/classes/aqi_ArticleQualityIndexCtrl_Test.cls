@@ -12,6 +12,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         aqs.Properties_set_appropriately__c  = 5;
         aqs.Title_Accurate__c  = 5;
         aqs.Possible_Points__c  = 35;
+        aqs.Selected_Languages__c = 'en_US';
         insert aqs;
     }
 
@@ -120,15 +121,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
 
 
         aqi_LightningResponse responseLKID = aqi_ArticleQualityIndexCtrl.loadKAVId(recordUpserted.Id);
-        // Output in list Format
         Map<String,  Object> lst_JsonParse = (Map<String,  Object>)Json.deserializeUntyped(responseLKID.jsonResponse);
-        // use forloop
-        // for(String key : lst_JsonParse.keySet())
-        // {
-        //     Map<String,Object> mp_StrObj = (Map<string,Object>)obj;
-        //     system.assertNotEquals(true, mp_StrObj.get('isArchived'));
-        //     system.assertNotEquals('', mp_StrObj.get('kavId'));
-        // }
     }
 
     @isTest static void test_aqi_DynamicPickList_AQI() {

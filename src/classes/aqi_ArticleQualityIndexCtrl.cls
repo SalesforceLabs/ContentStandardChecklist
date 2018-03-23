@@ -49,6 +49,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 try{
                     Article_Quality__c aqi_result;
                     List<indexArticleQualityIndex> indexList = new List<indexArticleQualityIndex>();
+                    Map<String,String> listApiNamesToLabels = new Map<String,String>();
                     Boolean appIsConfigured = aqi_SettingsHandler.isAppConfigured();
                     Map<String,  Object> result = new Map<String,  Object>();
 
@@ -100,11 +101,15 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                             if (allFields.containsKey(tmp)){
                                 Schema.DescribeFieldResult dfr = allFields.get(tmp).getDescribe();
                                 if (dfr.isCustom() && dfr.getType() ==Schema.DisplayType.BOOLEAN){
-
                                     indexList.add(new indexArticleQualityIndex(dfr.getLabel(),dfr.getName(),true));
                                 }
                             }
                         }
+                        for(String actualApiName : allFields.keySet()){
+                            Schema.DescribeFieldResult dataActualApiName = allFields.get(actualApiName).getDescribe(); 
+                            listApiNamesToLabels.put(dataActualApiName.getName(),dataActualApiName.getLabel());
+                        }
+                        result.put('aqi_listApiNamesToLabels',listApiNamesToLabels);
                         result.put('aqi_appIsConfigured',appIsConfigured);
                         result.put('aqi_fields',indexList);
                         result.put('aqi_record',aqi_result);

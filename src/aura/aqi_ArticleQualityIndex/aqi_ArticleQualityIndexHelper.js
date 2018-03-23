@@ -7,8 +7,7 @@
         	btn.set("v.disabled", true);
 			var btnTop = component.find('applyButtonTop');
 			// Disable apply button
-        	btnTop.set("v.disabled", true);
-
+        	btnTop.set("v.disabled", true); 
 		} else {
 			var tmp = JSON.stringify(component.get("v.apiNames"));
 			var actionParams ={	recordId: component.get("v.recordId"),
@@ -28,6 +27,7 @@
 			var inputComponents = [];
 			var fieldLabel;
 			var aqi_fields = responseMap.aqi_fields;
+			var aqi_fuFields = responseMap.aqi_listApiNamesToLabels;
 			var aqi_record = responseMap.aqi_record;
 			component.set('v.prefixOrg',responseMap.prefixOrg);
 			var aqi_appIsConfigured = responseMap.aqi_appIsConfigured;
@@ -39,7 +39,10 @@
 					aqi_record.AQ_Score__c = Math.round(aqi_record.AQ_Score__c);
 				}
 				component.set('v.aqi_record',aqi_record);
-			   for (var idx in aqi_fields) {
+				 component.set('v.aqi_fuFields',aqi_fuFields);
+
+			     for (var idx in aqi_fields) {
+
 					var indexObj = aqi_fields[idx];
 					var value = aqi_record[indexObj.fieldName];
 					var inputCmp = [
@@ -51,7 +54,6 @@
 						];
 					inputComponents.push(inputCmp);
 				}
-
 				$A.createComponents(inputComponents,
 					function(components, status, statusMessagesList){
 						if(status === "SUCCESS"){
@@ -61,9 +63,6 @@
 								Array.prototype.push.apply(body, components);
 								fieldsContainer.set("v.body", body);
 							}
-
-
-
 						}
 					}
 				);
@@ -86,13 +85,8 @@
 						component.find("Action_Assigned_To__c").get("v.body")[0].set("v.values", valuesOwner);
 					}
 				}
-
-
 			}
-
-
 		}
-
 	},
 
 	doUpdate : function(component) {
@@ -156,7 +150,7 @@
 		}
 
 		lastToastCmp.set("v.className",'slds-hide');
-		
+
 	},
 
 	getIndexInputs : function(cmp) {

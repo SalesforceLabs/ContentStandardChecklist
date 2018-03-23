@@ -48,8 +48,10 @@
 
 				</header>
 			</div>
-			<c:aqi_Toast aura:id="toastNotifUp"/>
-			<div class="slds-card__body slds-card__body_inner slds-border_top ">
+
+			<div class="slds-card__body slds-card__body_inner slds-border_top">
+				<div class="slds-m-bottom_medium"></div>
+				<c:aqi_Toast aura:id="toastNotifUp"/>
 				<p class="slds-p-horizontal--small">
 					<div class="slds-text-heading_medium mediumTitle">Index Fields</div>
 
@@ -151,13 +153,14 @@
 					<!-- Follow up section -->
 				</p>
 			</div>
-
-			<footer class="slds-card__footer">
+			<div class="slds-card__body slds-card__body_inner">
 				<c:aqi_Toast aura:id="toastNotifBot"/>
+			</div>
+			<div class="slds-card__footer slds-card__header">
 				<div class="buttonsContainer slds-align_absolute-center">
 					<lightning:button aura:id="applyButtonBot" variant="brand" class=" slds-button slds-button--brand applyButton" label="Apply" onclick="{!c.updateAQI}" />
 				</div>
-			</footer>
+			</div>
 		</article>
 
 		<aura:set attribute="else">

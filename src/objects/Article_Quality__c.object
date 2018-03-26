@@ -495,6 +495,6 @@
         <fullName>CheckActionProviderBy</fullName>
         <active>true</active>
         <errorConditionFormula>Action_Needed__c &amp;&amp;  ISBLANK( Action_Assigned_To__c )</errorConditionFormula>
-        <errorMessage>&apos;Action_Assigned_To__c&apos; must not be empty if &apos;Action_Needed__c&apos; was selected.</errorMessage>
+        <errorMessage>A user must be assigned if the chekbox on the &apos;Follow Up&apos; section was selected.</errorMessage>
     </validationRules>
 </CustomObject>

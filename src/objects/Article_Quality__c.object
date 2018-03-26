@@ -18,16 +18,16 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>Edit</actionName>
-        <content>aqi_Edit</content>
-        <skipRecordTypeSelect>false</skipRecordTypeSelect>
-        <type>Visualforce</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Edit</actionName>
         <content>aqi_RecordEdit</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>LightningComponent</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <content>aqi_Edit</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>List</actionName>
@@ -495,6 +495,6 @@
         <fullName>CheckActionProviderBy</fullName>
         <active>true</active>
         <errorConditionFormula>Action_Needed__c &amp;&amp;  ISBLANK( Action_Assigned_To__c )</errorConditionFormula>
-        <errorMessage>&apos;Coaching Provided By&apos; must not be empty if coaching needed was selected.</errorMessage>
+        <errorMessage>&apos;Action_Assigned_To__c&apos; must not be empty if &apos;Action_Needed__c&apos; was selected.</errorMessage>
     </validationRules>
 </CustomObject>

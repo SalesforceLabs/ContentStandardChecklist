@@ -4,10 +4,11 @@
     <enableFeeds>false</enableFeeds>
     <fields>
         <fullName>Art_Meets_Content_Standard__c</fullName>
+        <defaultValue>1</defaultValue>
         <externalId>false</externalId>
         <label>Art Meets Content Standard</label>
         <precision>18</precision>
-        <required>false</required>
+        <required>true</required>
         <scale>0</scale>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -15,10 +16,11 @@
     </fields>
     <fields>
         <fullName>Article_Unique__c</fullName>
+        <defaultValue>1</defaultValue>
         <externalId>false</externalId>
         <label>Article Unique</label>
         <precision>18</precision>
-        <required>false</required>
+        <required>true</required>
         <scale>0</scale>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -26,10 +28,11 @@
     </fields>
     <fields>
         <fullName>Content_complete__c</fullName>
+        <defaultValue>1</defaultValue>
         <externalId>false</externalId>
         <label>Content complete</label>
         <precision>18</precision>
-        <required>false</required>
+        <required>true</required>
         <scale>0</scale>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -37,10 +40,11 @@
     </fields>
     <fields>
         <fullName>Content_understandable__c</fullName>
+        <defaultValue>1</defaultValue>
         <externalId>false</externalId>
         <label>Content understandable</label>
         <precision>18</precision>
-        <required>false</required>
+        <required>true</required>
         <scale>0</scale>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -48,10 +52,11 @@
     </fields>
     <fields>
         <fullName>Links_in_article_valid__c</fullName>
+        <defaultValue>1</defaultValue>
         <externalId>false</externalId>
         <label>Links in article valid</label>
         <precision>18</precision>
-        <required>false</required>
+        <required>true</required>
         <scale>0</scale>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -59,10 +64,11 @@
     </fields>
     <fields>
         <fullName>Possible_Points__c</fullName>
+        <defaultValue>1</defaultValue>
         <externalId>false</externalId>
         <label>Possible Points</label>
         <precision>18</precision>
-        <required>false</required>
+        <required>true</required>
         <scale>0</scale>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -70,10 +76,11 @@
     </fields>
     <fields>
         <fullName>Properties_set_appropriately__c</fullName>
+        <defaultValue>1</defaultValue>
         <externalId>false</externalId>
         <label>Properties set appropriately</label>
         <precision>18</precision>
-        <required>false</required>
+        <required>true</required>
         <scale>0</scale>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -81,21 +88,23 @@
     </fields>
     <fields>
         <fullName>Selected_Languages__c</fullName>
+        <defaultValue>&quot;en_US&quot;</defaultValue>
         <description>Comma separated list of Knowledge articles languages for the search page</description>
         <externalId>false</externalId>
         <label>Selected Languages</label>
         <length>255</length>
-        <required>false</required>
+        <required>true</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
     </fields>
     <fields>
         <fullName>Title_Accurate__c</fullName>
+        <defaultValue>1</defaultValue>
         <externalId>false</externalId>
         <label>Title Accurate</label>
         <precision>18</precision>
-        <required>false</required>
+        <required>true</required>
         <scale>0</scale>
         <trackTrending>false</trackTrending>
         <type>Number</type>

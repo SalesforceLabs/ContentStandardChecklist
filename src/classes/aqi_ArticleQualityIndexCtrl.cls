@@ -35,7 +35,8 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     public static aqi_LightningResponse getInitData(String recordId, String apiNames){
 
 	    aqi_LightningResponse response = new aqi_LightningResponse();
-        Map<String,Double>  indexValues = aqi_Ctrl.getindexApiNameToValue();
+        Map<String,Double>  indexValues 			= aqi_Ctrl.getindexApiNameToValue();
+		Map<String,String>  listApiNamesToLabels 	= aqi_Ctrl.getindexApiNameToLabel();//new Map<String,String>();
 
 
         if (!String.isNotBlank(apiNames)){
@@ -49,8 +50,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 try{
                     Article_Quality__c aqi_result;
                     List<indexArticleQualityIndex> indexList = new List<indexArticleQualityIndex>();
-                    Map<String,String> listApiNamesToLabels = new Map<String,String>();
-                    Boolean appIsConfigured = aqi_SettingsHandler.isAppConfigured();
+					Boolean appIsConfigured = aqi_SettingsHandler.isAppConfigured();
                     Map<String,  Object> result = new Map<String,  Object>();
 
                     if (appIsConfigured){
@@ -105,10 +105,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                                 }
                             }
                         }
-                        for(String actualApiName : allFields.keySet()){
-                            Schema.DescribeFieldResult dataActualApiName = allFields.get(actualApiName).getDescribe(); 
-                            listApiNamesToLabels.put(dataActualApiName.getName(),dataActualApiName.getLabel());
-                        }
+
                         result.put('aqi_listApiNamesToLabels',listApiNamesToLabels);
                         result.put('aqi_appIsConfigured',appIsConfigured);
                         result.put('aqi_fields',indexList);

@@ -1,19 +1,11 @@
 <apex:page standardController="Article_Quality__c" extensions="aqi_Ctrl" tabStyle="Article_Quality__c" lightningStylesheets="true">
     <apex:stylesheet value="{!URLFOR($Resource.aqi_resources, 'bootstrap.css')}"/>
-
     <script type="text/javascript">
-    function confirmation() {
-        return confirm('Are you sure you want to Delete?');
-    }
+        function confirmation() {
+            return confirm('Are you sure you want to Delete?');
+        }
     </script>
-    <div class="bts-Containter ">
-        <apex:outputPanel layout="block" styleClass="alert alert-warning"   rendered="{!!appConfigured}">
-            You need to configure the app :
-            <apex:outputLink value="{!URLFOR($Page.aqi_Setup)}" target="_blank" > Setup page </apex:outputLink>
-        </apex:outputPanel>
-    </div>
-
-    <apex:form >
+    <apex:form>
         <apex:pageMessages escape="false"/>
         <apex:pageBlock title="Article Quality Index details" mode="maindetail">
             <apex:pageBlockButtons location="top">

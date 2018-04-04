@@ -37,7 +37,7 @@ private class aqi_Ctrl_Test {
         String objType = kavNames.get(0);
 
 		aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
-		
+
 		kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
 		kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
 		kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
@@ -150,7 +150,6 @@ private class aqi_Ctrl_Test {
         System.assertEquals(true, ctrDetail.isCurrentVersion);
         System.assertNotEquals(article.VersionNumber, ctrDetail.latestArticleVersionNumber);
         System.assertEquals(null, ctrDetail.latestArticleUrl);
-		System.assertEquals(true, aqi_Ctrl.appConfigured);
     }
 
 }

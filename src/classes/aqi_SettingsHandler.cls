@@ -27,9 +27,13 @@ public class aqi_SettingsHandler {
 		return result;
 	}
 
-	public static Boolean isAppConfigured(){
+	public static void checkForAppConfiguration(){
 		ArticleQuality_index__c  aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
-		return (aq != null);
+		if(aq == null){
+			ArticleQuality_index__c  aqToAdd = new ArticleQuality_index__c();
+			aqToAdd.Name = CUSTOM_SETTING_NAME;
+			insert aqToAdd;
+		}
 	}
 
 	public static ArticleQuality_index__c resolveSettings(){

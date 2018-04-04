@@ -36,7 +36,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
 
         aqi_LightningResponse response = new aqi_LightningResponse();
         Map<String,Double>  indexValues 			= aqi_Ctrl.getindexApiNameToValue();
-        Map<String,String>  listApiNamesToLabels 	= aqi_Ctrl.getindexApiNameToLabel();//new Map<String,String>();
+        Map<String,String>  listApiNamesToLabels 	= aqi_Ctrl.getAqiObjectApiNameToLabel();//new Map<String,String>();
 
 
         if (!String.isNotBlank(apiNames)){

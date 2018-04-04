@@ -125,6 +125,37 @@ public with sharing class aqi_Ctrl {
 	* @return
 	*	Map<String,String> : api_name, label value
 	*/
+	public static Map<String,String>  getAqiObjectApiNameToLabel(){
+
+		ArticleQuality_index__c aqs = aqi_SettingsHandler.resolveSettings();
+		Map<String, Schema.SObjectField> allFields = Schema.SObjectType.Article_Quality__c.fields.getMap();
+
+		Map<String,String> result = new Map<String,String>();
+		String idx_api_name;
+		if (aqs != null){
+			for(String str : allFields.keySet()){
+				Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
+				idx_api_name = dfr.getName();
+				result.put(idx_api_name,dfr.getLabel());
+			}
+		}
+		return result;
+	}
+
+
+
+
+
+
+
+	/*
+	* @description
+	*	returns AQI index api names and values from custom setting
+	* @params
+	*	none
+	* @return
+	*	Map<String,String> : api_name, label value
+	*/
 	public static Map<String,String>  getindexApiNameToLabel(){
 
 		ArticleQuality_index__c aqs = aqi_SettingsHandler.resolveSettings();

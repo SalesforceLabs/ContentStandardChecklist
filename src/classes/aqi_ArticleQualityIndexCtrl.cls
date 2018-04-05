@@ -38,7 +38,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         Map<String,Double>  indexValues 			= aqi_Ctrl.getindexApiNameToValue();
         Map<String,String>  listApiNamesToLabels 	= aqi_Ctrl.getAqiObjectApiNameToLabel();//new Map<String,String>();
 
-        if(!listApiNamesToLabels.containsKey('Action_Assigned_To__c')) {
+        if(!listApiNamesToLabels.containsKey(aqi_Ctrl.getPackagePrefix()+'Action_Assigned_To__c')) {
             response.state = 'ERROR';
             response.error = 'Some of the follow up section fields label were not retrieved';
         }

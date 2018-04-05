@@ -120,11 +120,12 @@ public with sharing class aqi_Ctrl {
 
 		Map<String,String> result = new Map<String,String>();
 		String idx_api_name;
+		String prefix = getPackagePrefix();
 		if (aqs != null){
 			for(String str : allFields.keySet()){
 				Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
 				idx_api_name = dfr.getName();
-				idx_api_name = idx_api_name.replace(getPackagePrefix(),'');
+				idx_api_name = idx_api_name.replace(prefix,'');
 				result.put(idx_api_name,dfr.getLabel());
 			}
 		}

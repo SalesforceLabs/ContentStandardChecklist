@@ -38,6 +38,10 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         Map<String,Double>  indexValues 			= aqi_Ctrl.getindexApiNameToValue();
         Map<String,String>  listApiNamesToLabels 	= aqi_Ctrl.getAqiObjectApiNameToLabel();//new Map<String,String>();
 
+        if(!listApiNamesToLabels.containsKey('Action_Assigned_To__c')) {
+            response.state = 'ERROR';
+            response.error = 'Some of the follow up section fields label were not retrieved';
+        }
 
         if (!String.isNotBlank(apiNames)){
             response.state = 'ERROR';
@@ -56,7 +60,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 ArticleQuality_index__c aqs = aqi_SettingsHandler.getSettings();
 
                 set<String> apiNamesWhiteLilst = indexValues.keySet();
-                
+
                 set<String> apiList  = new set<String>();
                 apiNames = apiNames.replace('"','').replace('[','').replace(']','');
                 for (String a : apiNames.split(',')){
@@ -137,8 +141,6 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         List<String> tmpList  = new List<String>();
         tmpList.addAll(apiNamesWhiteLilst);
         String qStringApiNames = String.join(tmpList,', ');
-
-        system.debug(recordStr);
         if (!String.isNotBlank(recordStr)) return response;
         try{
             Article_Quality__c record = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
@@ -152,10 +154,6 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             ' WHERE '+
             ' Id =\''+record.Id+'\'');
             result.put('aqi_record',record);
-
-
-            system.debug('\n======== UPDATE AQI =======');
-            system.debug(record);
             response.jsonResponse = JSON.serialize(result);
         }catch(Exception e){
             response = new aqi_LightningResponse(e);

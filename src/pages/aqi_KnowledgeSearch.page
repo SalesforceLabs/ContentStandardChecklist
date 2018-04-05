@@ -178,14 +178,6 @@
                     alert('Date Range in Last Modified  Range is invalid ');
                     return;
                 }
-                console.log(' searchString: '+searchString);
-                console.log(' articleNumber: '+articleNumber+' articleLanguage: '+articleLanguage);
-                console.log(' articleCreatedBy: '+articleCreatedBy);
-                console.log(' articlelastModifiedBy: '+articlelastModifiedBy);
-                console.log(' articleRecordType: '+articleRecordType);
-                console.log(' articlePublishDateFrom: '+articlePublishDateFrom + ' To: '+articlePublishDateTo);
-                console.log(' articleLastModifiedDateFrom: '+articleLastModifiedDateFrom +' To: '+articleLastModifiedDateTo);
-                console.log(' sortBy: '+sortBy +' sortAsc: '+sortAsc+' pageNum: '+pageNum);
 
                 // This remoting call will use the page's timeout value
                 Visualforce.remoting.Manager.invokeAction(
@@ -262,7 +254,6 @@
                     if (pageNum<0)
                         pageNum ==0 ;
                 }
-                console.log('gotoPage pageNum: '+pageNum);
                 if (actualPage!= pageNum)
                     getRemoteArticles(false);
 
@@ -274,13 +265,13 @@
                 $('#paginationBtns button').attr('disabled',true);
                 reachedEndOfList = false;
 
-                if (rSize == 0 && pageNum == 0 ){
+                if (rSize === 0 && pageNum === 0 ){
                     $('#noResultsMsg').show();
                 }else{
                     $('#noResultsMsg').hide();
                 }
 //btnStart btnPrev btnNext
-                if (pageNum == 0){
+                if (pageNum === 0){
                     $('#btnNext').attr('disabled',false);
                 }else{
                     if (pageNum > 0){
@@ -302,12 +293,10 @@
 
             function navigateToEdit(kavId,language,version){
                 var newUrl = '{!$Page.aqi_Edit}?kaId='+kavId+'&lang='+language+'&version='+version;
-                console.log('navigate to Edit : '+newUrl);
                 window.navigateToUrl(newUrl);
             }
 
             function switchSortAndSearch(obj){
-                console.log("[IN] switchSortAndSearch :"+ sortBy+" sortAsc :"+sortAsc);
                 //remove all sort indicators
                 $('.sortableRow  span').html('');
 
@@ -319,7 +308,6 @@
                     $(obj).find('span').html(SORT_DESC);
                 }
 
-                console.log("[OUT] switchSortAndSearch :"+ sortBy+" sortAsc :"+sortAsc);
 
                     getRemoteArticles(true);
             }

@@ -225,13 +225,11 @@ global class aqi_KnowledgeSearchCtrl {
 			}else{
 				//SOQL
 				queryString = '  SELECT  ' + fieldsToRetrieve + ' FROM ' + knowledgeObject + whereClause + orderByClause + limitClause;
-				system.debug('\n=== THE QUERY STRING :\n'+queryString);
 				sObjList = Database.query(queryString);
 			}
 		}
 
 		List<Object> resultList = checkForAQIRecords(sObjList,escapeString(articleLanguage));
-		system.debug('resultList:' + resultList);
 		//result
 		Map<String,Object> result = new Map<String,Object>();
 		result.put('success',true);

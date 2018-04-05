@@ -19,12 +19,11 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     @isTest static void test_getInitData() {
         // call with null parameters
         aqi_LightningResponse resp = aqi_ArticleQualityIndexCtrl.getInitData('','');
-        system.debug(resp);
         system.assertEquals('ERROR',resp.State ,'Api names can not be empty');
+
 
         //call with valid api name, but empty record Id
         resp = aqi_ArticleQualityIndexCtrl.getInitData('','Article_Unique__c');
-        system.debug(resp);
         system.assertEquals('ERROR',resp.State ,'Record Id can not be empty');
 
       // creates Custom Article type
@@ -58,7 +57,6 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
         //call with valid api name, and record Id
         resp = aqi_ArticleQualityIndexCtrl.getInitData(article.Id,'Article_Unique__c');
-        system.debug(resp);
         system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS ');
 
 
@@ -98,24 +96,19 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         //call with valid api name, and record Id
         aqi_LightningResponse resp = aqi_ArticleQualityIndexCtrl.getInitData(article.Id,'Article_Unique__c');
         String strR = resp.jsonResponse;
-        system.debug(strR);
          Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(strR);
         string recordStr = Json.serialize(m.get('aqi_record'));
 	 	    Article_Quality__c record = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
         record.Article_Unique__c = false;
         recordStr = Json.serialize(record);
 		    resp = aqi_ArticleQualityIndexCtrl.upsertAQI(recordStr);
-        system.debug(resp);
         system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS ');
 
         strR = resp.jsonResponse;
-        system.debug(strR);
         m = (Map<String, Object>)JSON.deserializeUntyped(strR);
         recordStr = Json.serialize(m.get('aqi_record'));
 
         Article_Quality__c recordUpserted = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
-
-        system.debug(recordUpserted.Name);
         Article_Quality__c  aqr = [ select Id , Article_Unique__c from Article_Quality__c where Id =:recordUpserted.Id];
         system.assertEquals(aqr.Article_Unique__c,record.Article_Unique__c ,'Article unique index should be set to TRUE ');
 

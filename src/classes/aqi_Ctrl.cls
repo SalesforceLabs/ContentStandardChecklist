@@ -124,6 +124,7 @@ public with sharing class aqi_Ctrl {
 			for(String str : allFields.keySet()){
 				Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
 				idx_api_name = dfr.getName();
+				idx_api_name = idx_api_name.replace(getPackagePrefix(),'');
 				result.put(idx_api_name,dfr.getLabel());
 			}
 		}

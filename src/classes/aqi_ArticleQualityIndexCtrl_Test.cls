@@ -23,7 +23,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
 
 
         //call with valid api name, but empty record Id
-        resp = aqi_ArticleQualityIndexCtrl.getInitData('','Article_Unique__c');
+        resp = aqi_ArticleQualityIndexCtrl.getInitData('',aqi_Ctrl.getPackagePrefix()+'Article_Unique__c');
         system.assertEquals('ERROR',resp.State ,'Record Id can not be empty');
 
       // creates Custom Article type
@@ -56,7 +56,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
 
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
         //call with valid api name, and record Id
-        resp = aqi_ArticleQualityIndexCtrl.getInitData(article.Id,'Article_Unique__c');
+        resp = aqi_ArticleQualityIndexCtrl.getInitData(article.Id,aqi_Ctrl.getPackagePrefix()+'Article_Unique__c');
         system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS ');
 
 

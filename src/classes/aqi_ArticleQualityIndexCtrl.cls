@@ -192,7 +192,12 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         return result;
     }
 
-
+    public static Map<String,Object> getCompactLayoutData(Id kavId, Map<String,Object> result){
+        KnowledgeArticleVersion article = [ SELECT ArticleNumber,CreatedDate,Id,Language,VersionNumber FROM KnowledgeArticleVersion WHERE Id =:kavId ];
+        result.put('articleVersion', article.VersionNumber);
+        result.put('articleLanguage', article.Language);
+        return result;
+    }
 
     @AuraEnabled
     public static aqi_LightningResponse loadKAVId(String recordId){
@@ -201,13 +206,14 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         String kavId = '';
         try{
             response.state = 'SUCCESS';
-            List<Article_Quality__c > l = [Select Id, Knowledge_Article_Version_Id__c  from Article_Quality__c  where id=:recordId];
-
+            List<Article_Quality__c> l = [Select Id, Knowledge_Article_Version_Id__c  from Article_Quality__c  where id=:recordId];
             if (!l.isEmpty()){
                 kavId =  l.get(0).Knowledge_Article_Version_Id__c;
                 result.put('kavId', kavId);
+                //we get the language - vers
+                result = getCompactLayoutData(kavId,result);
                 Boolean isArchived = false;
-                string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId '+
+                string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId, Language , VersionNumber'+
                 '	FROM KnowledgeArticleVersion ' +
                 '	WHERE PublishStatus = \'Archived\' ' +
                 ' and Id = \'' + kavId + '\' ';

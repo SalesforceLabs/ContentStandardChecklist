@@ -12,6 +12,9 @@
 	<c:aqi_Toast aura:id="toastNotif"/>
 
 	<aura:renderIf isTrue="{! v.kavId != ''}">
+		<h3 class="slds-section__title slds-theme_shade slds-m-bottom_medium">
+			<span class="slds-truncate slds-p-horizontal_small" title="Section Title">Properties</span>
+		</h3>
 		<div class="slds-m-left_xx-small slds-grid slds-grid_vertical-align-start slds-size_12-of-12 " >
 			<div class="slds-col slds-size_6-of-12">
 				<span>

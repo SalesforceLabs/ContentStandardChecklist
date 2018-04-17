@@ -48,22 +48,16 @@
 		else{
 			component.set('v.upButtonIsPress',false);
 		}
+		var lastToastCmp;
 		if( continueWithUpdate || advalue === undefined || advalue === '')
 		{
-
 	        for (var i = 0; i < indexInputs.length; i++){
 				var aqiIndex = indexInputs[i];
 				aqi_obj[aqiIndex.get("v.fieldName")] = aqiIndex.get("v.fieldValue");
-
-
 			}
-
 			if (component.get("v.displayFollowUpSection")) {
 				var actionNeeded = component.find('Action_Needed__c').get('v.value');
 				var asignedTo = component.find('Action_Assigned_To__c').get('v.value');
-
-
-				var lastToastCmp;
 				if(component.get('v.upButtonIsPress')) {
 					lastToastCmp = component.find("toastNotifBot");
 				}
@@ -80,7 +74,6 @@
 			}
 		}
 		else{
-			var lastToastCmp;
 			var toastCmp;
 			if(component.get('v.upButtonIsPress')) {
 				lastToastCmp = component.find("toastNotifBot");

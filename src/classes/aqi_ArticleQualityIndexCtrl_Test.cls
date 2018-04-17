@@ -18,84 +18,44 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         insert aqs;
     }
 
+    @isTest static void test_Get_CompactLayoutData(){
+        insertKavObject();
+        Map<String,Object> result = aqi_ArticleQualityIndexCtrl.getCompactLayoutData(((Id)kavObj.get('Id')),new Map<String,Object>());
+        system.assertEquals('en_US',result.get('articleLanguage') ,'The language returned by CompactLayoutData is not the same as at the beginning');
+        system.assertEquals(0,result.get('articleVersion') ,'The article version is not the expected');
+    }
     @isTest static void test_getInitData() {
         // call with null parameters
         aqi_LightningResponse resp = aqi_ArticleQualityIndexCtrl.getInitData('','');
         system.assertEquals('ERROR',resp.State ,'Api names can not be empty');
-
-
         //call with valid api name, but empty record Id
         resp = aqi_ArticleQualityIndexCtrl.getInitData('',prefix+'Article_Unique__c');
         system.assertEquals('ERROR',resp.State ,'Record Id can not be empty');
-
-      // creates Custom Article type
+        // creates Custom Article type
         string publishStatus = 'draft';
-        Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
-        List<String> kavNames = new List<String>();
-        for (String s : gd.keySet()) {
-          if (s.contains('__kav')) {
-            kavNames.add(s);
-          }
-        }
-
-        String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
-        String objType = kavNames.get(0);
-        aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
-
-        kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
-
-        aqi_SecurityHandler.canAccess(Schema.getGlobalDescribe().get(objType));
-        kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
-        kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
-        kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');
-        kavObj.put('Language', default_language);
-        insert kavObj;
+        insertKavObject();
         // requery the kavObj to get the KnowledgeArticleId on it that is created automatically
         String q =  '    SELECT Id,ArticleNumber,CreatedDate,LastPublishedDate, LastModifiedDate, LastModifiedById,'+
                     '    PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
                     '   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
         kavObj = (KnowledgeArticleVersion)Database.query(q);
-
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
         //call with valid api name, and record Id
-
-
         resp = aqi_ArticleQualityIndexCtrl.getInitData(article.Id,prefix+'Article_Unique__c');
         system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS ');
 
 
     }
 
-
     @isTest static void test_upsertAQI() {
-
-      // creates Custom Article
+        // creates Custom Article
         string publishStatus = 'draft';
-        Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
-        List<String> kavNames = new List<String>();
-        for (String s : gd.keySet()) {
-          if (s.contains('__kav')) {
-            kavNames.add(s);
-          }
-        }
-
-        String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
-        String objType = kavNames.get(0);
-
-        kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
-        aqi_SecurityHandler.canAccess(Schema.getGlobalDescribe().get(objType));
-        aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
-        kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
-        kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
-        kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');
-        kavObj.put('Language', default_language);
-        insert kavObj;
+        insertKavObject();
         // requery the kavObj to get the KnowledgeArticleId on it that is created automatically
         String q =  '    SELECT Id,ArticleNumber,CreatedDate,LastPublishedDate, LastModifiedDate, LastModifiedById,'+
                     '    PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
                     '   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
         kavObj = (KnowledgeArticleVersion)Database.query(q);
-
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
         //call with valid api name, and record Id
         aqi_LightningResponse resp = aqi_ArticleQualityIndexCtrl.getInitData(article.Id,'Article_Unique__c');
@@ -107,18 +67,17 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         recordStr = Json.serialize(record);
 		    resp = aqi_ArticleQualityIndexCtrl.upsertAQI(recordStr);
         system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS ');
-
         strR = resp.jsonResponse;
         m = (Map<String, Object>)JSON.deserializeUntyped(strR);
         recordStr = Json.serialize(m.get('aqi_record'));
-
         Article_Quality__c recordUpserted = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
         Article_Quality__c  aqr = [ select Id , Article_Unique__c from Article_Quality__c where Id =:recordUpserted.Id];
         system.assertEquals(aqr.Article_Unique__c,record.Article_Unique__c ,'Article unique index should be set to TRUE ');
-
-
         aqi_LightningResponse responseLKID = aqi_ArticleQualityIndexCtrl.loadKAVId(recordUpserted.Id);
         Map<String,  Object> lst_JsonParse = (Map<String,  Object>)Json.deserializeUntyped(responseLKID.jsonResponse);
+        system.assertEquals('en_US',lst_JsonParse.get('articleLanguage') ,'The language returned by CompactLayoutData is not the same as at the beginning');
+        system.assertEquals(0,lst_JsonParse.get('articleVersion') ,'The article version is not the expected');
+
     }
 
     @isTest static void test_aqi_DynamicPickList_AQI() {
@@ -130,5 +89,25 @@ private class aqi_ArticleQualityIndexCtrl_Test {
 
       system.assert(defaultVal!= null);
 
+    }
+    //aux method that insert kav data
+    private static void insertKavObject(){
+        Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
+        String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
+        List<String> kavNames = new List<String>();
+        for (String s : gd.keySet()) {
+          if (s.contains('__kav')) {
+            kavNames.add(s);
+          }
+        }
+        String objType = kavNames.get(0);
+        aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+        kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
+        aqi_SecurityHandler.canAccess(Schema.getGlobalDescribe().get(objType));
+        kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
+        kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
+        kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');
+        kavObj.put('Language', default_language);
+        insert kavObj;
     }
 }

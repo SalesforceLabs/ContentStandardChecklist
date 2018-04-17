@@ -21,7 +21,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     @isTest static void test_Get_CompactLayoutData(){
         insertKavObject();
         Map<String,Object> result = aqi_ArticleQualityIndexCtrl.getCompactLayoutData(((Id)kavObj.get('Id')),new Map<String,Object>());
-        system.assertEquals('en_US',result.get('articleLanguage') ,'The language returned by CompactLayoutData is not the same as at the beginning');
+        system.assertEquals('English',result.get('articleLanguage') ,'The language returned by CompactLayoutData is not the same as at the beginning');
         system.assertEquals(0,result.get('articleVersion') ,'The article version is not the expected');
     }
     @isTest static void test_getInitData() {
@@ -75,7 +75,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         system.assertEquals(aqr.Article_Unique__c,record.Article_Unique__c ,'Article unique index should be set to TRUE ');
         aqi_LightningResponse responseLKID = aqi_ArticleQualityIndexCtrl.loadKAVId(recordUpserted.Id);
         Map<String,  Object> lst_JsonParse = (Map<String,  Object>)Json.deserializeUntyped(responseLKID.jsonResponse);
-        system.assertEquals('en_US',lst_JsonParse.get('articleLanguage') ,'The language returned by CompactLayoutData is not the same as at the beginning');
+        system.assertEquals('English',lst_JsonParse.get('articleLanguage') ,'The language returned by CompactLayoutData is not the same as at the beginning');
         system.assertEquals(0,lst_JsonParse.get('articleVersion') ,'The article version is not the expected');
 
     }

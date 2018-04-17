@@ -195,7 +195,13 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     public static Map<String,Object> getCompactLayoutData(Id kavId, Map<String,Object> result){
         KnowledgeArticleVersion article = [ SELECT ArticleNumber,CreatedDate,Id,Language,VersionNumber FROM KnowledgeArticleVersion WHERE Id =:kavId ];
         result.put('articleVersion', article.VersionNumber);
-        result.put('articleLanguage', article.Language);
+        Schema.DescribeFieldResult fieldResult = User.LanguageLocaleKey.getDescribe();
+        List<Schema.PicklistEntry> picklistValues = fieldResult.getPicklistValues();
+        for (Schema.PicklistEntry picklistEntry : picklistValues) {
+            if(picklistEntry.getValue() == article.Language){
+                result.put('articleLanguage', picklistEntry.getLabel());
+            }
+        }
         return result;
     }
 

@@ -91,11 +91,12 @@ private class aqi_KnowledgeSearchCtrl_Test {
         SObjectType objToken = Schema.getGlobalDescribe().get(knowledgeObject);
         aqi_SecurityHandler.canAccess(objToken);
 		Schema.DescribeSObjectResult dr = objToken.getDescribe();
-		Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
+		// Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
 		String queryStringSosl = '';
-		Boolean hasRecordTypeId = false;
-		if(drfs.containsKey('RecordTypeId')){
-			hasRecordTypeId = true;
+		// Boolean hasRecordTypeId = false;
+		// if(drfs.containsKey('RecordTypeId')){
+        if(aqi_KnowledgeSearchCtrl.isRecordTypeIdActive){
+			// hasRecordTypeId = true;
 			queryStringSosl =  ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
         }
         else{

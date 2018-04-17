@@ -29,7 +29,6 @@ public with sharing class aqi_Ctrl {
 	public Article_Quality__c record{get;set;}
 	public static Boolean showNoRecordTypeMessage {get;set;}
 
-
 	/*
 	* @description
 	*    Returns Map with recordType Id and Name
@@ -454,29 +453,30 @@ public with sharing class aqi_Ctrl {
 		// and construct a query dynamically.
 
 		Schema.DescribeSObjectResult dr = token.getDescribe();
-		Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
+		// Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
 		String queryString = '';
 		String filter = '';
-		Boolean hasRecordTypeId = false;
-		if(drfs.containsKey('RecordTypeId')){
-			hasRecordTypeId = true;
+		// Boolean hasRecordTypeId = false;
+		// if(drfs.containsKey('RecordTypeId')){
+		if(aqi_KnowledgeSearchCtrl.isRecordTypeIdActive){
+			// hasRecordTypeId = true;
 			filter = 'Id, RecordTypeId';
 		}
 		else{
 			filter = 'Id';
 		}
-		showNoRecordTypeMessage = !hasRecordTypeId;
+		showNoRecordTypeMessage = !aqi_KnowledgeSearchCtrl.isRecordTypeIdActive;
 		aqi_SecurityHandler.canAccess(token);
 		queryString = 'SELECT '+ filter +' FROM ' + dr.getName() + '	WHERE ' + ' Id =: thisIs' ;
 		sObject obj = Database.query(queryString);
-		String recordType = hasRecordTypeId ? String.valueOf(obj.get('RecordTypeId')) : '';
+		String recordType = aqi_KnowledgeSearchCtrl.isRecordTypeIdActive ? String.valueOf(obj.get('RecordTypeId')) : '';
 
 		record.Knowledge_Article_Version_Id__c = article.Id;
 		record.Knowledge_Article_Id__c = article.KnowledgeArticleId;
 		record.Article_Title__c = article.Title;
 		record.Article_Created_Date__c = article.CreatedDate;
 		record.Article_Created_By__c = article.CreatedById;
-		if(hasRecordTypeId) {
+		if(aqi_KnowledgeSearchCtrl.isRecordTypeIdActive) {
 			record.Article_Type__c = recordType;
 		}
 		record.Article_Number__c = article.ArticleNumber;

@@ -7,6 +7,7 @@ global class aqi_KnowledgeSearchCtrl {
 	public static Boolean sortAsc 	= false;
 	public static String knowledgeObject = aqi_securityHandler.knowledgeObject;
 	public static  Boolean isValidationStActive = checkForSchemaFieldActive('validationstatus');
+	public static  Boolean isRecordTypeIdActive = checkForSchemaFieldActive('recordtypeid');
 
 	public String tzOffset{
 		get{
@@ -103,14 +104,13 @@ global class aqi_KnowledgeSearchCtrl {
 
 
 
-		SObjectType objToken = Schema.getGlobalDescribe().get(knowledgeObject);
-		aqi_SecurityHandler.canAccess(objToken);
-		Schema.DescribeSObjectResult dr = objToken.getDescribe();
-		Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
+		// SObjectType objToken = Schema.getGlobalDescribe().get(knowledgeObject);
+		// aqi_SecurityHandler.canAccess(objToken);
+		// Schema.DescribeSObjectResult dr = objToken.getDescribe();
+		// Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
 		String fieldsToRetrieve = '';
-		Boolean hasRecordTypeId = false;
-		if(drfs.containsKey('RecordTypeId')){
-			hasRecordTypeId = true;
+		// if(drfs.containsKey('RecordTypeId')){
+		if(isRecordTypeIdActive){
 			fieldsToRetrieve = ' Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,  '+
 			' Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary ';
 		}
@@ -118,12 +118,6 @@ global class aqi_KnowledgeSearchCtrl {
 			fieldsToRetrieve = ' Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,  '+
 			' Title, CreatedDate, FirstPublishedDate, LastPublishedDate, LastModifiedDate, Summary ';
 		}
-
-
-		//check if exist RecordTypeId
-
-
-
 		if (isValidationStActive)
 		fieldsToRetrieve += ',ValidationStatus ';
 		List<String> whereConditions = new list<String>();
@@ -144,17 +138,10 @@ global class aqi_KnowledgeSearchCtrl {
 			}
 		}
 		// ARTICLE RECORD TYPE                  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-
-
-
-
 		//check if exist RecordTypeId
-		if(hasRecordTypeId && String.isNotBlank(articleRecordType) & (articleRecordType !='all')){
+		if(isRecordTypeIdActive && String.isNotBlank(articleRecordType) & (articleRecordType !='all')){
 			whereConditions.add(' RecordTypeId = \'' + escapeString(articleRecordType) + '\' ');
 		}
-
-
 		// IS MASTER LANGUAGE                   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 		if (isMasterLanguage)
 		whereConditions.add(' IsMasterLanguage = true ');

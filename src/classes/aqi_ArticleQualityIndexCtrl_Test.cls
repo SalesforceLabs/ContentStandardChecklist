@@ -1,3 +1,9 @@
+/**
+    @author Altimetrik
+    @description
+    started on MM/DD/YYYY
+    REPLACE_BY_CLASS_LOGIC_RESPONSABILITIES
+**/
 @isTest
 private class aqi_ArticleQualityIndexCtrl_Test {
     static SObject kavObj;

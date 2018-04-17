@@ -463,6 +463,7 @@ public with sharing class aqi_Ctrl {
 			filter = 'Id, RecordTypeId';
 		}
 		else{
+			system.debug('aqi ctrl - didnt have record type');
 			filter = 'Id';
 		}
 		showNoRecordTypeMessage = !aqi_KnowledgeSearchCtrl.isRecordTypeIdActive;

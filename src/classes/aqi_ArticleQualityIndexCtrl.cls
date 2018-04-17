@@ -1,25 +1,16 @@
 /**
-* @author Altimetrik
-* @description
-*  started on MM/DD/YYYY
-*  REPLACE_BY_CLASS_LOGIC_RESPONSABILITIES
+    @author Altimetrik
+    @description
+    started on MM/DD/YYYY
+    REPLACE_BY_CLASS_LOGIC_RESPONSABILITIES
 **/
 public with sharing class aqi_ArticleQualityIndexCtrl {
-    // Constants
-
-    //************************************************************************
-    // Properties & data members
-
-
-
     //************************************************************************
     // Methods
 
     public aqi_ArticleQualityIndexCtrl() {
 
     }
-
-
 
     /*
     * @description

@@ -6,6 +6,8 @@
 	doInitCallback : function( cmp, response, ctx) {
 		if(!cmp.isValid()) return;
 		cmp.set("v.kavId",response.kavId);
+		cmp.set('v.articleVersion',response.articleVersion);
+		cmp.set('v.articleLanguage',response.articleLanguage);
 		if(response.isArchived){
 			var toastCmp =  cmp.find("toastNotif");
 			toastCmp.set("v.title",'WARNING');
@@ -13,5 +15,5 @@
 			toastCmp.set("v.className",'');
 			toastCmp.set("v.severity",'warning');
 		}
-	}  
+	}
 })

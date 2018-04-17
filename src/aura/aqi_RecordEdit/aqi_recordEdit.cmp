@@ -1,8 +1,12 @@
 <aura:component implements="lightning:actionOverride,force:hasRecordId,force:hasSObjectName" access="global" >
+
+
  <aura:attribute name="isErrorOnSave" type="Boolean" default="false" />
  <aura:handler name="onSaveSuccess" event="force:recordSaveSuccess" action="{!c.handleSaveSuccess}"/>
  <aura:handler event="aura:doneWaiting" action="{!c.handleDoneWaiting}"/>
-     <lightning:card title="AQI"  >
+
+ <div>
+     <lightning:card title="">
         <aura:set attribute="actions">
              <lightning:button label="Cancel" onclick="{!c.cancel}"/>
              <lightning:button label="Save" onclick="{!c.save}"/>
@@ -11,7 +15,6 @@
           <force:recordEdit aura:id="edit" recordId="{!v.recordId}"/>
         </p>
     </lightning:card>
-
-
+</div>
 
 </aura:component>

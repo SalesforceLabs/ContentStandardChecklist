@@ -1,25 +1,16 @@
 /**
- * @author Altimetrik
- * @description
- *  started on MM/DD/YYYY
- *  REPLACE_BY_CLASS_LOGIC_RESPONSABILITIES
- **/
+    @author Altimetrik
+    @description
+    started on MM/DD/YYYY
+    REPLACE_BY_CLASS_LOGIC_RESPONSABILITIES
+**/
 public with sharing class aqi_ArticleQualityIndexCtrl {
-    // Constants
-
-    //************************************************************************
-    // Properties & data members
-
-
-
     //************************************************************************
     // Methods
 
     public aqi_ArticleQualityIndexCtrl() {
 
     }
-
-
 
     /*
     * @description
@@ -34,92 +25,92 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     @AuraEnabled
     public static aqi_LightningResponse getInitData(String recordId, String apiNames){
 
-	    aqi_LightningResponse response = new aqi_LightningResponse();
-        Map<String,Double>  indexValues = aqi_Ctrl.getindexApiNameToValue();
+        aqi_LightningResponse response = new aqi_LightningResponse();
+        Map<String,Double>  indexValues 			= aqi_Ctrl.getindexApiNameToValue();
+        Map<String,String>  listApiNamesToLabels 	= aqi_Ctrl.getAqiObjectApiNameToLabel();//new Map<String,String>();
 
+        if(!listApiNamesToLabels.containsKey('Action_Assigned_To__c')) {
+            response.state = 'ERROR';
+            response.error = 'Some of the follow up section fields label were not retrieved';
+        }
 
         if (!String.isNotBlank(apiNames)){
-                response.state = 'ERROR';
-                response.error = 'List of API names can not be empty';
+            response.state = 'ERROR';
+            response.error = 'List of API names can not be empty';
         }else
-            if (!String.isNotBlank(recordId)){
-                response.state = 'ERROR';
-                response.error = 'Article Id  can not be empty';
-            }else{
-                try{
-                    Article_Quality__c aqi_result;
-                    List<indexArticleQualityIndex> indexList = new List<indexArticleQualityIndex>();
-                    Boolean appIsConfigured = aqi_SettingsHandler.isAppConfigured();
-                    Map<String,  Object> result = new Map<String,  Object>();
+        if (!String.isNotBlank(recordId)){
+            response.state = 'ERROR';
+            response.error = 'Article Id  can not be empty';
+        }else{
+            try{
+                Article_Quality__c aqi_result;
+                List<indexArticleQualityIndex> indexList = new List<indexArticleQualityIndex>();
+                aqi_SettingsHandler.checkForAppConfiguration();
+                Map<String,  Object> result = new Map<String,  Object>();
 
-                    if (appIsConfigured){
+                ArticleQuality_index__c aqs = aqi_SettingsHandler.getSettings();
 
-                         ArticleQuality_index__c aqs = aqi_SettingsHandler.getSettings();
+                set<String> apiNamesWhiteLilst = indexValues.keySet();
 
-                        set<String> apiNamesWhiteLilst = indexValues.keySet();
-
-                        set<String> apiList  = new set<String>();
-                        apiNames = apiNames.replace('"','').replace('[','').replace(']','');
-                        for (String a : apiNames.split(',')){
-                            if (String.isNotBlank(a) && apiNamesWhiteLilst.contains(a)){
-                                apiList.add(a);
-                            }
-                        }
-
-                        //@todo : filter field list according to permissions
-                        List<String> uniqueApiNames = new List<String>();
-                        uniqueApiNames.addAll(apiList);
-
-                        String qStringApiNames = String.join(uniqueApiNames,', ');
-
-
-
-
-                        String qStr =   ' SELECT Name, Action_Assigned_To__r.Name, Action_Assigned_To__r.Id , Action_Assigned_To__r.FullPhotoUrl, Action_Needed__c, AQ_Score__c, '+
-                                        '      Action_Date__c, Action_Taken__c, Internal_Notes__c ';
-
-                        if (String.isNotBlank(qStringApiNames))
-                                qStr +=  ', '+qStringApiNames;
-
-                        qStr += ' FROM Article_Quality__c '+
-                                ' WHERE '+
-                                ' Knowledge_Article_Version_Id__c =\''+recordId+'\'';
-
-                        aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
-                        List<Article_Quality__c > l = Database.query(   qStr );
-                        if (l.isEmpty()){
-                            aqi_result =populateInitialAQI(recordId);
-                        }else{
-                            aqi_result = l.get(0);
-                        }
-
-                        Map<String, Schema.SObjectField> allFields = Schema.SObjectType.Article_Quality__c.fields.getMap();
-                        String tmp;
-                        for(String str : uniqueApiNames){
-                            tmp = str.toLowerCase();
-                            if (allFields.containsKey(tmp)){
-                                Schema.DescribeFieldResult dfr = allFields.get(tmp).getDescribe();
-                                if (dfr.isCustom() && dfr.getType() ==Schema.DisplayType.BOOLEAN){
-
-                                    indexList.add(new indexArticleQualityIndex(dfr.getLabel(),dfr.getName(),true));
-                                }
-                            }
-                        }
-                        result.put('aqi_appIsConfigured',appIsConfigured);
-                        result.put('aqi_fields',indexList);
-                        result.put('aqi_record',aqi_result);
-
-                        result.put('prefixOrg',aqi_Ctrl.getPackagePrefix());
-                        response.jsonResponse = JSON.serialize(result);
-                    }  else {
-                                        response.state = 'ERROR';
-                                        response.error = 'The AQI component is not configured. Please go to the setup page found in the package configuration.';
-                                    }
-                }catch(Exception e){
-                    response = new aqi_LightningResponse(e);
+                set<String> apiList  = new set<String>();
+                apiNames = apiNames.replace('"','').replace('[','').replace(']','');
+                for (String a : apiNames.split(',')){
+                    if (String.isNotBlank(a) && apiNamesWhiteLilst.contains(a)){
+                        apiList.add(a);
+                    }
                 }
+
+                //@todo : filter field list according to permissions
+                List<String> uniqueApiNames = new List<String>();
+                uniqueApiNames.addAll(apiList);
+
+                String qStringApiNames = String.join(uniqueApiNames,', ');
+
+
+
+
+                String qStr =   ' SELECT Name, Action_Assigned_To__r.Name, Action_Assigned_To__r.Id , Action_Assigned_To__r.FullPhotoUrl, Action_Needed__c, AQ_Score__c, '+
+                '      Action_Date__c, Action_Taken__c, Internal_Notes__c ';
+
+                if (String.isNotBlank(qStringApiNames))
+                qStr +=  ', '+qStringApiNames;
+
+                qStr += ' FROM Article_Quality__c '+
+                ' WHERE '+
+                ' Knowledge_Article_Version_Id__c =\''+recordId+'\'';
+
+                aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
+                List<Article_Quality__c > l = Database.query(   qStr );
+                if (l.isEmpty()){
+                    aqi_result =populateInitialAQI(recordId);
+                }else{
+                    aqi_result = l.get(0);
+                }
+
+                Map<String, Schema.SObjectField> allFields = Schema.SObjectType.Article_Quality__c.fields.getMap();
+                String tmp;
+                for(String str : uniqueApiNames){
+                    tmp = str.toLowerCase();
+                    if (allFields.containsKey(tmp)){
+                        Schema.DescribeFieldResult dfr = allFields.get(tmp).getDescribe();
+                        if (dfr.isCustom() && dfr.getType() ==Schema.DisplayType.BOOLEAN){
+                            indexList.add(new indexArticleQualityIndex(dfr.getLabel(),dfr.getName(),true));
+                        }
+                    }
+                }
+
+                result.put('aqi_listApiNamesToLabels',listApiNamesToLabels);
+                result.put('aqi_fields',indexList);
+                result.put('aqi_record',aqi_result);
+
+                result.put('prefixOrg',aqi_Ctrl.getPackagePrefix());
+                response.jsonResponse = JSON.serialize(result);
+
+            }catch(Exception e){
+                response = new aqi_LightningResponse(e);
             }
-		return response;
+        }
+        return response;
     }
 
     /*
@@ -141,8 +132,6 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         List<String> tmpList  = new List<String>();
         tmpList.addAll(apiNamesWhiteLilst);
         String qStringApiNames = String.join(tmpList,', ');
-
-        system.debug(recordStr);
         if (!String.isNotBlank(recordStr)) return response;
         try{
             Article_Quality__c record = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
@@ -150,23 +139,19 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             //load Score field
             aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
             record = Database.query(   ' SELECT Name, Action_Assigned_To__c , Action_Needed__c, AQ_Score__c, '+
-                                        '           Action_Date__c, Action_Taken__c, Internal_Notes__c, '+
-                                        qStringApiNames +
-                                        ' FROM Article_Quality__c '+
-                                        ' WHERE '+
-                                        ' Id =\''+record.Id+'\'');
+            '           Action_Date__c, Action_Taken__c, Internal_Notes__c, '+
+            qStringApiNames +
+            ' FROM Article_Quality__c '+
+            ' WHERE '+
+            ' Id =\''+record.Id+'\'');
             result.put('aqi_record',record);
-
-
-            system.debug('\n======== UPDATE AQI =======');
-            system.debug(record);
             response.jsonResponse = JSON.serialize(result);
         }catch(Exception e){
             response = new aqi_LightningResponse(e);
             String errorMsg = e.getMessage();
-			if(errorMsg.contains('FIELD_CUSTOM_VALIDATION_EXCEPTION')){
-				response.error = errorMsg.substringBetween('FIELD_CUSTOM_VALIDATION_EXCEPTION, ', ': ');
-			}
+            if(errorMsg.contains('FIELD_CUSTOM_VALIDATION_EXCEPTION')){
+                response.error = errorMsg.substringBetween('FIELD_CUSTOM_VALIDATION_EXCEPTION, ', ': ');
+            }
         }
         return response;
 
@@ -178,19 +163,19 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     private static Article_Quality__c populateInitialAQI(String kavId){
         Article_Quality__c result = null;
         List<Article_Quality__c > l = [Select Id
-                                       from Article_Quality__c
-                                       where Knowledge_Article_Version_Id__c =:kavId];
+        from Article_Quality__c
+        where Knowledge_Article_Version_Id__c =:kavId];
         if (!l.isEmpty()){
             result = l.get(0);
 
         }else{
             result = new Article_Quality__c();
             KnowledgeArticleVersion article = [ SELECT ArticleNumber,CreatedById,CreatedDate,FirstPublishedDate,Id,
-                                                KnowledgeArticleId,Language,LastModifiedDate,LastPublishedDate,
-                                                PublishStatus,Summary,Title,UrlName,VersionNumber,LastModifiedById
-                                         FROM KnowledgeArticleVersion
-                                         WHERE
-                                                Id =:kavId
+            KnowledgeArticleId,Language,LastModifiedDate,LastPublishedDate,
+            PublishStatus,Summary,Title,UrlName,VersionNumber,LastModifiedById
+            FROM KnowledgeArticleVersion
+            WHERE
+            Id =:kavId
             ];
             result = aqi_Ctrl.loadKavDetails( article ,  result);
             //insert result;
@@ -198,25 +183,37 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         return result;
     }
 
+    public static Map<String,Object> getCompactLayoutData(Id kavId, Map<String,Object> result){
+        KnowledgeArticleVersion article = [ SELECT ArticleNumber,CreatedDate,Id,Language,VersionNumber FROM KnowledgeArticleVersion WHERE Id =:kavId ];
+        result.put('articleVersion', article.VersionNumber);
+        Schema.DescribeFieldResult fieldResult = User.LanguageLocaleKey.getDescribe();
+        List<Schema.PicklistEntry> picklistValues = fieldResult.getPicklistValues();
+        for (Schema.PicklistEntry picklistEntry : picklistValues) {
+            if(picklistEntry.getValue() == article.Language){
+                result.put('articleLanguage', picklistEntry.getLabel());
+            }
+        }
+        return result;
+    }
 
-
-	@AuraEnabled
+    @AuraEnabled
     public static aqi_LightningResponse loadKAVId(String recordId){
         aqi_LightningResponse response = new aqi_LightningResponse();
         Map<String,  Object> result = new Map<String,  Object>();
         String kavId = '';
         try{
             response.state = 'SUCCESS';
-            List<Article_Quality__c > l = [Select Id, Knowledge_Article_Version_Id__c  from Article_Quality__c  where id=:recordId];
-
+            List<Article_Quality__c> l = [Select Id, Knowledge_Article_Version_Id__c  from Article_Quality__c  where id=:recordId];
             if (!l.isEmpty()){
                 kavId =  l.get(0).Knowledge_Article_Version_Id__c;
                 result.put('kavId', kavId);
+                //we get the language - vers
+                result = getCompactLayoutData(kavId,result);
                 Boolean isArchived = false;
-                string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId '+
-                                '	FROM KnowledgeArticleVersion ' +
-                                '	WHERE PublishStatus = \'Archived\' ' +
-                                            ' and Id = \'' + kavId + '\' ';
+                string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId, Language , VersionNumber'+
+                '	FROM KnowledgeArticleVersion ' +
+                '	WHERE PublishStatus = \'Archived\' ' +
+                ' and Id = \'' + kavId + '\' ';
                 aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
                 List<KnowledgeArticleVersion> actualKavs =  Database.query(query);
                 if(!actualKavs.isEmpty()){
@@ -238,7 +235,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         return response;
     }
 
-  public class indexArticleQualityIndex{
+    public class indexArticleQualityIndex{
         @AuraEnabled public  String fieldLabel{get;set;}
         @AuraEnabled public  String fieldName{get;set;}
         @AuraEnabled public  Boolean fieldValue{get;set;}

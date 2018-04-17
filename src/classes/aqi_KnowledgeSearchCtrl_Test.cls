@@ -1,3 +1,9 @@
+/**
+* @author Altimetrik
+* @description
+*	started on MM/DD/YYYY
+*   This class test the KnowledgeSearchCtrl Class
+**/
 @isTest
 private class aqi_KnowledgeSearchCtrl_Test {
     static SObject kavObj;
@@ -36,31 +42,30 @@ private class aqi_KnowledgeSearchCtrl_Test {
         kavObj.put('Summary', 'This is a summary test!!! Foo. Foo. Foo.');
         kavObj.put('Language', default_language);
         insert kavObj;
-
         String q =  '    SELECT Id,ArticleNumber,CreatedDate,LastPublishedDate, LastModifiedDate, LastModifiedById,'+
-                    '    PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
-                    '   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
+        '    PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
+        '   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
         kavObj = (KnowledgeArticleVersion)Database.query(q);
     }
 
     static Article_Quality__c populateFields (KnowledgeArticleVersion article){
-           Article_Quality__c result = new Article_Quality__c();
-           result.Knowledge_Article_Version_Id__c = article.Id;
-           result.Article_Title__c = article.Title;
-           result.Knowledge_Article_Id__c = article.KnowledgeArticleId;
-           result.Article_Number__c = article.ArticleNumber;
-           result.Article_Version__c = article.VersionNumber;
-           result.Language__c = article.Language;
-           result.Last_Modified_Date__c = article.LastModifiedDate;
-           result.Last_Published_Date__c = article.LastPublishedDate;
-           result.Last_Modified_By__c = article.LastModifiedById;
-           result.Properties_Set_Appropriately__c = false;
-           result.Article_Link__c = 'https://login.salesforce.com/' + article.Id;
-           result.Article_Unique__c = true;
-           result.Art_Meets_Content_Standard__c = true;
-           result.Content_Complete__c = true;
-           result.Agent__c = UserInfo.getUserId();
-           return result;
+        Article_Quality__c result = new Article_Quality__c();
+        result.Knowledge_Article_Version_Id__c = article.Id;
+        result.Article_Title__c = article.Title;
+        result.Knowledge_Article_Id__c = article.KnowledgeArticleId;
+        result.Article_Number__c = article.ArticleNumber;
+        result.Article_Version__c = article.VersionNumber;
+        result.Language__c = article.Language;
+        result.Last_Modified_Date__c = article.LastModifiedDate;
+        result.Last_Published_Date__c = article.LastPublishedDate;
+        result.Last_Modified_By__c = article.LastModifiedById;
+        result.Properties_Set_Appropriately__c = false;
+        result.Article_Link__c = 'https://login.salesforce.com/' + article.Id;
+        result.Article_Unique__c = true;
+        result.Art_Meets_Content_Standard__c = true;
+        result.Content_Complete__c = true;
+        result.Agent__c = UserInfo.getUserId();
+        return result;
     }
 
     @isTest static void test_list() {
@@ -75,35 +80,23 @@ private class aqi_KnowledgeSearchCtrl_Test {
         populateData();
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
         populateCustomSetting();
-
         ApexPages.currentPage().getParameters().put('kavId', UserInfo.getUserId());
-
         Id[] fixedSearchResults= new Id[1];
         fixedSearchResults[0] = article.Id;
         Test.setFixedSearchResults(fixedSearchResults);
-
         String knowledgeObject = aqi_securityHandler.knowledgeObject;
-
-
-
-        //check if exist the field RecordType
-
         SObjectType objToken = Schema.getGlobalDescribe().get(knowledgeObject);
         aqi_SecurityHandler.canAccess(objToken);
-		Schema.DescribeSObjectResult dr = objToken.getDescribe();
-		Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
-		String queryStringSosl = '';
-		Boolean hasRecordTypeId = false;
-		if(drfs.containsKey('RecordTypeId')){
-			hasRecordTypeId = true;
-			queryStringSosl =  ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
+        Schema.DescribeSObjectResult dr = objToken.getDescribe();
+        String queryStringSosl = '';
+        if(aqi_KnowledgeSearchCtrl.isRecordTypeIdActive){
+            queryStringSosl =  ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
         }
         else{
+            system.debug('aqi KnowledgeSearchCtrl - didnt have record type');
             queryStringSosl =  ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
         }
-
         List<List<SObject>> knowledgeKavSosl = search.query(queryStringSosl);
-
         System.assertNotEquals(null,knowledgeKavSosl);
         Map<Id,String> availableRecordTypes = ctr.availableRecordTypes;
         String tzOffset = ctr.tzOffset;
@@ -118,5 +111,5 @@ private class aqi_KnowledgeSearchCtrl_Test {
         System.assertNotEquals(null, allLanguage);
         System.assertNotEquals(0, allLanguage.size());
         System.Test.stopTest();
-     }
+    }
 }

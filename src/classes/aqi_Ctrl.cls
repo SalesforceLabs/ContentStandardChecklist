@@ -28,20 +28,6 @@ public with sharing class aqi_Ctrl {
 	public KnowledgeArticleVersion article{get;set;}
 	public Article_Quality__c record{get;set;}
 	public static Boolean showNoRecordTypeMessage {get;set;}
-	/*
-	* @description
-	*    Returns Boolean value indicating if custom setting record was properly created
-	* @return Boolean
-	*/
-	public static Boolean appConfigured{
-		get{
-			if (appConfigured == null) {
-				appConfigured = aqi_SettingsHandler.isAppConfigured();
-			}
-			return appConfigured;
-		}
-		private set;
-	}
 
 	/*
 	* @description
@@ -52,10 +38,10 @@ public with sharing class aqi_Ctrl {
 		get{
 			if (recordTypesMap == null) {
 				recordTypesMap = aqi_SecurityHandler.getAllowedRecordTypesMap();
-                if(recordTypesMap == null){
-                    recordTypesMap = new Map<Id,String>();
-                }
-                recordTypesMap.put(null,'This article has no record type');
+				if(recordTypesMap == null){
+					recordTypesMap = new Map<Id,String>();
+				}
+				recordTypesMap.put(null,'This article has no record type');
 			}
 			return recordTypesMap;
 		}
@@ -81,8 +67,8 @@ public with sharing class aqi_Ctrl {
 
 			if(aqi.Id != null){
 				aqi = [	SELECT Article_Version__c, Language__c , Knowledge_Article_Id__c
-						FROM Article_Quality__c
-						WHERE id=:aqi.Id ];
+				FROM Article_Quality__c
+				WHERE id=:aqi.Id ];
 
 				kaId = aqi.Knowledge_Article_Id__c;
 				kaLang = aqi.Language__c;
@@ -94,9 +80,9 @@ public with sharing class aqi_Ctrl {
 			loadKAVDetails();
 		}catch(Exception e){
 			ApexPages.addMessage(new ApexPages.Message(
-									ApexPages.Severity.ERROR,
-									e.getMessage()
-									));
+			ApexPages.Severity.ERROR,
+			e.getMessage()
+			));
 		}
 
 	}
@@ -105,19 +91,79 @@ public with sharing class aqi_Ctrl {
 		try{
 			setNewRecordAndParameters();
 			loadKAVDetails();
+			aqi_SettingsHandler.checkForAppConfiguration();
 
 		}catch(Exception e){
 			ApexPages.addMessage(new ApexPages.Message(
-									ApexPages.Severity.ERROR,
-									e.getMessage()
-									));
+			ApexPages.Severity.ERROR,
+			e.getMessage()
+			));
 		}
 	}
 
 	//************************************************************************
 	// Methods
 
+	/*
+	* @description
+	*	returns AQI index api names and values from custom setting
+	* @params
+	*	none
+	* @return
+	*	Map<String,String> : api_name, label value
+	*/
+	public static Map<String,String>  getAqiObjectApiNameToLabel(){
 
+		ArticleQuality_index__c aqs = aqi_SettingsHandler.resolveSettings();
+		Map<String, Schema.SObjectField> allFields = Schema.SObjectType.Article_Quality__c.fields.getMap();
+
+		Map<String,String> result = new Map<String,String>();
+		String idx_api_name;
+		String prefix = getPackagePrefix();
+		if (aqs != null){
+			for(String str : allFields.keySet()){
+				Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
+				idx_api_name = dfr.getName();
+				idx_api_name = idx_api_name.replace(prefix,'');
+				result.put(idx_api_name,dfr.getLabel());
+			}
+		}
+		return result;
+	}
+
+
+
+
+
+
+
+	/*
+	* @description
+	*	returns AQI index api names and values from custom setting
+	* @params
+	*	none
+	* @return
+	*	Map<String,String> : api_name, label value
+	*/
+	public static Map<String,String>  getindexApiNameToLabel(){
+
+		ArticleQuality_index__c aqs = aqi_SettingsHandler.resolveSettings();
+		Map<String, Schema.SObjectField> allFields = Schema.SObjectType.ArticleQuality_index__c.fields.getMap();
+
+		Map<String,String> result = new Map<String,String>();
+		String idx_api_name;
+		if (aqs != null){
+			for(String str : allFields.keySet()){
+				Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
+				idx_api_name = dfr.getName();
+				if (dfr.getType() ==Schema.DisplayType.DOUBLE ){
+					Object obj = aqs.get(idx_api_name);
+					result.put(idx_api_name,dfr.getLabel());
+				}
+			}
+		}
+		return result;
+	}
 
 	/*
 	* @description
@@ -166,34 +212,34 @@ public with sharing class aqi_Ctrl {
 			aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
 
 			list<Article_Quality__c > kavList = [SELECT
-												Action_Assigned_To__c,Action_Date__c,Action_Needed__c,
-												Action_Taken__c,AQ_Score__c,Article_Link__c,Article_Number__c,
-												Article_Title__c,Article_Created_By__c ,Article_Created_Date__c,
-												Article_Type__c,Article_Unique__c,Article_Version__c,
-												Art_Meets_Content_Standard__c,Comment__c,Content_Complete__c,
-												Content_Understandable__c,Internal_Notes__c,
-												ArticleFirstPublishedDate__c,Language__c,Last_Modified_By__c,
-												Last_Modified_Date__c,Last_Published_By__c,
-												Last_Published_Date__c,Links_In_Article_Valid__c,Possible_Points__c,
-												Properties_Set_Appropriately__c,Title_Accurate__c,Agent__c,
-												Knowledge_Article_Version_Id__c, Knowledge_Article_Id__c
-												FROM Article_Quality__c
-												WHERE
-													Knowledge_Article_Id__c =: kaId AND
-													Article_Version__c =: Decimal.valueOf(kaVersion) AND
-													Language__c =: kaLang
-													limit 1];
+			Action_Assigned_To__c,Action_Date__c,Action_Needed__c,
+			Action_Taken__c,AQ_Score__c,Article_Link__c,Article_Number__c,
+			Article_Title__c,Article_Created_By__c ,Article_Created_Date__c,
+			Article_Type__c,Article_Unique__c,Article_Version__c,
+			Art_Meets_Content_Standard__c,Comment__c,Content_Complete__c,
+			Content_Understandable__c,Internal_Notes__c,
+			ArticleFirstPublishedDate__c,Language__c,Last_Modified_By__c,
+			Last_Modified_Date__c,Last_Published_By__c,
+			Last_Published_Date__c,Links_In_Article_Valid__c,Possible_Points__c,
+			Properties_Set_Appropriately__c,Title_Accurate__c,Agent__c,
+			Knowledge_Article_Version_Id__c, Knowledge_Article_Id__c
+			FROM Article_Quality__c
+			WHERE
+			Knowledge_Article_Id__c =: kaId AND
+			Article_Version__c =: Decimal.valueOf(kaVersion) AND
+			Language__c =: kaLang
+			limit 1];
 
 			if (!kavList.isEmpty())
-				return kavList.get(0);
+			return kavList.get(0);
 			else
-				return null;
+			return null;
 
 		}catch(Exception e){
 			ApexPages.addMessage(new ApexPages.Message(
-														ApexPages.Severity.ERROR,
-														e.getMessage()
-														));
+			ApexPages.Severity.ERROR,
+			e.getMessage()
+			));
 		}
 		return null;
 	}
@@ -206,9 +252,9 @@ public with sharing class aqi_Ctrl {
 
 		if ( !String.isNotBlank(kaId)) {
 			ApexPages.addMessage(new ApexPages.Message(
-											ApexPages.Severity.ERROR,
-											'Invalid Knowledge Article.'
-											));
+			ApexPages.Severity.ERROR,
+			'Invalid Knowledge Article.'
+			));
 
 			return result;
 		}
@@ -234,18 +280,18 @@ public with sharing class aqi_Ctrl {
 					if (!isCurrentVersion){
 						latestArticleVersionNumber =article.VersionNumber;
 						latestArticleUrl = URL.getSalesforceBaseUrl().toExternalForm() +
-												'/' + article.KnowledgeArticleId +
-												'?kavVersion='+article.VersionNumber +
-												'&lang='+article.Language;
+						'/' + article.KnowledgeArticleId +
+						'?kavVersion='+article.VersionNumber +
+						'&lang='+article.Language;
 					}
 				}
 			}else{
 				result = false;
 				if (!canReadKAv){
 					ApexPages.addMessage(new ApexPages.Message(
-												ApexPages.Severity.ERROR,
-												'You need permissions to access this Article Type.'
-												));
+					ApexPages.Severity.ERROR,
+					'You need permissions to access this Article Type.'
+					));
 				}
 			}
 		}else{
@@ -258,9 +304,9 @@ public with sharing class aqi_Ctrl {
 				if (lKAV.isEmpty()){
 
 					ApexPages.addMessage(new ApexPages.Message(
-												ApexPages.Severity.ERROR,
-												'The related Knowledge Article was not found.'
-											));
+					ApexPages.Severity.ERROR,
+					'The related Knowledge Article was not found.'
+					));
 				}else{
 					ApexPages.addMessage(new ApexPages.Message(
 					ApexPages.Severity.WARNING,
@@ -270,9 +316,9 @@ public with sharing class aqi_Ctrl {
 			}else{
 
 				ApexPages.addMessage(new ApexPages.Message(
-															ApexPages.Severity.WARNING,
-															'The related Knowledge Article is archived.'
-															));
+				ApexPages.Severity.WARNING,
+				'The related Knowledge Article is archived.'
+				));
 			}
 
 			result = false;
@@ -284,12 +330,12 @@ public with sharing class aqi_Ctrl {
 	public static List<KnowledgeArticleVersion> getArticleByPublishedStatus(String status, String articleId , String articleLanguage){
 
 		string query =  '	SELECT Id,ArticleNumber,CreatedDate, CreatedById, LastPublishedDate, ' +
-						'			LastModifiedDate, LastModifiedById, PublishStatus,Summary,Title, ' +
-						'			UrlName,VersionNumber,Language,FirstPublishedDate, KnowledgeArticleId '+
-						'	FROM KnowledgeArticleVersion ' +
-						'	WHERE PublishStatus = '+ status +
-									' and KnowledgeArticleId =\''+articleId+'\' '+
-									' and Language =  \''+articleLanguage+'\'';
+		'			LastModifiedDate, LastModifiedById, PublishStatus,Summary,Title, ' +
+		'			UrlName,VersionNumber,Language,FirstPublishedDate, KnowledgeArticleId '+
+		'	FROM KnowledgeArticleVersion ' +
+		'	WHERE PublishStatus = '+ status +
+		' and KnowledgeArticleId =\''+articleId+'\' '+
+		' and Language =  \''+articleLanguage+'\'';
 
 		try{
 			aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
@@ -298,11 +344,11 @@ public with sharing class aqi_Ctrl {
 
 		}catch(Exception e){
 			ApexPages.addMessage(new ApexPages.Message(
-											ApexPages.Severity.ERROR,
-											e.getMessage()
-											));
+			ApexPages.Severity.ERROR,
+			e.getMessage()
+			));
 		}
-	return null;
+		return null;
 
 	}
 
@@ -313,21 +359,21 @@ public with sharing class aqi_Ctrl {
 			aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
 			Article_Quality__c tmp = findDupe(kaId, kaLang, kaVersion);
 			if (tmp != null)
-				record = tmp;
+			record = tmp;
 		}catch (SecurityException e) {
 			ApexPages.addMessage(new ApexPages.Message(
-														ApexPages.Severity.ERROR,
-														e.getDmlMessage(0)
-														));
+			ApexPages.Severity.ERROR,
+			e.getDmlMessage(0)
+			));
 		}
 
 	}
 
 	public PageReference setErrorOnSave(){
 		ApexPages.addMessage(new ApexPages.Message(
-														ApexPages.Severity.ERROR,
-														'Please specify coaching provided by'
-														));
+		ApexPages.Severity.ERROR,
+		'Please specify coaching provided by'
+		));
 		iserror = true;
 		return null;
 	}
@@ -335,9 +381,9 @@ public with sharing class aqi_Ctrl {
 
 		if (!String.isNotBlank(record.Knowledge_Article_Version_Id__c)){
 			ApexPages.addMessage(new ApexPages.Message(
-															ApexPages.Severity.ERROR,
-															'Please specify Article Version reference'
-															));
+			ApexPages.Severity.ERROR,
+			'Please specify Article Version reference'
+			));
 			iserror = true;
 			return null;
 		}
@@ -345,9 +391,9 @@ public with sharing class aqi_Ctrl {
 
 		try{
 			if (String.isNotBlank(record.Id))
-				aqi_SecurityHandler.canUpdate(Article_Quality__c.sObjectType);
+			aqi_SecurityHandler.canUpdate(Article_Quality__c.sObjectType);
 			else
-				aqi_SecurityHandler.canCreate(Article_Quality__c.sObjectType);
+			aqi_SecurityHandler.canCreate(Article_Quality__c.sObjectType);
 
 			upsert record;
 			saved = true;
@@ -356,22 +402,22 @@ public with sharing class aqi_Ctrl {
 			return ppage;
 		}catch (SecurityException e) {
 			ApexPages.addMessage(new ApexPages.Message(
-											ApexPages.Severity.ERROR,
-											e.getDmlMessage(0)
-											));
+			ApexPages.Severity.ERROR,
+			e.getDmlMessage(0)
+			));
 			iserror = true;
 		}
 		catch(System.DmlException e) {
 			ApexPages.addMessage(new ApexPages.Message(
-											ApexPages.Severity.ERROR,
-											e.getDmlMessage(0)
-											));
+			ApexPages.Severity.ERROR,
+			e.getDmlMessage(0)
+			));
 			iserror = true;
 		}catch(Exception e){
 			ApexPages.addMessage(new ApexPages.Message(
-											ApexPages.Severity.ERROR,
-											e.getMessage()
-											));
+			ApexPages.Severity.ERROR,
+			e.getMessage()
+			));
 			iserror = true;
 		}
 		return null;
@@ -389,14 +435,14 @@ public with sharing class aqi_Ctrl {
 		return result;
 	}
 
-    /*
-    * @description
-    *   retrieves initial details to load input fields on AQI record
-    * @params
-    *   Id recordId Id of the Knowkedledge version record home page
-    * @return
-    *   Article_Quality__c record
-    */
+	/*
+	* @description
+	*   retrieves initial details to load input fields on AQI record
+	* @params
+	*   Id recordId Id of the Knowkedledge version record home page
+	* @return
+	*   Article_Quality__c record
+	*/
 	public static Article_Quality__c loadKavDetails(KnowledgeArticleVersion article , Article_Quality__c record){
 
 
@@ -407,29 +453,31 @@ public with sharing class aqi_Ctrl {
 		// and construct a query dynamically.
 
 		Schema.DescribeSObjectResult dr = token.getDescribe();
-		Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
+		// Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
 		String queryString = '';
 		String filter = '';
-		Boolean hasRecordTypeId = false;
-		if(drfs.containsKey('RecordTypeId')){
-			hasRecordTypeId = true;
+		// Boolean hasRecordTypeId = false;
+		// if(drfs.containsKey('RecordTypeId')){
+		if(aqi_KnowledgeSearchCtrl.isRecordTypeIdActive){
+			// hasRecordTypeId = true;
 			filter = 'Id, RecordTypeId';
 		}
 		else{
+			system.debug('aqi ctrl - didnt have record type');
 			filter = 'Id';
 		}
-		showNoRecordTypeMessage = !hasRecordTypeId;
+		showNoRecordTypeMessage = !aqi_KnowledgeSearchCtrl.isRecordTypeIdActive;
 		aqi_SecurityHandler.canAccess(token);
 		queryString = 'SELECT '+ filter +' FROM ' + dr.getName() + '	WHERE ' + ' Id =: thisIs' ;
 		sObject obj = Database.query(queryString);
-		String recordType = hasRecordTypeId ? String.valueOf(obj.get('RecordTypeId')) : '';
+		String recordType = aqi_KnowledgeSearchCtrl.isRecordTypeIdActive ? String.valueOf(obj.get('RecordTypeId')) : '';
 
 		record.Knowledge_Article_Version_Id__c = article.Id;
 		record.Knowledge_Article_Id__c = article.KnowledgeArticleId;
 		record.Article_Title__c = article.Title;
 		record.Article_Created_Date__c = article.CreatedDate;
 		record.Article_Created_By__c = article.CreatedById;
-		if(hasRecordTypeId) {
+		if(aqi_KnowledgeSearchCtrl.isRecordTypeIdActive) {
 			record.Article_Type__c = recordType;
 		}
 		record.Article_Number__c = article.ArticleNumber;

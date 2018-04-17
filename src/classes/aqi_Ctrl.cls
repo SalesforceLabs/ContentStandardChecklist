@@ -444,26 +444,18 @@ public with sharing class aqi_Ctrl {
 	*   Article_Quality__c record
 	*/
 	public static Article_Quality__c loadKavDetails(KnowledgeArticleVersion article , Article_Quality__c record){
-
-
 		//resolve record type
 		Id thisIs = article.Id;
 		Schema.SObjectType token = thisIs.getSObjectType();
 		// Using the token, do a describe
 		// and construct a query dynamically.
-
 		Schema.DescribeSObjectResult dr = token.getDescribe();
-		// Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
 		String queryString = '';
 		String filter = '';
-		// Boolean hasRecordTypeId = false;
-		// if(drfs.containsKey('RecordTypeId')){
 		if(aqi_KnowledgeSearchCtrl.isRecordTypeIdActive){
-			// hasRecordTypeId = true;
 			filter = 'Id, RecordTypeId';
 		}
 		else{
-			system.debug('aqi ctrl - didnt have record type');
 			filter = 'Id';
 		}
 		showNoRecordTypeMessage = !aqi_KnowledgeSearchCtrl.isRecordTypeIdActive;

@@ -34,8 +34,6 @@
         <members>aqi_Abstract</members>
         <members>aqi_ArticleQualityIndex</members>
         <members>aqi_Field</members>
-        <members>aqi_RecordEdit</members>
-        <members>aqi_RecordView</members>
         <members>aqi_RelatedArticle</members>
         <members>aqi_Toast</members>
         <name>AuraDefinitionBundle</name>

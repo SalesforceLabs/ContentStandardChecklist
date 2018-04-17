@@ -1,14 +1,12 @@
 global class aqi_KnowledgeSearchCtrl {
-
 	public static String PUBLISH_STATUS = System.Test.isRunningTest() ? 'Draft' : 'Online';
 	public final static String DEFAULT_LANGUAGE = aqi_SettingsHandler.customOrDefaultLanguage();
 	public static final Integer PAGE_SIZE 	= 10;
 	public static String sortBy 	= 'Title';
 	public static Boolean sortAsc 	= false;
 	public static String knowledgeObject = aqi_securityHandler.knowledgeObject;
-	public static  Boolean isValidationStActive = checkForSchemaFieldActive('validationstatus');
-	public static  Boolean isRecordTypeIdActive = checkForSchemaFieldActive('recordtypeid');
-
+	public static Boolean isValidationStActive = checkForSchemaFieldActive('validationstatus');
+	public static Boolean isRecordTypeIdActive = checkForSchemaFieldActive('recordtypeid');
 	public String tzOffset{
 		get{
 			if (tzOffset == null){
@@ -90,6 +88,13 @@ global class aqi_KnowledgeSearchCtrl {
 		}
 		return queryOffset;
 	}
+
+	/*
+	*	@description
+	*	method that return articles
+	*   @param String searchString, String articleNumber, String articleLanguage
+	*   @return Object
+	*/
 	@RemoteAction
 	global static Object getArticles(String searchString, String articleNumber, String articleLanguage,
 	String articleCreatedBy,String articlelastModifiedBy,
@@ -97,19 +102,9 @@ global class aqi_KnowledgeSearchCtrl {
 	String articlePublishDateFrom, String articlePublishDateTo,
 	String articleLastModifiedDateFrom, String articleLastModifiedDateTo,
 	String pageNum, String sortBy, Boolean sortAsc) {
-
 		Integer queryOffset =  resolveOffset(pageNum);
-
 		Boolean isMasterLanguage = checkForSchemaFieldActive('ismasterlanguage');
-
-
-
-		// SObjectType objToken = Schema.getGlobalDescribe().get(knowledgeObject);
-		// aqi_SecurityHandler.canAccess(objToken);
-		// Schema.DescribeSObjectResult dr = objToken.getDescribe();
-		// Map<String,Schema.SObjectField> drfs = dr.fields.getMap();
 		String fieldsToRetrieve = '';
-		// if(drfs.containsKey('RecordTypeId')){
 		if(isRecordTypeIdActive){
 			fieldsToRetrieve = ' Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,  '+
 			' Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary ';
@@ -147,7 +142,6 @@ global class aqi_KnowledgeSearchCtrl {
 		whereConditions.add(' IsMasterLanguage = true ');
 		// Search String                        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 		whereConditions.add(' PublishStatus=\''+ PUBLISH_STATUS +'\'');
-
 		// Search String                        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 		whereConditions.add(' language =\'' + escapeString(articleLanguage) + '\' ');
 		// Search String                        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -200,10 +194,7 @@ global class aqi_KnowledgeSearchCtrl {
 		String  limitClause = ' LIMIT :PAGE_SIZE OFFSET :queryOffset ';
 		String queryString = '';
 		List<sObject> sObjList;
-
 		if (errorsOnInput.isEmpty()){
-
-
 			if (String.isNotBlank(searchString)){
 				//SOSL
 				queryString =   ' FIND \''+  searchString  +'*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( ' + fieldsToRetrieve + whereClause + orderByClause + limitClause + ')';
@@ -215,7 +206,6 @@ global class aqi_KnowledgeSearchCtrl {
 				sObjList = Database.query(queryString);
 			}
 		}
-
 		List<Object> resultList = checkForAQIRecords(sObjList,escapeString(articleLanguage));
 		//result
 		Map<String,Object> result = new Map<String,Object>();
@@ -223,9 +213,7 @@ global class aqi_KnowledgeSearchCtrl {
 		result.put('items',resultList);
 		result.put('pageNum',pageNum);
 		result.put('errorList',errorsOnInput);
-
 		Boolean showNext = true;
-
 		if(resultList.size() < PAGE_SIZE){
 			showNext = false;
 		}
@@ -235,8 +223,8 @@ global class aqi_KnowledgeSearchCtrl {
 
 	/*
 	*	@description
-	*	 tbd
-	*   @param List<Object>
+	*	tbd
+	*   @param List<SObject> kavList, String lang
 	*   @return List<Object>
 	*/
 	public static List<Object> checkForAQIRecords(List<SObject> kavList, String lang) {
@@ -281,7 +269,8 @@ global class aqi_KnowledgeSearchCtrl {
 		String result = null;
 		if (String.isNotBlank(str)){
 			result = String.escapeSingleQuotes(str.trim());
-		}else{
+		}
+		else{
 			result ='';
 		}
 		return result;

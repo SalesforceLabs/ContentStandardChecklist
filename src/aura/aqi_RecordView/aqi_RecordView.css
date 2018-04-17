@@ -1,8 +1,0 @@
-/* For checkbox background */
-.THIS .parent .slds-form-element .slds-form-element__control .slds-checkbox .slds-checkbox__label .slds-checkbox--faux{
-    background : white;
-}
-/* For checkbox marker color */
-.THIS .parent .slds-form-element .slds-form-element__control .slds-checkbox .slds-checkbox__label .slds-checkbox--faux:after{
-   border-color: grey;
-}

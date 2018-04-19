@@ -29,11 +29,11 @@ public with sharing class aqi_Ctrl {
 	public Article_Quality__c record{get;set;}
 	public static Boolean showNoRecordTypeMessage {get;set;}
 
-	/*
-	* @description
-	*    Returns Map with recordType Id and Name
-	* @return Boolean
-	*/
+
+    /*
+    * @description
+    *   Retrieves a Map with recordType Id and Name
+    */
 	public static Map<Id,String> recordTypesMap{
 		get{
 			if (recordTypesMap == null) {
@@ -48,28 +48,34 @@ public with sharing class aqi_Ctrl {
 		private set;
 	}
 
+	// Aux Methods
+
+	/*
+	* @description
+	*   Set some parameters and create an instance of the aqi object
+	*/
 	public void setNewRecordAndParameters(){
 		record = new Article_Quality__c();
-
 		kaId = escapeString(ApexPages.currentPage().getParameters().get('kaId'));
 		kaLang = escapeString(ApexPages.currentPage().getParameters().get('lang'));
 		kaVersion = escapeString(ApexPages.currentPage().getParameters().get('version'));
 	}
 
+	// Constructor
+
+	/*
+	* @description
+	*   Get current aqi object or create a new one.
+	*/
 	public aqi_Ctrl(ApexPages.StandardController controller){
-
 		langMap = aqi_KnowledgeSearchCtrl.getActivePicklistOptions('User', 'LanguageLocaleKey');
-
 		Article_Quality__c aqi = (Article_Quality__c)controller.getRecord();
 		try{
-
 			aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
-
 			if(aqi.Id != null){
 				aqi = [	SELECT Article_Version__c, Language__c , Knowledge_Article_Id__c
 				FROM Article_Quality__c
 				WHERE id=:aqi.Id ];
-
 				kaId = aqi.Knowledge_Article_Id__c;
 				kaLang = aqi.Language__c;
 				kaVersion = String.valueOf(aqi.Article_Version__c);
@@ -84,15 +90,17 @@ public with sharing class aqi_Ctrl {
 			e.getMessage()
 			));
 		}
-
 	}
 
+	/*
+	* @description
+	*   Get current aqi object or create a new one and check for the configuration app, if didnt exist create a new one with default values.
+	*/
 	public aqi_Ctrl() {
 		try{
 			setNewRecordAndParameters();
 			loadKAVDetails();
 			aqi_SettingsHandler.checkForAppConfiguration();
-
 		}catch(Exception e){
 			ApexPages.addMessage(new ApexPages.Message(
 			ApexPages.Severity.ERROR,
@@ -108,7 +116,7 @@ public with sharing class aqi_Ctrl {
 	* @description
 	*	returns AQI index api names and values from custom setting
 	* @params
-	*	none
+	*	N/A
 	* @return
 	*	Map<String,String> : api_name, label value
 	*/
@@ -131,12 +139,6 @@ public with sharing class aqi_Ctrl {
 		return result;
 	}
 
-
-
-
-
-
-
 	/*
 	* @description
 	*	returns AQI index api names and values from custom setting
@@ -146,10 +148,8 @@ public with sharing class aqi_Ctrl {
 	*	Map<String,String> : api_name, label value
 	*/
 	public static Map<String,String>  getindexApiNameToLabel(){
-
 		ArticleQuality_index__c aqs = aqi_SettingsHandler.resolveSettings();
 		Map<String, Schema.SObjectField> allFields = Schema.SObjectType.ArticleQuality_index__c.fields.getMap();
-
 		Map<String,String> result = new Map<String,String>();
 		String idx_api_name;
 		if (aqs != null){
@@ -174,10 +174,8 @@ public with sharing class aqi_Ctrl {
 	*	Map<String,Double> : api_name, decimal value ( index weight)
 	*/
 	public static Map<String,Double>  getindexApiNameToValue(){
-
 		ArticleQuality_index__c aqs = aqi_SettingsHandler.resolveSettings();
 		Map<String, Schema.SObjectField> allFields = Schema.SObjectType.ArticleQuality_index__c.fields.getMap();
-
 		Map<String,Double> result = new Map<String,Double>();
 		Double idx_val;
 		String idx_api_name;
@@ -206,11 +204,8 @@ public with sharing class aqi_Ctrl {
 	*	Article_Quality__c aqi record
 	*/
 	public static Article_Quality__c findDupe(Id kaId, String kaLang, String kaVersion){
-
 		try{
-
 			aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
-
 			list<Article_Quality__c > kavList = [SELECT
 			Action_Assigned_To__c,Action_Date__c,Action_Needed__c,
 			Action_Taken__c,AQ_Score__c,Article_Link__c,Article_Number__c,
@@ -229,12 +224,10 @@ public with sharing class aqi_Ctrl {
 			Article_Version__c =: Decimal.valueOf(kaVersion) AND
 			Language__c =: kaLang
 			limit 1];
-
 			if (!kavList.isEmpty())
 			return kavList.get(0);
 			else
 			return null;
-
 		}catch(Exception e){
 			ApexPages.addMessage(new ApexPages.Message(
 			ApexPages.Severity.ERROR,
@@ -244,31 +237,31 @@ public with sharing class aqi_Ctrl {
 		return null;
 	}
 
-
+	/*
+	* @description
+	*	Retrieve if the kav information could be loaded
+	* @params
+	*	N/A
+	* @return
+	*	Return if the kav information could be loaded
+	*/
 	private boolean loadKAVDetails(){
 		//validate access on Kav Type
 		Boolean canReadKav = aqi_securityHandler.getKAVPermissions();
 		Boolean result = false;
-
 		if ( !String.isNotBlank(kaId)) {
 			ApexPages.addMessage(new ApexPages.Message(
 			ApexPages.Severity.ERROR,
 			'Invalid Knowledge Article.'
 			));
-
 			return result;
 		}
-
 		langMap = aqi_KnowledgeSearchCtrl.getActivePicklistOptions('User', 'LanguageLocaleKey');
 		Map<Id,String> typesMap = aqi_securityHandler.getAllowedRecordTypesMap();
-
 		recordLooKup(kaId,kaLang,kaVersion);
-
 		List<KnowledgeArticleVersion> lKAV =  getArticleByPublishedStatus(ARTICLE_STATUS, kaId , kaLang);
-
 		if (!lKAV.isEmpty()) {
 			articleNotAvailable = false;
-
 			if (canReadKav) {
 				article = lKAV.get(0);
 				result = true;
@@ -298,11 +291,9 @@ public with sharing class aqi_Ctrl {
 			//check if article is in Archived
 			lKAV =  getArticleByPublishedStatus('\'Archived\'', kaId , kaLang);
 			if (lKAV.isEmpty()){
-
 				//check if article is in draft
 				lKAV =  getArticleByPublishedStatus('\'Draft\'', kaId , kaLang);
 				if (lKAV.isEmpty()){
-
 					ApexPages.addMessage(new ApexPages.Message(
 					ApexPages.Severity.ERROR,
 					'The related Knowledge Article was not found.'
@@ -314,19 +305,25 @@ public with sharing class aqi_Ctrl {
 					));
 				}
 			}else{
-
 				ApexPages.addMessage(new ApexPages.Message(
 				ApexPages.Severity.WARNING,
 				'The related Knowledge Article is archived.'
 				));
 			}
-
 			result = false;
 			articleNotAvailable = true;
 		}
 		return result;
 	}
 
+	/*
+	* @description
+	*	Retrieve list of kavs filtered by status , article id and language
+	* @params
+	*	String status, String articleId and String articleLanguage
+	* @return
+	*	Return list of kavs filtered by status , article id and language
+	*/
 	public static List<KnowledgeArticleVersion> getArticleByPublishedStatus(String status, String articleId , String articleLanguage){
 
 		string query =  '	SELECT Id,ArticleNumber,CreatedDate, CreatedById, LastPublishedDate, ' +
@@ -336,12 +333,9 @@ public with sharing class aqi_Ctrl {
 		'	WHERE PublishStatus = '+ status +
 		' and KnowledgeArticleId =\''+articleId+'\' '+
 		' and Language =  \''+articleLanguage+'\'';
-
 		try{
 			aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
-
 			return Database.query(query);
-
 		}catch(Exception e){
 			ApexPages.addMessage(new ApexPages.Message(
 			ApexPages.Severity.ERROR,
@@ -349,12 +343,17 @@ public with sharing class aqi_Ctrl {
 			));
 		}
 		return null;
-
 	}
 
-
+	/*
+	* @description
+	*	Retrieve aqi object if match with the parameters received
+	* @params
+	*	Id kaId, String kaLang and String kaVersion
+	* @return
+	*	Return aqi object if match with the parameters received
+	*/
 	private void recordLooKup(Id kaId, String kaLang, String kaVersion){
-
 		try{
 			aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
 			Article_Quality__c tmp = findDupe(kaId, kaLang, kaVersion);
@@ -366,9 +365,16 @@ public with sharing class aqi_Ctrl {
 			e.getDmlMessage(0)
 			));
 		}
-
 	}
 
+	/*
+	* @description
+	*	Display an error message
+	* @params
+	*	N/A
+	* @return
+	*	N/A
+	*/
 	public PageReference setErrorOnSave(){
 		ApexPages.addMessage(new ApexPages.Message(
 		ApexPages.Severity.ERROR,
@@ -377,8 +383,16 @@ public with sharing class aqi_Ctrl {
 		iserror = true;
 		return null;
 	}
-	public PageReference save(){
 
+	/*
+	* @description
+	*	Save or display an error message if not
+	* @params
+	*	N/A
+	* @return
+	*	N/A
+	*/
+	public PageReference save(){
 		if (!String.isNotBlank(record.Knowledge_Article_Version_Id__c)){
 			ApexPages.addMessage(new ApexPages.Message(
 			ApexPages.Severity.ERROR,
@@ -387,14 +401,11 @@ public with sharing class aqi_Ctrl {
 			iserror = true;
 			return null;
 		}
-
-
 		try{
 			if (String.isNotBlank(record.Id))
 			aqi_SecurityHandler.canUpdate(Article_Quality__c.sObjectType);
 			else
 			aqi_SecurityHandler.canCreate(Article_Quality__c.sObjectType);
-
 			upsert record;
 			saved = true;
 			PageReference ppage = new PageReference('/'+record.id);
@@ -423,15 +434,21 @@ public with sharing class aqi_Ctrl {
 		return null;
 	}
 
+	/*
+	* @description
+	*	Retrieve escaped string
+	* @params
+	*	String str
+	* @return
+	*	Return escaped string
+	*/
 	private String escapeString(String str){
 		String result = null;
-
 		if (String.isNotBlank(str)){
 			result = String.escapeSingleQuotes(str.trim());
 		}else{
 			result ='';
 		}
-
 		return result;
 	}
 
@@ -463,7 +480,6 @@ public with sharing class aqi_Ctrl {
 		queryString = 'SELECT '+ filter +' FROM ' + dr.getName() + '	WHERE ' + ' Id =: thisIs' ;
 		sObject obj = Database.query(queryString);
 		String recordType = aqi_KnowledgeSearchCtrl.isRecordTypeIdActive ? String.valueOf(obj.get('RecordTypeId')) : '';
-
 		record.Knowledge_Article_Version_Id__c = article.Id;
 		record.Knowledge_Article_Id__c = article.KnowledgeArticleId;
 		record.Article_Title__c = article.Title;
@@ -483,13 +499,19 @@ public with sharing class aqi_Ctrl {
 		record.ArticleFirstPublishedDate__c = article.FirstPublishedDate;
 		record.Article_Link__c = URL.getSalesforceBaseUrl().toExternalForm() + '/' + article.KnowledgeArticleId;
 		record.Name = 'AQI for article '+ article.ArticleNumber +' – '+  article.VersionNumber;
-
 		return record;
 	}
 
+	/*
+	* @description
+	*   retrieves the namespace prefix, if not exist retrieve an empty string
+	* @params
+	*   N/A
+	* @return
+	*   Return the namespace prefix, if not exist return an empty string
+	*/
 	public static String getPackagePrefix(){
 		ApexClass ap = [SELECT ApiVersion,Name,NamespacePrefix FROM ApexClass where name='aqi_Ctrl' ];
 		return String.isNotBlank(ap.NamespacePrefix)? (ap.NamespacePrefix+'__' ):'';
 	}
-
 }

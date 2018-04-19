@@ -1,9 +1,9 @@
 /**
- * @author Altimetrik
- * @description
- *  started on MM/DD/YYYY
- *  REPLACE_BY_CLASS_LOGIC_RESPONSABILITIES
- **/
+* @author Altimetrik
+* @description
+* started on January 2018
+* This class its responsible of resolves logic for custom setting handling
+**/
 public with sharing class aqi_SetupCtrl {
     // Constants
 
@@ -12,7 +12,7 @@ public with sharing class aqi_SetupCtrl {
     public ArticleQuality_index__c aqs {get;set;}
     public Boolean editMode {get;set;}
     //************************************************************************
-    // Methods
+    // Constructor
 
     public aqi_SetupCtrl() {
         aqs = aqi_SettingsHandler.getSettings();
@@ -24,6 +24,8 @@ public with sharing class aqi_SetupCtrl {
         }
     }
 
+    //Methods
+    
     /*
     * @description
     *   Set the edit mode to true

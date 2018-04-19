@@ -1,73 +1,77 @@
+/**
+* @author Altimetrik
+* @description
+* started on January 2018
+* This class its responsible of check and retrieve some information useful for the security of our application
+**/
 public with sharing class aqi_SecurityHandler {
 
     /**
-     *  Constants
-     **/
-     public static final String  ERROR_OBJECT_NOT_ACCESSIBLE = 'You do not have access to the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
-     public static final String  ERROR_OBJECT_NOT_UPDATEABLE = 'You cannot update the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
-     public static final String  ERROR_OBJECT_NOT_CREATEABLE = 'You cannot create the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
-     public static final String  ERROR_OBJECT_NOT_DELETABLE = 'You cannot delete the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
-     public static final String  ERROR_FIELD_NOT_ACCESSIBLE = 'You do not have access to the following fields: {0} Please contact your Salesforce Administrator for assistance.';
-     public static final String  ERROR_FIELD_NOT_UPDATEABLE = 'You cannot update the following fields: {0} Please contact your Salesforce Administrator for assistance.';
-     public static final String  ERROR_FIELD_NOT_CREATEABLE = 'You cannot create the following fields: {0} Please contact your Salesforce Administrator for assistance.';
+    *  Constants
+    **/
+    public static final String  ERROR_OBJECT_NOT_ACCESSIBLE = 'You do not have access to the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
+    public static final String  ERROR_OBJECT_NOT_UPDATEABLE = 'You cannot update the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
+    public static final String  ERROR_OBJECT_NOT_CREATEABLE = 'You cannot create the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
+    public static final String  ERROR_OBJECT_NOT_DELETABLE = 'You cannot delete the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
+    public static final String  ERROR_FIELD_NOT_ACCESSIBLE = 'You do not have access to the following fields: {0} Please contact your Salesforce Administrator for assistance.';
+    public static final String  ERROR_FIELD_NOT_UPDATEABLE = 'You cannot update the following fields: {0} Please contact your Salesforce Administrator for assistance.';
+    public static final String  ERROR_FIELD_NOT_CREATEABLE = 'You cannot create the following fields: {0} Please contact your Salesforce Administrator for assistance.';
 
-     //************************************************************************
-     // Properties & data members
-     public static Boolean securityEnabled { get; set; }
-     public static Boolean isPrivateSharingEnabled { get; set; }
-
-     public static String knowledgeObject {
-         get {
-             if (knowledgeObject == null) {
-                 if (getKAVPermissions()) {
-                     Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
-                     Set<String> keySet = gd.keySet();
-                     for (String key : keySet) {
-                         Schema.SObjectType objectType = gd.get(key);
-                         if (key.endsWith('kav')) {
-                             knowledgeObject = objectType.getDescribe().getName();
-                         }
-                     }
-                 }
-             }
-             return knowledgeObject;
-         }
-         private set;
-     }
-
-     //@Description: (get/set) List of Record Types
-     public static List<RecordType> allRecordTypes {
-         get {
-             if (allRecordTypes == null) {
-
-                 canAccess(RecordType.sObjectType);
-                 //knowledgeObject = knowledgeObject.replaceAll(aqi_Ctrl.getPackagePrefix(),''); // uncomment this when creating the unmanaged package
-                 allRecordTypes = system.database.query('SELECT DeveloperName, Id, Name FROM RecordType WHERE SobjectType = \''+ knowledgeObject + '\'');
-
-             }
-             return allRecordTypes;
-         }
-         private set;
-     }
-
-     static {
-         securityEnabled = true;
-         isPrivateSharingEnabled = true;
-     }
     //************************************************************************
-    // Methods
+    // Properties & data members
+    public static Boolean securityEnabled { get; set; }
+    public static Boolean isPrivateSharingEnabled { get; set; }
+    public static String knowledgeObject {
+        get {
+            if (knowledgeObject == null) {
+                if (getKAVPermissions()) {
+                    Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
+                    Set<String> keySet = gd.keySet();
+                    for (String key : keySet) {
+                        Schema.SObjectType objectType = gd.get(key);
+                        if (key.endsWith('kav')) {
+                            knowledgeObject = objectType.getDescribe().getName();
+                        }
+                    }
+                }
+            }
+            return knowledgeObject;
+        }
+        private set;
+    }
 
     /*
     * @description
-    *   Constructor
-    * @params
-    *   N/A
-    * @return
-    *   N/A
+    *	Get List of Record Types
     */
+    public static List<RecordType> allRecordTypes {
+        get {
+            if (allRecordTypes == null) {
+
+                canAccess(RecordType.sObjectType);
+                //knowledgeObject = knowledgeObject.replaceAll(aqi_Ctrl.getPackagePrefix(),''); // uncomment this when creating the unmanaged package
+                allRecordTypes = system.database.query('SELECT DeveloperName, Id, Name FROM RecordType WHERE SobjectType = \''+ knowledgeObject + '\'');
+
+            }
+            return allRecordTypes;
+        }
+        private set;
+    }
+
+    static {
+        securityEnabled = true;
+        isPrivateSharingEnabled = true;
+    }
+
+    //************************************************************************
+    // Constructor
+
+
     public aqi_SecurityHandler() {
 
     }
+
+    // Methods
 
     /*
     * @description
@@ -520,7 +524,7 @@ public with sharing class aqi_SecurityHandler {
 
         for( Integer i=0; i<lstStr.size(); i++ ){
             if( lstStr[i] != null && lstStr[i] != '' )
-                res = res.replaceAll('\\{'+i+'\\}', lstStr[i]);
+            res = res.replaceAll('\\{'+i+'\\}', lstStr[i]);
         }
         return res;
     }
@@ -541,9 +545,9 @@ public with sharing class aqi_SecurityHandler {
         }
 
         if (String.isEmpty(res))
-            res = null;
+        res = null;
         else
-            res = res.substring(0, res.length()-1);
+        res = res.substring(0, res.length()-1);
 
         return res;
     }
@@ -564,7 +568,7 @@ public with sharing class aqi_SecurityHandler {
         }
 
         if (res.size() == 0)
-            res = null;
+        res = null;
 
         return res;
     }
@@ -585,7 +589,7 @@ public with sharing class aqi_SecurityHandler {
         }
 
         if (res.size() == 0)
-            res = null;
+        res = null;
 
         return res;
     }
@@ -604,10 +608,9 @@ public with sharing class aqi_SecurityHandler {
     public static Boolean getKAVPermissions() {
         Boolean result = false;
         Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
-
         for (String s : gd.keySet()) {
             if (s.contains('__kav'))
-                result = gd.get(s).getDescribe().isAccessible();
+            result = gd.get(s).getDescribe().isAccessible();
         }
         return result ;
     }

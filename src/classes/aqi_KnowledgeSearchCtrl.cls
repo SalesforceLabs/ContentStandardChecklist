@@ -1,3 +1,9 @@
+/**
+* @author Altimetrik
+* @description
+* started on January 2018
+* This class its responsible of return articles filtered by the parameters received by the search and return some values used on the visualforce page
+**/
 global class aqi_KnowledgeSearchCtrl {
 	public static String PUBLISH_STATUS = System.Test.isRunningTest() ? 'Draft' : 'Online';
 	public final static String DEFAULT_LANGUAGE = aqi_SettingsHandler.customOrDefaultLanguage();
@@ -7,6 +13,11 @@ global class aqi_KnowledgeSearchCtrl {
 	public static String knowledgeObject = aqi_securityHandler.knowledgeObject;
 	public static Boolean isValidationStActive = checkForSchemaFieldActive('validationstatus');
 	public static Boolean isRecordTypeIdActive = checkForSchemaFieldActive('recordtypeid');
+
+	/*
+	* @description
+	*	Get the String of the current time zone offset
+	*/
 	public String tzOffset{
 		get{
 			if (tzOffset == null){
@@ -27,6 +38,10 @@ global class aqi_KnowledgeSearchCtrl {
 		set;
 	}
 
+	/*
+	* @description
+	*	Get the boolean of isValidationStatusActive
+	*/
 	public Boolean isValidationStatusActive {
 		get{
 			if (isValidationStatusActive == null){
@@ -37,6 +52,10 @@ global class aqi_KnowledgeSearchCtrl {
 		set;
 	}
 
+	/*
+	* @description
+	*	Get the map<id,string> of availableRecordTypes
+	*/
 	public Map<Id,String> availableRecordTypes {
 		get{
 			if (availableRecordTypes == null){
@@ -47,6 +66,10 @@ global class aqi_KnowledgeSearchCtrl {
 		set;
 	}
 
+	/*
+	* @description
+	*	Get the pagesize
+	*/
 	public Integer pageSize {
 		get{
 			return PAGE_SIZE;
@@ -56,8 +79,11 @@ global class aqi_KnowledgeSearchCtrl {
 
 	/*
 	* @description
-	*    Returns list of available languages
-	* @return map<String,String>
+	*	Method that retrieve list of available languages
+	* @params
+	*	N/A
+	* @return
+	*	Returns list of available languages
 	*/
 	public static map<String,String> allLanguageOptions{
 		get{
@@ -79,6 +105,14 @@ global class aqi_KnowledgeSearchCtrl {
 		private set;
 	}
 
+	/*
+	* @description
+	*	Method that return the current offset
+	* @params
+	*	String page number
+	* @return
+	*	Return that return the current offset
+	*/
 	public static Integer resolveOffset(String p){
 		Integer queryOffset = 0;
 		if (String.isNotBlank(p)){
@@ -90,10 +124,12 @@ global class aqi_KnowledgeSearchCtrl {
 	}
 
 	/*
-	*	@description
-	*	method that return articles
-	*   @param String searchString, String articleNumber, String articleLanguage
-	*   @return Object
+	* @description
+	*	Method that return a list of kavs filtered by the parameters received
+	* @params
+	*	String searchString, String articleNumber and String articleLanguage
+	* @return
+	*	Return List of kavs filtered by the parameters received
 	*/
 	@RemoteAction
 	global static Object getArticles(String searchString, String articleNumber, String articleLanguage,
@@ -222,10 +258,12 @@ global class aqi_KnowledgeSearchCtrl {
 	}
 
 	/*
-	*	@description
-	*	tbd
-	*   @param List<SObject> kavList, String lang
-	*   @return List<Object>
+	* @description
+	*	Method that return a list of kavs and the information if any kav had aqi
+	* @params
+	*	List<SObject> kavList, String lang
+	* @return
+	*	Return List of kavs and the information if any kav had aqi
 	*/
 	public static List<Object> checkForAQIRecords(List<SObject> kavList, String lang) {
 		List<Object> result = new List<Object>();

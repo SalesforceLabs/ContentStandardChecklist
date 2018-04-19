@@ -1,12 +1,13 @@
 /**
 * @author Altimetrik
 * @description
-*	started on MM/DD/YYYY
-*   This class test the KnowledgeSearchCtrl Class
+*	started on January 2018
+*   This class test the aqi_KnowledgeSearchCtrl Class
 **/
 @isTest
 private class aqi_KnowledgeSearchCtrl_Test {
     static SObject kavObj;
+
     static void populateCustomSetting(){
         //creates a Custom Setting at the organization level
         ArticleQuality_index__c setting= new ArticleQuality_index__c();
@@ -68,14 +69,18 @@ private class aqi_KnowledgeSearchCtrl_Test {
         return result;
     }
 
+    //***** Test Methods *****//
+
+    /*
+    Description: Check for the articles returned on the initial listing
+    */
     @isTest static void test_list() {
-        populateCustomSetting();
         System.Test.startTest();
+        populateCustomSetting();
         PageReference tpageRef = Page.aqi_KnowledgeSearch;
         Test.setCurrentPage(tpageRef);
         ApexPages.currentPage().getParameters().put('kavId', UserInfo.getUserId());
         ApexPages.Message[] pageMessages = ApexPages.getMessages();
-        System.assertEquals(0, pageMessages.size());
         aqi_KnowledgeSearchCtrl ctr = new aqi_KnowledgeSearchCtrl();
         populateData();
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
@@ -96,19 +101,20 @@ private class aqi_KnowledgeSearchCtrl_Test {
             queryStringSosl =  ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
         }
         List<List<SObject>> knowledgeKavSosl = search.query(queryStringSosl);
-        System.assertNotEquals(null,knowledgeKavSosl);
         Map<Id,String> availableRecordTypes = ctr.availableRecordTypes;
         String tzOffset = ctr.tzOffset;
         Object resultOfSoqlWithoutStringSearch = aqi_KnowledgeSearchCtrl.getArticles('','', article.Language,'','','', '', '','2015-01-01', '', '0', 'Title', false) ;
-        System.assertNotEquals(null,resultOfSoqlWithoutStringSearch);
         Object resultOfSoslWithoutStringSearch = aqi_KnowledgeSearchCtrl.getArticles('test','', article.Language,'','','', '', '','2015-01-01', '', '0', 'Title', false) ;
-        System.assertNotEquals(null,resultOfSoslWithoutStringSearch);
         List<KnowledgearticleVersion> av = new List<KnowledgeArticleVersion>();
         List<Object> listOfAqiRecords = aqi_KnowledgeSearchCtrl.checkForAQIRecords(av,'en_US');
         Map<String,String> allLanguage = aqi_KnowledgeSearchCtrl.allLanguageOptions;
         Integer pageSize = ctr.pageSize;
+        System.Test.stopTest();
+        System.assertNotEquals(null,knowledgeKavSosl);
+        System.assertNotEquals(null,resultOfSoslWithoutStringSearch);
+        System.assertNotEquals(null,resultOfSoqlWithoutStringSearch);
         System.assertNotEquals(null, allLanguage);
         System.assertNotEquals(0, allLanguage.size());
-        System.Test.stopTest();
+        System.assertEquals(0, pageMessages.size());
     }
 }

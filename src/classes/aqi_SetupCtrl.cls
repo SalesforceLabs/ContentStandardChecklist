@@ -15,17 +15,12 @@ public with sharing class aqi_SetupCtrl {
     // Constructor
 
     public aqi_SetupCtrl() {
-        aqs = aqi_SettingsHandler.getSettings();
-        if (aqs == null){
-            aqs  = aqi_SettingsHandler.resolveSettings();
-            editMode = true;
-        }else{
-            editMode = false;
-        }
+        aqs = aqi_SettingsHandler.checkForAppConfiguration();
+        editMode = false;
     }
 
     //Methods
-    
+
     /*
     * @description
     *   Set the edit mode to true
@@ -49,7 +44,7 @@ public with sharing class aqi_SetupCtrl {
     */
     public pageReference cancel(){
         editMode = false;
-        aqs = aqi_SettingsHandler.getSettings();
+        aqs = aqi_SettingsHandler.cleanCS();
         return null;
     }
 

@@ -2,7 +2,7 @@ trigger aqi_score on Article_Quality__c (before insert, before update) {
 
 	String nm = aqi_Ctrl.getPackagePrefix();
 	aqi_SettingsHandler.checkForAppConfiguration();
-	ArticleQuality_index__c aqs = aqi_SettingsHandler.getSettings();
+	ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();
 	Map<String,Double>  indexValues = aqi_Ctrl.getindexApiNameToValue();
 	Article_Quality__c duplicate = null;
 	Boolean idx_checked;

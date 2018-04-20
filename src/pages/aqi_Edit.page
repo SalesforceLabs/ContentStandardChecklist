@@ -159,7 +159,6 @@
         </apex:actionFunction>
         <apex:actionFunction action="{!setErrorOnSave}" name="setErrorOnSave">
         </apex:actionFunction>
-
         <script>
             function checkActNeededIssue(){
                 var actionNeeded = document.getElementById('{!$Component.recordForm.formBlockFollow.formBlockSectionFollow.formBlockSectionItemANFollow.actionneeded}').checked;

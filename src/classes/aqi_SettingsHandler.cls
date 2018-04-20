@@ -11,26 +11,14 @@ public class aqi_SettingsHandler {
 
 	// Methods
 
-    /*
-    * @description
-    *   Retrieve the ArticleQuality_index__c custom setting
-    * @params
-    *   N/A
-    * @return
-    *   Return the ArticleQuality_index__c custom setting
-    */
-	public static ArticleQuality_index__c getSettings(){
-		return ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
-	}
-
 	/*
-    * @description
-    *   Retrieve the default language
-    * @params
-    *   N/A
-    * @return
-    *   Return the default language
-    */
+	* @description
+	*   Retrieve the default language
+	* @params
+	*   N/A
+	* @return
+	*   Return the default language
+	*/
 	public static String customOrDefaultLanguage(){
 		ArticleQuality_index__c  aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
 		String result = [SELECT LanguageLocaleKey FROM Organization limit 1].LanguageLocaleKey;
@@ -43,37 +31,37 @@ public class aqi_SettingsHandler {
 	}
 
 	/*
-    * @description
-    *   Check for the custom setting, if its not exist a new instance with default values is created.
-    * @params
-    *   N/A
-    * @return
-    *   N/A
-    */
-	public static void checkForAppConfiguration(){
-		ArticleQuality_index__c  aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
-		if(aq == null){
-			ArticleQuality_index__c  aqToAdd = new ArticleQuality_index__c();
-			aqToAdd.Name = CUSTOM_SETTING_NAME;
-			insert aqToAdd;
-		}
+	* @description
+	*   Return a new custom setting with all fields cleaned
+	* @params
+	*   N/A
+	* @return
+	*   Return a new cleaned instance of ArticleQuality_index__c
+	*/
+	public static ArticleQuality_index__c cleanCS(){
+		ArticleQuality_index__c  aq = new ArticleQuality_index__c();
+		aq.Name = CUSTOM_SETTING_NAME;
+		aq.Selected_Languages__c  = DEFAULT_LANGUAGE;
+		insert aq;
+		return aq;
 	}
 
 	/*
-    * @description
-    *   Check for the custom setting, if its not exist return a new instance with default values.
-    * @params
-    *   N/A
-    * @return
-    *   N/A
-    */
-	public static ArticleQuality_index__c resolveSettings(){
-		ArticleQuality_index__c aqs = getSettings();
-        if (aqs == null){
-            aqs  = new ArticleQuality_index__c();
-            aqs.name = CUSTOM_SETTING_NAME;
-            aqs.Selected_Languages__c  = DEFAULT_LANGUAGE;
+	* @description
+	*   Check for the custom setting, if its not exist a new instance with default values is created.
+	* @params
+	*   N/A
+	* @return
+	*   Current or new instance of ArticleQuality_index__c
+	*/
+	public static ArticleQuality_index__c checkForAppConfiguration(){
+		ArticleQuality_index__c  aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
+		if(aq == null){
+			aq = new ArticleQuality_index__c();
+			aq.Name = CUSTOM_SETTING_NAME;
+			aq.Selected_Languages__c  = DEFAULT_LANGUAGE;
+			insert aq;
 		}
-		return aqs;
+		return aq;
 	}
 }

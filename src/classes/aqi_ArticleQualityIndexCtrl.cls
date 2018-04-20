@@ -46,7 +46,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 List<indexArticleQualityIndex> indexList = new List<indexArticleQualityIndex>();
                 aqi_SettingsHandler.checkForAppConfiguration();
                 Map<String,  Object> result = new Map<String,  Object>();
-                ArticleQuality_index__c aqs = aqi_SettingsHandler.getSettings();
+                ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();
                 set<String> apiNamesWhiteLilst = indexValues.keySet();
                 set<String> apiList  = new set<String>();
                 apiNames = apiNames.replace('"','').replace('[','').replace(']','');

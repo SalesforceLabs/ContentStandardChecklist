@@ -90,7 +90,7 @@ global class aqi_KnowledgeSearchCtrl {
 			if (allLanguageOptions == null) {
 				set<String> availableLanguages = new set<String>();
 				aqi_SettingsHandler.checkForAppConfiguration();
-				String settingsLanguages = aqi_SettingsHandler.getSettings().Selected_Languages__c;
+				String settingsLanguages = aqi_SettingsHandler.checkForAppConfiguration().Selected_Languages__c;
 				availableLanguages.addAll(settingsLanguages.split(','));
 				Map<String,String> optionsMap = getActivePicklistOptions('User', 'LanguageLocaleKey');
 				allLanguageOptions = new map<String,String>();

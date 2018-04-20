@@ -30,10 +30,10 @@ public with sharing class aqi_Ctrl {
 	public static Boolean showNoRecordTypeMessage {get;set;}
 
 
-    /*
-    * @description
-    *   Retrieves a Map with recordType Id and Name
-    */
+	/*
+	* @description
+	*   Retrieves a Map with recordType Id and Name
+	*/
 	public static Map<Id,String> recordTypesMap{
 		get{
 			if (recordTypesMap == null) {
@@ -122,19 +122,17 @@ public with sharing class aqi_Ctrl {
 	*/
 	public static Map<String,String>  getAqiObjectApiNameToLabel(){
 
-		ArticleQuality_index__c aqs = aqi_SettingsHandler.resolveSettings();
+		ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();
 		Map<String, Schema.SObjectField> allFields = Schema.SObjectType.Article_Quality__c.fields.getMap();
 
 		Map<String,String> result = new Map<String,String>();
 		String idx_api_name;
 		String prefix = getPackagePrefix();
-		if (aqs != null){
-			for(String str : allFields.keySet()){
-				Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
-				idx_api_name = dfr.getName();
-				idx_api_name = idx_api_name.replace(prefix,'');
-				result.put(idx_api_name,dfr.getLabel());
-			}
+		for(String str : allFields.keySet()){
+			Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
+			idx_api_name = dfr.getName();
+			idx_api_name = idx_api_name.replace(prefix,'');
+			result.put(idx_api_name,dfr.getLabel());
 		}
 		return result;
 	}
@@ -148,18 +146,16 @@ public with sharing class aqi_Ctrl {
 	*	Map<String,String> : api_name, label value
 	*/
 	public static Map<String,String>  getindexApiNameToLabel(){
-		ArticleQuality_index__c aqs = aqi_SettingsHandler.resolveSettings();
+		ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();
 		Map<String, Schema.SObjectField> allFields = Schema.SObjectType.ArticleQuality_index__c.fields.getMap();
 		Map<String,String> result = new Map<String,String>();
 		String idx_api_name;
-		if (aqs != null){
-			for(String str : allFields.keySet()){
-				Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
-				idx_api_name = dfr.getName();
-				if (dfr.getType() ==Schema.DisplayType.DOUBLE ){
-					Object obj = aqs.get(idx_api_name);
-					result.put(idx_api_name,dfr.getLabel());
-				}
+		for(String str : allFields.keySet()){
+			Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
+			idx_api_name = dfr.getName();
+			if (dfr.getType() ==Schema.DisplayType.DOUBLE ){
+				Object obj = aqs.get(idx_api_name);
+				result.put(idx_api_name,dfr.getLabel());
 			}
 		}
 		return result;
@@ -174,20 +170,18 @@ public with sharing class aqi_Ctrl {
 	*	Map<String,Double> : api_name, decimal value ( index weight)
 	*/
 	public static Map<String,Double>  getindexApiNameToValue(){
-		ArticleQuality_index__c aqs = aqi_SettingsHandler.resolveSettings();
+		ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();
 		Map<String, Schema.SObjectField> allFields = Schema.SObjectType.ArticleQuality_index__c.fields.getMap();
 		Map<String,Double> result = new Map<String,Double>();
 		Double idx_val;
 		String idx_api_name;
-		if (aqs != null){
-			for(String str : allFields.keySet()){
-				Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
-				idx_api_name = dfr.getName();
-				if (dfr.getType() ==Schema.DisplayType.DOUBLE ){
-					Object obj = aqs.get(idx_api_name);
-					idx_val =  Double.valueOf(obj);
-					result.put(idx_api_name,idx_val);
-				}
+		for(String str : allFields.keySet()){
+			Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
+			idx_api_name = dfr.getName();
+			if (dfr.getType() ==Schema.DisplayType.DOUBLE ){
+				Object obj = aqs.get(idx_api_name);
+				idx_val =  Double.valueOf(obj);
+				result.put(idx_api_name,idx_val);
 			}
 		}
 		return result;

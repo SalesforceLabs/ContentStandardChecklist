@@ -4,7 +4,7 @@
 * started on January 2018
 * This class its responsible of return articles filtered by the parameters received by the search and return some values used on the visualforce page
 **/
-global class aqi_KnowledgeSearchCtrl {
+global with sharing class aqi_KnowledgeSearchCtrl {
 	public static String PUBLISH_STATUS = System.Test.isRunningTest() ? 'Draft' : 'Online';
 	public final static String DEFAULT_LANGUAGE = aqi_SettingsHandler.customOrDefaultLanguage();
 	public static final Integer PAGE_SIZE 	= 10;

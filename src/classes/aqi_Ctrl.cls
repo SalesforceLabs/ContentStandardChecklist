@@ -397,11 +397,14 @@ public with sharing class aqi_Ctrl {
 		}
 		try{
 			if (String.isNotBlank(record.Id))
-			aqi_SecurityHandler.canUpdate(Article_Quality__c.sObjectType);
+				aqi_SecurityHandler.canUpdate(Article_Quality__c.sObjectType);
 			else
-			aqi_SecurityHandler.canCreate(Article_Quality__c.sObjectType);
-			upsert record;
-			saved = true;
+				aqi_SecurityHandler.canCreate(Article_Quality__c.sObjectType);
+
+			if (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType)){
+				upsert record;
+				saved = true;
+			}
 			PageReference ppage = new PageReference('/'+record.id);
 			ppage.setRedirect(true);
 			return ppage;
@@ -471,28 +474,32 @@ public with sharing class aqi_Ctrl {
 		}
 		showNoRecordTypeMessage = !aqi_KnowledgeSearchCtrl.isRecordTypeIdActive;
 		aqi_SecurityHandler.canAccess(token);
-		queryString = 'SELECT '+ filter +' FROM ' + dr.getName() + '	WHERE ' + ' Id =: thisIs' ;
-		sObject obj = Database.query(queryString);
-		String recordType = aqi_KnowledgeSearchCtrl.isRecordTypeIdActive ? String.valueOf(obj.get('RecordTypeId')) : '';
-		record.Knowledge_Article_Version_Id__c = article.Id;
-		record.Knowledge_Article_Id__c = article.KnowledgeArticleId;
-		record.Article_Title__c = article.Title;
-		record.Article_Created_Date__c = article.CreatedDate;
-		record.Article_Created_By__c = article.CreatedById;
-		if(aqi_KnowledgeSearchCtrl.isRecordTypeIdActive) {
-			record.Article_Type__c = recordType;
+		Boolean isAccessible = dr.isAccessible();
+		
+		if (isAccessible && (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType) && aqi_SecurityHandler.isUpdateable(Article_Quality__c.sObjectType))){
+			queryString = 'SELECT '+ filter +' FROM ' + dr.getName() + '	WHERE ' + ' Id =: thisIs' ;
+			sObject obj = Database.query(queryString);
+			String recordType = aqi_KnowledgeSearchCtrl.isRecordTypeIdActive ? String.valueOf(obj.get('RecordTypeId')) : '';
+			record.Knowledge_Article_Version_Id__c = article.Id;
+			record.Knowledge_Article_Id__c = article.KnowledgeArticleId;
+			record.Article_Title__c = article.Title;
+			record.Article_Created_Date__c = article.CreatedDate;
+			record.Article_Created_By__c = article.CreatedById;
+			if(aqi_KnowledgeSearchCtrl.isRecordTypeIdActive) {
+				record.Article_Type__c = recordType;
+			}
+			record.Article_Number__c = article.ArticleNumber;
+			record.Article_Version__c = article.VersionNumber;
+			record.Language__c = article.Language;
+			record.Last_Modified_Date__c = article.LastModifiedDate;
+			record.Last_Published_Date__c = article.LastPublishedDate;
+			record.Last_Modified_By__c = article.LastModifiedById;
+			record.Last_Published_By__c = article.LastModifiedById;
+			record.Agent__c = article.LastModifiedById;
+			record.ArticleFirstPublishedDate__c = article.FirstPublishedDate;
+			record.Article_Link__c = URL.getSalesforceBaseUrl().toExternalForm() + '/' + article.KnowledgeArticleId;
+			record.Name = 'AQI for article '+ article.ArticleNumber +' – '+  article.VersionNumber;
 		}
-		record.Article_Number__c = article.ArticleNumber;
-		record.Article_Version__c = article.VersionNumber;
-		record.Language__c = article.Language;
-		record.Last_Modified_Date__c = article.LastModifiedDate;
-		record.Last_Published_Date__c = article.LastPublishedDate;
-		record.Last_Modified_By__c = article.LastModifiedById;
-		record.Last_Published_By__c = article.LastModifiedById;
-		record.Agent__c = article.LastModifiedById;
-		record.ArticleFirstPublishedDate__c = article.FirstPublishedDate;
-		record.Article_Link__c = URL.getSalesforceBaseUrl().toExternalForm() + '/' + article.KnowledgeArticleId;
-		record.Name = 'AQI for article '+ article.ArticleNumber +' – '+  article.VersionNumber;
 		return record;
 	}
 

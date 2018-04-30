@@ -39,10 +39,14 @@ public class aqi_SettingsHandler {
 	*   Return a new cleaned instance of ArticleQuality_index__c
 	*/
 	public static ArticleQuality_index__c cleanCS(){
+
 		ArticleQuality_index__c  aq = new ArticleQuality_index__c();
-		aq.Name = CUSTOM_SETTING_NAME;
-		aq.Selected_Languages__c  = DEFAULT_LANGUAGE;
-		insert aq;
+
+		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType)){
+			aq.Name = CUSTOM_SETTING_NAME;
+			aq.Selected_Languages__c  = DEFAULT_LANGUAGE;
+			insert aq;
+		}
 		return aq;
 	}
 
@@ -56,11 +60,14 @@ public class aqi_SettingsHandler {
 	*/
 	public static ArticleQuality_index__c checkForAppConfiguration(){
 		ArticleQuality_index__c  aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
-		if(aq == null){
-			aq = new ArticleQuality_index__c();
-			aq.Name = CUSTOM_SETTING_NAME;
-			aq.Selected_Languages__c  = DEFAULT_LANGUAGE;
-			insert aq;
+
+		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType)){
+			if(aq == null){
+				aq = new ArticleQuality_index__c();
+				aq.Name = CUSTOM_SETTING_NAME;
+				aq.Selected_Languages__c  = DEFAULT_LANGUAGE;
+				insert aq;
+			}
 		}
 		return aq;
 	}

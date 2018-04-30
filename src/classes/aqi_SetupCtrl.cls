@@ -59,7 +59,10 @@ public with sharing class aqi_SetupCtrl {
     public pageReference save(){
         try{
             aqi_SecurityHandler.canCreate(ArticleQuality_index__c.sObjectType);
-            upsert aqs;
+            
+    		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType) && aqi_SecurityHandler.isUpdateable(ArticleQuality_index__c.sObjectType)){
+                upsert aqs;
+            }
             editMode = false;
         }catch(Exception e){
             ApexPages.addMessage(new ApexPages.Message(

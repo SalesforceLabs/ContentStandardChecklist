@@ -22,7 +22,13 @@
 					<br/><span class="uiOutputText">{!v.articleLanguage}</span>
 				</span>
 				<hr class="slds-m-bottom_medium slds-m-top_xxx-small slds-size_5-of-6"/>
+				<span>
+					<span class="test-id__field-label slds-form-element__label">Id</span>
+					<br/><span class="uiOutputText"><ui:outputURL value="{!'/'+v.kavId}" label="{!v.kavId}"/></span>
+				</span>
 			</div>
+			<br/>
+
 			<div class="slds-col slds-size_6-of-12">
 				<span>
 					<span class="test-id__field-label slds-form-element__label">Article Version</span>

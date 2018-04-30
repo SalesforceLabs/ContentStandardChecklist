@@ -45,7 +45,7 @@
 					<div class="slds-m-bottom_medium"></div>
 					<c:aqi_Toast aura:id="toastNotifUp"/>
 					<p class="slds-p-horizontal--small">
-						<div class="slds-text-heading_medium mediumTitle">Index Fields</div>
+						<div class="slds-text-heading_medium mediumTitle">AQI Criteria</div>
 						<!-- If there are no fields selected in the app builder this paragraph will be displayed. Otherwise it is hidden -->
 						<aura:if isTrue="{!v.noFieldsAvailable}">
 							<p class="noFieldsMessage">&nbsp; No index fields were selected in the App Builder</p>

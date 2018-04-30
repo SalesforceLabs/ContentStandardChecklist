@@ -6,7 +6,7 @@
         <fullName>Art_Meets_Content_Standard__c</fullName>
         <defaultValue>1</defaultValue>
         <externalId>false</externalId>
-        <label>Art Meets Content Standard</label>
+        <label>Article Meets Content Standard</label>
         <precision>18</precision>
         <required>true</required>
         <scale>0</scale>
@@ -18,7 +18,7 @@
         <fullName>Article_Unique__c</fullName>
         <defaultValue>1</defaultValue>
         <externalId>false</externalId>
-        <label>Article Unique</label>
+        <label>Article unique</label>
         <precision>18</precision>
         <required>true</required>
         <scale>0</scale>
@@ -66,7 +66,7 @@
         <fullName>Possible_Points__c</fullName>
         <defaultValue>7</defaultValue>
         <externalId>false</externalId>
-        <label>Possible Points</label>
+        <label>Possible points</label>
         <precision>18</precision>
         <required>true</required>
         <scale>0</scale>
@@ -91,7 +91,7 @@
         <defaultValue>&quot;en_US&quot;</defaultValue>
         <description>Comma separated list of Knowledge articles languages for the search page</description>
         <externalId>false</externalId>
-        <label>Selected Languages</label>
+        <label>Selected languages</label>
         <length>255</length>
         <required>true</required>
         <trackTrending>false</trackTrending>
@@ -102,7 +102,7 @@
         <fullName>Title_Accurate__c</fullName>
         <defaultValue>1</defaultValue>
         <externalId>false</externalId>
-        <label>Title Accurate</label>
+        <label>Title accurate</label>
         <precision>18</precision>
         <required>true</required>
         <scale>0</scale>

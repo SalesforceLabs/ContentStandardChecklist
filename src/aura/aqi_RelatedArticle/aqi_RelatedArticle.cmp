@@ -27,7 +27,7 @@
 					<br/><span class="uiOutputText"><ui:outputURL value="{!'/'+v.kavId}" label="{!v.kavId}"/></span>
 				</span>
 			</div>
-			<br/>
+
 
 			<div class="slds-col slds-size_6-of-12">
 				<span>
@@ -37,7 +37,7 @@
 				<hr class="slds-m-bottom_medium slds-m-top_xxx-small slds-size_5-of-6"/>
 			</div>
 		</div>
-
+		<br/>
 		<force:recordView aura:id="recordView"  recordId="{!v.kavId}" type="FULL"/>
 		<aura:set attribute="else">
 			Loading...

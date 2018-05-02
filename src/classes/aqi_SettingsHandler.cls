@@ -59,8 +59,14 @@ public class aqi_SettingsHandler {
 	*   Current or new instance of ArticleQuality_index__c
 	*/
 	public static ArticleQuality_index__c checkForAppConfiguration(){
-		ArticleQuality_index__c  aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
+		ArticleQuality_index__c  aq;
 
+		if(aqi_SecurityHandler.isAccessible(ArticleQuality_index__c.sObjectType)){
+			aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
+		}
+		else{
+			aq = null;
+		}
 		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType)){
 			if(aq == null){
 				aq = new ArticleQuality_index__c();

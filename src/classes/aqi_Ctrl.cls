@@ -449,7 +449,7 @@ public with sharing class aqi_Ctrl {
 			else
 				aqi_SecurityHandler.canCreate(Article_Quality__c.sObjectType);
 
-			if (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType)){
+			if (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType) && aqi_SecurityHandler.isUpdateable(Article_Quality__c.sObjectType)){
 				upsert record;
 				saved = true;
 			}

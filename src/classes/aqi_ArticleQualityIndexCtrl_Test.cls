@@ -7,12 +7,10 @@
 @isTest
 private class aqi_ArticleQualityIndexCtrl_Test {
     static SObject kavObj;
-    static String prefix {get;set;}
 
     @testSetup static void setup() {
         ArticleQuality_index__c aqs = new ArticleQuality_index__c();
         aqs.name = 'default';
-        prefix = aqi_Ctrl.getPackagePrefix();
         aqs.Art_Meets_Content_Standard__c  = 5;
         aqs.Article_Unique__c  = 5;
         aqs.Content_complete__c  = 5;
@@ -68,7 +66,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         // call with null parameters
         aqi_LightningResponse respError1 = aqi_ArticleQualityIndexCtrl.getInitData('','');
         //call with valid api name, but empty record Id
-        aqi_LightningResponse respError2 = aqi_ArticleQualityIndexCtrl.getInitData('',prefix+'Article_Unique__c');
+        aqi_LightningResponse respError2 = aqi_ArticleQualityIndexCtrl.getInitData('',aqi_Ctrl.getPackagePrefix()+'Article_Unique__c');
         // creates Custom Article type
         string publishStatus = 'draft';
         insertKavObject();
@@ -79,7 +77,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         kavObj = (KnowledgeArticleVersion)Database.query(q);
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
         //call with valid api name, and record Id
-        aqi_LightningResponse respSuccess1 = aqi_ArticleQualityIndexCtrl.getInitData(article.Id,prefix+'Article_Unique__c');
+        aqi_LightningResponse respSuccess1 = aqi_ArticleQualityIndexCtrl.getInitData(article.Id,aqi_Ctrl.getPackagePrefix()+'Article_Unique__c');
         System.Test.stopTest();
         system.assertEquals('ERROR',respError1.State ,'Api names can not be empty');
         system.assertEquals('ERROR',respError2.State ,'Record Id can not be empty');

@@ -73,6 +73,14 @@ private class aqi_Ctrl_Test {
 
 	//***** Test Methods *****//
 
+	/*Description: Check for the get of recordTypesMap*/
+	@isTest static void test_recordTypesMap(){
+		System.Test.startTest();
+		Map<Id,String> obtainedRecordTypesMap = aqi_Ctrl.recordTypesMap;
+		System.Test.stopTest();
+		system.assertEquals(true,obtainedRecordTypesMap.keySet().size() >= 1 ,'There should be at least 1 key on the Record Types Map obtained of aqi_Ctrl');
+	}
+
 	/*
 	Description: Check for the defined indexes
 	*/

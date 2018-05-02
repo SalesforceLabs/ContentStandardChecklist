@@ -26,10 +26,11 @@
 	updateAQI : function(component, event, helper) {
 
 		var buttonAuraId = event.getSource().getLocalId();
-
+		var followUpExist = component.get("v.displayFollowUpSection");
 		var continueWithUpdate = false;
-		var advalue = component.find('Action_Date__c').get('v.value');
-		if(advalue !== undefined){
+		var advalue = undefined;
+		if(followUpExist){
+			advalue = component.find('Action_Date__c').get('v.value');
 			var splitDateValues = advalue.split('-');
 			var lengthOfChars = 0;
 			if(splitDateValues.length === 3){
@@ -55,7 +56,7 @@
 				var aqiIndex = indexInputs[i];
 				aqi_obj[aqiIndex.get("v.fieldName")] = aqiIndex.get("v.fieldValue");
 			}
-			if (component.get("v.displayFollowUpSection")) {
+			if (followUpExist) {
 				var actionNeeded = component.find('Action_Needed__c').get('v.value');
 				var asignedTo = component.find('Action_Assigned_To__c').get('v.value');
 				if(component.get('v.upButtonIsPress')) {

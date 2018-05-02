@@ -126,6 +126,29 @@ private class aqi_Ctrl_Test {
 		System.assert(result.getErrors().size() > 0);
 	}
 
+	@isTest static void test_findDuplicates() {
+		System.Test.startTest();
+		User user1 = [SELECT Id FROM User LIMIT 1];
+
+		Article_Quality__c aq = new Article_Quality__c(
+			Article_Version__c = 1,
+			Language__c = 'esp',
+			Agent__c = user1.Id
+		);
+
+		INSERT aq;
+
+		Set<String> langs = new Set<String>{'esp'};
+		Set<Decimal> versions = new Set<Decimal>{1};
+
+		Map<String,Article_Quality__c> duplicates1 = aqi_Ctrl.findDuplicates(null, null, null);
+		Map<String,Article_Quality__c> duplicates2 = aqi_Ctrl.findDuplicates(null, langs, versions);
+		System.Test.stopTest();
+
+		System.assertEquals(0, duplicates1.size(), 'Map should not have a value.');
+		System.assertEquals(1, duplicates2.size(), 'Map should have at least a value.');
+	}
+
 	/*
 	Description: Check for the existence of kav object - create aqi and check for parameters.
 	*/

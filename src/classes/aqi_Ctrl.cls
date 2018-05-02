@@ -233,6 +233,54 @@ public with sharing class aqi_Ctrl {
 
 	/*
 	* @description
+	*	returns a Map of AQI record if it finds a match
+	* @params
+	*	Set<Id> kaIds Id if kav article related to current AQI record
+	*	Set<String> kaLangs kav languages
+	*   Set<String> kaVersions version numbers
+	* @return
+	*	Article_Quality__c aqi record
+	*/
+	public static Map<String,Article_Quality__c> findDuplicates(Set<Id> kaIds, Set<String> kaLangs, Set<Decimal> kaVersions) {
+		aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
+		List<Article_Quality__c> kavList = new List<Article_Quality__c>();
+		Map<String,Article_Quality__c> result = new Map<String,Article_Quality__c>();
+
+		try {
+			kavList = [
+				SELECT Action_Assigned_To__c, Action_Date__c, Action_Needed__c,
+					   Action_Taken__c, AQ_Score__c,Article_Link__c, Article_Number__c,
+					   Article_Title__c, Article_Created_By__c , Article_Created_Date__c,
+					   Article_Type__c, Article_Unique__c, Article_Version__c,
+					   Art_Meets_Content_Standard__c, Comment__c, Content_Complete__c,
+					   Content_Understandable__c, Internal_Notes__c,
+					   ArticleFirstPublishedDate__c, Language__c, Last_Modified_By__c,
+					   Last_Modified_Date__c, Last_Published_By__c,
+					   Last_Published_Date__c, Links_In_Article_Valid__c, Possible_Points__c,
+					   Properties_Set_Appropriately__c, Title_Accurate__c, Agent__c,
+					   Knowledge_Article_Version_Id__c, Knowledge_Article_Id__c
+				FROM   Article_Quality__c
+				WHERE  Knowledge_Article_Id__c IN : kaIds AND
+					   Article_Version__c IN : kaVersions AND
+					   Language__c IN : kaLangs
+				LIMIT 1
+			];
+
+			if (kavList.size() > 0) {
+				for (Article_Quality__c aq : kavList) {
+					String key = aq.Knowledge_Article_Id__c + '-' + aq.Language__c + '-' + Decimal.valueOf(String.valueOf(aq.Article_Version__c));
+					result.put(key, aq);
+				}
+			}
+		} catch(Exception e) {
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, e.getMessage()));
+		}
+
+		return result;
+	}
+
+	/*
+	* @description
 	*	Retrieve if the kav information could be loaded
 	* @params
 	*	N/A

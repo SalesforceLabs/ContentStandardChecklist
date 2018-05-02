@@ -73,6 +73,14 @@ private class aqi_Ctrl_Test {
 
 	//***** Test Methods *****//
 
+	/*Description: Check for the get of recordTypesMap*/
+	@isTest static void test_recordTypesMap(){
+		System.Test.startTest();
+		Map<Id,String> obtainedRecordTypesMap = aqi_Ctrl.recordTypesMap;
+		System.Test.stopTest();
+		system.assertEquals(true,obtainedRecordTypesMap.keySet().size() >= 1 ,'There should be at least 1 key on the Record Types Map obtained of aqi_Ctrl');
+	}
+
 	/*
 	Description: Check for the defined indexes
 	*/
@@ -116,6 +124,29 @@ private class aqi_Ctrl_Test {
 		// so verify that we got back an error.
 		System.assert(!result.isSuccess());
 		System.assert(result.getErrors().size() > 0);
+	}
+
+	@isTest static void test_findDuplicates() {
+		System.Test.startTest();
+		User user1 = [SELECT Id FROM User LIMIT 1];
+
+		Article_Quality__c aq = new Article_Quality__c(
+			Article_Version__c = 1,
+			Language__c = 'esp',
+			Agent__c = user1.Id
+		);
+
+		INSERT aq;
+
+		Set<String> langs = new Set<String>{'esp'};
+		Set<Decimal> versions = new Set<Decimal>{1};
+
+		Map<String,Article_Quality__c> duplicates1 = aqi_Ctrl.findDuplicates(null, null, null);
+		Map<String,Article_Quality__c> duplicates2 = aqi_Ctrl.findDuplicates(null, langs, versions);
+		System.Test.stopTest();
+
+		System.assertEquals(0, duplicates1.size(), 'Map should not have a value.');
+		System.assertEquals(1, duplicates2.size(), 'Map should have at least a value.');
 	}
 
 	/*

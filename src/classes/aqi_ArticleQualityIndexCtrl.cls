@@ -152,7 +152,6 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         if (!l.isEmpty()){
             result = l.get(0);
         }else{
-            result = new Article_Quality__c();
             KnowledgeArticleVersion article = [ SELECT ArticleNumber,CreatedById,CreatedDate,FirstPublishedDate,Id,
             KnowledgeArticleId,Language,LastModifiedDate,LastPublishedDate,
             PublishStatus,Summary,Title,UrlName,VersionNumber,LastModifiedById
@@ -160,7 +159,10 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             WHERE
             Id =:kavId
             ];
-            result = aqi_Ctrl.loadKavDetails( article ,  result);
+            if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType)){
+                result = new Article_Quality__c();
+                result = aqi_Ctrl.loadKavDetails( article ,  result);
+            }
         }
         return result;
     }

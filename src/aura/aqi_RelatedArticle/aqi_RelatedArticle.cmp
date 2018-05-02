@@ -21,14 +21,12 @@
 					<span class="test-id__field-label slds-form-element__label">Language</span>
 					<br/><span class="uiOutputText">{!v.articleLanguage}</span>
 				</span>
-				<hr class="slds-m-bottom_medium slds-m-top_xxx-small slds-size_5-of-6"/>
+				<hr class="slds-m-bottom_xxx-small slds-m-top_xxx-small slds-size_5-of-6"/>
 				<span>
-					<span class="test-id__field-label slds-form-element__label">Id</span>
-					<br/><span class="uiOutputText"><ui:outputURL value="{!'/'+v.kavId}" label="{!v.kavId}"/></span>
+					<span class="test-id__field-label slds-form-element__label">Article</span>
+					<br/><span class="uiOutputText"><a onclick="{!c.navigateTo}">Link to the article</a></span>
 				</span>
 			</div>
-
-
 			<div class="slds-col slds-size_6-of-12">
 				<span>
 					<span class="test-id__field-label slds-form-element__label">Article Version</span>

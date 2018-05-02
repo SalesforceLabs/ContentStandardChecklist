@@ -31,13 +31,15 @@
 		var advalue = undefined;
 		if(followUpExist){
 			advalue = component.find('Action_Date__c').get('v.value');
-			var splitDateValues = advalue.split('-');
-			var lengthOfChars = 0;
-			if(splitDateValues.length === 3){
-				lengthOfChars = splitDateValues[0].length + splitDateValues[1].length + splitDateValues[2].length;
-				continueWithUpdate = !isNaN(splitDateValues[0]) && !isNaN(splitDateValues[1]) && !isNaN(splitDateValues[2]);
-				continueWithUpdate = continueWithUpdate && (splitDateValues[0].length >= 1 && splitDateValues[1].length >= 1 && splitDateValues[2].length >= 1);
-				continueWithUpdate = continueWithUpdate && lengthOfChars <= 8;
+			if(advalue !== undefined){
+				var splitDateValues = advalue.split('-');
+				var lengthOfChars = 0;
+				if(splitDateValues.length === 3){
+					lengthOfChars = splitDateValues[0].length + splitDateValues[1].length + splitDateValues[2].length;
+					continueWithUpdate = !isNaN(splitDateValues[0]) && !isNaN(splitDateValues[1]) && !isNaN(splitDateValues[2]);
+					continueWithUpdate = continueWithUpdate && (splitDateValues[0].length >= 1 && splitDateValues[1].length >= 1 && splitDateValues[2].length >= 1);
+					continueWithUpdate = continueWithUpdate && lengthOfChars <= 8;
+				}
 			}
 		}
 		var aqi_obj = component.get('v.aqi_record');

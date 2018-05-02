@@ -40,7 +40,7 @@ public class aqi_SettingsHandler {
 	*/
 	public static ArticleQuality_index__c cleanCS(){
 
-		ArticleQuality_index__c  aq = new ArticleQuality_index__c();
+		ArticleQuality_index__c  aq = (aqi_SecurityHandler.isAccessible(ArticleQuality_index__c.sObjectType)) ? new ArticleQuality_index__c() : null;
 
 		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType)){
 			aq.Name = CUSTOM_SETTING_NAME;

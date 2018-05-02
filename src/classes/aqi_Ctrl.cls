@@ -308,8 +308,8 @@ public with sharing class aqi_Ctrl {
 				article = lKAV.get(0);
 				result = true;
 				if (record.Id == null) {
-					record = loadKavDetails( article ,  record);
-					result = true;
+					record = (aqi_SecurityHandler.isAccessible(Article_Quality__c.sObjectType)) ? loadKavDetails( article ,  record) : null;
+					result = (aqi_SecurityHandler.isAccessible(Article_Quality__c.sObjectType)) ? true : false;
 				} else{
 					isCurrentVersion = article.VersionNumber == record.Article_Version__c;
 					if (!isCurrentVersion){

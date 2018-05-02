@@ -401,7 +401,7 @@ public with sharing class aqi_Ctrl {
 			else
 				aqi_SecurityHandler.canCreate(Article_Quality__c.sObjectType);
 
-			if (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType)){
+			if (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType) && aqi_SecurityHandler.isUpdateable(Article_Quality__c.sObjectType)){
 				upsert record;
 				saved = true;
 			}
@@ -475,7 +475,7 @@ public with sharing class aqi_Ctrl {
 		showNoRecordTypeMessage = !aqi_KnowledgeSearchCtrl.isRecordTypeIdActive;
 		aqi_SecurityHandler.canAccess(token);
 		Boolean isAccessible = dr.isAccessible();
-		
+
 		if (isAccessible && (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType) && aqi_SecurityHandler.isUpdateable(Article_Quality__c.sObjectType))){
 			queryString = 'SELECT '+ filter +' FROM ' + dr.getName() + '	WHERE ' + ' Id =: thisIs' ;
 			sObject obj = Database.query(queryString);

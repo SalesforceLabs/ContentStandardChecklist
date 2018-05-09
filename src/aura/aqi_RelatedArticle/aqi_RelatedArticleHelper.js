@@ -8,6 +8,10 @@
 		cmp.set("v.kavId",response.kavId);
 		cmp.set('v.articleVersion',response.articleVersion);
 		cmp.set('v.articleLanguage',response.articleLanguage);
+		cmp.set('v.articleRecordType',response.articleRecordType);
+		cmp.set('v.articleNumber',response.articleNumber);
+		cmp.set('v.articlePublishingStatus',response.articlePublishingStatus);
+
 		if(response.isArchived){
 			var toastCmp =  cmp.find("toastNotif");
 			toastCmp.set("v.title",'WARNING');

@@ -186,15 +186,19 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     public static Map<String,Object> getCompactLayoutData(Id kavId, Map<String,Object> result){
         KnowledgeArticleVersion article = [ SELECT ArticleNumber,CreatedDate,Id,Language,VersionNumber,PublishStatus FROM KnowledgeArticleVersion WHERE Id =:kavId ];
         // Find the associated record type
-        String queryString = 'SELECT  Id, RecordTypeId, RecordType.Name FROM ' + knowledgeObject + ' WHERE Id =  \'' + kavId + '\'';
-        List<SObject> sObjList = Database.query(queryString);
-        sObject sObjKnowledge = sObjList.get(0);
-        String recType = sObjKnowledge.getSObject('RecordType') != null ? (String)sObjKnowledge.getSObject('RecordType').get('Name') : 'This article has no record type';
-
-        String articleRecordType = (sObjList != null && !sObjList.isEmpty()) ? recType : '';
-
+        String queryString = '';
+        List<SObject> sObjList = new List<SObject>();
+        String recType = 'This article has no record type';
+        if(aqi_KnowledgeSearchCtrl.isRecordTypeIdActive){
+            queryString = 'SELECT  Id, RecordTypeId, RecordType.Name FROM ' + knowledgeObject + ' WHERE Id =  \'' + kavId + '\'';
+            sObjList = Database.query(queryString);
+            if(sObjList != null && !sObjList.isEmpty()){
+                SObject sObjKnowledge = sObjList.get(0);
+                recType = sObjKnowledge.getSObject('RecordType') != null ? (String)sObjKnowledge.getSObject('RecordType').get('Name') : 'This article has no record type';
+            }
+        }
         result.put('articleVersion', article.VersionNumber);
-		result.put('articleRecordType', articleRecordType);
+		result.put('articleRecordType', recType);
 		result.put('articleNumber',article.ArticleNumber);
 		result.put('articlePublishingStatus',article.PublishStatus);
         Schema.DescribeFieldResult fieldResult = User.LanguageLocaleKey.getDescribe();

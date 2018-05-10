@@ -3,6 +3,15 @@
 		var actionParams ={	recordId: cmp.get("v.recordId")};
 		this.handleAction(cmp, actionParams, 'c.loadKAVId', this.doInitCallback);
 	},
+	navigateTo: function(component, event, helper){
+		var idKav = component.get("v.kavId");
+		var sObectEvent = $A.get("e.force:navigateToSObject");
+		  sObectEvent .setParams({
+		  "recordId": idKav,
+		  "slideDevName": "detail"
+		 });
+		 sObectEvent.fire();
+	},
 	doInitCallback : function( cmp, response, ctx) {
 		if(!cmp.isValid()) return;
 		cmp.set("v.kavId",response.kavId);

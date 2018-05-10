@@ -7,10 +7,13 @@
 public with sharing class aqi_ArticleQualityIndexCtrl {
     //************************************************************************
 
+    public static String knowledgeObject = aqi_securityHandler.knowledgeObject;
+
     // Constructor
     public aqi_ArticleQualityIndexCtrl() {
 
     }
+
 
     // Methods
 
@@ -167,6 +170,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         return result;
     }
 
+
     /*
     * @description
     *   Retrieves a Map<String,Object> with some fields of the article compact layout to display on our
@@ -180,8 +184,19 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     *   Map<String,Object> with the defined fields of the kav with the kavId received
     */
     public static Map<String,Object> getCompactLayoutData(Id kavId, Map<String,Object> result){
-        KnowledgeArticleVersion article = [ SELECT ArticleNumber,CreatedDate,Id,Language,VersionNumber FROM KnowledgeArticleVersion WHERE Id =:kavId ];
+        KnowledgeArticleVersion article = [ SELECT ArticleNumber,CreatedDate,Id,Language,VersionNumber,PublishStatus FROM KnowledgeArticleVersion WHERE Id =:kavId ];
+        // Find the associated record type
+        String queryString = 'SELECT  Id, RecordTypeId, RecordType.Name FROM ' + knowledgeObject + ' WHERE Id =  \'' + kavId + '\'';
+        List<SObject> sObjList = Database.query(queryString);
+        sObject sObjKnowledge = sObjList.get(0);
+        String recType = sObjKnowledge.getSObject('RecordType') != null ? (String)sObjKnowledge.getSObject('RecordType').get('Name') : 'This article has no record type';
+
+        String articleRecordType = (sObjList != null && !sObjList.isEmpty()) ? recType : '';
+
         result.put('articleVersion', article.VersionNumber);
+		result.put('articleRecordType', articleRecordType);
+		result.put('articleNumber',article.ArticleNumber);
+		result.put('articlePublishingStatus',article.PublishStatus);
         Schema.DescribeFieldResult fieldResult = User.LanguageLocaleKey.getDescribe();
         List<Schema.PicklistEntry> picklistValues = fieldResult.getPicklistValues();
         for (Schema.PicklistEntry picklistEntry : picklistValues) {

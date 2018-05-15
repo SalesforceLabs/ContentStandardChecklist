@@ -17,6 +17,7 @@ private class aqi_SetupCtrl_Test {
         aqi_SetupCtrl aqiS = new aqi_SetupCtrl();
         Decimal testValue = 9999;
         // Cancel flow
+        aqiS.checkForAppConfiguration();
         aqiS.edit();
         Decimal defaultValueBeforeEdit = aqiS.aqs.Possible_Points__c;
         aqiS.aqs.Possible_Points__c = testValue;

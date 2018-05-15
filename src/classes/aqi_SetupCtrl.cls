@@ -15,12 +15,15 @@ public with sharing class aqi_SetupCtrl {
     // Constructor
 
     public aqi_SetupCtrl() {
-        aqs = aqi_SettingsHandler.checkForAppConfiguration();
         editMode = false;
     }
 
     //Methods
 
+    public pageReference checkForAppConfiguration() {
+        aqs = aqi_SettingsHandler.checkForAppConfiguration();
+        return null;
+    }
     /*
     * @description
     *   Set the edit mode to true
@@ -59,7 +62,7 @@ public with sharing class aqi_SetupCtrl {
     public pageReference save(){
         try{
             aqi_SecurityHandler.canCreate(ArticleQuality_index__c.sObjectType);
-            
+
     		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType) && aqi_SecurityHandler.isUpdateable(ArticleQuality_index__c.sObjectType)){
                 upsert aqs;
             }

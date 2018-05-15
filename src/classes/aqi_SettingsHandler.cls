@@ -8,6 +8,8 @@ public class aqi_SettingsHandler {
 	// Constants
 	public static String CUSTOM_SETTING_NAME 	=  'default';
 	public static String DEFAULT_LANGUAGE 		=  'en_US';
+	public static Integer DEFAULT_VALUE 		=  1;
+	public static Integer DEFAULT_POSSIBLE_POINTS =  7;
 
 	// Methods
 
@@ -40,12 +42,23 @@ public class aqi_SettingsHandler {
 	*/
 	public static ArticleQuality_index__c cleanCS(){
 
-		ArticleQuality_index__c  aq = (aqi_SecurityHandler.isAccessible(ArticleQuality_index__c.sObjectType)) ? new ArticleQuality_index__c() : null;
+		ArticleQuality_index__c  aq = (aqi_SecurityHandler.isAccessible(ArticleQuality_index__c.sObjectType)) ? ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME) : null;
 
 		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType)){
-			aq.Name = CUSTOM_SETTING_NAME;
-			aq.Selected_Languages__c  = DEFAULT_LANGUAGE;
-			insert aq;
+			if(aq == null){
+				aq = new ArticleQuality_index__c();
+				aq.Name = CUSTOM_SETTING_NAME;
+				aq.Selected_Languages__c  = DEFAULT_LANGUAGE;
+				aq.Art_Meets_Content_Standard__c = DEFAULT_VALUE;
+				aq.Article_Unique__c = DEFAULT_VALUE;
+				aq.Content_complete__c = DEFAULT_VALUE;
+				aq.Content_understandable__c = DEFAULT_VALUE;
+				aq.Links_in_article_valid__c = DEFAULT_VALUE;
+				aq.Possible_Points__c = DEFAULT_POSSIBLE_POINTS;
+				aq.Properties_set_appropriately__c = DEFAULT_VALUE;
+				aq.Title_Accurate__c = DEFAULT_VALUE;
+			}
+			upsert aq;
 		}
 		return aq;
 	}
@@ -72,7 +85,15 @@ public class aqi_SettingsHandler {
 				aq = new ArticleQuality_index__c();
 				aq.Name = CUSTOM_SETTING_NAME;
 				aq.Selected_Languages__c  = DEFAULT_LANGUAGE;
-				insert aq;
+				aq.Art_Meets_Content_Standard__c = DEFAULT_VALUE;
+				aq.Article_Unique__c = DEFAULT_VALUE;
+				aq.Content_complete__c = DEFAULT_VALUE;
+				aq.Content_understandable__c = DEFAULT_VALUE;
+				aq.Links_in_article_valid__c = DEFAULT_VALUE;
+				aq.Possible_Points__c = DEFAULT_POSSIBLE_POINTS;
+				aq.Properties_set_appropriately__c = DEFAULT_VALUE;
+				aq.Title_Accurate__c = DEFAULT_VALUE;
+				upsert aq;
 			}
 		}
 		return aq;

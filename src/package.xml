@@ -59,7 +59,7 @@
     </types>
     <types>
         <members>Article_Quality__c-Article Quality Layout</members>
-        <members>Article_Quality__c-Lightning AQI</members>
+        <members>Article_Quality__c-Classic AQI</members>
         <name>Layout</name>
     </types>
     <types>

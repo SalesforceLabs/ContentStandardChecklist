@@ -162,7 +162,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             WHERE
             Id =:kavId
             ];
-            if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType)){
+            if (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType)){
                 result = new Article_Quality__c();
                 result = aqi_Ctrl.loadKavDetails( article ,  result);
             }

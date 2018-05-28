@@ -78,6 +78,23 @@
 					component.find("Action_Assigned_To__c").get("v.body")[0].set("v.values", valuesOwner);
 				}
 			}
+			var agentAssigned = aqi_record[component.get('v.prefixOrg') + 'Agent__r'];
+			console.log('agentAssigned:'+ agentAssigned);
+			if(!(agentAssigned === undefined || agentAssigned === '')){
+				var agentValuesOwner = [{
+					type : 'User',
+					id: agentAssigned.Id,
+					label: agentAssigned.Name,
+					icon : {
+						url:agentAssigned.FullPhotoUrl,
+						backgroundColor:'65CAE4',
+						alt:'User'
+					},
+					record: agentAssigned.Id,
+					placeHolder: 'Search Users'
+				}];
+				component.find("Agent__c").get("v.body")[0].set("v.values", agentValuesOwner);
+			}
 		}
 	},
 
@@ -85,6 +102,7 @@
 
 		var aqi_record = component.get("v.aqi_record");
 		delete aqi_record[component.get('v.prefixOrg')+'Action_Assigned_To__r'];
+		delete aqi_record[component.get('v.prefixOrg')+'Agent__r'];
 		if(component.get('v.displayFollowUpSection')){
 			var actionDateC = component.find('Action_Date__c').get('v.value');
 

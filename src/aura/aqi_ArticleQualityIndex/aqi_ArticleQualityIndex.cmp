@@ -51,7 +51,22 @@
 							<p class="noFieldsMessage">&nbsp; No index fields were selected in the App Builder</p>
 						</aura:if>
 						<!-- Fields container -->
-						<div aura:id="fieldsContainer" class="fieldsContainer" />
+						<div aura:id="fieldsContainer" class="fieldsContainer slds-m-bottom_medium" />
+						<!-- Article contributor -->
+						<lightning:layout horizontalAlign="space" verticalAlign="center">
+							<lightning:layoutItem size="12" flexibility="auto" padding="around-small">
+									<div class="slds-size_1-of-1">
+										<p class="slds-truncate inputLabel" title="Article contributor">
+											<ui:outputText value="{!v.aqi_fuFields.Agent__c}"/>
+										</p>
+									</div>
+
+									<div class="slds-size_1-of-1">
+										<force:inputField aura:id="Agent__c" value="{!v.aqi_record.Agent__c}"/>
+									</div>
+							</lightning:layoutItem>
+						</lightning:layout>
+						<!-- Article contributor -->
 						<!-- Follow up section -->
 						<aura:if isTrue="{!v.displayFollowUpSection}">
 							<!-- AQI input fileds section -->
@@ -97,9 +112,9 @@
 										<div class="slds-size_1-of-1">
 											<force:inputField aura:id="Action_Assigned_To__c" value="{!v.aqi_record.Action_Assigned_To__c}"/>
 										</div>
-									</lightning:layoutItem>
-								</lightning:layout>
-								<!-- Action assigned to -->
+								</lightning:layoutItem>
+							</lightning:layout>
+							<!-- Action assigned to -->
 
 								<!-- Action taken -->
 								<lightning:layout horizontalAlign="space" verticalAlign="center">

@@ -62,9 +62,9 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 uniqueApiNames.addAll(apiList);
                 String qStringApiNames = String.join(uniqueApiNames,', ');
                 String qStr =   ' SELECT Name, Action_Assigned_To__r.Name, Action_Assigned_To__r.Id , Action_Assigned_To__r.FullPhotoUrl, Action_Needed__c, AQ_Score__c, '+
-                '      Action_Date__c, Action_Taken__c, Internal_Notes__c ';
+                '      Action_Date__c, Action_Taken__c, Internal_Notes__c, Agent__r.Name, Agent__r.Id, Agent__c.FullPhotoUrl ';
                 if (String.isNotBlank(qStringApiNames))
-                qStr +=  ', '+qStringApiNames;
+                    qStr +=  ', '+qStringApiNames;
                 qStr += ' FROM Article_Quality__c '+
                 ' WHERE '+
                 ' Knowledge_Article_Version_Id__c =\''+recordId+'\'';
@@ -122,7 +122,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             //load Score field
             aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
             record = Database.query(   ' SELECT Name, Action_Assigned_To__c , Action_Needed__c, AQ_Score__c, '+
-            '           Action_Date__c, Action_Taken__c, Internal_Notes__c, '+
+            '           Action_Date__c, Action_Taken__c, Internal_Notes__c, Agent__c , '+
             qStringApiNames +
             ' FROM Article_Quality__c '+
             ' WHERE '+

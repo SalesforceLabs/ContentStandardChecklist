@@ -79,7 +79,6 @@
 				}
 			}
 			var agentAssigned = aqi_record[component.get('v.prefixOrg') + 'Agent__r'];
-			console.log('agentAssigned:'+ agentAssigned);
 			if(!(agentAssigned === undefined || agentAssigned === '')){
 				var agentValuesOwner = [{
 					type : 'User',

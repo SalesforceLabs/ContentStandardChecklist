@@ -37,6 +37,10 @@
                 <behavior>Edit</behavior>
                 <field>Properties_Set_Appropriately__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Agent__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -115,10 +119,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Article_Number__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Agent__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

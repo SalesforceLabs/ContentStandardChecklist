@@ -27,6 +27,7 @@
 			var aqi_fields = responseMap.aqi_fields;
 			var aqi_fuFields = responseMap.aqi_listApiNamesToLabels;
 			var aqi_record = responseMap.aqi_record;
+			var relatedInitiallyAgent = responseMap.relatedInitiallyAgent;
 			component.set('v.prefixOrg',responseMap.prefixOrg);
 			if(aqi_record.AQ_Score__c !== undefined && aqi_record.AQ_Score__c !== ''){
 				aqi_record.AQ_Score__c = Math.round(aqi_record.AQ_Score__c);
@@ -79,21 +80,23 @@
 				}
 			}
 			var agentAssigned = aqi_record[component.get('v.prefixOrg') + 'Agent__r'];
-			if(!(agentAssigned === undefined || agentAssigned === '')){
-				var agentValuesOwner = [{
-					type : 'User',
-					id: agentAssigned.Id,
-					label: agentAssigned.Name,
-					icon : {
-						url:agentAssigned.FullPhotoUrl,
-						backgroundColor:'65CAE4',
-						alt:'User'
-					},
-					record: agentAssigned.Id,
-					placeHolder: 'Search Users'
-				}];
-				component.find("Agent__c").get("v.body")[0].set("v.values", agentValuesOwner);
+
+			if((agentAssigned === undefined || agentAssigned === '')){
+				agentAssigned = relatedInitiallyAgent;
 			}
+			var agentValuesOwner = [{
+				type : 'User',
+				id: agentAssigned.Id,
+				label: agentAssigned.Name,
+				icon : {
+					url:agentAssigned.FullPhotoUrl,
+					backgroundColor:'65CAE4',
+					alt:'User'
+				},
+				record: agentAssigned.Id,
+				placeHolder: 'Search Users'
+			}];
+			component.find("Agent__c").get("v.body")[0].set("v.values", agentAssigned);
 		}
 	},
 

@@ -31,7 +31,7 @@
 		var advalue = undefined;
 		if(followUpExist){
 			advalue = component.find('Action_Date__c').get('v.value');
-			if(advalue !== undefined){
+			if(!$A.util.isUndefinedOrNull(advalue)){
 				var splitDateValues = advalue.split('-');
 				var lengthOfChars = 0;
 				if(splitDateValues.length === 3){

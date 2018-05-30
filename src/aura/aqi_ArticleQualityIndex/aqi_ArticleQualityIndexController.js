@@ -57,7 +57,7 @@
 		var assignedTo = component.find('Action_Assigned_To__c').get('v.value');
 		var wrongAssignedTo = assignedTo === 'MALFORMED_ID';
 		var wrongArticleContributor = article_contributor === 'MALFORMED_ID';
-		if( (continueWithUpdate || advalue === undefined || advalue === '') && !wrongArticleContributor && !wrongAssignedTo)
+		if( (continueWithUpdate || $A.util.isUndefinedOrNull(advalue) || advalue === '') && !wrongArticleContributor && !wrongAssignedTo)
 		{
 	        for (var i = 0; i < indexInputs.length; i++){
 				var aqiIndex = indexInputs[i];
@@ -95,6 +95,7 @@
 				toastCmp = component.find("toastNotifBot");
 			}
 			toastCmp.set("v.title",'Warning');
+
 			toastCmp.set("v.description", (wrongArticleContributor || wrongAssignedTo) ? 'No matching users found' : 'Please select a valid Action Date.');
 			toastCmp.set("v.className",'slds-show');
 			toastCmp.set("v.severity",'warning');

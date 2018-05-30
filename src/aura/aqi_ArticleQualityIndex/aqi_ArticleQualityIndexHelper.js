@@ -96,7 +96,7 @@
 				record: agentAssigned.Id,
 				placeHolder: 'Search Users'
 			}];
-			component.find("Agent__c").get("v.body")[0].set("v.values", agentAssigned);
+			component.find("Agent__c").get("v.body")[0].set("v.values", agentValuesOwner);
 		}
 	},
 

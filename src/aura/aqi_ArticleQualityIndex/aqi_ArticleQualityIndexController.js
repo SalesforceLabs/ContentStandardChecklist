@@ -52,15 +52,22 @@
 			component.set('v.upButtonIsPress',false);
 		}
 		var lastToastCmp;
-		if( continueWithUpdate || advalue === undefined || advalue === '')
+		var article_contributor = component.find('Agent__c').get('v.value');
+
+		var assignedTo = component.find('Action_Assigned_To__c').get('v.value');
+		var wrongAssignedTo = assignedTo === 'MALFORMED_ID';
+		var wrongArticleContributor = article_contributor === 'MALFORMED_ID';
+		if( (continueWithUpdate || advalue === undefined || advalue === '') && !wrongArticleContributor && !wrongAssignedTo)
 		{
 	        for (var i = 0; i < indexInputs.length; i++){
 				var aqiIndex = indexInputs[i];
 				aqi_obj[aqiIndex.get("v.fieldName")] = aqiIndex.get("v.fieldValue");
 			}
 			if (followUpExist) {
+
 				var actionNeeded = component.find('Action_Needed__c').get('v.value');
 				var asignedTo = component.find('Action_Assigned_To__c').get('v.value');
+
 				if(component.get('v.upButtonIsPress')) {
 					lastToastCmp = component.find("toastNotifBot");
 				}
@@ -77,6 +84,7 @@
 			}
 		}
 		else{
+
 			var toastCmp;
 			if(component.get('v.upButtonIsPress')) {
 				lastToastCmp = component.find("toastNotifBot");
@@ -87,13 +95,10 @@
 				toastCmp = component.find("toastNotifBot");
 			}
 			toastCmp.set("v.title",'Warning');
-			toastCmp.set("v.description",'Please select a valid Action Date.');
+			toastCmp.set("v.description", (wrongArticleContributor || wrongAssignedTo) ? 'No matching users found' : 'Please select a valid Action Date.');
 			toastCmp.set("v.className",'slds-show');
 			toastCmp.set("v.severity",'warning');
 			lastToastCmp.set("v.className",'slds-hide');
-
-
-
 
 		}
 	}

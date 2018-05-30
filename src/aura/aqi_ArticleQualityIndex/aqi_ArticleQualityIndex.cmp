@@ -86,20 +86,6 @@
 								</lightning:layoutItem>
 							</lightning:layout>
 							<!-- Coaching Needed -->
-							<!-- Action Date -->
-							<lightning:layout horizontalAlign="space" verticalAlign="center">
-								<lightning:layoutItem size="12" flexibility="auto" padding="around-small">
-									<div class="slds-size_1-of-1">
-										<p class="slds-truncate inputLabel" title="Action date">
-											<ui:outputText value="{!v.aqi_fuFields.Action_Date__c}"/>
-										</p>
-									</div>
-									<div class="slds-size_1-of-1">
-										<force:inputField aura:id="Action_Date__c" value="{!v.aqi_record.Action_Date__c}"/>
-									</div>
-								</lightning:layoutItem>
-							</lightning:layout>
-							<!-- Action Date -->
 							<!-- Action assigned to -->
 							<lightning:layout horizontalAlign="space" verticalAlign="center">
 								<lightning:layoutItem size="12" flexibility="auto" padding="around-small">
@@ -115,6 +101,21 @@
 								</lightning:layoutItem>
 							</lightning:layout>
 							<!-- Action assigned to -->
+							<!-- Action Date -->
+							<lightning:layout horizontalAlign="space" verticalAlign="center">
+								<lightning:layoutItem size="12" flexibility="auto" padding="around-small">
+									<div class="slds-size_1-of-1">
+										<p class="slds-truncate inputLabel" title="Action date">
+											<ui:outputText value="{!v.aqi_fuFields.Action_Date__c}"/>
+										</p>
+									</div>
+									<div class="slds-size_1-of-1">
+										<force:inputField aura:id="Action_Date__c" value="{!v.aqi_record.Action_Date__c}"/>
+									</div>
+								</lightning:layoutItem>
+							</lightning:layout>
+							<!-- Action Date -->
+
 
 								<!-- Action taken -->
 								<lightning:layout horizontalAlign="space" verticalAlign="center">

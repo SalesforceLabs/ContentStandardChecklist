@@ -53,9 +53,10 @@
 		}
 		var lastToastCmp;
 		var article_contributor = component.find('Agent__c').get('v.value');
-
-		var assignedTo = component.find('Action_Assigned_To__c').get('v.value');
-		var wrongAssignedTo = assignedTo === 'MALFORMED_ID';
+		if(followUpExist){
+			var assignedTo = component.find('Action_Assigned_To__c').get('v.value');
+			var wrongAssignedTo = assignedTo === 'MALFORMED_ID';
+		}
 		var wrongArticleContributor = article_contributor === 'MALFORMED_ID';
 		if( (continueWithUpdate || $A.util.isUndefinedOrNull(advalue) || advalue === '') && !wrongArticleContributor && !wrongAssignedTo)
 		{

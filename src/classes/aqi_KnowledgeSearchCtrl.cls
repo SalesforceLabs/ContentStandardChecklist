@@ -233,7 +233,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 		if (errorsOnInput.isEmpty()){
 			if (String.isNotBlank(searchString)){
 				//SOSL
-				queryString =   ' FIND \''+  searchString  +'*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( ' + fieldsToRetrieve + whereClause + orderByClause + limitClause + ')';
+				queryString =   ' FIND \''+  String.escapeSingleQuotes(searchString)  +'*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( ' + fieldsToRetrieve + whereClause + orderByClause + limitClause + ')';
 				List<List<SObject>> articlesQueried = search.query(queryString);
 				sObjList = ((List<Sobject>)articlesQueried[0]);
 			}else{
@@ -274,15 +274,24 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 			kavIds.add(String.valueOf(sobj.get('KnowledgeArticleId')));
 			versions.add(Decimal.valueOf(String.valueOf(sobj.get('VersionNumber'))));
 		}
-		List<Article_Quality__c> aqis = [ SELECT Id, Knowledge_Article_Id__c, Language__c, Article_Version__c
-		FROM Article_Quality__c
-		WHERE Knowledge_Article_Id__c in: kavIds
-		AND Language__c =: lang
-		AND Article_Version__c in: versions];
+
+		List<Article_Quality__c> aqis = new List<Article_Quality__c>();
+
+		if (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType)) {
+			aqis = [
+				SELECT Id, Knowledge_Article_Id__c, Language__c, Article_Version__c
+				FROM Article_Quality__c
+				WHERE Knowledge_Article_Id__c in: kavIds
+				AND Language__c =: lang
+				AND Article_Version__c in: versions
+			];
+		}
+
 		Map<String,Article_Quality__c> mapAqi = new Map<String, Article_Quality__c>();
 		for(Article_Quality__c aqi : aqis){
 			mapAqi.put(aqi.Knowledge_Article_Id__c + aqi.Language__c + aqi.Article_Version__c, aqi);
 		}
+
 		String tmpK;
 		for(SObject sObj : kavList){
 			String jString = JSON.serialize(sObj);
@@ -292,6 +301,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 			m.put('isValidationStatusEnabled',isValidationStActive);
 			result.add(m);
 		}
+
 		return result;
 	}
 

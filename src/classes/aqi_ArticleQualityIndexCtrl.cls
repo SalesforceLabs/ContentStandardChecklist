@@ -122,7 +122,11 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         if (!String.isNotBlank(recordStr)) return response;
         try{
             Article_Quality__c record = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
-            upsert record;
+            // Check crud permissions
+            if (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType) &&
+                aqi_SecurityHandler.isUpdateable(Article_Quality__c.sObjectType)) {
+                upsert record;
+            }
             //load Score field
             aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
             record = Database.query(   ' SELECT Name, Action_Assigned_To__c , Action_Needed__c, AQ_Score__c, '+

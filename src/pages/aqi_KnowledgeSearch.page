@@ -3,7 +3,7 @@
     <head>
         <title>Create AQI</title>
         <apex:slds/>
-        <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/jquery-1.12.4.js')}" />
+        <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/jquery.min.js')}" />
         <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/jsrender.js')}" />
         <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/moment.js')}" />
         <style type="text/css">
@@ -247,9 +247,13 @@
                  }
             }
 
-            function navigateToEdit(kavId,language,version){
-                var newUrl = '{!$Page.aqi_Edit}?kaId='+kavId+'&lang='+language+'&version='+version;
-                window.navigateToUrl(newUrl);
+            function navigateToEdit(kavId, language, version) {
+                kavId = encodeURIComponent(kavId);
+                language = encodeURIComponent(language);
+                version = encodeURIComponent(version);
+
+                var newUrl = '{!$Page.aqi_Edit}?kaId=' + kavId + '&lang=' + language + '&version=' + version;
+                window.navigateToUrl(encodeURI(newUrl));
             }
 
             function switchSortAndSearch(obj){

@@ -93,7 +93,6 @@ public class aqi_SettingsHandler {
 				aq.Possible_Points__c = DEFAULT_POSSIBLE_POINTS;
 				aq.Properties_set_appropriately__c = DEFAULT_VALUE;
 				aq.Title_Accurate__c = DEFAULT_VALUE;
-				upsert aq;
 			}
 		}
 		return aq;

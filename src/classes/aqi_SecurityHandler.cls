@@ -49,7 +49,6 @@ public with sharing class aqi_SecurityHandler {
             if (allRecordTypes == null) {
 
                 canAccess(RecordType.sObjectType);
-                //knowledgeObject = knowledgeObject.replaceAll(aqi_Ctrl.getPackagePrefix(),''); // uncomment this when creating the unmanaged package
                 allRecordTypes = system.database.query('SELECT DeveloperName, Id, Name FROM RecordType WHERE SobjectType = \''+ knowledgeObject + '\'');
 
             }

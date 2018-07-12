@@ -44,7 +44,7 @@ public class aqi_SettingsHandler {
 
 		ArticleQuality_index__c  aq = (aqi_SecurityHandler.isAccessible(ArticleQuality_index__c.sObjectType)) ? ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME) : null;
 
-		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType)){
+		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType) && aqi_SecurityHandler.isUpdateable(ArticleQuality_index__c.sObjectType)){
 			if(aq == null){
 				aq = new ArticleQuality_index__c();
 				aq.Name = CUSTOM_SETTING_NAME;

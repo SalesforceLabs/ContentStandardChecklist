@@ -56,9 +56,10 @@ public with sharing class aqi_Ctrl {
 	*/
 	public void setNewRecordAndParameters(){
 		record = new Article_Quality__c();
-		kaId = escapeString(ApexPages.currentPage().getParameters().get('kaId'));
-		kaLang = escapeString(ApexPages.currentPage().getParameters().get('lang'));
-		kaVersion = escapeString(ApexPages.currentPage().getParameters().get('version'));
+
+		kaId = ApexPages.currentPage().getParameters().get('kaId').escapeHtml4();
+		kaLang = ApexPages.currentPage().getParameters().get('lang').escapeHtml4();
+		kaVersion = ApexPages.currentPage().getParameters().get('version').escapeHtml4();
 	}
 
 	// Constructor

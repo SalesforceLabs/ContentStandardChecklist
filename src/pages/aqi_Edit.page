@@ -7,7 +7,7 @@
                 <input type="button" value="Cancel" onclick="history.back();" class="btn" />
             </apex:pageBlockButtons>
             <apex:pageMessage summary="Record saved" severity="confirm" strength="1" rendered="{!saved}" />
-            <apex:pageMessages escape="false"/>
+            <apex:pageMessages/>
             <apex:pageBlockSection title="Information" columns="2">
                 <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Unique__c.label}" for="articleunique"/>

@@ -191,30 +191,42 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     *   Map<String,Object> with the defined fields of the kav with the kavId received
     */
     public static Map<String,Object> getCompactLayoutData(Id kavId, Map<String,Object> result){
-        KnowledgeArticleVersion article = [ SELECT ArticleNumber,CreatedDate,Id,Language,VersionNumber,PublishStatus FROM KnowledgeArticleVersion WHERE Id =:kavId ];
-        // Find the associated record type
-        String queryString = '';
-        List<SObject> sObjList = new List<SObject>();
-        String recType = 'This article has no record type';
-        if(aqi_KnowledgeSearchCtrl.isRecordTypeIdActive){
-            queryString = 'SELECT  Id, RecordTypeId, RecordType.Name FROM ' + knowledgeObject + ' WHERE Id =  \'' + kavId + '\'';
-            sObjList = Database.query(queryString);
-            if(sObjList != null && !sObjList.isEmpty()){
-                SObject sObjKnowledge = sObjList.get(0);
-                recType = sObjKnowledge.getSObject('RecordType') != null ? (String)sObjKnowledge.getSObject('RecordType').get('Name') : 'This article has no record type';
+        List<Id> kavIds = new List<Id>();
+        kavIds.add(kavId);
+        List<KnowledgeArticleVersion> articles = [ SELECT ArticleNumber,CreatedDate,Id,Language,VersionNumber,PublishStatus FROM KnowledgeArticleVersion WHERE Id IN :kavIds ];
+
+        if (articles.size() > 0) {
+            KnowledgeArticleVersion article = articles.get(0);
+            // Find the associated record type
+            String queryString = '';
+            List<SObject> sObjList = new List<SObject>();
+            String recType = 'This article has no record type';
+            if (aqi_KnowledgeSearchCtrl.isRecordTypeIdActive) {
+                queryString = 'SELECT  Id, RecordTypeId, RecordType.Name FROM ' + knowledgeObject + ' WHERE Id =  \'' + kavId + '\'';
+                sObjList = Database.query(queryString);
+                if (sObjList != null && !sObjList.isEmpty()) {
+                    SObject sObjKnowledge = sObjList.get(0);
+                    recType = sObjKnowledge.getSObject('RecordType') != null ? (String)sObjKnowledge.getSObject('RecordType').get('Name') : 'This article has no record type';
+                }
             }
-        }
-        result.put('articleVersion', article.VersionNumber);
-		result.put('articleRecordType', recType);
-		result.put('articleNumber',article.ArticleNumber);
-		result.put('articlePublishingStatus',article.PublishStatus);
-        Schema.DescribeFieldResult fieldResult = User.LanguageLocaleKey.getDescribe();
-        List<Schema.PicklistEntry> picklistValues = fieldResult.getPicklistValues();
-        for (Schema.PicklistEntry picklistEntry : picklistValues) {
-            if(picklistEntry.getValue() == article.Language){
-                result.put('articleLanguage', picklistEntry.getLabel());
+
+            result.put('articleVersion', article.VersionNumber);
+    		result.put('articleRecordType', recType);
+    		result.put('articleNumber',article.ArticleNumber);
+    		result.put('articlePublishingStatus',article.PublishStatus);
+            Schema.DescribeFieldResult fieldResult = User.LanguageLocaleKey.getDescribe();
+            List<Schema.PicklistEntry> picklistValues = fieldResult.getPicklistValues();
+            for (Schema.PicklistEntry picklistEntry : picklistValues) {
+                if (picklistEntry.getValue() == article.Language) {
+                    result.put('articleLanguage', picklistEntry.getLabel());
+                }
             }
+
+            result.put('errors', 'None');
+        } else {
+            result.put('errors', 'The related knowledge article cannot be found.');
         }
+
         return result;
     }
 
@@ -240,19 +252,23 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 result.put('kavId', kavId);
                 //we get the language - vers
                 result = getCompactLayoutData(kavId,result);
-                Boolean isArchived = false;
-                string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId, Language , VersionNumber'+
-                '	FROM KnowledgeArticleVersion ' +
-                '	WHERE PublishStatus = \'Archived\' ' +
-                ' and Id = \'' + kavId + '\' ';
-                aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
-                List<KnowledgeArticleVersion> actualKavs =  Database.query(query);
-                if(!actualKavs.isEmpty()){
-                    isArchived = true;
+                if (result.get('errors').equals('None')) {
+                    Boolean isArchived = false;
+                    string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId, Language , VersionNumber'+
+                    '	FROM KnowledgeArticleVersion ' +
+                    '	WHERE PublishStatus = \'Archived\' ' +
+                    ' and Id = \'' + kavId + '\' ';
+                    aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+                    List<KnowledgeArticleVersion> actualKavs =  Database.query(query);
+                    if (!actualKavs.isEmpty()){
+                        isArchived = true;
+                    }
+                    result.put('isArchived', isArchived);
+                } else {
+                    response.state = 'ERROR';
+                    response.error = result.get('errors').toString();
                 }
-                result.put('isArchived', isArchived);
-            }
-            else {
+            } else {
                 response.state = 'ERROR';
                 response.error = 'An error occurred getting the id of the related article, please check that the component is in the correct record page.';
             }

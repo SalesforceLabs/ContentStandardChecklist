@@ -112,11 +112,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         recordStr = Json.serialize(m.get('aqi_record'));
         Article_Quality__c recordUpserted = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
         Article_Quality__c  aqr = [ select Id , Article_Unique__c from Article_Quality__c where Id =:recordUpserted.Id];
-        aqi_LightningResponse responseLKID = aqi_ArticleQualityIndexCtrl.loadKAVId(recordUpserted.Id);
-        Map<String,  Object> lst_JsonParse = (Map<String,  Object>)Json.deserializeUntyped(responseLKID.jsonResponse);
         System.Test.stopTest();
-        system.assertEquals('English',lst_JsonParse.get('articleLanguage') ,'The language returned by CompactLayoutData is not the same as at the beginning');
-        system.assertEquals(0,lst_JsonParse.get('articleVersion') ,'The article version is not the expected');
         system.assertEquals(aqr.Article_Unique__c,record.Article_Unique__c ,'Article unique index should be set to TRUE ');
         system.assertEquals('SUCCESS',resp.State ,'State should be SUCCESS ');
     }

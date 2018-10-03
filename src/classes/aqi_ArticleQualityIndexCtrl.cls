@@ -230,55 +230,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         return result;
     }
 
-    /*
-    * @description
-    *   Retrieves a Map<String,Object> with kavId , some necessary fields of the kav and
-    *   information about if the article its archived.
-    * @params
-    *   Id of the aqi object
-    * @return
-    *   Map<String,Object> with the kav id , some fields of the article compact layout, and information about if the article its archived.
-    */
-    @AuraEnabled
-    public static aqi_LightningResponse loadKAVId(String recordId){
-        aqi_LightningResponse response = new aqi_LightningResponse();
-        Map<String,  Object> result = new Map<String,  Object>();
-        String kavId = '';
-        try{
-            response.state = 'SUCCESS';
-            List<Article_Quality__c> l = [Select Id, Knowledge_Article_Version_Id__c  from Article_Quality__c  where id=:recordId];
-            if (!l.isEmpty()){
-                kavId =  l.get(0).Knowledge_Article_Version_Id__c;
-                result.put('kavId', kavId);
-                //we get the language - vers
-                result = getCompactLayoutData(kavId,result);
-                if (result.get('errors').equals('None')) {
-                    Boolean isArchived = false;
-                    string query =  '	SELECT Id,ArchivedDate, KnowledgeArticleId, Language , VersionNumber'+
-                    '	FROM KnowledgeArticleVersion ' +
-                    '	WHERE PublishStatus = \'Archived\' ' +
-                    ' and Id = \'' + kavId + '\' ';
-                    aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
-                    List<KnowledgeArticleVersion> actualKavs =  Database.query(query);
-                    if (!actualKavs.isEmpty()){
-                        isArchived = true;
-                    }
-                    result.put('isArchived', isArchived);
-                } else {
-                    response.state = 'ERROR';
-                    response.error = result.get('errors').toString();
-                }
-            } else {
-                response.state = 'ERROR';
-                response.error = 'An error occurred getting the id of the related article, please check that the component is in the correct record page.';
-            }
-            response.jsonResponse = JSON.serialize(result);
-        }
-        catch(Exception e){
-            response.state = 'ERROR';
-        }
-        return response;
-    }
+    
 
     /*
     * @description

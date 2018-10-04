@@ -46,17 +46,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
 
     //***** Test Methods *****//
 
-    /*
-    Description: Check for the fields returned by method that return some compact layout data
-    */
-    @isTest static void test_Get_CompactLayoutData(){
-        System.Test.startTest();
-        insertKavObject();
-        Map<String,Object> result = aqi_ArticleQualityIndexCtrl.getCompactLayoutData(((Id)kavObj.get('Id')),new Map<String,Object>());
-        System.Test.stopTest();
-        system.assertEquals('English',result.get('articleLanguage') ,'The language returned by CompactLayoutData is not the same as at the beginning');
-        system.assertEquals(0,result.get('articleVersion') ,'The article version is not the expected');
-    }
+
 
     /*
     Description: Check that the apiname and record id are not empty - also check for the state of the get init data

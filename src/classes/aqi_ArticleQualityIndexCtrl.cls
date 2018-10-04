@@ -178,59 +178,9 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     }
 
 
-    /*
-    * @description
-    *   Retrieves a Map<String,Object> with some fields of the article compact layout to display on our
-    *   lightning component 'aqi_RelatedArticle' and with this avoid some duplicated values on the layout.
-    *   For example in the record page of Knowledge we dont need to show the language cause appears on the compact layout
-    *   but in other component that contain the article layout data we will need another way to display the language without
-    *   add it to the layout.
-    * @params
-    *   Id of the kav and Map<String,Object> with some fields of the article compact layout
-    * @return
-    *   Map<String,Object> with the defined fields of the kav with the kavId received
-    */
-    public static Map<String,Object> getCompactLayoutData(Id kavId, Map<String,Object> result){
-        List<Id> kavIds = new List<Id>();
-        kavIds.add(kavId);
-        List<KnowledgeArticleVersion> articles = [ SELECT ArticleNumber,CreatedDate,Id,Language,VersionNumber,PublishStatus FROM KnowledgeArticleVersion WHERE Id IN :kavIds ];
 
-        if (articles.size() > 0) {
-            KnowledgeArticleVersion article = articles.get(0);
-            // Find the associated record type
-            String queryString = '';
-            List<SObject> sObjList = new List<SObject>();
-            String recType = 'This article has no record type';
-            if (aqi_KnowledgeSearchCtrl.isRecordTypeIdActive) {
-                queryString = 'SELECT  Id, RecordTypeId, RecordType.Name FROM ' + knowledgeObject + ' WHERE Id =  \'' + kavId + '\'';
-                sObjList = Database.query(queryString);
-                if (sObjList != null && !sObjList.isEmpty()) {
-                    SObject sObjKnowledge = sObjList.get(0);
-                    recType = sObjKnowledge.getSObject('RecordType') != null ? (String)sObjKnowledge.getSObject('RecordType').get('Name') : 'This article has no record type';
-                }
-            }
 
-            result.put('articleVersion', article.VersionNumber);
-    		result.put('articleRecordType', recType);
-    		result.put('articleNumber',article.ArticleNumber);
-    		result.put('articlePublishingStatus',article.PublishStatus);
-            Schema.DescribeFieldResult fieldResult = User.LanguageLocaleKey.getDescribe();
-            List<Schema.PicklistEntry> picklistValues = fieldResult.getPicklistValues();
-            for (Schema.PicklistEntry picklistEntry : picklistValues) {
-                if (picklistEntry.getValue() == article.Language) {
-                    result.put('articleLanguage', picklistEntry.getLabel());
-                }
-            }
 
-            result.put('errors', 'None');
-        } else {
-            result.put('errors', 'The related knowledge article cannot be found.');
-        }
-
-        return result;
-    }
-
-    
 
     /*
     * @description

@@ -126,7 +126,9 @@
         <type>Region</type>
     </flexiPageRegions>
     <masterLabel>Article Quality Index Record Page</masterLabel>
-    <pageTemplate>flexipage:recordHomeTemplateDesktop</pageTemplate>
+    <template>
+        <name>flexipage:recordHomeTemplateDesktop</name>
+    </template>
     <parentFlexiPage>flexipage__default_rec_L</parentFlexiPage>
     <sobjectType>Article_Quality__c</sobjectType>
     <type>RecordPage</type>

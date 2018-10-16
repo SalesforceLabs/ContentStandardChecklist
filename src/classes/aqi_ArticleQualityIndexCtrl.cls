@@ -45,55 +45,61 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             response.error = 'Article Id  can not be empty';
         }else{
             try{
-                Article_Quality__c aqi_result;
-                List<indexArticleQualityIndex> indexList = new List<indexArticleQualityIndex>();
-                Map<String,  Object> result = new Map<String,  Object>();
-                ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();
-                set<String> apiNamesWhiteLilst = indexValues.keySet();
-                set<String> apiList  = new set<String>();
-                apiNames = apiNames.replace('"','').replace('[','').replace(']','');
-                for (String a : apiNames.split(',')){
-                    if (String.isNotBlank(a) && apiNamesWhiteLilst.contains(a)){
-                        apiList.add(a);
-                    }
-                }
-                List<String> uniqueApiNames = new List<String>();
-                uniqueApiNames.addAll(apiList);
-                String qStringApiNames = String.join(uniqueApiNames,', ');
-                String qStr =   ' SELECT Name, Action_Assigned_To__r.Name, Action_Assigned_To__r.Id , Action_Assigned_To__r.FullPhotoUrl, Action_Needed__c, AQ_Score__c, '+
-                '      Action_Date__c, Action_Taken__c, Internal_Notes__c, Agent__r.Name, Agent__r.Id, Agent__r.FullPhotoUrl ';
-                if (String.isNotBlank(qStringApiNames))
-                    qStr +=  ', '+qStringApiNames;
-                qStr += ' FROM Article_Quality__c '+
-                ' WHERE '+
-                ' Knowledge_Article_Version_Id__c =\''+recordId+'\'';
-                aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
-                List<Article_Quality__c > l = Database.query(   qStr );
-                if (l.isEmpty()){
-                    aqi_result =populateInitialAQI(recordId);
-                    User relatedInitiallyAgent = [SELECT FullPhotoUrl,Id,Name FROM User WHERE Id =: aqi_result.Agent__c];
-                    result.put('relatedInitiallyAgent',relatedInitiallyAgent);
-                }else{
-                    aqi_result = l.get(0);
-                }
-                Map<String, Schema.SObjectField> allFields = Schema.SObjectType.Article_Quality__c.fields.getMap();
-                String tmp;
-                for(String str : uniqueApiNames){
-                    tmp = str.toLowerCase();
-                    if (allFields.containsKey(tmp)){
-                        Schema.DescribeFieldResult dfr = allFields.get(tmp).getDescribe();
-                        if (dfr.isCustom() && dfr.getType() ==Schema.DisplayType.BOOLEAN){
-                            indexList.add(new indexArticleQualityIndex(dfr.getLabel(),dfr.getName(),true));
+                if (indexValues != null && !indexValues.isEmpty()) {
+                    Article_Quality__c aqi_result;
+                    List<indexArticleQualityIndex> indexList = new List<indexArticleQualityIndex>();
+                    Map<String,  Object> result = new Map<String,  Object>();
+                    ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();
+                    set<String> apiNamesWhiteLilst = indexValues.keySet();
+                    set<String> apiList  = new set<String>();
+                    apiNames = apiNames.replace('"','').replace('[','').replace(']','');
+                    for (String a : apiNames.split(',')){
+                        if (String.isNotBlank(a) && apiNamesWhiteLilst.contains(a)){
+                            apiList.add(a);
                         }
                     }
+                    List<String> uniqueApiNames = new List<String>();
+                    uniqueApiNames.addAll(apiList);
+                    String qStringApiNames = String.join(uniqueApiNames,', ');
+                    String qStr =   ' SELECT Name, Action_Assigned_To__r.Name, Action_Assigned_To__r.Id , Action_Assigned_To__r.FullPhotoUrl, Action_Needed__c, AQ_Score__c, '+
+                    '      Action_Date__c, Action_Taken__c, Internal_Notes__c, Agent__r.Name, Agent__r.Id, Agent__r.FullPhotoUrl ';
+                    if (String.isNotBlank(qStringApiNames))
+                        qStr +=  ', '+qStringApiNames;
+                    qStr += ' FROM Article_Quality__c '+
+                    ' WHERE '+
+                    ' Knowledge_Article_Version_Id__c =\''+recordId+'\'';
+                    aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
+                    List<Article_Quality__c > l = Database.query(   qStr );
+                    if (l.isEmpty()){
+                        aqi_result =populateInitialAQI(recordId);
+                        User relatedInitiallyAgent = [SELECT FullPhotoUrl,Id,Name FROM User WHERE Id =: aqi_result.Agent__c];
+                        result.put('relatedInitiallyAgent',relatedInitiallyAgent);
+                    }else{
+                        aqi_result = l.get(0);
+                    }
+                    Map<String, Schema.SObjectField> allFields = Schema.SObjectType.Article_Quality__c.fields.getMap();
+                    String tmp;
+                    for(String str : uniqueApiNames){
+                        tmp = str.toLowerCase();
+                        if (allFields.containsKey(tmp)){
+                            Schema.DescribeFieldResult dfr = allFields.get(tmp).getDescribe();
+                            if (dfr.isCustom() && dfr.getType() ==Schema.DisplayType.BOOLEAN){
+                                indexList.add(new indexArticleQualityIndex(dfr.getLabel(),dfr.getName(),true));
+                            }
+                        }
+                    }
+                    result.put('aqi_listApiNamesToLabels',listApiNamesToLabels);
+                    result.put('aqi_fields',indexList);
+                    result.put('aqi_record',aqi_result);
+                    result.put('prefixOrg',aqi_Ctrl.getPackagePrefix());
+
+
+                    response.jsonResponse = JSON.serialize(result);
                 }
-                result.put('aqi_listApiNamesToLabels',listApiNamesToLabels);
-                result.put('aqi_fields',indexList);
-                result.put('aqi_record',aqi_result);
-                result.put('prefixOrg',aqi_Ctrl.getPackagePrefix());
-
-
-                response.jsonResponse = JSON.serialize(result);
+                else{
+                    response.state = 'ERROR';
+                    response.error = 'The AQI custom setting must be created. Please contact your Salesforce Administrator';
+                }
             }catch(Exception e){
                 response = new aqi_LightningResponse(e);
             }

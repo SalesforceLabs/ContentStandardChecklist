@@ -58,6 +58,10 @@
         <name>FlexiPage</name>
     </types>
     <types>
+        <members>aqi_PermissionSet</members>
+        <name>PermissionSet</name>
+    <types>
+    <types>
         <members>Article_Quality__c-Article Quality Layout</members>
         <members>Article_Quality__c-Classic AQI</members>
         <name>Layout</name>

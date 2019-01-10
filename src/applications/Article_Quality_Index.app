@@ -3,7 +3,7 @@
     <defaultLandingTab>standard-home</defaultLandingTab>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
-    <label>Article Quality Index</label>
+    <label>Article Quality</label>
     <tabs>standard-Knowledge</tabs>
     <tabs>standard-KnowledgePublishing</tabs>
     <tabs>Create_AQI</tabs>

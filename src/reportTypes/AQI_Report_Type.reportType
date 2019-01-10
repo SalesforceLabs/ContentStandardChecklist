@@ -4,7 +4,7 @@
     <category>other</category>
     <deployed>true</deployed>
     <description>Article Quality Index report Type</description>
-    <label>AQI</label>
+    <label>AQI Report Type</label>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>

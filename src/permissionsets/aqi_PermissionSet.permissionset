@@ -5,7 +5,7 @@
         <visible>false</visible>
     </applicationVisibilities>
     <applicationVisibilities>
-        <application>Article_Quality</application>
+        <application>Article_Quality_Index</application>
         <visible>false</visible>
     </applicationVisibilities>
     <classAccesses>

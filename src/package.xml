@@ -40,7 +40,7 @@
     </types>
     <types>
         <members>AQI_APP</members>
-        <members>Article_Quality</members>
+        <members>Article_Quality_Index</members>
         <name>CustomApplication</name>
     </types>
     <types>
@@ -63,7 +63,7 @@
         <name>Layout</name>
     </types>
     <types>
-        <members>*</members>
+        <members>aqi_PermissionSet</members>
         <name>PermissionSet</name>
     </types>
     <types>
@@ -74,12 +74,12 @@
         <name>Report</name>
     </types>
     <types>
-        <members>AQI</members>
+        <members>AQI_Report_Type</members>
         <name>ReportType</name>
     </types>
     <types>
         <members>aqi_resources</members>
         <name>StaticResource</name>
     </types>
-    <version>42.0</version>
+    <version>44.0</version>
 </Package>

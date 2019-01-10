@@ -62,7 +62,7 @@
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>AQI__c</reportType>
+    <reportType>AQI_Report_Type__c</reportType>
     <scope>user</scope>
     <showDetails>true</showDetails>
     <timeFrameFilter>

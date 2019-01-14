@@ -20,6 +20,7 @@
                 <apex:inputField value="{!aqs.Properties_set_appropriately__c}"/>
                 <apex:inputField value="{!aqs.Selected_Languages__c}"/>
                 <apex:inputField value="{!aqs.Title_Accurate__c}"/>
+                <apex:inputField value="{!aqs.Trigger_Enabled__c}"/>
             </apex:pageBlockSection>
         </apex:pageBlock>
         <apex:pageBlock title="Application Setup" mode="detail" rendered="{!!editMode}">
@@ -37,6 +38,7 @@
                 <apex:outputField value="{!aqs.Properties_set_appropriately__c}"/>
                 <apex:outputField value="{!aqs.Selected_Languages__c}"/>
                 <apex:outputField value="{!aqs.Title_Accurate__c}"/>
+                <apex:outputField value="{!aqs.Trigger_Enabled__c}"/>
             </apex:pageBlockSection>
         </apex:pageBlock>
     </apex:form>

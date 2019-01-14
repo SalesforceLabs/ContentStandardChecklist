@@ -21,6 +21,7 @@ private class aqi_Ctrl_Test {
 		setting.Properties_set_appropriately__c = 2;
 		setting.Title_Accurate__c = 4;
 		setting.Selected_Languages__c = 'en_US';
+		setting.Trigger_Enabled__c = true;
 		insert setting;
 	}
 

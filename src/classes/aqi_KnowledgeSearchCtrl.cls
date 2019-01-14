@@ -137,7 +137,6 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 	String articlePublishDateFrom, String articlePublishDateTo,
 	String articleLastModifiedDateFrom, String articleLastModifiedDateTo,
 	String pageNum, String sortBy, Boolean sortAsc) {
-		system.debug('enter to the get Articles methods');
 		Integer queryOffset =  resolveOffset(pageNum);
 		Boolean isMasterLanguage = checkForSchemaFieldActive('ismasterlanguage');
 		String fieldsToRetrieve = '';
@@ -242,7 +241,6 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 				sObjList = Database.query(queryString);
 			}
 		}
-		system.debug('queryString: ' +queryString );
 		List<Object> resultList = checkForAQIRecords(sObjList,escapeString(articleLanguage));
 		//result
 		Map<String,Object> result = new Map<String,Object>();

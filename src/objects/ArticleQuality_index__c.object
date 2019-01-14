@@ -110,6 +110,14 @@
         <type>Number</type>
         <unique>false</unique>
     </fields>
+    <fields>
+        <fullName>triggerEnabled__c</fullName>
+        <defaultValue>true</defaultValue>
+        <externalId>false</externalId>
+        <label>triggerEnabled</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
     <label>Article Quality Index Definition</label>
     <visibility>Public</visibility>
 </CustomObject>

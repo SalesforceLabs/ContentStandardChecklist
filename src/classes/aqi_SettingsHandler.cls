@@ -10,6 +10,7 @@ public class aqi_SettingsHandler {
 	public static String DEFAULT_LANGUAGE 		=  'en_US';
 	public static Integer DEFAULT_VALUE 		=  1;
 	public static Integer DEFAULT_POSSIBLE_POINTS =  7;
+	public static Boolean DEFAULT_ENABLE_TRIGGER = true;
 
 	// Methods
 
@@ -57,6 +58,7 @@ public class aqi_SettingsHandler {
 				aq.Possible_Points__c = DEFAULT_POSSIBLE_POINTS;
 				aq.Properties_set_appropriately__c = DEFAULT_VALUE;
 				aq.Title_Accurate__c = DEFAULT_VALUE;
+				aq.Trigger_Enabled__c = DEFAULT_ENABLE_TRIGGER;
 			}
 			upsert aq;
 		}
@@ -93,6 +95,7 @@ public class aqi_SettingsHandler {
 				aq.Possible_Points__c = DEFAULT_POSSIBLE_POINTS;
 				aq.Properties_set_appropriately__c = DEFAULT_VALUE;
 				aq.Title_Accurate__c = DEFAULT_VALUE;
+				aq.Trigger_Enabled__c = DEFAULT_ENABLE_TRIGGER;
 			}
 		}
 		return aq;

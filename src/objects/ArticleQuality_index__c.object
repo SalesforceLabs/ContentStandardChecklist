@@ -111,10 +111,10 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>triggerEnabled__c</fullName>
+        <fullName>Trigger_Enabled__c</fullName>
         <defaultValue>true</defaultValue>
         <externalId>false</externalId>
-        <label>triggerEnabled</label>
+        <label>Trigger_Enabled</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>

@@ -114,7 +114,7 @@
         <fullName>Trigger_Enabled__c</fullName>
         <defaultValue>true</defaultValue>
         <externalId>false</externalId>
-        <label>Trigger_Enabled</label>
+        <label>Score Trigger Enabled</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>

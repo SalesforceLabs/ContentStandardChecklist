@@ -150,7 +150,7 @@
 			toastCmp.set("v.severity",'info');
 
 			if (!component.get("v.noFieldsAvailable"))
-			toastCmp.set("v.description",'The AQI has been updated. The new value is : '+Math.round(aq_score));
+			toastCmp.set("v.description",'The AQI has been updated. The new score is : '+Math.round(aq_score));
 			else
 			toastCmp.set("v.description",'The AQI has been updated.');
 

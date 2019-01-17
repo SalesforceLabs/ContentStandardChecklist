@@ -1,4 +1,4 @@
-trigger aqi_score on Article_Quality__c (before insert, before update) {
+trigger aqi_Score on Article_Quality__c (before insert, before update) {
 
     String nm = aqi_Ctrl.getPackagePrefix();
     ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();

@@ -10,6 +10,8 @@
                 <apex:commandButton value="Cancel" action="{!cancel}" immediate="true" reRender="container"/>
             </apex:pageBlockButtons>
             <apex:pageBlockSection columns="2">
+                <apex:outputText value="AQI Section" />
+                <apex:outputText value="" />
                 <apex:inputField value="{!aqs.name}" html-disabled="true" />
                 <apex:inputField value="{!aqs.Article_Unique__c}"/>
                 <apex:inputField value="{!aqs.Art_Meets_Content_Standard__c}"/>
@@ -20,7 +22,15 @@
                 <apex:inputField value="{!aqs.Properties_set_appropriately__c}"/>
                 <apex:inputField value="{!aqs.Selected_Languages__c}"/>
                 <apex:inputField value="{!aqs.Title_Accurate__c}"/>
-                <apex:inputField value="{!aqs.Trigger_Enabled__c}"/>
+                <apex:outputText value="Migration Tool Section" />
+                <apex:outputText value="" />
+                <apex:inputField value="{!aqs.Trigger_Enabled__c}">
+                    <apex:outputPanel
+                          rendered="true">
+                          <img src="/s.gif" Class="infoIcon"
+                          title="Check to enable the trigger that calculates the aqi score (only needs to be disabled when the AQI migration tool will be used)" />
+                    </apex:outputPanel>
+                </apex:inputField>
             </apex:pageBlockSection>
         </apex:pageBlock>
         <apex:pageBlock title="Application Setup" mode="detail" rendered="{!!editMode}">
@@ -28,6 +38,8 @@
                 <apex:commandButton action="{!edit}" value="Edit"/>
             </apex:pageBlockButtons>
             <apex:pageBlockSection columns="2">
+                <apex:outputText value="AQI Section" />
+                <apex:outputText value="" />
                 <apex:outputField value="{!aqs.name}" />
                 <apex:outputField value="{!aqs.Article_Unique__c}"/>
                 <apex:outputField value="{!aqs.Art_Meets_Content_Standard__c}"/>
@@ -38,14 +50,17 @@
                 <apex:outputField value="{!aqs.Properties_set_appropriately__c}"/>
                 <apex:outputField value="{!aqs.Selected_Languages__c}"/>
                 <apex:outputField value="{!aqs.Title_Accurate__c}"/>
+                <apex:outputText value="Migration Tool Section" />
+                <apex:outputText value="" />
                 <apex:outputField value="{!aqs.Trigger_Enabled__c}">
                     <apex:outputPanel
                           rendered="true">
                           <img src="/s.gif" Class="infoIcon"
-                          title="Check to enable the trigger that calculates the aqi score" />
+                          title="Check to enable the trigger that calculates the aqi score (only needs to be disabled when the AQI migration tool will be used)" />
                     </apex:outputPanel>
                 </apex:outputField>
             </apex:pageBlockSection>
         </apex:pageBlock>
+
     </apex:form>
 </apex:page>

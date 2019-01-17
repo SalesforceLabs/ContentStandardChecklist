@@ -1,0 +1,359 @@
+{
+    "constructors": [],
+    "externalReferences": [],
+    "id": "aqi_Score_Test",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "aqi_Score_Test",
+    "methods": [
+        {
+            "annotations": [
+                {
+                    "name": "TestSetup"
+                }
+            ],
+            "location": {
+                "column": 28,
+                "line": 11
+            },
+            "modifiers": [
+                "private",
+                "static"
+            ],
+            "name": "setup",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 25,
+                "line": 28
+            },
+            "modifiers": [
+                "private",
+                "static"
+            ],
+            "name": "insertKavObject",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        },
+        {
+            "annotations": [
+                {
+                    "name": "IsTest"
+                }
+            ],
+            "location": {
+                "column": 25,
+                "line": 53
+            },
+            "modifiers": [
+                "private",
+                "static",
+                "testMethod"
+            ],
+            "name": "test_aqi_Score",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        }
+    ],
+    "name": "aqi_Score_Test",
+    "namespace": null,
+    "parentClass": "",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 20,
+                "line": 10
+            },
+            "modifiers": [
+                "private",
+                "static"
+            ],
+            "name": "kavObj",
+            "references": [],
+            "type": "SObject"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [
+            {
+                "name": "IsTest"
+            }
+        ],
+        "location": {
+            "column": 15,
+            "line": 8
+        },
+        "modifiers": [
+            "private",
+            "testMethod"
+        ],
+        "name": "aqi_Score_Test",
+        "references": [],
+        "type": "aqi_Score_Test"
+    },
+    "variables": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 33,
+                "line": 12
+            },
+            "modifiers": [],
+            "name": "aqs",
+            "references": [],
+            "type": "ArticleQuality_index__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 40,
+                "line": 29
+            },
+            "modifiers": [],
+            "name": "gd",
+            "references": [],
+            "type": "Map<String,Schema.SObjectType>"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 30
+            },
+            "modifiers": [],
+            "name": "default_language",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 31
+            },
+            "modifiers": [],
+            "name": "kavNames",
+            "references": [],
+            "type": "List<String>"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 21,
+                "line": 32
+            },
+            "modifiers": [],
+            "name": "s",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 37
+            },
+            "modifiers": [],
+            "name": "objType",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 33,
+                "line": 56
+            },
+            "modifiers": [],
+            "name": "aqind",
+            "references": [],
+            "type": "ArticleQuality_index__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 59
+            },
+            "modifiers": [],
+            "name": "publishStatus",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 62
+            },
+            "modifiers": [],
+            "name": "q",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 33,
+                "line": 66
+            },
+            "modifiers": [],
+            "name": "article",
+            "references": [],
+            "type": "KnowledgeArticleVersion"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 31,
+                "line": 71
+            },
+            "modifiers": [],
+            "name": "resp",
+            "references": [],
+            "type": "aqi_LightningResponse"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 72
+            },
+            "modifiers": [],
+            "name": "strR",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 29,
+                "line": 73
+            },
+            "modifiers": [],
+            "name": "m",
+            "references": [],
+            "type": "Map<String,Object>"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 74
+            },
+            "modifiers": [],
+            "name": "recordStr",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 28,
+                "line": 75
+            },
+            "modifiers": [],
+            "name": "record",
+            "references": [],
+            "type": "Article_Quality__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 31,
+                "line": 78
+            },
+            "modifiers": [],
+            "name": "respSuccess",
+            "references": [],
+            "type": "aqi_LightningResponse"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 28,
+                "line": 82
+            },
+            "modifiers": [],
+            "name": "recordUpserted",
+            "references": [],
+            "type": "Article_Quality__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 29,
+                "line": 83
+            },
+            "modifiers": [],
+            "name": "aqr",
+            "references": [],
+            "type": "Article_Quality__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 85
+            },
+            "modifiers": [],
+            "name": "valueTriggerEnabledCheckbox",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 28,
+                "line": 103
+            },
+            "modifiers": [],
+            "name": "recordUpserted2",
+            "references": [],
+            "type": "Article_Quality__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 106
+            },
+            "modifiers": [],
+            "name": "valueTriggerDisableNoCheckbox",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 28,
+                "line": 124
+            },
+            "modifiers": [],
+            "name": "recordUpserted3",
+            "references": [],
+            "type": "Article_Quality__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 127
+            },
+            "modifiers": [],
+            "name": "valueTriggerEnabledNoCheckbox",
+            "references": [],
+            "type": "String"
+        }
+    ]
+}

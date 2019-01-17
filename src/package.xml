@@ -10,6 +10,7 @@
         <members>aqi_KnowledgeSearchCtrl_Test</members>
         <members>aqi_LightningResponse</members>
         <members>aqi_LightningResponse_Test</members>
+        <members>aqi_Score_Test</members>
         <members>aqi_SecurityHandler</members>
         <members>aqi_SecurityHandler_Test</members>
         <members>aqi_SettingsHandler</members>
@@ -27,7 +28,7 @@
         <name>ApexPage</name>
     </types>
     <types>
-        <members>aqi_score</members>
+        <members>aqi_Score</members>
         <name>ApexTrigger</name>
     </types>
     <types>

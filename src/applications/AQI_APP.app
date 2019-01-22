@@ -11,10 +11,13 @@
     </actionOverrides>
     <brand>
         <headerColor>#086108</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
     <description>AQI App for lightning</description>
     <formFactors>Large</formFactors>
-    <label>AQI_APP</label>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>AQI App</label>
     <navType>Standard</navType>
     <tabs>Article_Quality__c</tabs>
     <tabs>standard-report</tabs>

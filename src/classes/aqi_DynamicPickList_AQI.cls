@@ -16,7 +16,7 @@ global class aqi_DynamicPickList_AQI extends VisualEditor.DynamicPickList{
     * @return
     *	Return the default value
     */
-    global override VisualEditor.DataRow getDefaultValue(){
+    global override VisualEditor.DataRow getDefaultValue() {
         VisualEditor.DataRow defaultValue = new VisualEditor.DataRow('none', 'none');
         return defaultValue;
     }
@@ -34,8 +34,8 @@ global class aqi_DynamicPickList_AQI extends VisualEditor.DynamicPickList{
         myValues.addRow(new VisualEditor.DataRow('none','none'));
         Map<String,Double>  indexValues = aqi_Ctrl.getindexApiNameToValue();
 		Map<String,String>  indexLabels = aqi_Ctrl.getindexApiNameToLabel();
-        for(String k :indexValues.keySet() ){
-            if((!k.contains('Possible_Points__c')) && indexLabels.containsKey(k)){
+        for (String k :indexValues.keySet()) {
+            if ((!k.contains('Possible_Points__c')) && indexLabels.containsKey(k)) {
     			myValues.addRow(new VisualEditor.DataRow( indexLabels.get(k),k));
             }
         }

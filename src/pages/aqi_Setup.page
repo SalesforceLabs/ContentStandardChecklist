@@ -1,6 +1,6 @@
 <apex:page controller="aqi_SetupCtrl" showHeader="true" sidebar="true">
     <script>
-        document.onreadystatechange = function(e){if(document.readyState === 'complete'){checkForCS();}};
+        document.onreadystatechange = function(e) {if (document.readyState === 'complete') {checkForCS();}};
     </script>
     <apex:form id="container">
         <apex:actionFunction action="{!checkForAppConfiguration}" name="checkForCS" reRender="container"></apex:actionFunction>

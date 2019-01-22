@@ -22,11 +22,11 @@ public class aqi_SettingsHandler {
 	* @return
 	*   Return the default language
 	*/
-	public static String customOrDefaultLanguage(){
+	public static String customOrDefaultLanguage() {
 		ArticleQuality_index__c  aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
 		String result = [SELECT LanguageLocaleKey FROM Organization limit 1].LanguageLocaleKey;
-		if(aq != null){
-			if(String.isNotBlank(ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME).Selected_Languages__c)){
+		if (aq != null) {
+			if (String.isNotBlank(ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME).Selected_Languages__c)) {
 				result = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME).Selected_Languages__c;
 			}
 		}
@@ -41,12 +41,12 @@ public class aqi_SettingsHandler {
 	* @return
 	*   Return a new cleaned instance of ArticleQuality_index__c
 	*/
-	public static ArticleQuality_index__c cleanCS(){
+	public static ArticleQuality_index__c cleanCS() {
 
 		ArticleQuality_index__c  aq = (aqi_SecurityHandler.isAccessible(ArticleQuality_index__c.sObjectType)) ? ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME) : null;
 
-		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType) && aqi_SecurityHandler.isUpdateable(ArticleQuality_index__c.sObjectType)){
-			if(aq == null){
+		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType) && aqi_SecurityHandler.isUpdateable(ArticleQuality_index__c.sObjectType)) {
+			if (aq == null) {
 				aq = new ArticleQuality_index__c();
 				aq.Name = CUSTOM_SETTING_NAME;
 				aq.Selected_Languages__c  = DEFAULT_LANGUAGE;
@@ -73,17 +73,17 @@ public class aqi_SettingsHandler {
 	* @return
 	*   Current or new instance of ArticleQuality_index__c
 	*/
-	public static ArticleQuality_index__c checkForAppConfiguration(){
+	public static ArticleQuality_index__c checkForAppConfiguration() {
 		ArticleQuality_index__c  aq;
 
-		if(aqi_SecurityHandler.isAccessible(ArticleQuality_index__c.sObjectType)){
+		if (aqi_SecurityHandler.isAccessible(ArticleQuality_index__c.sObjectType)) {
 			aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
 		}
-		else{
+		else {
 			aq = null;
 		}
-		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType)){
-			if(aq == null){
+		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType)) {
+			if (aq == null) {
 				aq = new ArticleQuality_index__c();
 				aq.Name = CUSTOM_SETTING_NAME;
 				aq.Selected_Languages__c  = DEFAULT_LANGUAGE;

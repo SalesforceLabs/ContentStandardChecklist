@@ -2,7 +2,7 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
 
     String nm = aqi_Ctrl.getPackagePrefix();
     ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();
-    if(aqs.Trigger_Enabled__c){
+    if (aqs.Trigger_Enabled__c) {
         Map<String,Double> indexValues = aqi_Ctrl.getindexApiNameToValue();
         Boolean idx_checked;
 
@@ -24,7 +24,7 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
             String key = aq.Knowledge_Article_Id__c + '-' + aq.Language__c + '-' + Decimal.valueOf(String.valueOf(aq.Article_Version__c));
             duplicate = allDuplicates.get(key);
 
-            if (duplicate == null || ( duplicate != null &&  Trigger.isUpdate )) {
+            if (duplicate == null || ( duplicate != null &&  Trigger.isUpdate)) {
                 Decimal totalPoints = 0;
                 Decimal aqi_value = 0;
                 aq.Possible_Points__c = indexValues.get(nm + 'Possible_Points__c');
@@ -43,7 +43,7 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
                 aq.Knowledge_Article_Version_Id__c.addError(
                     'You have already a Quality Index record for this article version :'+
                     ' <a href=\'/'+duplicate.Id+'\' > link </a>'
-                );
+               );
             }
         }
     }

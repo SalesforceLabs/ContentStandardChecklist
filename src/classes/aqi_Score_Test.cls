@@ -25,7 +25,7 @@ private class aqi_Score_Test {
     }
 
     //aux method that insert kav data
-    private static void insertKavObject(){
+    private static void insertKavObject() {
         Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
         String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
         List<String> kavNames = new List<String>();

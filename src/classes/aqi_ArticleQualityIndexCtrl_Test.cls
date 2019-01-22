@@ -24,7 +24,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     }
 
     //aux method that insert kav data
-    private static void insertKavObject(){
+    private static void insertKavObject() {
         Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
         String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
         List<String> kavNames = new List<String>();
@@ -49,7 +49,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     /*
     Description: Check for the fields returned by method that return some compact layout data
     */
-    @isTest static void test_Get_CompactLayoutData(){
+    @isTest static void test_Get_CompactLayoutData() {
         System.Test.startTest();
         insertKavObject();
         Map<String,Object> result = aqi_ArticleQualityIndexCtrl.getCompactLayoutData(((Id)kavObj.get('Id')),new Map<String,Object>());

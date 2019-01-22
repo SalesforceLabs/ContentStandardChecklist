@@ -163,7 +163,7 @@
                     <apex:outputField value="{!Article_Quality__c.Article_Created_By__c}" id="ArtCreatedBy"/>
                 </apex:pageBlockSectionItem>
             </apex:pageBlockSection>
-            <apex:pageBlockSection title="Related Article Current Details" columns="2" rendered="{!AND(!articleNotAvailable,!isCurrentVersion ) }">
+            <apex:pageBlockSection title="Related Article Current Details" columns="2" rendered="{!AND(!articleNotAvailable,!isCurrentVersion) }">
                 <!-- latest version -->
                 <apex:pageBlockSectionItem rendered="{!!isCurrentVersion}">
                     <apex:outputLabel value="{!$ObjectType.KnowledgeArticleVersion.fields.VersionNumber.label}" for="latestArticleVersionNumber"/>

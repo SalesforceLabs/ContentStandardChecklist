@@ -517,12 +517,12 @@ public with sharing class aqi_SecurityHandler {
     * @return
     *   String
     */
-    public static String formatReplace(String value, List<String> lstStr){
+    public static String formatReplace(String value, List<String> lstStr) {
 
         String res = value;
 
-        for( Integer i=0; i<lstStr.size(); i++ ){
-            if( lstStr[i] != null && lstStr[i] != '' )
+        for ( Integer i=0; i<lstStr.size(); i++) {
+            if ( lstStr[i] != null && lstStr[i] != '')
             res = res.replaceAll('\\{'+i+'\\}', lstStr[i]);
         }
         return res;

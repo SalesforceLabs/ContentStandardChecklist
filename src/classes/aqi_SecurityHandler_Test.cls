@@ -13,8 +13,8 @@ private class aqi_SecurityHandler_Test {
     /*
     Description: Check if exist any record type - the returned map of record types in case that exist shouldn't be null
     */
-    @isTest static void test_allRecordTypes(){
-        if(aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')){
+    @isTest static void test_allRecordTypes() {
+        if (aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')) {
             System.Test.startTest();
             List<RecordType> allRecord = aqi_SecurityHandler.allRecordTypes;
             System.Test.stopTest();
@@ -25,8 +25,8 @@ private class aqi_SecurityHandler_Test {
     /*
     Description: Check if exist any recordType - one of those must be returned
     */
-    @isTest static void test_getAllowedRecordTypesMap(){
-        if(aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')){
+    @isTest static void test_getAllowedRecordTypesMap() {
+        if (aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')) {
             System.Test.startTest();
             Map<Id,String> all = aqi_SecurityHandler.getAllowedRecordTypesMap() ;
             System.Test.stopTest();
@@ -37,8 +37,8 @@ private class aqi_SecurityHandler_Test {
     /*
     Description: Check if exist any record type - if exist then check that the map shouldn't be null
     */
-    @isTest static void test_getAllowedRecordTypeNameToIdMap(){
-        if(aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')){
+    @isTest static void test_getAllowedRecordTypeNameToIdMap() {
+        if (aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')) {
             System.Test.startTest();
             Map<String,Id> all = aqi_SecurityHandler.getAllowedRecordTypeNameToIdMap();
             System.Test.stopTest();
@@ -53,11 +53,11 @@ private class aqi_SecurityHandler_Test {
         System.Test.startTest();
         Profile[] profileList = [select Id, Name from Profile where Name = 'System Administrator' OR Name = 'Standar User' limit 2];
         Map<Id,String> profileMap = new Map<Id,String>();
-        for( Profile p : profileList ){
-            profileMap.put( p.id, p.Name );
+        for ( Profile p : profileList) {
+            profileMap.put( p.id, p.Name);
         }
         List<User> u = [select id, profileId from User where Id =: UserInfo.getUserId() limit 1];
-        if( profileMap.containsKey( UserInfo.getProfileId() ) && profileMap.get( UserInfo.getProfileId() ) == 'System Administrator' ){
+        if ( profileMap.containsKey( UserInfo.getProfileId()) && profileMap.get( UserInfo.getProfileId()) == 'System Administrator') {
             for (Profile p : profileList) {
                 u[0].profileId = p.id;
                 update u;
@@ -136,11 +136,11 @@ private class aqi_SecurityHandler_Test {
         aqi_SecurityHandler.securityEnabled = false;
         Profile[] profileList = [select Id, Name from Profile where Name = 'System Administrator' OR Name = 'Standar User' limit 2];
         Map<Id,String> profileMap = new Map<Id,String>();
-        for( Profile p : profileList ){
-            profileMap.put( p.id, p.Name );
+        for ( Profile p : profileList) {
+            profileMap.put( p.id, p.Name);
         }
         List<User> u = [select id, profileId from User where Id =: UserInfo.getUserId() limit 1];
-        if( profileMap.containsKey( UserInfo.getProfileId() ) && profileMap.get( UserInfo.getProfileId() ) == 'System Administrator' ){
+        if ( profileMap.containsKey( UserInfo.getProfileId()) && profileMap.get( UserInfo.getProfileId()) == 'System Administrator') {
             for (Profile p : profileList) {
                 u[0].profileId = p.id;
                 update u;
@@ -159,10 +159,10 @@ private class aqi_SecurityHandler_Test {
                 aqi_SecurityHandler.canCreate(Case.subject);
                 aqi_SecurityHandler.canUpdate(Case.subject);
                 List<Schema.SObjectField> fieldList = new List<Schema.SObjectField>();
-                fieldList.add( Case.subject );
+                fieldList.add( Case.subject);
                 aqi_SecurityHandler.toString(fieldList);
                 List<Schema.SObjectType> objectTypeList = new List<Schema.SObjectType>();
-                objectTypeList.add( Case.sObjectType );
+                objectTypeList.add( Case.sObjectType);
                 aqi_SecurityHandler.toString(objectTypeList);
             }
         }

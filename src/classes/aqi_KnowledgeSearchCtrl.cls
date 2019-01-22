@@ -20,14 +20,14 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 	*/
 	public String tzOffset{
 		get{
-			if (tzOffset == null){
+			if (tzOffset == null) {
 				TimeZone tz =  UserInfo.getTimeZone();
 				Long ofsetD = tz.getoffset(System.now());
 				Time t = Time.newInstance(0, 0, 0, Integer.valueOf(Math.abs(ofsetD)));
-				if ( t.minute()>=45 )
+				if ( t.minute()>=45)
 				tzOffset = t.hour()+'.8';
 				else
-				if ( t.minute()>=30 )
+				if ( t.minute()>=30)
 				tzOffset = t.hour()+'.5';
 				else
 				tzOffset = t.hour()+'.0';
@@ -44,7 +44,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 	*/
 	public Boolean isValidationStatusActive {
 		get{
-			if (isValidationStatusActive == null){
+			if (isValidationStatusActive == null) {
 				isValidationStatusActive = checkForSchemaFieldActive('validationstatus');
 			}
 			return isValidationStatusActive;
@@ -58,7 +58,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 	*/
 	public Map<Id,String> availableRecordTypes {
 		get{
-			if (availableRecordTypes == null){
+			if (availableRecordTypes == null) {
 				availableRecordTypes = aqi_SecurityHandler.getAllowedRecordTypesMap();
 			}
 			return availableRecordTypes;
@@ -112,12 +112,12 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 	* @return
 	*	Return that return the current offset
 	*/
-	public static Integer resolveOffset(String p){
+	public static Integer resolveOffset(String p) {
 		Integer queryOffset = 0;
-		if (String.isNotBlank(p)){
+		if (String.isNotBlank(p)) {
 			Integer pageNum = Integer.valueOf(p);
 			if (pageNum>0)
-			queryOffset = ( pageNum  ) * PAGE_SIZE;
+			queryOffset = ( pageNum ) * PAGE_SIZE;
 		}
 		return queryOffset;
 	}
@@ -140,11 +140,11 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 		Integer queryOffset =  resolveOffset(pageNum);
 		Boolean isMasterLanguage = checkForSchemaFieldActive('ismasterlanguage');
 		String fieldsToRetrieve = '';
-		if(isRecordTypeIdActive){
+		if (isRecordTypeIdActive) {
 			fieldsToRetrieve = ' Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,  '+
 			' Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary ';
 		}
-		else{
+		else {
 			fieldsToRetrieve = ' Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,  '+
 			' Title, CreatedDate, FirstPublishedDate, LastPublishedDate, LastModifiedDate, Summary ';
 		}
@@ -153,23 +153,23 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 		List<String> whereConditions = new list<String>();
 		List<String> errorsOnInput = new list<String>();
 		// Search String              # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-		if(String.isNotBlank(searchString)){
-			if(searchString.length() < 2){
+		if (String.isNotBlank(searchString)) {
+			if (searchString.length() < 2) {
 				errorsOnInput.add('Search criteria must be at least two characters ');
 			}
 		}
 		// Search String              # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 		// validate Article Number
-		if(String.isNotBlank(articleNumber)){
-			if(!articleNumber.isNumeric()){
+		if (String.isNotBlank(articleNumber)) {
+			if (!articleNumber.isNumeric()) {
 				errorsOnInput.add('Article Number must contain only numbers');
-			}else{
+			} else {
 				whereConditions.add(' articlenumber LIKE \'%' + escapeString(articleNumber) + '%\' ');
 			}
 		}
 		// ARTICLE RECORD TYPE                  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 		//check if exist RecordTypeId
-		if(isRecordTypeIdActive && String.isNotBlank(articleRecordType) & (articleRecordType !='all')){
+		if (isRecordTypeIdActive && String.isNotBlank(articleRecordType) & (articleRecordType !='all')) {
 			whereConditions.add(' RecordTypeId = \'' + escapeString(articleRecordType) + '\' ');
 		}
 		// IS MASTER LANGUAGE                   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -190,38 +190,38 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 		DateTime auxdt;
 		DateTime auxDTT_from = strToDateTime(escapeString(articleLastModifiedDateFrom),false);
 		DateTime auxDTT_to = strToDateTime(escapeString(articleLastModifiedDateTo),true);
-		if (auxDTT_from != null && auxDTT_to!= null){
+		if (auxDTT_from != null && auxDTT_to!= null) {
 			if (auxDTT_from > auxDTT_to) {
 				ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,
 				'Last Modified Date range is invalid'));
 				return '';
 			}
 		}
-		if ( auxDTT_from != null ){
+		if ( auxDTT_from != null) {
 			aux = auxDTT_from.formatGMT('yyyy-MM-dd') + 'T' + auxDTT_from.formatGMT('HH:mm:ss.SSS') + 'Z';
-			whereConditions.add('  LastModifiedDate >=  ' +   aux   );
+			whereConditions.add('  LastModifiedDate >=  ' +   aux  );
 		}
-		if (auxDTT_to != null ){
+		if (auxDTT_to != null) {
 			aux = auxDTT_to.formatGMT('yyyy-MM-dd') + 'T' + auxDTT_to.formatGMT('HH:mm:ss.SSS') + 'Z';
-			whereConditions.add('  LastModifiedDate <=  ' + aux   );
+			whereConditions.add('  LastModifiedDate <=  ' + aux  );
 		}
 		// FIRST PUBLISHED DATE RANGE             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 		auxDTT_from = strToDateTime(escapeString(articlePublishDateFrom),false);
 		auxDTT_to = strToDateTime(escapeString(articlePublishDateTo),true);
-		if (auxDTT_from != null && auxDTT_to!= null){
+		if (auxDTT_from != null && auxDTT_to!= null) {
 			if (auxDTT_from > auxDTT_to) {
 				ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,
 				'First Published Date  range is invalid'));
 				return '';
 			}
 		}
-		if ( auxDTT_from != null ){
+		if ( auxDTT_from != null) {
 			aux = auxDTT_from.formatGMT('yyyy-MM-dd') + 'T' + auxDTT_from.formatGMT('HH:mm:ss.SSS') + 'Z';
-			whereConditions.add('  FirstPublishedDate >=  ' +   aux   );
+			whereConditions.add('  FirstPublishedDate >=  ' +   aux  );
 		}
-		if (auxDTT_to != null ){
+		if (auxDTT_to != null) {
 			aux = auxDTT_to.formatGMT('yyyy-MM-dd') + 'T' + auxDTT_to.formatGMT('HH:mm:ss.SSS') + 'Z';
-			whereConditions.add('  FirstPublishedDate <=  ' + aux   );
+			whereConditions.add('  FirstPublishedDate <=  ' + aux  );
 		}
 		String whereClause =' WHERE  ' + String.join(whereConditions,' AND ');
 		String orderByClause =    '   ORDER BY '+String.escapeSingleQuotes(sortBy)  ;
@@ -229,13 +229,13 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 		String  limitClause = ' LIMIT :PAGE_SIZE OFFSET :queryOffset ';
 		String queryString = '';
 		List<sObject> sObjList;
-		if (errorsOnInput.isEmpty()){
-			if (String.isNotBlank(searchString)){
+		if (errorsOnInput.isEmpty()) {
+			if (String.isNotBlank(searchString)) {
 				//SOSL
 				queryString =   ' FIND \''+  String.escapeSingleQuotes(searchString)  +'*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( ' + fieldsToRetrieve + whereClause + orderByClause + limitClause + ')';
 				List<List<SObject>> articlesQueried = search.query(queryString);
 				sObjList = ((List<Sobject>)articlesQueried[0]);
-			}else{
+			} else {
 				//SOQL
 				queryString = '  SELECT  ' + fieldsToRetrieve + ' FROM ' + knowledgeObject + whereClause + orderByClause + limitClause;
 				sObjList = Database.query(queryString);
@@ -249,7 +249,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 		result.put('pageNum',pageNum);
 		result.put('errorList',errorsOnInput);
 		Boolean showNext = true;
-		if(resultList.size() < PAGE_SIZE){
+		if (resultList.size() < PAGE_SIZE) {
 			showNext = false;
 		}
 		result.put('showNext',showNext);
@@ -269,7 +269,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 		//check if this article already has an AQI related
 		Set<Id> kavIds          = new Set<Id>();
 		Set<Decimal> versions   = new Set<Decimal>();
-		for(SObject sobj : kavList){
+		for (SObject sobj : kavList) {
 			kavIds.add(String.valueOf(sobj.get('KnowledgeArticleId')));
 			versions.add(Decimal.valueOf(String.valueOf(sobj.get('VersionNumber'))));
 		}
@@ -287,12 +287,12 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 		}
 
 		Map<String,Article_Quality__c> mapAqi = new Map<String, Article_Quality__c>();
-		for(Article_Quality__c aqi : aqis){
+		for (Article_Quality__c aqi : aqis) {
 			mapAqi.put(aqi.Knowledge_Article_Id__c + aqi.Language__c + aqi.Article_Version__c, aqi);
 		}
 
 		String tmpK;
-		for(SObject sObj : kavList){
+		for (SObject sObj : kavList) {
 			String jString = JSON.serialize(sObj);
 			Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(jString);
 			tmpK = String.valueOf(sobj.get('KnowledgeArticleId'))+lang+Decimal.valueOf(String.valueOf(sobj.get('VersionNumber')));
@@ -312,12 +312,12 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 	* @return
 	*	String
 	*/
-	private static String  escapeString(String str){
+	private static String  escapeString(String str) {
 		String result = null;
-		if (String.isNotBlank(str)){
+		if (String.isNotBlank(str)) {
 			result = String.escapeSingleQuotes(str.trim());
 		}
-		else{
+		else {
 			result ='';
 		}
 		return result;
@@ -331,10 +331,10 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 	* @return
 	*	Boolean
 	*/
-	public static boolean checkForSchemaFieldActive(String fieldName){
+	public static boolean checkForSchemaFieldActive(String fieldName) {
 		boolean boolFieldActive = false;
-		if(knowledgeObject != null){
-			if(Schema.getGlobalDescribe().get(knowledgeObject) != null) {
+		if (knowledgeObject != null) {
+			if (Schema.getGlobalDescribe().get(knowledgeObject) != null) {
 				Schema.DescribeSObjectResult sor = Schema.getGlobalDescribe().get(knowledgeObject).getDescribe();
 				Map<String,Schema.SObjectField> sofs = sor.fields.getMap();
 				Set<String> objectFields = sofs.keySet();
@@ -396,13 +396,13 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 	* @return
 	*	DateTime
 	*/
-	public static DateTime strToDateTime(String dStr, Boolean endOfDay){
+	public static DateTime strToDateTime(String dStr, Boolean endOfDay) {
 		datetime result = null;
-		if (String.isNotBlank(dStr)){
+		if (String.isNotBlank(dStr)) {
 			list<String> p = dStr.split('-');
 			result= datetime.newInstanceGMT(   Integer.valueOf(p[0]),
 			Integer.valueOf(p[1]),
-			Integer.valueOf(p[2]),0,0,0 );
+			Integer.valueOf(p[2]),0,0,0);
 			if (endOfDay)
 			result = result.addHours(23).addMinutes(59);
 		}

@@ -38,7 +38,7 @@ private class aqi_Ctrl_Test {
 		}
 		String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
 		String objType = kavNames.get(0);
-		aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+		aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
 		kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
 		kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
 		kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));

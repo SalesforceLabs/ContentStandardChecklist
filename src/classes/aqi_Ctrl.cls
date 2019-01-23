@@ -37,7 +37,7 @@ public with sharing class aqi_Ctrl {
 	public static Map<Id,String> recordTypesMap {
 		get {
 			if (recordTypesMap == null) {
-				recordTypesMap = aqi_SecurityHandler.getAllowedRecordTypesMap();
+				recordTypesMap = aqi_SecurityHandlerLng.getAllowedRecordTypesMap();
 				if (recordTypesMap == null) {
 					recordTypesMap = new Map<Id,String>();
 				}
@@ -74,7 +74,7 @@ public with sharing class aqi_Ctrl {
 		langMap = aqi_KnowledgeSearchCtrl.getActivePicklistOptions('User', 'LanguageLocaleKey');
 		Article_Quality__c aqi = (Article_Quality__c)controller.getRecord();
 		try {
-			aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
+			aqi_SecurityHandlerLng.canAccess(Article_Quality__c.sObjectType);
 			if (aqi.Id != null) {
 				aqi = [	SELECT Article_Version__c, Language__c , Knowledge_Article_Id__c
 				FROM Article_Quality__c
@@ -204,7 +204,7 @@ public with sharing class aqi_Ctrl {
 	*/
 	public static Article_Quality__c findDupe(Id kaId, String kaLang, String kaVersion) {
 		try {
-			aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
+			aqi_SecurityHandlerLng.canAccess(Article_Quality__c.sObjectType);
 			List<Article_Quality__c > kavList = [SELECT Action_Assigned_To__c,Action_Date__c,Action_Needed__c,
 			Action_Taken__c,AQ_Score__c,Article_Link__c,Article_Number__c,
 			Article_Title__c,Article_Created_By__c ,Article_Created_Date__c,
@@ -248,7 +248,7 @@ public with sharing class aqi_Ctrl {
 	*	Article_Quality__c aqi record
 	*/
 	public static Map<String,Article_Quality__c> findDuplicates(Set<Id> kaIds, Set<String> kaLangs, Set<Decimal> kaVersions) {
-		aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
+		aqi_SecurityHandlerLng.canAccess(Article_Quality__c.sObjectType);
 		List<Article_Quality__c> kavList = new List<Article_Quality__c>();
 		Map<String,Article_Quality__c> result = new Map<String,Article_Quality__c>();
 		
@@ -293,7 +293,7 @@ public with sharing class aqi_Ctrl {
 	*/
 	private boolean loadKAVDetails() {
 		//validate access on Kav Type
-		Boolean canReadKav = aqi_securityHandler.getKAVPermissions();
+		Boolean canReadKav = aqi_securityHandlerLng.getKAVPermissions();
 		Boolean result = false;
 		if (!String.isNotBlank(kaId)) {
 			ApexPages.addMessage(new ApexPages.Message(
@@ -304,7 +304,7 @@ public with sharing class aqi_Ctrl {
 		}
 		
 		langMap = aqi_KnowledgeSearchCtrl.getActivePicklistOptions('User', 'LanguageLocaleKey');
-		Map<Id,String> typesMap = aqi_securityHandler.getAllowedRecordTypesMap();
+		Map<Id,String> typesMap = aqi_securityHandlerLng.getAllowedRecordTypesMap();
 		recordLooKup(kaId,kaLang,kaVersion);
 		List<KnowledgeArticleVersion> lKAV =  getArticleByPublishedStatus(ARTICLE_STATUS, kaId , kaLang);
 		if (!lKAV.isEmpty()) {
@@ -313,8 +313,8 @@ public with sharing class aqi_Ctrl {
 				article = lKAV.get(0);
 				result = true;
 				if (record.Id == null) {
-					record = (aqi_SecurityHandler.isAccessible(Article_Quality__c.sObjectType)) ? loadKavDetails( article ,  record) : null;
-					result = (aqi_SecurityHandler.isAccessible(Article_Quality__c.sObjectType)) ? true : false;
+					record = (aqi_SecurityHandlerLng.isAccessible(Article_Quality__c.sObjectType)) ? loadKavDetails( article ,  record) : null;
+					result = (aqi_SecurityHandlerLng.isAccessible(Article_Quality__c.sObjectType)) ? true : false;
 				} else {
 					isCurrentVersion = article.VersionNumber == record.Article_Version__c;
 					if (!isCurrentVersion) {
@@ -381,7 +381,7 @@ public with sharing class aqi_Ctrl {
 		' and KnowledgeArticleId =\''+articleId+'\' '+
 		' and Language =  \''+articleLanguage+'\'';
 		try {
-			aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+			aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
 			return Database.query(query);
 		} catch(Exception e) {
 			ApexPages.addMessage(new ApexPages.Message(
@@ -403,7 +403,7 @@ public with sharing class aqi_Ctrl {
 	*/
 	private void recordLooKup(Id kaId, String kaLang, String kaVersion) {
 		try {
-			aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
+			aqi_SecurityHandlerLng.canAccess(Article_Quality__c.sObjectType);
 			Article_Quality__c tmp = findDupe(kaId, kaLang, kaVersion);
 			if (tmp != null)
 			record = tmp;
@@ -452,12 +452,12 @@ public with sharing class aqi_Ctrl {
 		}
 		try {
 			if (String.isNotBlank(record.Id)) {
-				aqi_SecurityHandler.canUpdate(Article_Quality__c.sObjectType);
+				aqi_SecurityHandlerLng.canUpdate(Article_Quality__c.sObjectType);
 			} else {
-				aqi_SecurityHandler.canCreate(Article_Quality__c.sObjectType);
+				aqi_SecurityHandlerLng.canCreate(Article_Quality__c.sObjectType);
 			}
 			
-			if (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType) && aqi_SecurityHandler.isUpdateable(Article_Quality__c.sObjectType)) {
+			if (aqi_SecurityHandlerLng.isCreateable(Article_Quality__c.sObjectType) && aqi_SecurityHandlerLng.isUpdateable(Article_Quality__c.sObjectType)) {
 				UPSERT record;
 				saved = true;
 			}
@@ -531,10 +531,10 @@ public with sharing class aqi_Ctrl {
 			filter = 'Id';
 		}
 		showNoRecordTypeMessage = !aqi_KnowledgeSearchCtrl.isRecordTypeIdActive;
-		aqi_SecurityHandler.canAccess(token);
+		aqi_SecurityHandlerLng.canAccess(token);
 		Boolean isAccessible = dr.isAccessible();
 		
-		if (isAccessible && (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType) && aqi_SecurityHandler.isUpdateable(Article_Quality__c.sObjectType))) {
+		if (isAccessible && (aqi_SecurityHandlerLng.isCreateable(Article_Quality__c.sObjectType) && aqi_SecurityHandlerLng.isUpdateable(Article_Quality__c.sObjectType))) {
 			queryString = 'SELECT '+ filter +' FROM ' + dr.getName() + '	WHERE ' + ' Id =: thisIs' ;
 			sObject obj = Database.query(queryString);
 			String recordType = aqi_KnowledgeSearchCtrl.isRecordTypeIdActive ? String.valueOf(obj.get('RecordTypeId')) : '';

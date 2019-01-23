@@ -11,9 +11,9 @@ public class aqi_SettingsHandler {
 	public static Integer DEFAULT_VALUE 		=  1;
 	public static Integer DEFAULT_POSSIBLE_POINTS =  7;
 	public static Boolean DEFAULT_ENABLE_TRIGGER = true;
-
+	
 	// Methods
-
+	
 	/*
 	* @description
 	*   Retrieve the default language
@@ -32,7 +32,7 @@ public class aqi_SettingsHandler {
 		}
 		return result;
 	}
-
+	
 	/*
 	* @description
 	*   Return a new custom setting with all fields cleaned
@@ -42,10 +42,10 @@ public class aqi_SettingsHandler {
 	*   Return a new cleaned instance of ArticleQuality_index__c
 	*/
 	public static ArticleQuality_index__c cleanCS() {
-
-		ArticleQuality_index__c  aq = (aqi_SecurityHandler.isAccessible(ArticleQuality_index__c.sObjectType)) ? ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME) : null;
-
-		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType) && aqi_SecurityHandler.isUpdateable(ArticleQuality_index__c.sObjectType)) {
+		
+		ArticleQuality_index__c  aq = (aqi_SecurityHandlerLng.isAccessible(ArticleQuality_index__c.sObjectType)) ? ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME) : null;
+		
+		if (aqi_SecurityHandlerLng.isCreateable(ArticleQuality_index__c.sObjectType) && aqi_SecurityHandlerLng.isUpdateable(ArticleQuality_index__c.sObjectType)) {
 			if (aq == null) {
 				aq = new ArticleQuality_index__c();
 				aq.Name = CUSTOM_SETTING_NAME;
@@ -64,7 +64,7 @@ public class aqi_SettingsHandler {
 		}
 		return aq;
 	}
-
+	
 	/*
 	* @description
 	*   Check for the custom setting, if its not exist a new instance with default values is created.
@@ -75,14 +75,14 @@ public class aqi_SettingsHandler {
 	*/
 	public static ArticleQuality_index__c checkForAppConfiguration() {
 		ArticleQuality_index__c  aq;
-
-		if (aqi_SecurityHandler.isAccessible(ArticleQuality_index__c.sObjectType)) {
+		
+		if (aqi_SecurityHandlerLng.isAccessible(ArticleQuality_index__c.sObjectType)) {
 			aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
 		}
 		else {
 			aq = null;
 		}
-		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType)) {
+		if (aqi_SecurityHandlerLng.isCreateable(ArticleQuality_index__c.sObjectType)) {
 			if (aq == null) {
 				aq = new ArticleQuality_index__c();
 				aq.Name = CUSTOM_SETTING_NAME;

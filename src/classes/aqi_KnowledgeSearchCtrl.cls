@@ -10,7 +10,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 	public static final Integer PAGE_SIZE 	= 10;
 	public static String sortBy 	= 'Title';
 	public static Boolean sortAsc 	= false;
-	public static String knowledgeObject = aqi_securityHandler.knowledgeObject;
+	public static String knowledgeObject = aqi_securityHandlerLng.knowledgeObject;
 	public static Boolean isValidationStActive = checkForSchemaFieldActive('validationstatus');
 	public static Boolean isRecordTypeIdActive = checkForSchemaFieldActive('recordtypeid');
 
@@ -59,7 +59,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 	public Map<Id,String> availableRecordTypes {
 		get{
 			if (availableRecordTypes == null) {
-				availableRecordTypes = aqi_SecurityHandler.getAllowedRecordTypesMap();
+				availableRecordTypes = aqi_SecurityHandlerLng.getAllowedRecordTypesMap();
 			}
 			return availableRecordTypes;
 		}
@@ -276,7 +276,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 
 		List<Article_Quality__c> aqis = new List<Article_Quality__c>();
 
-		if (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType)) {
+		if (aqi_SecurityHandlerLng.isCreateable(Article_Quality__c.sObjectType)) {
 			aqis = [
 				SELECT Id, Knowledge_Article_Id__c, Language__c, Article_Version__c
 				FROM Article_Quality__c

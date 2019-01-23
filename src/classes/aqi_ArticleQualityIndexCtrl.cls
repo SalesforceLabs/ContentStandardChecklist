@@ -7,7 +7,7 @@
 public with sharing class aqi_ArticleQualityIndexCtrl {
     //************************************************************************
     
-    public static String knowledgeObject = aqi_securityHandler.knowledgeObject;
+    public static String knowledgeObject = aqi_securityHandlerLng.knowledgeObject;
     
     // Constructor
     public aqi_ArticleQualityIndexCtrl() {
@@ -67,7 +67,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 
                 qStr += ' FROM Article_Quality__c WHERE Knowledge_Article_Version_Id__c =\''+recordId+'\'';
                 
-                aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
+                aqi_SecurityHandlerLng.canAccess(Article_Quality__c.sObjectType);
                 List<Article_Quality__c > l = Database.query(   qStr);
                 
                 if (l.isEmpty()) {
@@ -124,12 +124,12 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         try {
             Article_Quality__c record = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
             // Check crud permissions
-            if (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType) &&
-            aqi_SecurityHandler.isUpdateable(Article_Quality__c.sObjectType)) {
+            if (aqi_SecurityHandlerLng.isCreateable(Article_Quality__c.sObjectType) &&
+            aqi_SecurityHandlerLng.isUpdateable(Article_Quality__c.sObjectType)) {
                 upsert record;
             }
             //load Score field
-            aqi_SecurityHandler.canAccess(Article_Quality__c.sObjectType);
+            aqi_SecurityHandlerLng.canAccess(Article_Quality__c.sObjectType);
             record = Database.query(   ' SELECT Name, Action_Assigned_To__c , Action_Needed__c, AQ_Score__c, '+
             '           Action_Date__c, Action_Taken__c, Internal_Notes__c, Agent__c , '+
             qStringApiNames +
@@ -171,7 +171,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             FROM KnowledgeArticleVersion
             WHERE
             Id =:kavId];
-            if (aqi_SecurityHandler.isCreateable(Article_Quality__c.sObjectType)) {
+            if (aqi_SecurityHandlerLng.isCreateable(Article_Quality__c.sObjectType)) {
                 result = new Article_Quality__c();
                 result = aqi_Ctrl.loadKavDetails( article ,  result);
             }
@@ -261,7 +261,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                     '	FROM KnowledgeArticleVersion ' +
                     '	WHERE PublishStatus = \'Archived\' ' +
                     ' and Id = \'' + kavId + '\' ';
-                    aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+                    aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
                     List<KnowledgeArticleVersion> actualKavs =  Database.query(query);
                     if (!actualKavs.isEmpty()) {
                         isArchived = true;

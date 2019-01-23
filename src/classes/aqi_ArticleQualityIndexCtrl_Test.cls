@@ -34,9 +34,9 @@ private class aqi_ArticleQualityIndexCtrl_Test {
             }
         }
         String objType = kavNames.get(0);
-        aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+        aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
         kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
-        aqi_SecurityHandler.canAccess(Schema.getGlobalDescribe().get(objType));
+        aqi_SecurityHandlerLng.canAccess(Schema.getGlobalDescribe().get(objType));
         kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');

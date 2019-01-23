@@ -61,9 +61,9 @@ public with sharing class aqi_SetupCtrl {
     */
     public pageReference save() {
         try {
-            aqi_SecurityHandler.canCreate(ArticleQuality_index__c.sObjectType);
+            aqi_SecurityHandlerLng.canCreate(ArticleQuality_index__c.sObjectType);
 
-    		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType) && aqi_SecurityHandler.isUpdateable(ArticleQuality_index__c.sObjectType)) {
+    		if (aqi_SecurityHandlerLng.isCreateable(ArticleQuality_index__c.sObjectType) && aqi_SecurityHandlerLng.isUpdateable(ArticleQuality_index__c.sObjectType)) {
                 upsert aqs;
             }
             editMode = false;

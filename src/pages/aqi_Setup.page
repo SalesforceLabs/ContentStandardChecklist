@@ -25,8 +25,7 @@
                 <apex:outputText value="Migration Tool Section" />
                 <apex:outputText value="" />
                 <apex:inputField value="{!aqs.Trigger_Enabled__c}">
-                    <apex:outputPanel
-                          rendered="true">
+                    <apex:outputPanel rendered="true">
                           <img src="/s.gif" Class="infoIcon"
                           title="Check to enable the trigger that calculates the aqi score (only needs to be disabled when the AQI migration tool will be used)" />
                     </apex:outputPanel>
@@ -53,8 +52,7 @@
                 <apex:outputText value="Migration Tool Section" />
                 <apex:outputText value="" />
                 <apex:outputField value="{!aqs.Trigger_Enabled__c}">
-                    <apex:outputPanel
-                          rendered="true">
+                    <apex:outputPanel rendered="true">
                           <img src="/s.gif" Class="infoIcon"
                           title="Check to enable the trigger that calculates the aqi score (only needs to be disabled when the AQI migration tool will be used)" />
                     </apex:outputPanel>

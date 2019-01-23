@@ -6,7 +6,6 @@
 **/
 @isTest
 private class aqi_Score_Test {
-
     static SObject kavObj;
     @testSetup static void setup() {
         ArticleQuality_index__c aqs = new ArticleQuality_index__c();
@@ -23,7 +22,7 @@ private class aqi_Score_Test {
         aqs.Trigger_Enabled__c = true;
         insert aqs;
     }
-
+    
     //aux method that insert kav data
     private static void insertKavObject() {
         Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
@@ -35,26 +34,26 @@ private class aqi_Score_Test {
             }
         }
         String objType = kavNames.get(0);
-        aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+        aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
         kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
-        aqi_SecurityHandler.canAccess(Schema.getGlobalDescribe().get(objType));
+        aqi_SecurityHandlerLng.canAccess(Schema.getGlobalDescribe().get(objType));
         kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');
         kavObj.put('Language', default_language);
         insert kavObj;
     }
-
+    
     //***** Test Methods *****//
-
+    
     /*
     Description: Check for the aqi score trigger when the custom setting had the
     */
     @isTest static void test_aqi_Score() {
-
-
+        
+        
         ArticleQuality_index__c aqind =  [Select Id , Trigger_Enabled__c from ArticleQuality_index__c ORDER BY CreatedDate DESC];
-
+        
         // creates Custom Article
         string publishStatus = 'draft';
         insertKavObject();
@@ -64,9 +63,9 @@ private class aqi_Score_Test {
         '   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
         kavObj = (KnowledgeArticleVersion)Database.query(q);
         KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
-
+        
         ///////////////////////////////////////////////////////////////////////////
-
+        
         //call with valid api name, and record Id
         aqi_LightningResponse resp = aqi_ArticleQualityIndexCtrl.getInitData(article.Id,'Article_Unique__c');
         String strR = resp.jsonResponse;
@@ -81,7 +80,7 @@ private class aqi_Score_Test {
         recordStr = Json.serialize(m.get('aqi_record'));
         Article_Quality__c recordUpserted = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
         Article_Quality__c  aqr = [ select Id , Article_Unique__c,AQ_Score__c from Article_Quality__c where Id =:recordUpserted.Id];
-
+        
         String valueTriggerEnabledCheckbox = String.valueOf(recordUpserted.AQ_Score__c);
         /////////////////////////////////////////////////////////////////////////////////////////////
         System.Test.startTest();
@@ -102,10 +101,10 @@ private class aqi_Score_Test {
         recordStr = Json.serialize(m.get('aqi_record'));
         Article_Quality__c recordUpserted2 = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
         aqr = [ select Id , Article_Unique__c,AQ_Score__c from Article_Quality__c where Id =:recordUpserted2.Id];
-
+        
         String valueTriggerDisableNoCheckbox = String.valueOf(recordUpserted2.AQ_Score__c);
         ////////////////////////////////////////////////////////////////////////////////////////////////
-
+        
         //DISABLE TRIGGER AND REMOVE AQI CHECKBOX SELECTED
         aqind.Trigger_Enabled__c = true;
         upsert aqind;
@@ -123,12 +122,12 @@ private class aqi_Score_Test {
         recordStr = Json.serialize(m.get('aqi_record'));
         Article_Quality__c recordUpserted3 = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
         aqr = [ select Id , Article_Unique__c,AQ_Score__c from Article_Quality__c where Id =:recordUpserted2.Id];
-
+        
         String valueTriggerEnabledNoCheckbox = String.valueOf(recordUpserted3.AQ_Score__c);
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        
         System.Test.stopTest();
-
+        
         system.assertEquals(true,String.valueOf(valueTriggerEnabledCheckbox).contains('14.28571428571428'));
         system.assertEquals(true,String.valueOf(valueTriggerDisableNoCheckbox).contains('14.28571428571428'));
         system.assertEquals(true,String.valueOf(valueTriggerEnabledNoCheckbox).contains('0'));

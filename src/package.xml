@@ -11,8 +11,8 @@
         <members>aqi_LightningResponse</members>
         <members>aqi_LightningResponse_Test</members>
         <members>aqi_Score_Test</members>
-        <members>aqi_SecurityHandler</members>
-        <members>aqi_SecurityHandler_Test</members>
+        <members>aqi_SecurityHandlerLng</members>
+        <members>aqi_SecurityHandlerLng_Test</members>
         <members>aqi_SettingsHandler</members>
         <members>aqi_SettingsHandler_Test</members>
         <members>aqi_SetupCtrl</members>

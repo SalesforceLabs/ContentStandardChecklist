@@ -45,11 +45,11 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>aqi_SecurityHandler</apexClass>
+        <apexClass>aqi_SecurityHandlerLng</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>aqi_SecurityHandler_Test</apexClass>
+        <apexClass>aqi_SecurityHandlerLng_Test</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>

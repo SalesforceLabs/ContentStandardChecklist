@@ -18,6 +18,24 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     // Methods
     /*
     * @description
+    *   Checks for the user permissions level
+    * @params
+    *   None
+    * @return
+    *   None
+    */
+    private static void checkPermissionSet() {
+        aqi_SecurityHandlerLng.canAccess(Article_Quality__c.SObjectType);
+        aqi_SecurityHandlerLng.canCreate(Article_Quality__c.SObjectType);
+        aqi_SecurityHandlerLng.canUpdate(Article_Quality__c.SObjectType);
+        
+        aqi_SecurityHandlerLng.canAccess(ArticleQuality_index__c.SObjectType);
+        aqi_SecurityHandlerLng.canCreate(ArticleQuality_index__c.SObjectType);
+        aqi_SecurityHandlerLng.canUpdate(ArticleQuality_index__c.SObjectType);
+    }
+    
+    /*
+    * @description
     *   Retrieves initial details to load input fields on AQI component
     * @params
     *   Id recordId Id of the Knowkedledge version record home page
@@ -29,22 +47,26 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     @AuraEnabled
     public static aqi_LightningResponse getInitData(String recordId, String apiNames) {
         aqi_LightningResponse response = new aqi_LightningResponse();
-        Map<String,Double>  indexValues 			= aqi_Ctrl.getindexApiNameToValue();
-        Map<String,String>  listApiNamesToLabels 	= aqi_Ctrl.getAqiObjectApiNameToLabel();
-        if (!listApiNamesToLabels.containsKey('Action_Assigned_To__c')) {
-            response.state = 'ERROR';
-            response.error = 'Some of the follow up section fields label were not retrieved';
-        } else if (!String.isNotBlank(apiNames)) {
-            response.state = 'ERROR';
-            response.error = 'List of API names can not be empty';
-        } else if (!String.isNotBlank(recordId)) {
-            response.state = 'ERROR';
-            response.error = 'Article Id  can not be empty';
-        } else {
-            try {
+        Map<String,  Object> result = new Map<String,  Object>();
+        try {
+            //Check CRU permissions
+            checkPermissionSet();
+            
+            Map<String,Double>  indexValues 			= aqi_Ctrl.getindexApiNameToValue();
+            Map<String,String>  listApiNamesToLabels 	= aqi_Ctrl.getAqiObjectApiNameToLabel();
+            if (!listApiNamesToLabels.containsKey('Action_Assigned_To__c')) {
+                response.state = 'ERROR';
+                response.error = 'Some of the follow up section fields label were not retrieved';
+            } else if (!String.isNotBlank(apiNames)) {
+                response.state = 'ERROR';
+                response.error = 'List of API names can not be empty';
+            } else if (!String.isNotBlank(recordId)) {
+                response.state = 'ERROR';
+                response.error = 'Article Id  can not be empty';
+            } else {
+                
                 Article_Quality__c aqi_result;
                 List<indexArticleQualityIndex> indexList = new List<indexArticleQualityIndex>();
-                Map<String,  Object> result = new Map<String,  Object>();
                 ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();
                 Set<String> apiNamesWhiteLilst = indexValues.keySet();
                 Set<String> apiList  = new Set<String>();
@@ -84,7 +106,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                     tmp = str.toLowerCase();
                     if (allFields.containsKey(tmp)) {
                         Schema.DescribeFieldResult dfr = allFields.get(tmp).getDescribe();
-                        if (dfr.isCustom() && dfr.getType() ==Schema.DisplayType.BOOLEAN) {
+                        if (dfr.isCustom() && dfr.getType() == Schema.DisplayType.BOOLEAN) {
                             indexList.add(new indexArticleQualityIndex(dfr.getLabel(),dfr.getName(),true));
                         }
                     }
@@ -95,10 +117,15 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 result.put('prefixOrg',aqi_Ctrl.getPackagePrefix());
                 
                 response.jsonResponse = JSON.serialize(result);
-            } catch(Exception e) {
-                response = new aqi_LightningResponse(e);
             }
+        } catch(aqi_SecurityHandlerLng.SecurityException e) {
+            response = new aqi_LightningResponse();
+            result.put('SecurityException', true);
+            response.jsonResponse = JSON.serialize(result);
+        } catch(Exception e) {
+            response = new aqi_LightningResponse(e);
         }
+        
         
         return response;
     }

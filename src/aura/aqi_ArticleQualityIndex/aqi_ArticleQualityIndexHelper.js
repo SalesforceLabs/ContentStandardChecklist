@@ -21,6 +21,11 @@
 	doInitCallback : function(component, responseMap, ctx) {
 		var that = ctx;
 		if (!$A.util.isUndefinedOrNull(responseMap)) {
+			if(!$A.util.isEmpty(responseMap.SecurityException) && responseMap.SecurityException) {
+				component.set('v.hasNoAccess', true);
+				return;
+			}
+			
 			if (!component.isValid()) return;
 			var inputComponents = [];
 			var fieldLabel;
@@ -77,7 +82,7 @@
 						record: asignedToVar.Id,
 						placeHolder: 'Search Users'
 					}];
-					component.find("Action_Assigned_To__c").get("v.body")[0].set("v.values", valuesOwner);
+					component.find("Action_Assigned_To__c").set("v.value", valuesOwner);
 				}
 			}
 			var agentAssigned = aqi_record[component.get('v.prefixOrg') + 'Agent__r'];
@@ -98,7 +103,7 @@
 				record: agentAssigned.Id,
 				placeHolder: 'Search Users'
 			}];
-			component.find("Agent__c").get("v.body")[0].set("v.values", agentValuesOwner);
+			component.find("Agent__c").set("v.value", agentValuesOwner);
 		}
 	},
 	

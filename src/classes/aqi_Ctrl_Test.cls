@@ -7,8 +7,8 @@
 @isTest
 private class aqi_Ctrl_Test {
 	static SObject kavObj;
-
-	static void populateCustomSetting(){
+	
+	static void populateCustomSetting() {
 		//creates a Custom Setting at the organization level
 		ArticleQuality_index__c setting= new ArticleQuality_index__c();
 		setting.Name = 'default';
@@ -24,12 +24,12 @@ private class aqi_Ctrl_Test {
 		setting.Trigger_Enabled__c = true;
 		insert setting;
 	}
-
-	static void populateData(){
+	
+	static void populateData() {
 		// creates Custom Article type
 		string publishStatus = 'draft';
 		Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
-
+		
 		List<String> kavNames = new List<String>();
 		for (String s : gd.keySet()) {
 			if (s.contains('__kav')) {
@@ -38,7 +38,7 @@ private class aqi_Ctrl_Test {
 		}
 		String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
 		String objType = kavNames.get(0);
-		aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+		aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
 		kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
 		kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
 		kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
@@ -51,8 +51,8 @@ private class aqi_Ctrl_Test {
 		'   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
 		kavObj = (KnowledgeArticleVersion)Database.query(q);
 	}
-
-	static Article_Quality__c populateFields (KnowledgeArticleVersion article){
+	
+	static Article_Quality__c populateFields (KnowledgeArticleVersion article) {
 		Article_Quality__c result = new Article_Quality__c();
 		result.Knowledge_Article_Version_Id__c = article.Id;
 		result.Article_Title__c = article.Title;
@@ -71,17 +71,17 @@ private class aqi_Ctrl_Test {
 		result.Agent__c = UserInfo.getUserId();
 		return result;
 	}
-
+	
 	//***** Test Methods *****//
-
+	
 	/*Description: Check for the get of recordTypesMap*/
-	@isTest static void test_recordTypesMap(){
+	@isTest static void test_recordTypesMap() {
 		System.Test.startTest();
 		Map<Id,String> obtainedRecordTypesMap = aqi_Ctrl.recordTypesMap;
 		System.Test.stopTest();
 		system.assertEquals(true,obtainedRecordTypesMap.keySet().size() >= 1 ,'There should be at least 1 key on the Record Types Map obtained of aqi_Ctrl');
 	}
-
+	
 	/*
 	Description: Check for the defined indexes
 	*/
@@ -92,7 +92,7 @@ private class aqi_Ctrl_Test {
 		System.Test.stopTest();
 		system.assertEquals(8,result.size(),'There should be 8 indexes defined');
 	}
-
+	
 	/*
 	Description: Check for some flows before and after insert an aqi
 	*/
@@ -126,30 +126,30 @@ private class aqi_Ctrl_Test {
 		System.assert(!result.isSuccess());
 		System.assert(result.getErrors().size() > 0);
 	}
-
+	
 	@isTest static void test_findDuplicates() {
 		System.Test.startTest();
 		User user1 = [SELECT Id FROM User LIMIT 1];
-
+		
 		Article_Quality__c aq = new Article_Quality__c(
-			Article_Version__c = 1,
-			Language__c = 'esp',
-			Agent__c = user1.Id
+		Article_Version__c = 1,
+		Language__c = 'esp',
+		Agent__c = user1.Id
 		);
-
+		
 		INSERT aq;
-
+		
 		Set<String> langs = new Set<String>{'esp'};
 		Set<Decimal> versions = new Set<Decimal>{1};
-
+		
 		Map<String,Article_Quality__c> duplicates1 = aqi_Ctrl.findDuplicates(null, null, null);
 		Map<String,Article_Quality__c> duplicates2 = aqi_Ctrl.findDuplicates(null, langs, versions);
 		System.Test.stopTest();
-
+		
 		System.assertEquals(0, duplicates1.size(), 'Map should not have a value.');
 		System.assertEquals(1, duplicates2.size(), 'Map should have at least a value.');
 	}
-
+	
 	/*
 	Description: Check for the existence of kav object - create aqi and check for parameters.
 	*/

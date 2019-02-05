@@ -88,7 +88,7 @@
             var SORT_ASC ='&nbsp;&nbsp;&uarr;';
             var SORT_DESC = '&nbsp;&nbsp;&darr;';
 
-            function formatDate(mili){
+            function formatDate(mili) {
                 var tmpOffset =parseFloat('{!JSENCODE(tzOffset)}');
                 var intOffset = (tmpOffset)*60;
                 var d_offset = moment(mili).utcOffset(intOffset);
@@ -124,7 +124,7 @@
             }
 
             function getRemoteArticles(refresh) {
-                if (refresh){
+                if (refresh) {
                     pageNum = 0;
                 }
                 var searchString 	= $('#searchByString').val();
@@ -143,12 +143,12 @@
                     $('#searchByArticleNumber').val(articleNumber);
                 }
                 if (articlePublishDateFrom!='' && articlePublishDateTo!='' &&
-                    articlePublishDateFrom > articlePublishDateTo ){
+                    articlePublishDateFrom > articlePublishDateTo) {
                     alert('Date Range in First Published Range is invalid ');
                     return;
                 }
                 if ( articleLastModifiedDateFrom!='' && articleLastModifiedDateTo!='' &&
-                    articleLastModifiedDateFrom > articleLastModifiedDateTo){
+                    articleLastModifiedDateFrom > articleLastModifiedDateTo) {
                     alert('Date Range in Last Modified  Range is invalid ');
                     return;
                 }
@@ -161,7 +161,7 @@
                     articleLastModifiedDateFrom,articleLastModifiedDateTo,
                     pageNum,sortBy,sortAsc,
                     handleResult
-                );
+               );
             }
 
             function handleResult(result, event) {
@@ -170,7 +170,7 @@
                 $("tbody#articleList").empty('');
                 if (event.status) {
                     //debugger;
-                    $(result.items).each(function (i,e){
+                    $(result.items).each(function (i,e) {
                         var htmlOutput = tplTableRow.render(e,{
                             truncName: function(name) {
                                 return truncName(name);
@@ -183,7 +183,7 @@
                             }
                         });
                         $("tbody#articleList").append(htmlOutput);
-                        if (e.isValidationStatusActive){
+                        if (e.isValidationStatusActive) {
                             var innerHtml = tplIsStatusValidated.render(e);
                             $("tbody#articleList").append(htmlOutput);
                         }
@@ -197,7 +197,7 @@
                 }
             }
 
-            function gotoPage(pageStr){
+            function gotoPage(pageStr) {
                 var actualPage = pageNum;
                 if (reachedEndOfList && pageStr =='+1') return;
                 if ( isNaN(pageNum))
@@ -221,19 +221,19 @@
                     getRemoteArticles(false);
             }
 
-            function handlePagination(rSize, showNext){
+            function handlePagination(rSize, showNext) {
                 $('#paginationBtns button').attr('disabled',true);
                 reachedEndOfList = false;
-                if (rSize === 0 && pageNum === 0 ){
+                if (rSize === 0 && pageNum === 0) {
                     $('#noResultsMsg').show();
-                }else{
+                } else {
                     $('#noResultsMsg').hide();
                 }
                 //btnStart btnPrev btnNext
-                if (pageNum === 0){
+                if (pageNum === 0) {
                     $('#btnNext').attr('disabled',false);
-                }else{
-                    if (pageNum > 0){
+                } else {
+                    if (pageNum > 0) {
                         $('#btnStart').attr('disabled',false);
                         $('#btnPrev').attr('disabled',false);
                     }
@@ -256,15 +256,15 @@
                 window.navigateToUrl(encodeURI(newUrl));
             }
 
-            function switchSortAndSearch(obj){
+            function switchSortAndSearch(obj) {
                 //remove all sort indicators
                 $('.sortableRow  span').html('');
                 sortBy = $(obj).find('span').attr('id');
                 sortAsc = !sortAsc;
-                if (sortAsc){
+                if (sortAsc) {
                     $(obj).find('span').html(SORT_ASC);
                 }
-                else{
+                else {
                     $(obj).find('span').html(SORT_DESC);
                 }
                 getRemoteArticles(true);

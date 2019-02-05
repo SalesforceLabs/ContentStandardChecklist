@@ -24,7 +24,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     }
 
     //aux method that insert kav data
-    private static void insertKavObject(){
+    private static void insertKavObject() {
         Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
         String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
         List<String> kavNames = new List<String>();
@@ -34,9 +34,9 @@ private class aqi_ArticleQualityIndexCtrl_Test {
             }
         }
         String objType = kavNames.get(0);
-        aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+        aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
         kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
-        aqi_SecurityHandler.canAccess(Schema.getGlobalDescribe().get(objType));
+        aqi_SecurityHandlerLng.canAccess(Schema.getGlobalDescribe().get(objType));
         kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
         kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');
@@ -49,7 +49,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     /*
     Description: Check for the fields returned by method that return some compact layout data
     */
-    @isTest static void test_Get_CompactLayoutData(){
+    @isTest static void test_Get_CompactLayoutData() {
         System.Test.startTest();
         insertKavObject();
         Map<String,Object> result = aqi_ArticleQualityIndexCtrl.getCompactLayoutData(((Id)kavObj.get('Id')),new Map<String,Object>());

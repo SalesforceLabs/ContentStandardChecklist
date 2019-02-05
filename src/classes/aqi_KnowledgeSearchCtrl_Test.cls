@@ -8,7 +8,7 @@
 private class aqi_KnowledgeSearchCtrl_Test {
     static SObject kavObj;
 
-    static void populateCustomSetting(){
+    static void populateCustomSetting() {
         //creates a Custom Setting at the organization level
         ArticleQuality_index__c setting= new ArticleQuality_index__c();
         setting.Name = 'default';
@@ -24,7 +24,7 @@ private class aqi_KnowledgeSearchCtrl_Test {
         insert setting;
     }
 
-    static void populateData(){
+    static void populateData() {
         // creates Custom Article type
         string publishStatus = 'Draft';
         Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
@@ -36,7 +36,7 @@ private class aqi_KnowledgeSearchCtrl_Test {
         }
         String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
         String objType = kavNames.get(0);
-        aqi_SecurityHandler.canAccess(KnowledgeArticleVersion.sObjectType);
+        aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
         kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
         kavObj.put('Title','test');
         kavObj.put('UrlName', 'foo-foo-foo-test'+String.valueOf(Crypto.getRandomInteger()));
@@ -49,7 +49,7 @@ private class aqi_KnowledgeSearchCtrl_Test {
         kavObj = (KnowledgeArticleVersion)Database.query(q);
     }
 
-    static Article_Quality__c populateFields (KnowledgeArticleVersion article){
+    static Article_Quality__c populateFields (KnowledgeArticleVersion article) {
         Article_Quality__c result = new Article_Quality__c();
         result.Knowledge_Article_Version_Id__c = article.Id;
         result.Article_Title__c = article.Title;
@@ -89,16 +89,15 @@ private class aqi_KnowledgeSearchCtrl_Test {
         Id[] fixedSearchResults= new Id[1];
         fixedSearchResults[0] = article.Id;
         Test.setFixedSearchResults(fixedSearchResults);
-        String knowledgeObject = aqi_securityHandler.knowledgeObject;
+        String knowledgeObject = aqi_SecurityHandlerLng.knowledgeObject;
         SObjectType objToken = Schema.getGlobalDescribe().get(knowledgeObject);
-        aqi_SecurityHandler.canAccess(objToken);
+        aqi_SecurityHandlerLng.canAccess(objToken);
         Schema.DescribeSObjectResult dr = objToken.getDescribe();
         String queryStringSosl = '';
-        if(aqi_KnowledgeSearchCtrl.isRecordTypeIdActive){
-            queryStringSosl =  ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
-        }
-        else{
-            queryStringSosl =  ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0 )';
+        if (aqi_KnowledgeSearchCtrl.isRecordTypeIdActive) {
+            queryStringSosl =  ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, RecordTypeId, RecordType.Name , LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0)';
+        } else {
+            queryStringSosl =  ' FIND \'test*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,   Title, CreatedDate, FirstPublishedDate, LastPublishedDate, LastModifiedDate, Summary  WHERE   PublishStatus = \'Draft\'  AND  language = \'en_US\'    ORDER BY Title DESC  LIMIT 2 OFFSET 0)';
         }
         List<List<SObject>> knowledgeKavSosl = search.query(queryStringSosl);
         Map<Id,String> availableRecordTypes = ctr.availableRecordTypes;

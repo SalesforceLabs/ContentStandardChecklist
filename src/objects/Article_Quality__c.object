@@ -472,14 +472,14 @@
         <fullName>Agent_field_is_required</fullName>
         <active>true</active>
         <description>Agent field is required</description>
-        <errorConditionFormula>ISBLANK( Agent__c   )</errorConditionFormula>
+        <errorConditionFormula>ISBLANK( Agent__c  )</errorConditionFormula>
         <errorDisplayField>Agent__c</errorDisplayField>
         <errorMessage>You must  specify an Article Contributor</errorMessage>
     </validationRules>
     <validationRules>
         <fullName>CheckActionProviderBy</fullName>
         <active>true</active>
-        <errorConditionFormula>Action_Needed__c &amp;&amp;  ISBLANK( Action_Assigned_To__c )</errorConditionFormula>
+        <errorConditionFormula>Action_Needed__c &amp;&amp;  ISBLANK( Action_Assigned_To__c)</errorConditionFormula>
         <errorMessage>A user must be assigned if the chekbox on the &apos;Follow Up&apos; section was selected.</errorMessage>
     </validationRules>
 </CustomObject>

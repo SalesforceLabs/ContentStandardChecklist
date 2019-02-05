@@ -22,9 +22,9 @@ public class aqi_LightningResponse {
 	* @description
 	*	Set the current state as Error if exist and exception
 	*/
-	public aqi_LightningResponse(Exception e){
+	public aqi_LightningResponse(Exception e) {
 		this();
-		if(e != null){
+		if (e != null) {
 			this.state = 'ERROR';
 			this.error = e.getMessage();
 		}

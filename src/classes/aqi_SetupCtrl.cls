@@ -32,7 +32,7 @@ public with sharing class aqi_SetupCtrl {
     * @return
     *   pageReference
     */
-    public pageReference edit(){
+    public pageReference edit() {
         editMode = true;
         return null;
     }
@@ -45,7 +45,7 @@ public with sharing class aqi_SetupCtrl {
     * @return
     *   pageReference
     */
-    public pageReference cancel(){
+    public pageReference cancel() {
         editMode = false;
         aqs = aqi_SettingsHandler.cleanCS();
         return null;
@@ -59,19 +59,19 @@ public with sharing class aqi_SetupCtrl {
     * @return
     *   pageReference
     */
-    public pageReference save(){
-        try{
-            aqi_SecurityHandler.canCreate(ArticleQuality_index__c.sObjectType);
+    public pageReference save() {
+        try {
+            aqi_SecurityHandlerLng.canCreate(ArticleQuality_index__c.sObjectType);
 
-    		if (aqi_SecurityHandler.isCreateable(ArticleQuality_index__c.sObjectType) && aqi_SecurityHandler.isUpdateable(ArticleQuality_index__c.sObjectType)){
+    		if (aqi_SecurityHandlerLng.isCreateable(ArticleQuality_index__c.sObjectType) && aqi_SecurityHandlerLng.isUpdateable(ArticleQuality_index__c.sObjectType)) {
                 upsert aqs;
             }
             editMode = false;
-        }catch(Exception e){
+        } catch(Exception e) {
             ApexPages.addMessage(new ApexPages.Message(
                                 ApexPages.Severity.ERROR,
                                 e.getMessage()
-                            ));
+                           ));
         }
         return null;
     }
@@ -84,15 +84,15 @@ public with sharing class aqi_SetupCtrl {
     * @return
     *   String
     */
-    public static String getKnowledgeApiName(){
+    public static String getKnowledgeApiName() {
         String result='';
         Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
 
         List<String> apiNames = new List<String>();
         apiNames.addAll(gd.keySet());
 
-        while ( ! apiNames.isEmpty() && !String.isNotBlank(result)){
-            if (apiNames.get(0).contains('__kav')){
+        while ( ! apiNames.isEmpty() && !String.isNotBlank(result)) {
+            if (apiNames.get(0).contains('__kav')) {
                 result = apiNames.get(0);
             }
             apiNames.remove(0);

@@ -160,12 +160,12 @@
         <apex:actionFunction action="{!setErrorOnSave}" name="setErrorOnSave">
         </apex:actionFunction>
         <script>
-            function checkActNeededIssue(){
+            function checkActNeededIssue() {
                 var actionNeeded = document.getElementById('{!$Component.recordForm.formBlockFollow.formBlockSectionFollow.formBlockSectionItemANFollow.actionneeded}').checked;
                 var asignedTo = document.getElementById('{!$Component.recordForm.formBlockFollow.formBlockSectionFollow.formBlockSectionAAFollow.Action_Assigned_To__c}').value;
-                if(actionNeeded && (asignedTo === undefined || asignedTo === '')){
+                if (actionNeeded && (asignedTo === undefined || asignedTo === '')) {
                     setErrorOnSave();
-                }else{
+                } else {
                     saveAF();
                 }
             }

@@ -392,6 +392,17 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>MigratedFromTrigger__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This boolean will show if the lightning aqi was created from trigger or not.</description>
+        <externalId>false</externalId>
+        <label>MigratedFromTrigger</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>OldAQIId__c</fullName>
         <externalId>false</externalId>
         <label>OldAQIId</label>

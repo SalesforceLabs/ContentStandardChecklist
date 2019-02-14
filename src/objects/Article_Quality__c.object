@@ -392,11 +392,11 @@
         <type>Checkbox</type>
     </fields>
     <fields>
-        <fullName>MigratedFromTrigger__c</fullName>
+        <fullName>MigratedFromTool__c</fullName>
         <defaultValue>false</defaultValue>
-        <description>This boolean will show if the lightning aqi was created from trigger or not.</description>
+        <description>This boolean will show if the lightning aqi was created from the tool or not.</description>
         <externalId>false</externalId>
-        <label>MigratedFromTrigger</label>
+        <label>MigratedFromTool</label>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>

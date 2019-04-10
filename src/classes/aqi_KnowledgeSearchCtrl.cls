@@ -85,18 +85,20 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 	* @return
 	*	Returns list of available languages
 	*/
-	public static map<String,String> allLanguageOptions{
-		get{
+	public static map<String,String> allLanguageOptions {
+		get {
 			if (allLanguageOptions == null) {
-				set<String> availableLanguages = new set<String>();
+				Set<String> availableLanguages = new Set<String>();
 				String settingsLanguages = aqi_SettingsHandler.checkForAppConfiguration().Selected_Languages__c;
 				availableLanguages.addAll(settingsLanguages.split(','));
 				Map<String,String> optionsMap = getActivePicklistOptions('User', 'LanguageLocaleKey');
-				allLanguageOptions = new map<String,String>();
+				allLanguageOptions = new Map<String,String>();
+
 				for (String s : availableLanguages) {
-					s=s.trim();
-					if (optionsMap.containsKey(s))
-					allLanguageOptions.put(s, optionsMap.get(s));
+					s = s.trim();
+					if (optionsMap.containsKey(s)) {
+						allLanguageOptions.put(s, optionsMap.get(s));
+					}
 				}
 			}
 			return allLanguageOptions;

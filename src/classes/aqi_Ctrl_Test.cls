@@ -7,7 +7,7 @@
 @isTest
 private class aqi_Ctrl_Test {
 	static SObject kavObj;
-	
+
 	static void populateCustomSetting() {
 		//creates a Custom Setting at the organization level
 		ArticleQuality_index__c setting= new ArticleQuality_index__c();
@@ -24,12 +24,12 @@ private class aqi_Ctrl_Test {
 		setting.Trigger_Enabled__c = true;
 		insert setting;
 	}
-	
+
 	static void populateData() {
 		// creates Custom Article type
 		string publishStatus = 'draft';
 		Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
-		
+
 		List<String> kavNames = new List<String>();
 		for (String s : gd.keySet()) {
 			if (s.contains('__kav')) {
@@ -51,7 +51,7 @@ private class aqi_Ctrl_Test {
 		'   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
 		kavObj = (KnowledgeArticleVersion)Database.query(q);
 	}
-	
+
 	static Article_Quality__c populateFields (KnowledgeArticleVersion article) {
 		Article_Quality__c result = new Article_Quality__c();
 		result.Knowledge_Article_Version_Id__c = article.Id;
@@ -71,9 +71,9 @@ private class aqi_Ctrl_Test {
 		result.Agent__c = UserInfo.getUserId();
 		return result;
 	}
-	
+
 	//***** Test Methods *****//
-	
+
 	/*Description: Check for the get of recordTypesMap*/
 	@isTest static void test_recordTypesMap() {
 		System.Test.startTest();
@@ -81,7 +81,7 @@ private class aqi_Ctrl_Test {
 		System.Test.stopTest();
 		system.assertEquals(true,obtainedRecordTypesMap.keySet().size() >= 1 ,'There should be at least 1 key on the Record Types Map obtained of aqi_Ctrl');
 	}
-	
+
 	/*
 	Description: Check for the defined indexes
 	*/
@@ -92,7 +92,7 @@ private class aqi_Ctrl_Test {
 		System.Test.stopTest();
 		system.assertEquals(8,result.size(),'There should be 8 indexes defined');
 	}
-	
+
 	/*
 	Description: Check for some flows before and after insert an aqi
 	*/
@@ -126,30 +126,30 @@ private class aqi_Ctrl_Test {
 		System.assert(!result.isSuccess());
 		System.assert(result.getErrors().size() > 0);
 	}
-	
+
 	@isTest static void test_findDuplicates() {
 		System.Test.startTest();
 		User user1 = [SELECT Id FROM User LIMIT 1];
-		
+
 		Article_Quality__c aq = new Article_Quality__c(
 		Article_Version__c = 1,
 		Language__c = 'esp',
 		Agent__c = user1.Id
 		);
-		
+
 		INSERT aq;
-		
+
 		Set<String> langs = new Set<String>{'esp'};
 		Set<Decimal> versions = new Set<Decimal>{1};
-		
+
 		Map<String,Article_Quality__c> duplicates1 = aqi_Ctrl.findDuplicates(null, null, null);
 		Map<String,Article_Quality__c> duplicates2 = aqi_Ctrl.findDuplicates(null, langs, versions);
 		System.Test.stopTest();
-		
+
 		System.assertEquals(0, duplicates1.size(), 'Map should not have a value.');
 		System.assertEquals(1, duplicates2.size(), 'Map should have at least a value.');
 	}
-	
+
 	/*
 	Description: Check for the existence of kav object - create aqi and check for parameters.
 	*/
@@ -166,7 +166,7 @@ private class aqi_Ctrl_Test {
 		ApexPages.currentPage().getParameters().put('version', String.valueOf(article.VersionNumber));
 		aqi_Ctrl ctr = new aqi_Ctrl();
 		ctr.record = populateFields ( article);
-		system.assertEquals(null, ctr.record.AQ_Score__c);
+		System.assertEquals(null, ctr.record.AQ_Score__c);
 		ctr.save();
 		System.Test.stopTest();
 		Article_Quality__c testRecord = [Select AQ_Score__c ,Properties_Set_Appropriately__c,Knowledge_Article_Id__c from Article_Quality__c where Article_Version__c =: article.VersionNumber and CreatedById =: UserInfo.getUserId()];
@@ -177,5 +177,78 @@ private class aqi_Ctrl_Test {
 		System.assertEquals(true, ctrDetail.isCurrentVersion);
 		System.assertNotEquals(article.VersionNumber, ctrDetail.latestArticleVersionNumber);
 		System.assertEquals(null, ctrDetail.latestArticleUrl);
+	}
+
+	@isTest static void test_setErrorOnSave() {
+		System.Test.startTest();
+		aqi_Ctrl ctr = new aqi_Ctrl();
+		ctr.setErrorOnSave();
+		System.Test.stopTest();
+
+		System.assertEquals(true, ctr.iserror, 'Error var should be set to true');
+	}
+
+	@isTest static void test_saveError_noKavId() {
+		aqi_Ctrl ctr = new aqi_Ctrl();
+
+		System.Test.startTest();
+		// Create user for test
+		Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
+		User testUser = new User(
+			Alias = 'newUser',
+			Email='newuser@testorg.com',
+			EmailEncodingKey='UTF-8',
+			LastName='Testing',
+			LanguageLocaleKey='en_US',
+			LocaleSidKey='en_US',
+			ProfileId = p.Id,
+			TimeZoneSidKey='America/Los_Angeles',
+			UserName = String.valueOf(Crypto.getRandomInteger()) + 'myusername@testorg.com'
+		);
+
+		INSERT testUser;
+
+		System.runAs(testUser) {
+			ctr.save();
+		}
+		System.Test.stopTest();
+
+		System.assertEquals(true, ctr.iserror, 'Error var should be set to true');
+	}
+
+	@isTest static void test_saveError_Exception() {
+		populateCustomSetting();
+		populateData();
+		KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
+		PageReference tpageRef = Page.aqi_Edit;
+		Test.setCurrentPage(tpageRef);
+		ApexPages.currentPage().getParameters().put('kaId', article.KnowledgeArticleId);
+		ApexPages.currentPage().getParameters().put('lang', article.Language);
+		ApexPages.currentPage().getParameters().put('version', String.valueOf(article.VersionNumber));
+		aqi_Ctrl ctr = new aqi_Ctrl();
+
+		System.Test.startTest();
+		// Create user for test
+		Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
+		User testUser = new User(
+			Alias = 'newUser',
+			Email='newuser@testorg.com',
+			EmailEncodingKey='UTF-8',
+			LastName='Testing',
+			LanguageLocaleKey='en_US',
+			LocaleSidKey='en_US',
+			ProfileId = p.Id,
+			TimeZoneSidKey='America/Los_Angeles',
+			UserName = String.valueOf(Crypto.getRandomInteger()) + 'myusername@testorg.com'
+		);
+
+		INSERT testUser;
+
+		System.runAs(testUser) {
+			ctr.save();
+		}
+		System.Test.stopTest();
+
+		System.assertEquals(true, ctr.iserror, 'Error var should be set to true');
 	}
 }

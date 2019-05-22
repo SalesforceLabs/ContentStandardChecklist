@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <applicationVisibilities>
-        <application>AQI_APP</application>
+        <application>Article_Quality_Index_for_Lng</application>
         <visible>false</visible>
     </applicationVisibilities>
     <applicationVisibilities>
-        <application>Article_Quality_Index</application>
+        <application>Article_Quality_Index_for_Classic</application>
         <visible>false</visible>
     </applicationVisibilities>
     <classAccesses>

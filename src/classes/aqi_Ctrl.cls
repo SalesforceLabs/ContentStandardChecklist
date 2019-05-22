@@ -9,11 +9,11 @@ public with sharing class aqi_Ctrl {
 	// Constants
 	// this also needs to be public to allow setting during unit tests
 	public static String DEFAULT_SITE_NAME = Site.getName();
-	
+
 	public static String ARTICLE_STATUS = System.Test.isRunningTest() ? '\'draft\'' : '\'online\'';
 	//************************************************************************
 	// Properties & data members
-	
+
 	public Id 		kaId;
 	public String 	kaLang;
 	public String 	kaVersion;
@@ -28,8 +28,8 @@ public with sharing class aqi_Ctrl {
 	public KnowledgeArticleVersion article{get;set;}
 	public Article_Quality__c record{get;set;}
 	public static Boolean showNoRecordTypeMessage {get;set;}
-	
-	
+
+
 	/*
 	* @description
 	*   Retrieves a Map with recordType Id and Name
@@ -41,31 +41,31 @@ public with sharing class aqi_Ctrl {
 				if (recordTypesMap == null) {
 					recordTypesMap = new Map<Id,String>();
 				}
-				
+
 				recordTypesMap.put(null,'This article has no record type');
 			}
-			
+
 			return recordTypesMap;
 		}
 		private set;
 	}
-	
+
 	// Aux Methods
-	
+
 	/*
 	* @description
 	*   Set some parameters and create an instance of the aqi object
 	*/
 	public void setNewRecordAndParameters() {
 		record = new Article_Quality__c();
-		
+
 		kaId = ApexPages.currentPage().getParameters().get('kaId').escapeHtml4();
 		kaLang = ApexPages.currentPage().getParameters().get('lang').escapeHtml4();
 		kaVersion = ApexPages.currentPage().getParameters().get('version').escapeHtml4();
 	}
-	
+
 	// Constructor
-	
+
 	/*
 	* @description
 	*   Get current aqi object or create a new one.
@@ -85,7 +85,7 @@ public with sharing class aqi_Ctrl {
 			} else {
 				setNewRecordAndParameters();
 			}
-			
+
 			loadKAVDetails();
 		} catch(Exception e) {
 			ApexPages.addMessage(new ApexPages.Message(
@@ -94,7 +94,7 @@ public with sharing class aqi_Ctrl {
 			));
 		}
 	}
-	
+
 	/*
 	* @description
 	*   Get current aqi object or create a new one and check for the configuration app, if didnt exist create a new one with default values.
@@ -111,10 +111,10 @@ public with sharing class aqi_Ctrl {
 			));
 		}
 	}
-	
+
 	//************************************************************************
 	// Methods
-	
+
 	/*
 	* @description
 	*	returns AQI index api names and values from custom setting
@@ -126,7 +126,7 @@ public with sharing class aqi_Ctrl {
 	public static Map<String,String>  getAqiObjectApiNameToLabel() {
 		ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();
 		Map<String, Schema.SObjectField> allFields = Schema.SObjectType.Article_Quality__c.fields.getMap();
-		
+
 		Map<String,String> result = new Map<String,String>();
 		String idx_api_name;
 		String prefix = getPackagePrefix();
@@ -136,10 +136,10 @@ public with sharing class aqi_Ctrl {
 			idx_api_name = idx_api_name.replace(prefix,'');
 			result.put(idx_api_name,dfr.getLabel());
 		}
-		
+
 		return result;
 	}
-	
+
 	/*
 	* @description
 	*	returns AQI index api names and values from custom setting
@@ -161,10 +161,10 @@ public with sharing class aqi_Ctrl {
 				result.put(idx_api_name,dfr.getLabel());
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	/*
 	* @description
 	*	returns AQI index api names and values from custom setting
@@ -190,10 +190,10 @@ public with sharing class aqi_Ctrl {
 				}
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	/*
 	* @description
 	*	returns AQI record if it find a match
@@ -223,7 +223,7 @@ public with sharing class aqi_Ctrl {
 			Article_Version__c =: Decimal.valueOf(kaVersion) AND
 			Language__c =: kaLang
 			LIMIT 1];
-			
+
 			if (!kavList.isEmpty()) {
 				return kavList.get(0);
 			} else {
@@ -235,10 +235,10 @@ public with sharing class aqi_Ctrl {
 			e.getMessage()
 			));
 		}
-		
+
 		return null;
 	}
-	
+
 	/*
 	* @description
 	*	returns a Map of AQI record if it finds a match
@@ -253,7 +253,7 @@ public with sharing class aqi_Ctrl {
 		aqi_SecurityHandlerLng.canAccess(Article_Quality__c.sObjectType);
 		List<Article_Quality__c> kavList = new List<Article_Quality__c>();
 		Map<String,Article_Quality__c> result = new Map<String,Article_Quality__c>();
-		
+
 		try {
 			kavList = [SELECT Action_Assigned_To__c, Action_Date__c, Action_Needed__c,
 			Action_Taken__c, AQ_Score__c,Article_Link__c, Article_Number__c,
@@ -271,7 +271,7 @@ public with sharing class aqi_Ctrl {
 			Article_Version__c IN : kaVersions AND
 			Language__c IN : kaLangs
 			LIMIT 1];
-			
+
 			if (kavList.size() > 0) {
 				for (Article_Quality__c aq : kavList) {
 					String key = aq.Knowledge_Article_Id__c + '-' + aq.Language__c + '-' + Decimal.valueOf(String.valueOf(aq.Article_Version__c));
@@ -281,10 +281,10 @@ public with sharing class aqi_Ctrl {
 		} catch(Exception e) {
 			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, e.getMessage()));
 		}
-		
+
 		return result;
 	}
-	
+
 	/*
 	* @description
 	*	Retrieve if the kav information could be loaded
@@ -304,7 +304,7 @@ public with sharing class aqi_Ctrl {
 			));
 			return result;
 		}
-		
+
 		langMap = aqi_KnowledgeSearchCtrl.getActivePicklistOptions('User', 'LanguageLocaleKey');
 		Map<Id,String> typesMap = aqi_securityHandlerLng.getAllowedRecordTypesMap();
 		recordLooKup(kaId,kaLang,kaVersion);
@@ -362,10 +362,10 @@ public with sharing class aqi_Ctrl {
 			result = false;
 			articleNotAvailable = true;
 		}
-		
+
 		return result;
 	}
-	
+
 	/*
 	* @description
 	*	Retrieve list of kavs filtered by status , article id and language
@@ -391,10 +391,10 @@ public with sharing class aqi_Ctrl {
 			e.getMessage()
 			));
 		}
-		
+
 		return null;
 	}
-	
+
 	/*
 	* @description
 	*	Retrieve aqi object if match with the parameters received
@@ -416,7 +416,7 @@ public with sharing class aqi_Ctrl {
 			));
 		}
 	}
-	
+
 	/*
 	* @description
 	*	Display an error message
@@ -431,10 +431,10 @@ public with sharing class aqi_Ctrl {
 		'Please specify coaching provided by'
 		));
 		iserror = true;
-		
+
 		return null;
 	}
-	
+
 	/*
 	* @description
 	*	Save or display an error message if not
@@ -458,15 +458,15 @@ public with sharing class aqi_Ctrl {
 			} else {
 				aqi_SecurityHandlerLng.canCreate(Article_Quality__c.sObjectType);
 			}
-			
+
 			if (aqi_SecurityHandlerLng.isCreateable(Article_Quality__c.sObjectType) && aqi_SecurityHandlerLng.isUpdateable(Article_Quality__c.sObjectType)) {
 				UPSERT record;
 				saved = true;
 			}
-			
+
 			PageReference ppage = new PageReference('/'+record.id);
 			ppage.setRedirect(true);
-			
+
 			return ppage;
 		} catch(SecurityException e) {
 			ApexPages.addMessage(new ApexPages.Message(
@@ -487,29 +487,10 @@ public with sharing class aqi_Ctrl {
 			));
 			iserror = true;
 		}
-		
+
 		return null;
 	}
-	
-	/*
-	* @description
-	*	Retrieve escaped string
-	* @params
-	*	String str
-	* @return
-	*	Return escaped string
-	*/
-	private String escapeString(String str) {
-		String result = null;
-		if (String.isNotBlank(str)) {
-			result = String.escapeSingleQuotes(str.trim());
-		} else {
-			result ='';
-		}
-		
-		return result;
-	}
-	
+
 	/*
 	* @description
 	*   retrieves initial details to load input fields on AQI record
@@ -535,7 +516,7 @@ public with sharing class aqi_Ctrl {
 		showNoRecordTypeMessage = !aqi_KnowledgeSearchCtrl.isRecordTypeIdActive;
 		aqi_SecurityHandlerLng.canAccess(token);
 		Boolean isAccessible = dr.isAccessible();
-		
+
 		if (isAccessible && (aqi_SecurityHandlerLng.isCreateable(Article_Quality__c.sObjectType) && aqi_SecurityHandlerLng.isUpdateable(Article_Quality__c.sObjectType))) {
 			queryString = 'SELECT '+ filter +' FROM ' + dr.getName() + '	WHERE ' + ' Id =: thisIs' ;
 			sObject obj = Database.query(queryString);
@@ -560,10 +541,10 @@ public with sharing class aqi_Ctrl {
 			record.Article_Link__c = URL.getSalesforceBaseUrl().toExternalForm() + '/' + article.KnowledgeArticleId;
 			record.Name = 'AQI for article '+ article.ArticleNumber +' – '+  article.VersionNumber;
 		}
-		
+
 		return record;
 	}
-	
+
 	/*
 	* @description
 	*   retrieves the namespace prefix, if not exist retrieve an empty string

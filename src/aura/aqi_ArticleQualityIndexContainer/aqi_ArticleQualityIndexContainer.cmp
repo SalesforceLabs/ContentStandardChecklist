@@ -1,0 +1,33 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" controller="aqi_ArticleQualityIndexContainerCtrl"
+    access="global" extends="c:aqi_Abstract">
+    
+    <!--Attributes-->
+    <aura:attribute name="hasNoAccess" type="Boolean" default="true" />
+    
+    <!-- Handlers-->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    
+    <!-- Body-->
+    <aura:if isTrue="{!v.hasNoAccess}">
+        <article class="slds-card">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__body ">
+                        <h2>
+                            <span class="slds-m-left_small slds-text-heading_small">Article Quality Index</span>
+                        </h2>
+                    </div>
+                </header>
+            </div>
+            <div class="slds-card__body slds-card__body_inner">
+                <p class="slds-p-horizontal--small slds-text-heading--small slds-m-around--large">
+                    You don't have the required privileges. Please contact your Salesforce administrator.
+                </p>
+            </div>
+        </article>
+        <aura:set attribute="else">
+            <c:aqi_ArticleQualityIndex aura:id="articleQualityIndex" recordId="{!v.recordId}"/>
+        </aura:set>
+    </aura:if>
+    
+</aura:component>

@@ -17,7 +17,7 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
-    <label>AQI App</label>
+    <label>Article Quality Index for Lng</label>
     <navType>Standard</navType>
     <tabs>Article_Quality__c</tabs>
     <tabs>standard-report</tabs>

@@ -40,8 +40,8 @@
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
-        <members>AQI_APP</members>
-        <members>Article_Quality_Index</members>
+        <members>Article_Quality_Index_for_Classic</members>
+        <members>Article_Quality_Index_for_Lng</members>
         <name>CustomApplication</name>
     </types>
     <types>

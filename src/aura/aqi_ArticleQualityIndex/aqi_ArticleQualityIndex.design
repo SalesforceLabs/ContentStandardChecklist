@@ -1,4 +1,4 @@
-<design:component >
+<design:component label="Article Quality Index Component">
 	<design:attribute name="displayFollowUpSection" label="Display Follow Up section?"/>
 
 	<design:attribute name="indexField1" label="Select AQI first field" datasource="apex://aqi_DynamicPickList_AQI"/>

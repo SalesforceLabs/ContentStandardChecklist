@@ -1,0 +1,174 @@
+<apex:page standardController="Article_Quality__c" extensions="aqi_Ctrl"  tabStyle="Create_AQI__tab">
+    <apex:stylesheet value="{!URLFOR($Resource.aqi_resources, 'bootstrap.css')}"/>
+    <apex:form id="recordForm">
+        <apex:pageBlock id="formBlockAqi" title="Article Quality Index details" mode="detail">
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton onclick="checkActNeededIssue();return false;" value="Save"  />
+                <input type="button" value="Cancel" onclick="history.back();" class="btn" />
+            </apex:pageBlockButtons>
+            <apex:pageMessage summary="Record saved" severity="confirm" strength="1" rendered="{!saved}" />
+            <apex:pageMessages />
+            <apex:pageBlockSection title="Information" columns="2">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Unique__c.label}" for="articleunique"/>
+                    <apex:inputField value="{!record.Article_Unique__c}" id="articleunique"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Agent__c.label}" for="actiontaken"/>
+                    <apex:inputField value="{!record.Agent__c}" id="actiontaken"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Title_Accurate__c.label}" for="titleaccurate"/>
+                    <apex:inputField value="{!record.Title_Accurate__c}" id="titleaccurate"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                   &nbsp;
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Content_Complete__c.label}" for="contentcomplete"/>
+                    <apex:inputField value="{!record.Content_Complete__c}" id="contentcomplete"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    &nbsp;
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Content_Understandable__c.label}" for="contentunderstandable"/>
+                    <apex:inputField value="{!record.Content_Understandable__c}" id="contentunderstandable"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    &nbsp;
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Art_Meets_Content_Standard__c.label}" for="artmeetscontent"/>
+                    <apex:inputField value="{!record.Art_Meets_Content_Standard__c}" id="artmeetscontent"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    &nbsp;
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Properties_Set_Appropriately__c.label}" for="propertiessetappropriately"/>
+                    <apex:inputField value="{!record.Properties_Set_Appropriately__c}" id="propertiessetappropriately"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    &nbsp;
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Links_In_Article_Valid__c.label}" for="titleaccurate"/>
+                    <apex:inputField value="{!record.Links_In_Article_Valid__c}" id="Links_In_Article_Valid__c"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    &nbsp;
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <apex:pageBlock id="formBlockFollow" title="Follow Up details" mode="detail">
+            <apex:pageBlockSection id="formBlockSectionFollow" title="Information" columns="2">
+                <apex:pageBlockSectionItem id="formBlockSectionItemANFollow">
+                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Action_Needed__c.label}" for="actionneeded"/>
+                    <apex:inputField value="{!record.Action_Needed__c}" id="actionneeded"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem id="formBlockSectionAAFollow">
+                   <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Action_Assigned_To__c.label}" for="Action_Assigned_To__c"/>
+                    <apex:inputField value="{!record.Action_Assigned_To__c}" id="Action_Assigned_To__c"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Action_Taken__c.label}" for="Action_Taken__c"/>
+                    <apex:inputField value="{!record.Action_Taken__c}" id="Action_Taken__c"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Action_Date__c.label}" for="actiondate"/>
+                    <apex:inputField value="{!record.Action_Date__c}" id="actiondate"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                 <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Internal_Notes__c.label}" for="Comment__name"/>
+                    <apex:inputField value="{!record.Internal_Notes__c}" id="Comment__site"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    &nbsp;
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <apex:pageBlock id="formBlockRelated" title="Related Article Details" mode="detail">
+            <apex:pageBlockSection columns="2">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Number__c.label}" for="ArticleNumber"/>
+                    <apex:outputText value="{!record.Article_Number__c}" rendered="{!$ObjectType.Article_Quality__c.fields.Article_Number__c.Accessible}" id="ArticleNumber"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.ArticleFirstPublishedDate__c.label}" for="ArticleNumber"/>
+                    <apex:outputField value="{!record.ArticleFirstPublishedDate__c}" id="ArticleNumber"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.KnowledgeArticleVersion.fields.Title.label}" for="title"/>
+                    <apex:outputLink value="/{!article.KnowledgeArticleId}?kavVersion={!article.VersionNumber}&lang={!article.Language}" rendered="{!$ObjectType.Article_Quality__c.fields.Article_Title__c.Accessible}" id="theLink">
+                        {!record.Article_Title__c}
+                    </apex:outputLink>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Last_Published_Date__c.label}"
+                            for="lastpublisheddate"/>
+                    <apex:outputField value="{!record.Last_Published_Date__c}" id="lastpublisheddate"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Type__c.label}"
+                            for="type"/>
+                    <apex:outputLabel style="{! If( showNoRecordTypeMessage ,'font-style: italic;','') }"  value="{! If( showNoRecordTypeMessage ,'This article has no record type',recordTypesMap[record.Article_Type__c]) }" id="type"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Last_Published_By__c.label}" for="ArticleNumber"/>
+                    <apex:outputField value="{!record.Last_Published_By__c}" id="Last_Published_By__c"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.KnowledgeArticleVersion.fields.VersionNumber.label}" for="versionnumber"/>
+                    <apex:outputField value="{!record.Article_Version__c}" rendered="{!$ObjectType.Article_Quality__c.fields.Article_Version__c.Accessible}" id="versionnumber"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Last_Modified_Date__c.label}" for="ArticleNumber"/>
+                    <apex:outputField value="{!record.Last_Modified_Date__c}" id="ArticleNumber"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.KnowledgeArticleVersion.fields.Language.label}" for="language"/>
+                    <apex:outputText rendered="{!$ObjectType.Article_Quality__c.fields.Language__c.Accessible}" value="{!record.Language__c}" id="language"  />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Last_Modified_By__c.label}" for="ArticleNumber"/>
+                    <apex:outputField value="{!record.Last_Modified_By__c}" id="ArticleNumber"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.KnowledgeArticleVersion.fields.PublishStatus.label}" for="status"/>
+                    <apex:outputField value="{!article.PublishStatus}" id="status"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Created_Date__c.label}" for="ArtCreatedDate"/>
+                    <apex:outputField value="{!record.Article_Created_Date__c}" id="ArtCreatedDate"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    &nbsp;
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Created_By__c.label}" for="ArtCreatedBy"/>
+                    <apex:outputField value="{!record.Article_Created_By__c}" id="ArtCreatedBy"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton onclick="checkActNeededIssue();return false;" value="Save"  />
+                <input type="button" value="Cancel" onclick="history.back();" class="btn" />
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+        <apex:actionFunction action="{!save}" name="saveAF">
+        </apex:actionFunction>
+        <apex:actionFunction action="{!setErrorOnSave}" name="setErrorOnSave">
+        </apex:actionFunction>
+        <script>
+            function checkActNeededIssue() {
+                var actionNeeded = document.getElementById('{!$Component.recordForm.formBlockFollow.formBlockSectionFollow.formBlockSectionItemANFollow.actionneeded}').checked;
+                var asignedTo = document.getElementById('{!$Component.recordForm.formBlockFollow.formBlockSectionFollow.formBlockSectionAAFollow.Action_Assigned_To__c}').value;
+                if (actionNeeded && (asignedTo === undefined || asignedTo === '')) {
+                    setErrorOnSave();
+                } else {
+                    saveAF();
+                }
+            }
+        </script>
+    </apex:form>
+</apex:page>

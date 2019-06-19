@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agent_field_is_required</fullName>
+    <active>true</active>
+    <description>Agent field is required</description>
+    <errorConditionFormula>ISBLANK( Agent__c   )</errorConditionFormula>
+    <errorDisplayField>Agent__c</errorDisplayField>
+    <errorMessage>You must  specify an Article Contributor</errorMessage>
+</ValidationRule>

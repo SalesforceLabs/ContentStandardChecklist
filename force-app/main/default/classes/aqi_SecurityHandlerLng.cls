@@ -43,7 +43,7 @@ public with sharing class aqi_SecurityHandlerLng {
         get {
             if (allRecordTypes == null) {
                 canAccess(RecordType.sObjectType);
-                allRecordTypes = system.database.query('SELECT DeveloperName, Id, Name FROM RecordType WHERE SobjectType = \''+ knowledgeObject + '\'');
+                allRecordTypes = System.database.query('SELECT DeveloperName, Id, Name FROM RecordType WHERE SobjectType = \''+ knowledgeObject + '\'');
             }
             
             return allRecordTypes;

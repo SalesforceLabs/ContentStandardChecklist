@@ -15,7 +15,7 @@ private class aqi_SettingsHandler_Test {
 		ArticleQuality_index__c config   = aqi_SettingsHandler.checkForAppConfiguration();
 		System.Test.stopTest();
 		
-		system.assertNotEquals(null,config,'Config details shouldn\'t be null');//
+		System.assertNotEquals(null,config,'Config details shouldn\'t be null');//
 	}
 
 	/*

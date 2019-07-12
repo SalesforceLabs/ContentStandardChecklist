@@ -123,8 +123,8 @@ private class aqi_Score_Test {
         String valueTriggerEnabledNoCheckbox = String.valueOf(recordUpserted3.AQ_Score__c);
         System.Test.stopTest();
         
-        system.assertEquals(true,String.valueOf(valueTriggerEnabledCheckbox).contains('14.28571428571428'));
-        system.assertEquals(true,String.valueOf(valueTriggerDisableNoCheckbox).contains('14.28571428571428'));
-        system.assertEquals(true,String.valueOf(valueTriggerEnabledNoCheckbox).contains('0'));
+        System.assertEquals(true,String.valueOf(valueTriggerEnabledCheckbox).contains('14.28571428571428'));
+        System.assertEquals(true,String.valueOf(valueTriggerDisableNoCheckbox).contains('14.28571428571428'));
+        System.assertEquals(true,String.valueOf(valueTriggerEnabledNoCheckbox).contains('0'));
     }
 }

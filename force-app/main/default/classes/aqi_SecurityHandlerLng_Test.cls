@@ -15,7 +15,7 @@ private class aqi_SecurityHandlerLng_Test {
             List<RecordType> allRecord = aqi_SecurityHandlerLng.allRecordTypes;
             System.Test.stopTest();
 
-            system.assertNotEquals(null, allRecord, 'The Record Type Map should not be null');
+            System.assertNotEquals(null, allRecord, 'The Record Type Map should not be null');
         }
     }
     
@@ -28,7 +28,7 @@ private class aqi_SecurityHandlerLng_Test {
             Map<Id,String> all = aqi_SecurityHandlerLng.getAllowedRecordTypesMap() ;
             System.Test.stopTest();
 
-            system.assertNotEquals(null, all, 'The Record Type Map should not be null');
+            System.assertNotEquals(null, all, 'The Record Type Map should not be null');
         }
     }
     
@@ -41,7 +41,7 @@ private class aqi_SecurityHandlerLng_Test {
             Map<String,Id> all = aqi_SecurityHandlerLng.getAllowedRecordTypeNameToIdMap();
             System.Test.stopTest();
 
-            system.assertNotEquals(null,all,'The Record Type Map should not be null');
+            System.assertNotEquals(null,all,'The Record Type Map should not be null');
         }
     }
     

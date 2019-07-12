@@ -53,11 +53,11 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     @isTest static void test_Get_CompactLayoutData() {
         System.Test.startTest();
         insertKavObject();
-        Map<String,Object> result = aqi_ArticleQualityIndexCtrl.getCompactLayoutData(((Id)kavObj.get('Id')),new Map<String,Object>());
+        Map<String,Object> result = aqi_ArticleQualityIndexCtrl.getCompactLayoutData(((Id) kavObj.get('Id')), new Map<String,Object>());
         System.Test.stopTest();
        
-        system.assertEquals('English',result.get('articleLanguage') ,'The language returned by CompactLayoutData is not the same as at the beginning');
-        system.assertEquals(0,result.get('articleVersion') ,'The article version is not the expected');
+        System.assertEquals('English', result.get('articleLanguage'), 'The language returned by CompactLayoutData is not the same as at the beginning');
+        System.assertEquals(0, result.get('articleVersion'), 'The article version is not the expected');
     }
 
     /*
@@ -72,19 +72,20 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         // Creates Custom Article type
         string publishStatus = 'draft';
         insertKavObject();
+
         // Require the kavObj to get the KnowledgeArticleId on it that is created automatically
-        String q = ' SELECT Id, ArticleNumber, CreatedDate, LastPublishedDate, LastModifiedDate, LastModifiedById,'+
-        ' PublishStatus, Summary, Title, UrlName, VersionNumber, Language, KnowledgeArticleId '+
+        String q = ' SELECT Id, ArticleNumber, CreatedDate, LastPublishedDate, LastModifiedDate, LastModifiedById,' +
+        ' PublishStatus, Summary, Title, UrlName, VersionNumber, Language, KnowledgeArticleId ' +
         ' FROM KnowledgeArticleVersion WHERE Id = \'' + kavObj.get('Id') + '\' AND PublishStatus = :publishStatus';
         kavObj = (KnowledgeArticleVersion) Database.query(q);
         KnowledgeArticleVersion article = (KnowledgeArticleVersion) kavObj;
         // Call with valid api name, and record Id
-        aqi_LightningResponse respSuccess1 = aqi_ArticleQualityIndexCtrl.getInitData(article.Id,aqi_Ctrl.getPackagePrefix()+'Article_Unique__c');
+        aqi_LightningResponse respSuccess1 = aqi_ArticleQualityIndexCtrl.getInitData(article.Id, aqi_Ctrl.getPackagePrefix() + 'Article_Unique__c');
         System.Test.stopTest();
 
-        system.assertEquals('ERROR', respError1.State, 'Api names can not be empty');
-        system.assertEquals('ERROR', respError2.State, 'Record Id can not be empty');
-        system.assertEquals('SUCCESS', respSuccess1.State, 'State should be SUCCESS ');
+        System.assertEquals('ERROR', respError1.State, 'Api names can not be empty');
+        System.assertEquals('ERROR', respError2.State, 'Record Id can not be empty');
+        System.assertEquals('SUCCESS', respSuccess1.State, 'State should be SUCCESS ');
     }
 
     /*
@@ -106,25 +107,25 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         // Call with valid api name, and record Id
         aqi_LightningResponse resp = aqi_ArticleQualityIndexCtrl.getInitData(article.Id, 'Article_Unique__c');
         String strR = resp.jsonResponse;
-        Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(strR);
-        string recordStr = Json.serialize(m.get('aqi_record'));
+        Map<String,Object> m = (Map<String,Object>) JSON.deserializeUntyped(strR);
+        string recordStr = JSON.serialize(m.get('aqi_record'));
         Article_Quality__c record = (Article_Quality__c) System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
         record.Article_Unique__c = false;
-        recordStr = Json.serialize(record);
+        recordStr = JSON.serialize(record);
         aqi_LightningResponse respSuccess = aqi_ArticleQualityIndexCtrl.upsertAQI(recordStr);
         strR = respSuccess.jsonResponse;
-        m = (Map<String, Object>) JSON.deserializeUntyped(strR);
-        recordStr = Json.serialize(m.get('aqi_record'));
+        m = (Map<String,Object>) JSON.deserializeUntyped(strR);
+        recordStr = JSON.serialize(m.get('aqi_record'));
         Article_Quality__c recordUpserted = (Article_Quality__c) System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
         Article_Quality__c aqr = [SELECT Id, Article_Unique__c FROM Article_Quality__c WHERE Id =: recordUpserted.Id];
         aqi_LightningResponse responseLKID = aqi_ArticleQualityIndexCtrl.loadKAVId(recordUpserted.Id);
         Map<String,Object> lst_JsonParse = (Map<String,Object>) JSON.deserializeUntyped(responseLKID.jsonResponse);
         System.Test.stopTest();
 
-        system.assertEquals('English', lst_JsonParse.get('articleLanguage'), 'The language returned by CompactLayoutData is not the same as at the beginning');
-        system.assertEquals(0, lst_JsonParse.get('articleVersion'), 'The article version is not the expected');
-        system.assertEquals(aqr.Article_Unique__c, record.Article_Unique__c, 'Article unique index should be set to TRUE ');
-        system.assertEquals('SUCCESS', resp.State, 'State should be SUCCESS ');
+        System.assertEquals('English', lst_JsonParse.get('articleLanguage'), 'The language returned by CompactLayoutData is not the same as at the beginning');
+        System.assertEquals(0, lst_JsonParse.get('articleVersion'), 'The article version is not the expected');
+        System.assertEquals(aqr.Article_Unique__c, record.Article_Unique__c, 'Article unique index should be set to TRUE ');
+        System.assertEquals('SUCCESS', resp.State, 'State should be SUCCESS ');
     }
 
     /*
@@ -137,7 +138,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         VisualEditor.DataRow defaultVal = ctr.getDefaultValue();
         System.Test.stopTest();
 
-        system.assert(rows!= null, 'Dynamic Picklist for AQI mustn\'t be null');
-        system.assert(defaultVal!= null, 'Default value for Dynamic Picklist of AQI mustn\'t be null');
+        System.assert(rows != null, 'Dynamic Picklist for AQI mustn\'t be null');
+        System.assert(defaultVal != null, 'Default value for Dynamic Picklist of AQI mustn\'t be null');
     }
 }

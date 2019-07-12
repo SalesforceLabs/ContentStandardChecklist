@@ -79,7 +79,7 @@ private class aqi_Ctrl_Test {
 		System.Test.startTest();
 		Map<Id,String> obtainedRecordTypesMap = aqi_Ctrl.recordTypesMap;
 		System.Test.stopTest();
-		system.assertEquals(true,obtainedRecordTypesMap.keySet().size() >= 1 ,'There should be at least 1 key on the Record Types Map obtained of aqi_Ctrl');
+		System.assertEquals(true,obtainedRecordTypesMap.keySet().size() >= 1 ,'There should be at least 1 key on the Record Types Map obtained of aqi_Ctrl');
 	}
 
 	/*
@@ -90,7 +90,7 @@ private class aqi_Ctrl_Test {
 		Map<String,Double>  result = aqi_Ctrl.getIndexApiNameToValue();
 		result = aqi_Ctrl.getIndexApiNameToValue();
 		System.Test.stopTest();
-		system.assertEquals(8,result.size(),'There should be 8 indexes defined');
+		System.assertEquals(8,result.size(),'There should be 8 indexes defined');
 	}
 
 	/*
@@ -100,7 +100,7 @@ private class aqi_Ctrl_Test {
 		System.Test.startTest();
 		populateCustomSetting();
 		populateData();
-		system.assertNotEquals(null, kavObj,'An issue has been detected trying to get the knowledge object');
+		System.assertNotEquals(null, kavObj,'An issue has been detected trying to get the knowledge object');
 		KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
 		PageReference tpageRef = Page.aqi_Edit;
 		Test.setCurrentPage(tpageRef);
@@ -116,7 +116,7 @@ private class aqi_Ctrl_Test {
 		and
 		CreatedById =: UserInfo.getUserId()
 		];
-		system.assertNotEquals(null, testRecord.AQ_Score__c);
+		System.assertNotEquals(null, testRecord.AQ_Score__c);
 		// check uniqness : same user and article version will result on same record
 		Article_Quality__c testRecord2 = populateFields ( article);
 		Database.SaveResult result = Database.insert(testRecord2, false);
@@ -157,7 +157,7 @@ private class aqi_Ctrl_Test {
 		System.Test.startTest();
 		populateCustomSetting();
 		populateData();
-		system.assertNotEquals(null, kavObj,'An issue has been detected trying to get the knowledge object');
+		System.assertNotEquals(null, kavObj,'An issue has been detected trying to get the knowledge object');
 		KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
 		PageReference tpageRef = Page.aqi_Edit;
 		Test.setCurrentPage(tpageRef);

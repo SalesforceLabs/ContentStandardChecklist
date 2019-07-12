@@ -5,25 +5,18 @@
 * This class its responsible of resolves logic for custom setting handling
 **/
 public with sharing class aqi_SetupCtrl {
-    // Constants
-
-    //************************************************************************
-    // Properties & data members
     public ArticleQuality_index__c aqs {get;set;}
     public Boolean editMode {get;set;}
-    //************************************************************************
-    // Constructor
 
     public aqi_SetupCtrl() {
         editMode = false;
     }
 
-    //Methods
-
     public pageReference checkForAppConfiguration() {
         aqs = aqi_SettingsHandler.checkForAppConfiguration();
         return null;
     }
+
     /*
     * @description
     *   Set the edit mode to true
@@ -66,13 +59,12 @@ public with sharing class aqi_SetupCtrl {
     		if (aqi_SecurityHandlerLng.isCreateable(ArticleQuality_index__c.sObjectType) && aqi_SecurityHandlerLng.isUpdateable(ArticleQuality_index__c.sObjectType)) {
                 upsert aqs;
             }
+        
             editMode = false;
         } catch(Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(
-                                ApexPages.Severity.ERROR,
-                                e.getMessage()
-                           ));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, e.getMessage()));
         }
+
         return null;
     }
 
@@ -91,12 +83,14 @@ public with sharing class aqi_SetupCtrl {
         List<String> apiNames = new List<String>();
         apiNames.addAll(gd.keySet());
 
-        while ( ! apiNames.isEmpty() && !String.isNotBlank(result)) {
+        while (!apiNames.isEmpty() && !String.isNotBlank(result)) {
             if (apiNames.get(0).contains('__kav')) {
                 result = apiNames.get(0);
             }
+
             apiNames.remove(0);
         }
+        
         return result;
     }
 }

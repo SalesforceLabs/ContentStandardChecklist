@@ -183,7 +183,7 @@ public with sharing class aqi_Ctrl {
 			Schema.DescribeFieldResult dfr = allFields.get(str).getDescribe();
 			idx_api_name = dfr.getName();
 			if (dfr.getType() ==Schema.DisplayType.DOUBLE) {
-				if(aqs != null){
+				if(aqs != null) {
 					Object obj = aqs.get(idx_api_name);
 					idx_val =  Double.valueOf(obj);
 					result.put(idx_api_name,idx_val);

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coaching_Needed</fullName>
+    <columns>NAME</columns>
+    <columns>Article_Title__c</columns>
+    <columns>Article_Number__c</columns>
+    <columns>Article_Version__c</columns>
+    <columns>Agent__c</columns>
+    <columns>Action_Assigned_To__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>Last_Modified_By__c</columns>
+    <columns>Last_Modified_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Action_Needed__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Action_Date__c</field>
+        <operation>equals</operation>
+    </filters>
+    <label>Coaching Needed</label>
+</ListView>

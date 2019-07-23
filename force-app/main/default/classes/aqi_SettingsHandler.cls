@@ -5,14 +5,11 @@
 * This class its responsible of resolves logic for custom setting handling
 **/
 public class aqi_SettingsHandler {
-	// Constants
-	public static String CUSTOM_SETTING_NAME 	=  'default';
-	public static String DEFAULT_LANGUAGE 		=  'en_US';
-	public static Integer DEFAULT_VALUE 		=  1;
-	public static Integer DEFAULT_POSSIBLE_POINTS =  7;
+	public static String CUSTOM_SETTING_NAME = 'default';
+	public static String DEFAULT_LANGUAGE = 'en_US';
+	public static Integer DEFAULT_VALUE = 1;
+	public static Integer DEFAULT_POSSIBLE_POINTS = 7;
 	public static Boolean DEFAULT_ENABLE_TRIGGER = true;
-
-	// Methods
 
 	/*
 	* @description
@@ -30,6 +27,7 @@ public class aqi_SettingsHandler {
 				result = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME).Selected_Languages__c;
 			}
 		}
+
 		return result;
 	}
 
@@ -42,26 +40,28 @@ public class aqi_SettingsHandler {
 	*   Return a new cleaned instance of ArticleQuality_index__c
 	*/
 	public static ArticleQuality_index__c cleanCS() {
-
 		ArticleQuality_index__c  aq = (aqi_SecurityHandlerLng.isAccessible(ArticleQuality_index__c.sObjectType)) ? ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME) : null;
 
 		if (aqi_SecurityHandlerLng.isCreateable(ArticleQuality_index__c.sObjectType) && aqi_SecurityHandlerLng.isUpdateable(ArticleQuality_index__c.sObjectType)) {
 			if (aq == null) {
-				aq = new ArticleQuality_index__c();
-				aq.Name = CUSTOM_SETTING_NAME;
-				aq.Selected_Languages__c  = DEFAULT_LANGUAGE;
-				aq.Art_Meets_Content_Standard__c = DEFAULT_VALUE;
-				aq.Article_Unique__c = DEFAULT_VALUE;
-				aq.Content_complete__c = DEFAULT_VALUE;
-				aq.Content_understandable__c = DEFAULT_VALUE;
-				aq.Links_in_article_valid__c = DEFAULT_VALUE;
-				aq.Possible_Points__c = DEFAULT_POSSIBLE_POINTS;
-				aq.Properties_set_appropriately__c = DEFAULT_VALUE;
-				aq.Title_Accurate__c = DEFAULT_VALUE;
-				aq.Trigger_Enabled__c = DEFAULT_ENABLE_TRIGGER;
+				aq = new ArticleQuality_index__c(
+					Name = CUSTOM_SETTING_NAME,
+					Selected_Languages__c  = DEFAULT_LANGUAGE,
+					Art_Meets_Content_Standard__c = DEFAULT_VALUE,
+					Article_Unique__c = DEFAULT_VALUE,
+					Content_complete__c = DEFAULT_VALUE,
+					Content_understandable__c = DEFAULT_VALUE,
+					Links_in_article_valid__c = DEFAULT_VALUE,
+					Possible_Points__c = DEFAULT_POSSIBLE_POINTS,
+					Properties_set_appropriately__c = DEFAULT_VALUE,
+					Title_Accurate__c = DEFAULT_VALUE,
+					Trigger_Enabled__c = DEFAULT_ENABLE_TRIGGER
+				);
 			}
-			upsert aq;
+
+			UPSERT aq;
 		}
+
 		return aq;
 	}
 
@@ -80,18 +80,19 @@ public class aqi_SettingsHandler {
 			aq = ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME);
 
 			if (aq == null) {
-				aq = new ArticleQuality_index__c();
-				aq.Name = CUSTOM_SETTING_NAME;
-				aq.Selected_Languages__c  = DEFAULT_LANGUAGE;
-				aq.Art_Meets_Content_Standard__c = DEFAULT_VALUE;
-				aq.Article_Unique__c = DEFAULT_VALUE;
-				aq.Content_complete__c = DEFAULT_VALUE;
-				aq.Content_understandable__c = DEFAULT_VALUE;
-				aq.Links_in_article_valid__c = DEFAULT_VALUE;
-				aq.Possible_Points__c = DEFAULT_POSSIBLE_POINTS;
-				aq.Properties_set_appropriately__c = DEFAULT_VALUE;
-				aq.Title_Accurate__c = DEFAULT_VALUE;
-				aq.Trigger_Enabled__c = DEFAULT_ENABLE_TRIGGER;
+				aq = new ArticleQuality_index__c(
+					Name = CUSTOM_SETTING_NAME,
+					Selected_Languages__c  = DEFAULT_LANGUAGE,
+					Art_Meets_Content_Standard__c = DEFAULT_VALUE,
+					Article_Unique__c = DEFAULT_VALUE,
+					Content_complete__c = DEFAULT_VALUE,
+					Content_understandable__c = DEFAULT_VALUE,
+					Links_in_article_valid__c = DEFAULT_VALUE,
+					Possible_Points__c = DEFAULT_POSSIBLE_POINTS,
+					Properties_set_appropriately__c = DEFAULT_VALUE,
+					Title_Accurate__c = DEFAULT_VALUE,
+					Trigger_Enabled__c = DEFAULT_ENABLE_TRIGGER
+				);
 			}
 		}
 

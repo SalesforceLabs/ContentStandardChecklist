@@ -8,8 +8,6 @@
 private class aqi_LightningResponse_Test {
 	private static aqi_LightningResponse lightningResponse = new aqi_LightningResponse();
 
-	//***** Test Methods *****//
-
     /*
     Description: Check for the get and set of the class
     */
@@ -19,6 +17,7 @@ private class aqi_LightningResponse_Test {
         lightningResponse.error = 'testERROR';
         lightningResponse.state = 'testSTATE';
 		System.Test.stopTest();
+
         System.assertEquals('testJSON', lightningResponse.jsonResponse, 'jsonResponse should be equal');
         System.assertEquals('testERROR', lightningResponse.error, 'error should be equal');
         System.assertEquals('testSTATE', lightningResponse.state, 'state should be equal');
@@ -31,7 +30,8 @@ private class aqi_LightningResponse_Test {
 		System.Test.startTest();
         String state = lightningResponse.state;
 		System.Test.stopTest();
-        System.assertEquals('SUCCESS', state, 'state should be "SUCCESS"');
+
+        System.assertEquals('SUCCESS', state, 'State should be "SUCCESS"');
     }
 
 	/*
@@ -42,7 +42,7 @@ private class aqi_LightningResponse_Test {
 			System.Test.startTest();
             User testUser = new User();
             // This insert will fail because there are no required fields set for the user
-            insert testUser;
+            INSERT testUser;
         } catch (Exception e) {
             aqi_LightningResponse klr = new aqi_LightningResponse(e);
 			System.Test.stopTest();

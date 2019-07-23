@@ -6,9 +6,6 @@
  **/
 @isTest
 private class aqi_SettingsHandler_Test {
-
-	//***** Test Methods *****//
-
     /*
     Description: Check that the checkForAppConfiguration method return an instance of Config Details Setting
     */
@@ -17,7 +14,8 @@ private class aqi_SettingsHandler_Test {
 		// Implement test code
 		ArticleQuality_index__c config   = aqi_SettingsHandler.checkForAppConfiguration();
 		System.Test.stopTest();
-		system.assertNotEquals(null,config,'Config details shouldn\'t be null');//
+		
+		System.assertNotEquals(null,config,'Config details shouldn\'t be null');//
 	}
 
 	/*
@@ -31,6 +29,7 @@ private class aqi_SettingsHandler_Test {
 		config.Possible_Points__c = testDecimal;
 		config = aqi_SettingsHandler.cleanCS();
 		System.Test.stopTest();
-		system.assertNotEquals(testDecimal,config.Possible_Points__c,'After clean the custom setting the value shouldn\'t be the same');//
+
+		System.assertNotEquals(testDecimal,config.Possible_Points__c,'After clean the custom setting the value shouldn\'t be the same');//
 	}
 }

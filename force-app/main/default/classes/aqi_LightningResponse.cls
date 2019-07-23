@@ -5,7 +5,6 @@
 * This class its responsible of the interaction with lightning components
 **/
 public class aqi_LightningResponse {
-
 	@AuraEnabled public String jsonResponse {get; set;}
 	@AuraEnabled public String error {get; set;}
 	@AuraEnabled public String state {get; set;}

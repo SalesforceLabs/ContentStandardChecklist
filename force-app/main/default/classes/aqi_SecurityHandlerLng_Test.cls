@@ -6,23 +6,27 @@
 **/
 @isTest
 private class aqi_SecurityHandlerLng_Test {
-    /*
-    Description: Check if exist any record type - the returned map of record types in case that exist shouldn't be null
-    */
-    @isTest static void test_allRecordTypes() {
+    @isTest static void allRecordTypes_test() {
         if (aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')) {
             System.Test.startTest();
-            List<RecordType> allRecord = aqi_SecurityHandlerLng.allRecordTypes;
+            List<Object> result = aqi_SecurityHandlerLng.allRecordTypes;
             System.Test.stopTest();
 
-            System.assertNotEquals(null, allRecord, 'The Record Type Map should not be null');
+            System.assertNotEquals(null, result.size(), 'The list should have at least a record');
+        }
+    }
+
+    @isTest static void getAllowedRecordTypes_test() {
+        if (aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')) {
+            System.Test.startTest();
+            List<Object> result = aqi_SecurityHandlerLng.allRecordTypes;
+            System.Test.stopTest();
+
+            System.assertNotEquals(null, result.size(), 'The list should have at least a record');
         }
     }
     
-    /*
-    Description: Check if exist any recordType - one of those must be returned
-    */
-    @isTest static void test_getAllowedRecordTypesMap() {
+    @isTest static void getAllowedRecordTypesMap_test() {
         if (aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')) {
             System.Test.startTest();
             Map<Id,String> all = aqi_SecurityHandlerLng.getAllowedRecordTypesMap() ;
@@ -35,7 +39,7 @@ private class aqi_SecurityHandlerLng_Test {
     /*
     Description: Check if exist any record type - if exist then check that the map shouldn't be null
     */
-    @isTest static void test_getAllowedRecordTypeNameToIdMap() {
+    @isTest static void getAllowedRecordTypeNameToIdMap_test() {
         if (aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')) {
             System.Test.startTest();
             Map<String,Id> all = aqi_SecurityHandlerLng.getAllowedRecordTypeNameToIdMap();
@@ -45,10 +49,7 @@ private class aqi_SecurityHandlerLng_Test {
         }
     }
     
-    /*
-    Description: Check for security accessibility on case object
-    */
-    @isTest static void testSecurityEnabled() {
+    @isTest static void securityEnabled_test() {
         System.Test.startTest();
         Profile[] profileList = [select Id, Name from Profile where Name = 'System Administrator' OR Name = 'Standar User' LIMIT 2];
         Map<Id,String> profileMap = new Map<Id,String>();
@@ -142,11 +143,8 @@ private class aqi_SecurityHandlerLng_Test {
         }
         System.Test.stopTest();
     }
-                                
-    /*
-    Description: Check for the access to the case object
-    */
-    @isTest static void testSecurityDisabled() {
+
+    @isTest static void securityDisabled_test() {
         System.Test.startTest();
         aqi_SecurityHandlerLng.securityEnabled = false;
         Profile[] profileList = [SELECT Id, Name FROM Profile where Name = 'System Administrator' OR Name = 'Standar User' LIMIT 2];

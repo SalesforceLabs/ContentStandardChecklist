@@ -39,11 +39,13 @@ public with sharing class aqi_SecurityHandlerLng {
     * @description
     *	Get List of Record Types
     */
-    public static List<RecordType> allRecordTypes {
+    public static List<sObject> allRecordTypes {
         get {
             if (allRecordTypes == null) {
-                canAccess(RecordType.sObjectType);
-                allRecordTypes = System.database.query('SELECT DeveloperName, Id, Name FROM RecordType WHERE SobjectType = \''+ knowledgeObject + '\'');
+                if (hasRecordTypeObject()) {
+                    canAccess('RecordType');
+                    allRecordTypes = System.database.query('SELECT DeveloperName, Id, Name FROM RecordType WHERE SobjectType = \''+ knowledgeObject + '\'');
+                }
             }
             
             return allRecordTypes;
@@ -54,6 +56,25 @@ public with sharing class aqi_SecurityHandlerLng {
     static {
         securityEnabled = true;
         isPrivateSharingEnabled = true;
+    }
+    
+    /*
+    * @description
+    *   Checks that RecordType exists in schema
+    * @params
+    *   None
+    * @return
+    *   Boolean in true if RecordType object exists
+    */
+    public static Boolean hasRecordTypeObject() {
+        Boolean result = false;
+        SObjectType objToken = Schema.getGlobalDescribe().get('RecordType');
+
+        if (objToken != null) {
+            result = true;
+        }
+
+        return result;
     }
     
     /*
@@ -107,9 +128,9 @@ public with sharing class aqi_SecurityHandlerLng {
     public static String formatReplace(String value, List<String> lstStr) {
         String res = value;
         
-        for ( Integer i=0; i<lstStr.size(); i++) {
-            if ( lstStr[i] != null && lstStr[i] != '') {
-                res = res.replaceAll('\\{'+i+'\\}', lstStr[i]);
+        for (Integer i=0; i < lstStr.size(); i++) {
+            if (lstStr[i] != null && lstStr[i] != '') {
+                res = res.replaceAll('\\{' + i + '\\}', lstStr[i]);
             }
         }
 
@@ -127,8 +148,8 @@ public with sharing class aqi_SecurityHandlerLng {
     public static String getAllowedRecordTypes() {
         String res = '';
         
-        for (RecordType rt : allRecordTypes) {
-            res += '\'' + rt.DeveloperName + '\',';
+        for (sObject rt : allRecordTypes) {
+            res += '\'' + (String) rt.get('DeveloperName') + '\',';
         }
         
         if (String.isEmpty(res)) {
@@ -151,8 +172,8 @@ public with sharing class aqi_SecurityHandlerLng {
     public static Map<Id,String> getAllowedRecordTypesMap() {
         Map<Id,String> res = new Map<Id,String>();
         
-        for (RecordType rt : allRecordTypes) {
-            res.put(rt.Id, rt.Name);
+        for (sObject rt : allRecordTypes) {
+            res.put((ID) rt.get('Id'), (String) rt.get('Name'));
         }
         
         if (res.size() == 0) {
@@ -173,8 +194,8 @@ public with sharing class aqi_SecurityHandlerLng {
     public static Map<String,Id> getAllowedRecordTypeNameToIdMap() {
         Map<String,Id> res = new Map<String,Id>();
         
-        for (RecordType rt : allRecordTypes) {
-            res.put(rt.Name, rt.Id);
+        for (sObject rt : allRecordTypes) {
+            res.put((String) rt.get('Name'), (Id) rt.get('Id'));
         }
         
         if (res.size() == 0) {
@@ -521,7 +542,7 @@ public with sharing class aqi_SecurityHandlerLng {
     
     /*
     * @description
-    *   Call to the method that throw an error if cant access to the Object Type
+    *   Call to the method that throws an error if cant access to the Object Type
     * @params
     *   Object Type
     * @return
@@ -530,10 +551,23 @@ public with sharing class aqi_SecurityHandlerLng {
     public static void canAccess(Schema.SObjectType objectType) {
         canAccess(new Schema.SObjectType[] {objectType});
     }
+
+     /*
+    * @description
+    *   Call to the method that throws an error if cant access to the Object Type
+    * @params
+    *   String with object name
+    * @return
+    *   N/A
+    */
+    public static void canAccess(String objectName) {
+        Schema.SObjectType objectType = Schema.getGlobalDescribe().get(objectName);
+        canAccess(new Schema.SObjectType[] {objectType});
+    }
     
     /*
     * @description
-    *   Call to the method that throw an error if cant update to the Object Type
+    *   Call to the method that throws an error if cant update to the Object Type
     * @params
     *   Object Type
     * @return
@@ -545,7 +579,7 @@ public with sharing class aqi_SecurityHandlerLng {
     
     /*
     * @description
-    *   Call to the method that throw an error if cant create to the Object Type
+    *   Call to the method that throws an error if cant create to the Object Type
     * @params
     *   Object Type
     * @return
@@ -557,7 +591,7 @@ public with sharing class aqi_SecurityHandlerLng {
     
     /*
     * @description
-    *   Call to the method that throw an error if cant delete to the Object Type
+    *   Call to the method that throws an error if cant delete to the Object Type
     * @params
     *   Object Type
     * @return
@@ -569,7 +603,7 @@ public with sharing class aqi_SecurityHandlerLng {
     
     /*
     * @description
-    *   Call to the method that throw an error if cant access to the Object Field
+    *   Call to the method that throws an error if cant access to the Object Field
     * @params
     *   Object Field
     * @return
@@ -581,7 +615,7 @@ public with sharing class aqi_SecurityHandlerLng {
     
     /*
     * @description
-    *   Call to the method that throw an error if cant update to the Object Field
+    *   Call to the method that throws an error if cant update to the Object Field
     * @params
     *   Object Field
     * @return
@@ -593,7 +627,7 @@ public with sharing class aqi_SecurityHandlerLng {
     
     /*
     * @description
-    *   Call to the method that throw an error if cant create to the Object Field
+    *   Call to the method that throws an error if cant create to the Object Field
     * @params
     *   Object Field
     * @return

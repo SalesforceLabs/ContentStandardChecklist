@@ -9,7 +9,7 @@ private class aqi_Ctrl_Test {
 	static SObject kavObj;
 
 	static void populateCustomSetting() {
-		//creates a Custom Setting at the organization level
+		// Create a Custom Setting at the organization level
 		ArticleQuality_index__c setting= new ArticleQuality_index__c();
 		setting.Name = 'default';
 		setting.Art_Meets_Content_Standard__c = 2;
@@ -22,11 +22,11 @@ private class aqi_Ctrl_Test {
 		setting.Title_Accurate__c = 4;
 		setting.Selected_Languages__c = 'en_US';
 		setting.Trigger_Enabled__c = true;
-		insert setting;
+		INSERT setting;
 	}
 
 	static void populateData() {
-		// creates Custom Article type
+		// Create Custom Article type
 		string publishStatus = 'draft';
 		Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
 
@@ -40,16 +40,34 @@ private class aqi_Ctrl_Test {
 		String objType = kavNames.get(0);
 		aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
 		kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
-		kavObj.put('Title','Foo Foo Foo!!!'+String.valueOf(Crypto.getRandomInteger()));
-		kavObj.put('UrlName', 'foo-foo-foo'+String.valueOf(Crypto.getRandomInteger()));
-		kavObj.put('Summary', 'This is a summary!!! Foo. Foo. Foo.');
+		kavObj.put('Title', 'Test Title' + String.valueOf(Crypto.getRandomInteger()));
+		kavObj.put('UrlName', 'testurlname' + String.valueOf(Crypto.getRandomInteger()));
+		kavObj.put('Summary', 'Test Summary');
 		kavObj.put('Language', default_language);
 		insert kavObj;
 		// requery the kavObj to get the KnowledgeArticleId on it that is created automatically
-		String q =  '    SELECT Id,ArticleNumber,CreatedDate,LastPublishedDate, LastModifiedDate, LastModifiedById,'+
-		'    PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
-		'   from KnowledgeArticleVersion where Id = \'' +kavObj.get('Id')+  '\' and PublishStatus = :publishStatus';
+		String q = ' SELECT Id, ArticleNumber, CreatedDate, LastPublishedDate, LastModifiedDate, LastModifiedById, '+
+		' PublishStatus, Summary, Title, UrlName, VersionNumber, Language, KnowledgeArticleId '+
+		' FROM KnowledgeArticleVersion WHERE Id = \'' + kavObj.get('Id') +  '\' and PublishStatus = :publishStatus';
 		kavObj = (KnowledgeArticleVersion)Database.query(q);
+	}
+
+	static User createTestUser() {
+		Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
+		User testUser = new User(
+			Alias = 'newUser',
+			Email = 'newuser@testorg.com',
+			EmailEncodingKey = 'UTF-8',
+			LastName = 'Testing',
+			LanguageLocaleKey = 'en_US',
+			LocaleSidKey = 'en_US',
+			ProfileId = p.Id,
+			TimeZoneSidKey = 'America/Los_Angeles',
+			UserName = String.valueOf(Crypto.getRandomInteger()) + 'myusername@testorg.com'
+		);
+		INSERT testUser;
+
+		return testUser;
 	}
 
 	static Article_Quality__c populateFields (KnowledgeArticleVersion article) {
@@ -69,34 +87,28 @@ private class aqi_Ctrl_Test {
 		result.Art_Meets_Content_Standard__c = true;
 		result.Content_Complete__c = true;
 		result.Agent__c = UserInfo.getUserId();
+
 		return result;
 	}
 
-	//***** Test Methods *****//
-
-	/*Description: Check for the get of recordTypesMap*/
-	@isTest static void test_recordTypesMap() {
+	@isTest static void recordTypesMap_test() {
 		System.Test.startTest();
 		Map<Id,String> obtainedRecordTypesMap = aqi_Ctrl.recordTypesMap;
 		System.Test.stopTest();
-		System.assertEquals(true,obtainedRecordTypesMap.keySet().size() >= 1 ,'There should be at least 1 key on the Record Types Map obtained of aqi_Ctrl');
+
+		System.assertEquals(true, obtainedRecordTypesMap.keySet().size() >= 1, 'There should be at least 1 key on the Record Types Map obtained of aqi_Ctrl');
 	}
 
-	/*
-	Description: Check for the defined indexes
-	*/
-	@isTest static void test_getIndexApiNameToValue() {
+	@isTest static void getIndexApiNameToValue_test() {
 		System.Test.startTest();
 		Map<String,Double>  result = aqi_Ctrl.getIndexApiNameToValue();
 		result = aqi_Ctrl.getIndexApiNameToValue();
 		System.Test.stopTest();
-		System.assertEquals(8,result.size(),'There should be 8 indexes defined');
+
+		System.assertEquals(8, result.size(), 'There should be 8 indexes defined');
 	}
 
-	/*
-	Description: Check for some flows before and after insert an aqi
-	*/
-	@isTest static void test_aqiDupe() {
+	@isTest static void aqiDupe_test() {
 		System.Test.startTest();
 		populateCustomSetting();
 		populateData();
@@ -106,37 +118,34 @@ private class aqi_Ctrl_Test {
 		Test.setCurrentPage(tpageRef);
 		ApexPages.currentPage().getParameters().put('kavId', article.Id);
 		aqi_Ctrl ctr = new aqi_Ctrl();
-		ctr.record = populateFields ( article);
+		ctr.record = populateFields(article);
 		ctr.save();
 		System.Test.stopTest();
-		Article_Quality__c testRecord = [   Select AQ_Score__c ,Properties_Set_Appropriately__c
-		from Article_Quality__c
-		where
-		Article_Version__c =: article.VersionNumber
-		and
-		CreatedById =: UserInfo.getUserId()
+	
+		Article_Quality__c testRecord = [   
+			SELECT AQ_Score__c ,Properties_Set_Appropriately__c
+			FROM Article_Quality__c
+			WHERE Article_Version__c =: article.VersionNumber AND
+			CreatedById =: UserInfo.getUserId()
 		];
 		System.assertNotEquals(null, testRecord.AQ_Score__c);
-		// check uniqness : same user and article version will result on same record
-		Article_Quality__c testRecord2 = populateFields ( article);
+		
+		Article_Quality__c testRecord2 = populateFields(article);
 		Database.SaveResult result = Database.insert(testRecord2, false);
-		// Verify
-		// In this case the deletion should have been stopped by the trigger,
-		// so verify that we got back an error.
+		// Verify that there was an error.
 		System.assert(!result.isSuccess());
 		System.assert(result.getErrors().size() > 0);
 	}
 
-	@isTest static void test_findDuplicates() {
+	@isTest static void findDuplicates_test() {
 		System.Test.startTest();
 		User user1 = [SELECT Id FROM User LIMIT 1];
 
 		Article_Quality__c aq = new Article_Quality__c(
-		Article_Version__c = 1,
-		Language__c = 'esp',
-		Agent__c = user1.Id
+			Article_Version__c = 1,
+			Language__c = 'esp',
+			Agent__c = user1.Id
 		);
-
 		INSERT aq;
 
 		Set<String> langs = new Set<String>{'esp'};
@@ -150,26 +159,31 @@ private class aqi_Ctrl_Test {
 		System.assertEquals(1, duplicates2.size(), 'Map should have at least a value.');
 	}
 
-	/*
-	Description: Check for the existence of kav object - create aqi and check for parameters.
-	*/
-	@isTest static void test_indexDetail() {
+	@isTest static void indexDetail_test() {
 		System.Test.startTest();
 		populateCustomSetting();
 		populateData();
 		System.assertNotEquals(null, kavObj,'An issue has been detected trying to get the knowledge object');
 		KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
+		
 		PageReference tpageRef = Page.aqi_Edit;
 		Test.setCurrentPage(tpageRef);
 		ApexPages.currentPage().getParameters().put('kaId', article.KnowledgeArticleId);
 		ApexPages.currentPage().getParameters().put('lang', article.Language);
 		ApexPages.currentPage().getParameters().put('version', String.valueOf(article.VersionNumber));
+		
 		aqi_Ctrl ctr = new aqi_Ctrl();
-		ctr.record = populateFields ( article);
+		ctr.record = populateFields(article);
 		System.assertEquals(null, ctr.record.AQ_Score__c);
 		ctr.save();
 		System.Test.stopTest();
-		Article_Quality__c testRecord = [Select AQ_Score__c ,Properties_Set_Appropriately__c,Knowledge_Article_Id__c from Article_Quality__c where Article_Version__c =: article.VersionNumber and CreatedById =: UserInfo.getUserId()];
+		
+		Article_Quality__c testRecord = [
+			SELECT AQ_Score__c ,Properties_Set_Appropriately__c,Knowledge_Article_Id__c 
+			FROM Article_Quality__c 
+			WHERE Article_Version__c =: article.VersionNumber AND 
+			CreatedById =: UserInfo.getUserId()
+		];
 		ApexPages.StandardController sc = new ApexPages.StandardController(testRecord);
 		aqi_Ctrl ctrDetail = new aqi_Ctrl(sc);
 		System.assertEquals(null, ctrDetail.errortext);
@@ -179,7 +193,7 @@ private class aqi_Ctrl_Test {
 		System.assertEquals(null, ctrDetail.latestArticleUrl);
 	}
 
-	@isTest static void test_setErrorOnSave() {
+	@isTest static void setErrorOnSave_test() {
 		System.Test.startTest();
 		aqi_Ctrl ctr = new aqi_Ctrl();
 		ctr.setErrorOnSave();
@@ -188,25 +202,12 @@ private class aqi_Ctrl_Test {
 		System.assertEquals(true, ctr.iserror, 'Error var should be set to true');
 	}
 
-	@isTest static void test_saveError_noKavId() {
+	@isTest static void saveError_noKavId_test() {
 		aqi_Ctrl ctr = new aqi_Ctrl();
 
 		System.Test.startTest();
 		// Create user for test
-		Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
-		User testUser = new User(
-			Alias = 'newUser',
-			Email='newuser@testorg.com',
-			EmailEncodingKey='UTF-8',
-			LastName='Testing',
-			LanguageLocaleKey='en_US',
-			LocaleSidKey='en_US',
-			ProfileId = p.Id,
-			TimeZoneSidKey='America/Los_Angeles',
-			UserName = String.valueOf(Crypto.getRandomInteger()) + 'myusername@testorg.com'
-		);
-
-		INSERT testUser;
+		User testUser = createTestUser();
 
 		System.runAs(testUser) {
 			ctr.save();
@@ -216,7 +217,7 @@ private class aqi_Ctrl_Test {
 		System.assertEquals(true, ctr.iserror, 'Error var should be set to true');
 	}
 
-	@isTest static void test_saveError_Exception() {
+	@isTest static void saveError_Exception_test() {
 		populateCustomSetting();
 		populateData();
 		KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
@@ -229,20 +230,7 @@ private class aqi_Ctrl_Test {
 
 		System.Test.startTest();
 		// Create user for test
-		Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
-		User testUser = new User(
-			Alias = 'newUser',
-			Email='newuser@testorg.com',
-			EmailEncodingKey='UTF-8',
-			LastName='Testing',
-			LanguageLocaleKey='en_US',
-			LocaleSidKey='en_US',
-			ProfileId = p.Id,
-			TimeZoneSidKey='America/Los_Angeles',
-			UserName = String.valueOf(Crypto.getRandomInteger()) + 'myusername@testorg.com'
-		);
-
-		INSERT testUser;
+		User testUser = createTestUser();
 
 		System.runAs(testUser) {
 			ctr.save();

@@ -5,8 +5,8 @@
 * This class its responsible of resolves logic for custom setting handling
 **/
 public with sharing class aqi_SetupCtrl {
-    public ArticleQuality_index__c aqs {get;set;}
-    public Boolean editMode {get;set;}
+    public ArticleQuality_index__c aqs {get; set;}
+    public Boolean editMode {get; set;}
 
     public aqi_SetupCtrl() {
         editMode = false;

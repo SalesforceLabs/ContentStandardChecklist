@@ -50,7 +50,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     /*
     Description: Check for the fields returned by method that return some compact layout data
     */
-    @isTest static void test_Get_CompactLayoutData() {
+    @isTest static void getCompactLayoutData_test() {
         System.Test.startTest();
         insertKavObject();
         Map<String,Object> result = aqi_ArticleQualityIndexCtrl.getCompactLayoutData(((Id) kavObj.get('Id')), new Map<String,Object>());
@@ -63,7 +63,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     /*
     Description: Check that the apiname and record id are not empty - also check for the state of the get init data
     */
-    @isTest static void test_getInitData() {
+    @isTest static void getInitData_test() {
         System.Test.startTest();
         // Call with null parameters
         aqi_LightningResponse respError1 = aqi_ArticleQualityIndexCtrl.getInitData('', '');
@@ -91,7 +91,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     /*
     Description: Test the flow of select a kav and create an aqi then test that the get init data its returning the correct values
     */
-    @isTest static void test_upsertAQI() {
+    @isTest static void upsertAQI_test() {
         System.Test.startTest();
         // Creates Custom Article
         string publishStatus = 'draft';
@@ -131,7 +131,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     /*
     Description: Test that the dynamic picklist returned for aqi mustn't be null and also the default value
     */
-    @isTest static void test_aqi_DynamicPickList_AQI() {
+    @isTest static void dynamicPickList_AQI_test() {
         System.Test.startTest();
         aqi_DynamicPickList_AQI ctr = new aqi_DynamicPickList_AQI();
         VisualEditor.DynamicPickListRows rows = ctr.getValues();

@@ -18,11 +18,12 @@ private class aqi_SecurityHandlerLng_Test {
 
     @isTest static void getAllowedRecordTypes_test() {
         if (aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')) {
+            String result = '';
             System.Test.startTest();
-            List<Object> result = aqi_SecurityHandlerLng.allRecordTypes;
+            result = aqi_SecurityHandlerLng.getAllowedRecordTypes();
             System.Test.stopTest();
 
-            System.assertNotEquals(null, result.size(), 'The list should have at least a record');
+            System.assertNotEquals('', result, 'The string should have at least a recordType');
         }
     }
     

@@ -8,6 +8,7 @@
 	<aura:attribute name="recordId" type="String" default="" description="Indicates the id for the actual AQI" />
 	<aura:attribute name="kavId" type="String" default="" description="Indicates the id for the actual KAv" />
 	<aura:attribute name="recordError" type="String" access="private"/>
+	
 	<!-- Handlers -->
 	<aura:handler name="init" action="{!c.doInit}" value="{!this}" />
 	

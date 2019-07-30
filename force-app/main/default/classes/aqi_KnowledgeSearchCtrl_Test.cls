@@ -2,55 +2,28 @@
 * @author Altimetrik
 * @description
 *	started on January 2018
-*   This class test the aqi_KnowledgeSearchCtrl Class
+*   Test class for aqi_KnowledgeSearchCtrl 
 **/
 @isTest
 private class aqi_KnowledgeSearchCtrl_Test {
     static SObject kavObj;
 
     static void populateCustomSetting() {
-        //creates a Custom Setting at the organization level
-        ArticleQuality_index__c setting= new ArticleQuality_index__c(
-            Name = 'default',
-            Art_Meets_Content_Standard__c = 2,
-            Article_Unique__c = 2,
-            Content_complete__c = 2,
-            Content_understandable__c = 2,
-            Links_in_article_valid__c = 2,
-            Possible_Points__c = 2,
-            Properties_set_appropriately__c = 2,
-            Title_Accurate__c = 4,
-            Selected_Languages__c = 'en_US'
-        );
-        
-        INSERT setting;
+        // Creates a Custom Setting at the organization level
+       aqi_TestDataFactory.insertArticleQualitySetting();
     }
 
     static void populateData() {
         // creates Custom Article type
         string publishStatus = 'Draft';
-        Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
-        List<String> kavNames = new List<String>();
-        for (String s : gd.keySet()) {
-            if (s.contains('__kav')) {
-                kavNames.add(s);
-            }
-        }
-
-        String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
-        String objType = kavNames.get(0);
+        
         aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
-        kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
-        kavObj.put('Title', 'test');
-        kavObj.put('UrlName', 'foo-foo-foo-test'+String.valueOf(Crypto.getRandomInteger()));
-        kavObj.put('Summary', 'This is a summary test!!! Foo. Foo. Foo.');
-        kavObj.put('Language', default_language);
-        INSERT kavObj;
+        kavObj = aqi_TestDataFactory.insertKnowledgeArticle();
 
-        String q = ' SELECT Id,ArticleNumber,CreatedDate,LastPublishedDate, LastModifiedDate, LastModifiedById,'+
-        ' PublishStatus,Summary,Title,UrlName,VersionNumber,Language ,KnowledgeArticleId '+
-        ' FROM KnowledgeArticleVersion WHERE Id = \'' +kavObj.get('Id')+  '\' AND PublishStatus = :publishStatus';
-        kavObj = (KnowledgeArticleVersion)Database.query(q);
+        String q = ' SELECT Id, ArticleNumber, CreatedDate, LastPublishedDate, LastModifiedDate, LastModifiedById, ' +
+        ' PublishStatus, Summary, Title, UrlName, VersionNumber, Language, KnowledgeArticleId ' +
+        ' FROM KnowledgeArticleVersion WHERE Id = \'' + kavObj.get('Id') + '\' AND PublishStatus = :publishStatus';
+        kavObj = (KnowledgeArticleVersion) Database.query(q);
     }
 
     static Article_Quality__c populateFields (KnowledgeArticleVersion article) {
@@ -75,20 +48,20 @@ private class aqi_KnowledgeSearchCtrl_Test {
         return result;
     }
 
-    /*
-    Description: Check for the articles returned on the initial listing
-    */
-    @isTest static void test_list() {
+    @isTest static void list_test() {
         System.Test.startTest();
         populateCustomSetting();
         PageReference tpageRef = Page.aqi_KnowledgeSearch;
         Test.setCurrentPage(tpageRef);
         ApexPages.currentPage().getParameters().put('kavId', UserInfo.getUserId());
         ApexPages.Message[] pageMessages = ApexPages.getMessages();
+        
         aqi_KnowledgeSearchCtrl ctr = new aqi_KnowledgeSearchCtrl();
         populateData();
-        KnowledgeArticleVersion article = (KnowledgeArticleVersion)kavObj;
+        
+        KnowledgeArticleVersion article = (KnowledgeArticleVersion) kavObj;
         populateCustomSetting();
+       
         ApexPages.currentPage().getParameters().put('kavId', UserInfo.getUserId());
         Id[] fixedSearchResults= new Id[1];
         fixedSearchResults[0] = article.Id;
@@ -107,7 +80,7 @@ private class aqi_KnowledgeSearchCtrl_Test {
         Map<Id,String> availableRecordTypes = ctr.availableRecordTypes;
         String tzOffset = ctr.tzOffset;
         Object resultOfSoqlWithoutStringSearch = aqi_KnowledgeSearchCtrl.getArticles('', '', article.Language, '', '', '', '', '', '2015-01-01', '', '0', 'Title', false) ;
-        Object resultOfSoslWithoutStringSearch = aqi_KnowledgeSearchCtrl.getArticles('test', '', article.Language,'', '', '', '', '', '2015-01-01', '', '0', 'Title', false) ;
+        Object resultOfSoslWithoutStringSearch = aqi_KnowledgeSearchCtrl.getArticles('test', '', article.Language, '', '', '', '', '', '2015-01-01', '', '0', 'Title', false) ;
         List<KnowledgearticleVersion> av = new List<KnowledgeArticleVersion>();
         List<Object> listOfAqiRecords = aqi_KnowledgeSearchCtrl.checkForAQIRecords(av, 'en_US');
         Map<String,String> allLanguage = aqi_KnowledgeSearchCtrl.allLanguageOptions;

@@ -9,48 +9,19 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     static SObject kavObj;
 
     @testSetup static void setup() {
-        ArticleQuality_index__c aqs = new ArticleQuality_index__c(
-            Name = 'default',
-            Art_Meets_Content_Standard__c = 5,
-            Article_Unique__c = 5,
-            Content_complete__c = 5,
-            Content_understandable__c = 5,
-            Links_in_article_valid__c = 5,
-            Properties_set_appropriately__c = 5,
-            Title_Accurate__c = 5,
-            Possible_Points__c = 35,
-            Selected_Languages__c = 'en_US'
-        );
-       
-        INSERT aqs;
+        aqi_TestDataFactory.insertArticleQualitySetting();
     }
 
     // Aux method that inserts kav data
     private static void insertKavObject() {
-        Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
-        String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
-        List<String> kavNames = new List<String>();
-        for (String s : gd.keySet()) {
-            if (s.contains('__kav')) {
-                kavNames.add(s);
-            }
-        }
-
-        String objType = kavNames.get(0);
         aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
-        kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
-        aqi_SecurityHandlerLng.canAccess(Schema.getGlobalDescribe().get(objType));
-        kavObj.put('Title', 'Test Method Title' + String.valueOf(Crypto.getRandomInteger()));
-        kavObj.put('UrlName', 'test-method-url-name' + String.valueOf(Crypto.getRandomInteger()));
-        kavObj.put('Summary', 'Test Method Summary');
-        kavObj.put('Language', default_language);
-        INSERT kavObj;
+        kavObj = aqi_TestDataFactory.insertKnowledgeArticle();
     }
 
     /*
     Description: Check for the fields returned by method that return some compact layout data
     */
-    @isTest static void test_Get_CompactLayoutData() {
+    @isTest static void getCompactLayoutData_test() {
         System.Test.startTest();
         insertKavObject();
         Map<String,Object> result = aqi_ArticleQualityIndexCtrl.getCompactLayoutData(((Id) kavObj.get('Id')), new Map<String,Object>());
@@ -63,7 +34,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     /*
     Description: Check that the apiname and record id are not empty - also check for the state of the get init data
     */
-    @isTest static void test_getInitData() {
+    @isTest static void getInitData_test() {
         System.Test.startTest();
         // Call with null parameters
         aqi_LightningResponse respError1 = aqi_ArticleQualityIndexCtrl.getInitData('', '');
@@ -91,7 +62,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     /*
     Description: Test the flow of select a kav and create an aqi then test that the get init data its returning the correct values
     */
-    @isTest static void test_upsertAQI() {
+    @isTest static void upsertAQI_test() {
         System.Test.startTest();
         // Creates Custom Article
         string publishStatus = 'draft';
@@ -131,7 +102,7 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     /*
     Description: Test that the dynamic picklist returned for aqi mustn't be null and also the default value
     */
-    @isTest static void test_aqi_DynamicPickList_AQI() {
+    @isTest static void dynamicPickList_AQI_test() {
         System.Test.startTest();
         aqi_DynamicPickList_AQI ctr = new aqi_DynamicPickList_AQI();
         VisualEditor.DynamicPickListRows rows = ctr.getValues();

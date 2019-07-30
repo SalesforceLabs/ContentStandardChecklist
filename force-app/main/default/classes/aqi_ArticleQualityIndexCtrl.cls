@@ -75,7 +75,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                     tmp = str.toLowerCase();
                     if (allFields.containsKey(tmp)) {
                         Schema.DescribeFieldResult dfr = allFields.get(tmp).getDescribe();
-                        if (dfr.isCustom() && dfr.getType() ==Schema.DisplayType.BOOLEAN) {
+                        if (dfr.isCustom() && dfr.getType() == Schema.DisplayType.BOOLEAN) {
                             indexList.add(new indexArticleQualityIndex(dfr.getLabel(),dfr.getName(),true));
                         }
                     }
@@ -108,7 +108,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         Map<String,Object> result = new Map<String,Object>();
         Map<String,Double> indexValues = aqi_Ctrl.getindexApiNameToValue();
         Set<String> apiNamesWhiteLilst = indexValues.keySet();
-        List<String> tmpList  = new List<String>();
+        List<String> tmpList = new List<String>();
         tmpList.addAll(apiNamesWhiteLilst);
 
         String qStringApiNames = String.join(tmpList,', ');
@@ -172,7 +172,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             
             if (aqi_SecurityHandlerLng.isCreateable(Article_Quality__c.sObjectType)) {
                 result = new Article_Quality__c();
-                result = aqi_Ctrl.loadKavDetails( article, result);
+                result = aqi_Ctrl.loadKavDetails(article, result);
             }
         }
         
@@ -250,11 +250,11 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         String kavId = '';
         try {
             response.state = 'SUCCESS';
-            List<Article_Quality__c> l = [SELECT Id, Knowledge_Article_Version_Id__c  FROM Article_Quality__c  WHERE Id=:recordId];
+            List<Article_Quality__c> l = [SELECT Id, Knowledge_Article_Version_Id__c FROM Article_Quality__c WHERE Id=:recordId];
             if (!l.isEmpty()) {
                 kavId =  l.get(0).Knowledge_Article_Version_Id__c;
                 result.put('kavId', kavId);
-                // We get the language - vers
+                // Get language version
                 result = getCompactLayoutData(kavId,result);
                 if (result.get('errors').equals('None')) {
                     Boolean isArchived = false;
@@ -263,6 +263,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                     ' WHERE PublishStatus = \'Archived\' ' +
                     ' AND Id = \'' + kavId + '\' ';
                     aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
+                    
                     List<KnowledgeArticleVersion> actualKavs = Database.query(query);
                     if (!actualKavs.isEmpty()) {
                         isArchived = true;
@@ -293,9 +294,9 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     *   N/A
     */
     public class indexArticleQualityIndex {
-        @AuraEnabled public String fieldLabel {get;set;}
-        @AuraEnabled public String fieldName {get;set;}
-        @AuraEnabled public Boolean fieldValue {get;set;}
+        @AuraEnabled public String fieldLabel {get; set;}
+        @AuraEnabled public String fieldName {get; set;}
+        @AuraEnabled public Boolean fieldValue {get; set;}
         public indexArticleQualityIndex(String fLabel, String fName, Boolean fValue) {
             fieldLabel = fLabel;
             fieldName = fName;

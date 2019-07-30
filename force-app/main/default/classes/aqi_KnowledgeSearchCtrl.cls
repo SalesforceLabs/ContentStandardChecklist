@@ -2,17 +2,17 @@
 * @author Altimetrik
 * @description
 * started on January 2018
-* This class its responsible of return articles filtered by the parameters received by the search and return some values used on the visualforce page
+* Class responsible of returning articles filtered by the parameters received by the search and return some values used on the visualforce page
 **/
 global with sharing class aqi_KnowledgeSearchCtrl {
 	public static String PUBLISH_STATUS = System.Test.isRunningTest() ? 'Draft' : 'Online';
 	public final static String DEFAULT_LANGUAGE = aqi_SettingsHandler.customOrDefaultLanguage();
 	public static final Integer PAGE_SIZE 	= 10;
-	public static String sortBy 	= 'Title';
-	public static Boolean sortAsc 	= false;
+	public static String sortBy = 'Title';
+	public static Boolean sortAsc = false;
 	public static String knowledgeObject = aqi_securityHandlerLng.knowledgeObject;
-	public static Boolean isValidationStActive = checkForSchemaFieldActive('validationstatus');
-	public static Boolean isRecordTypeIdActive = checkForSchemaFieldActive('recordtypeid');
+	public static Boolean isValidationStActive = aqi_SecurityHandlerLng.checkForSchemaFieldActive('validationstatus');
+	public static Boolean isRecordTypeIdActive = aqi_SecurityHandlerLng.checkForSchemaFieldActive('recordtypeid');
 
 	/*
 	* @description
@@ -24,18 +24,19 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 				TimeZone tz =  UserInfo.getTimeZone();
 				Long ofsetD = tz.getoffset(System.now());
 				Time t = Time.newInstance(0, 0, 0, Integer.valueOf(Math.abs(ofsetD)));
-				if ( t.minute() >= 45) 
-				tzOffset = t.hour()+'.8';
-				else
-				if ( t.minute() >= 30)
-				tzOffset = t.hour() + '.5';
-				else
-				tzOffset = t.hour() + '.0';
+				if (t.minute() >= 45) {
+					tzOffset = t.hour() + '.8';
+				} else if (t.minute() >= 30) {
+					tzOffset = t.hour() + '.5';
+				} else {
+					tzOffset = t.hour() + '.0';
+				}
+				
 				tzOffset = (ofsetD < 0) ? '-' + tzOffset : tzOffset;
 			}
 
 			return String.escapeSingleQuotes(tzOffset);
-		}
+		}	
 		set;
 	}
 
@@ -46,7 +47,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 	public Boolean isValidationStatusActive {
 		get {
 			if (isValidationStatusActive == null) {
-				isValidationStatusActive = checkForSchemaFieldActive('validationstatus');
+				isValidationStatusActive = aqi_SecurityHandlerLng.checkForSchemaFieldActive('validationstatus');
 			}
 
 			return isValidationStatusActive;
@@ -56,7 +57,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 
 	/*
 	* @description
-	*	Get the map<id,string> of availableRecordTypes
+	*	Get the map<Id,String> of availableRecordTypes
 	*/
 	public Map<Id,String> availableRecordTypes {
 		get {
@@ -144,7 +145,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 	String articlePublishDateTo, String articleLastModifiedDateFrom, String articleLastModifiedDateTo,
 	String pageNum, String sortBy, Boolean sortAsc) {
 		Integer queryOffset =  resolveOffset(pageNum);
-		Boolean isMasterLanguage = checkForSchemaFieldActive('ismasterlanguage');
+		Boolean isMasterLanguage = aqi_SecurityHandlerLng.checkForSchemaFieldActive('ismasterlanguage');
 		String fieldsToRetrieve = '';
 		if (isRecordTypeIdActive) {
 			fieldsToRetrieve = ' Id, UrlName, createdby.name, lastmodifiedby.name, Language, ArticleNumber, VersionNumber, KnowledgeArticleId,  '+
@@ -171,12 +172,11 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 				whereConditions.add(' articlenumber LIKE \'%' + escapeString(articleNumber) + '%\' ');
 			}
 		}
-		// ARTICLE RECORD TYPE                  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-		// Check if exist RecordTypeId
+		// Check if RecordTypeId exists
 		if (isRecordTypeIdActive && String.isNotBlank(articleRecordType) & (articleRecordType !='all')) {
 			whereConditions.add(' RecordTypeId = \'' + escapeString(articleRecordType) + '\' ');
 		}
-		// Check Master Language                # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+		// Check Master Language
 		if (isMasterLanguage) {
 			whereConditions.add(' IsMasterLanguage = true ');
 		}
@@ -205,29 +205,29 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 
 		if (auxDTT_from != null) {
 			aux = auxDTT_from.formatGMT('yyyy-MM-dd') + 'T' + auxDTT_from.formatGMT('HH:mm:ss.SSS') + 'Z';
-			whereConditions.add(' LastModifiedDate >= ' +   aux  );
+			whereConditions.add(' LastModifiedDate >= ' + aux);
 		}
 
 		if (auxDTT_to != null) {
 			aux = auxDTT_to.formatGMT('yyyy-MM-dd') + 'T' + auxDTT_to.formatGMT('HH:mm:ss.SSS') + 'Z';
-			whereConditions.add('  LastModifiedDate <=  ' + aux  );
+			whereConditions.add(' LastModifiedDate <= ' + aux);
 		}
 
 		auxDTT_from = strToDateTime(escapeString(articlePublishDateFrom),false);
 		auxDTT_to = strToDateTime(escapeString(articlePublishDateTo),true);
 		if (auxDTT_from != null && auxDTT_to != null) {
 			if (auxDTT_from > auxDTT_to) {
-				ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING, 'First Published Date  range is invalid'));
+				ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING, 'First Published Date range is invalid'));
 				return '';
 			}
 		}
 		if (auxDTT_from != null) {
 			aux = auxDTT_from.formatGMT('yyyy-MM-dd') + 'T' + auxDTT_from.formatGMT('HH:mm:ss.SSS') + 'Z';
-			whereConditions.add('  FirstPublishedDate >=  ' +   aux  );
+			whereConditions.add(' FirstPublishedDate >= ' +   aux);
 		}
 		if (auxDTT_to != null) {
 			aux = auxDTT_to.formatGMT('yyyy-MM-dd') + 'T' + auxDTT_to.formatGMT('HH:mm:ss.SSS') + 'Z';
-			whereConditions.add('  FirstPublishedDate <=  ' + aux  );
+			whereConditions.add(' FirstPublishedDate <= ' + aux);
 		}
 
 		String whereClause = ' WHERE  ' + String.join(whereConditions,' AND ');
@@ -239,21 +239,21 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 
 		if (errorsOnInput.isEmpty()) {
 			if (String.isNotBlank(searchString)) {
-				queryString =   ' FIND \''+  String.escapeSingleQuotes(searchString)  +'*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( ' + fieldsToRetrieve + whereClause + orderByClause + limitClause + ')';
+				queryString = ' FIND \'' + String.escapeSingleQuotes(searchString) + '*\' IN ALL FIELDS RETURNING ' + knowledgeObject + ' ( ' + fieldsToRetrieve + whereClause + orderByClause + limitClause + ')';
 				List<List<SObject>> articlesQueried = search.query(queryString);
-				sObjList = ((List<Sobject>)articlesQueried[0]);
+				sObjList = ((List<Sobject>) articlesQueried[0]);
 			} else {
-				queryString = '  SELECT  ' + fieldsToRetrieve + ' FROM ' + knowledgeObject + whereClause + orderByClause + limitClause;
+				queryString = ' SELECT  ' + fieldsToRetrieve + ' FROM ' + knowledgeObject + whereClause + orderByClause + limitClause;
 				sObjList = Database.query(queryString);
 			}
 		}
 
 		List<Object> resultList = checkForAQIRecords(sObjList,escapeString(articleLanguage));
 		Map<String,Object> result = new Map<String,Object>();
-		result.put('success',true);
-		result.put('items',resultList);
-		result.put('pageNum',pageNum);
-		result.put('errorList',errorsOnInput);
+		result.put('success', true);
+		result.put('items', resultList);
+		result.put('pageNum', pageNum);
+		result.put('errorList', errorsOnInput);
 		Boolean showNext = true;
 		if (resultList.size() < PAGE_SIZE) {
 			showNext = false;
@@ -265,15 +265,15 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 
 	/*
 	* @description
-	*	Method that return a list of kavs and the information if any kav had aqi
+	*	Method that return a list of kavs and the information of the related aqi
 	* @params
 	*	List<SObject> kavList, String lang
 	* @return
-	*	Return List of kavs and the information if any kav had aqi
+	*	List of kavs and the information of the related aqi
 	*/
 	public static List<Object> checkForAQIRecords(List<SObject> kavList, String lang) {
 		List<Object> result = new List<Object>();
-		//check if this article already has an AQI related
+		// Check if this article already has an AQI related
 		Set<Id> kavIds = new Set<Id>();
 		Set<Decimal> versions = new Set<Decimal>();
 		for (SObject sobj : kavList) {
@@ -302,7 +302,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 		for (SObject sObj : kavList) {
 			String jString = JSON.serialize(sObj);
 			Map<String,Object> m = (Map<String,Object>)JSON.deserializeUntyped(jString);
-			tmpK = String.valueOf(sobj.get('KnowledgeArticleId'))+lang+Decimal.valueOf(String.valueOf(sobj.get('VersionNumber')));
+			tmpK = String.valueOf(sobj.get('KnowledgeArticleId')) + lang + Decimal.valueOf(String.valueOf(sobj.get('VersionNumber')));
 			m.put('hasAQI', mapAqi.containsKey(tmpK));
 			m.put('isValidationStatusEnabled', isValidationStActive);
 			result.add(m);
@@ -313,7 +313,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 
 	/*
 	* @description
-	*	Method that escape the string
+	*	Method that escapes the string
 	* @params
 	*	N/A
 	* @return
@@ -328,28 +328,6 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 		}
 
 		return result;
-	}
-
-	/*
-	* @description
-	*	Method that return a boolean to know if the fieldname exist on the fields of the schema
-	* @params
-	*	N/A
-	* @return
-	*	Boolean
-	*/
-	public static boolean checkForSchemaFieldActive(String fieldName) {
-		boolean boolFieldActive = false;
-		if (knowledgeObject != null) {
-			if (Schema.getGlobalDescribe().get(knowledgeObject) != null) {
-				Schema.DescribeSObjectResult sor = Schema.getGlobalDescribe().get(knowledgeObject).getDescribe();
-				Map<String,Schema.SObjectField> sofs = sor.fields.getMap();
-				Set<String> objectFields = sofs.keySet();
-				boolFieldActive = objectFields.contains(fieldName);
-			}
-		}
-
-		return boolFieldActive;
 	}
 
 	/*
@@ -405,7 +383,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 
 	/*
 	* @description
-	*	Method that convert string to datetime yyyy-mm-dd
+	*	Method that converts string to datetime yyyy-mm-dd
 	* @params
 	*	N/A
 	* @return
@@ -425,5 +403,4 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 
 		return result;
 	}
-
 }

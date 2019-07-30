@@ -2,15 +2,12 @@
 * @author Altimetrik
 * @description
 *	started on January 2018
-*   This class test the aqi_LightningResponse Class
+*   Test class for aqi_LightningResponse
 **/
 @isTest
 private class aqi_LightningResponse_Test {
 	private static aqi_LightningResponse lightningResponse = new aqi_LightningResponse();
 
-    /*
-    Description: Check for the get and set of the class
-    */
     @isTest static void test_getAttributes() {
 		System.Test.startTest();
         lightningResponse.jsonResponse = 'testJSON';
@@ -23,9 +20,6 @@ private class aqi_LightningResponse_Test {
         System.assertEquals('testSTATE', lightningResponse.state, 'state should be equal');
     }
 
-	/*
-    Description: Check for the state of the constructor
-    */
     @isTest static void test_constructor() {
 		System.Test.startTest();
         String state = lightningResponse.state;
@@ -34,14 +28,11 @@ private class aqi_LightningResponse_Test {
         System.assertEquals('SUCCESS', state, 'State should be "SUCCESS"');
     }
 
-	/*
-	Description: Check for the state of the constructor
-	*/
     @isTest static void test_exception() {
         try {
 			System.Test.startTest();
             User testUser = new User();
-            // This insert will fail because there are no required fields set for the user
+            // Insert will fail because there are no required fields set for the user
             INSERT testUser;
         } catch (Exception e) {
             aqi_LightningResponse klr = new aqi_LightningResponse(e);

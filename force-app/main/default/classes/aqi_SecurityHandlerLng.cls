@@ -2,16 +2,16 @@
 * @author Altimetrik
 * @description
 * started on January 2018
-* This class its responsible of check and retrieve some information useful for the security of our application
+* Class that checks and retrieves information useful for the security of our application
 **/
 public with sharing class aqi_SecurityHandlerLng {
-    public static final String  ERROR_OBJECT_NOT_ACCESSIBLE = 'You do not have access to the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
-    public static final String  ERROR_OBJECT_NOT_UPDATEABLE = 'You cannot update the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
-    public static final String  ERROR_OBJECT_NOT_CREATEABLE = 'You cannot create the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
-    public static final String  ERROR_OBJECT_NOT_DELETABLE = 'You cannot delete the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
-    public static final String  ERROR_FIELD_NOT_ACCESSIBLE = 'You do not have access to the following fields: {0} Please contact your Salesforce Administrator for assistance.';
-    public static final String  ERROR_FIELD_NOT_UPDATEABLE = 'You cannot update the following fields: {0} Please contact your Salesforce Administrator for assistance.';
-    public static final String  ERROR_FIELD_NOT_CREATEABLE = 'You cannot create the following fields: {0} Please contact your Salesforce Administrator for assistance.';
+    public static final String ERROR_OBJECT_NOT_ACCESSIBLE = 'You do not have access to the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
+    public static final String ERROR_OBJECT_NOT_UPDATEABLE = 'You cannot update the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
+    public static final String ERROR_OBJECT_NOT_CREATEABLE = 'You cannot create the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
+    public static final String ERROR_OBJECT_NOT_DELETABLE = 'You cannot delete the following objects: {0}. Please contact your Salesforce Administrator for assistance.';
+    public static final String ERROR_FIELD_NOT_ACCESSIBLE = 'You do not have access to the following fields: {0} Please contact your Salesforce Administrator for assistance.';
+    public static final String ERROR_FIELD_NOT_UPDATEABLE = 'You cannot update the following fields: {0} Please contact your Salesforce Administrator for assistance.';
+    public static final String ERROR_FIELD_NOT_CREATEABLE = 'You cannot create the following fields: {0} Please contact your Salesforce Administrator for assistance.';
     
     public static Boolean securityEnabled {get; set;}
     public static Boolean isPrivateSharingEnabled {get; set;}
@@ -223,6 +223,28 @@ public with sharing class aqi_SecurityHandlerLng {
         }
         return result ;
     }
+
+    /*
+	* @description
+	*	Method that return a boolean to know if the fieldname exist on the fields of the schema
+	* @params
+	*	N/A
+	* @return
+	*	Boolean
+	*/
+	public static boolean checkForSchemaFieldActive(String fieldName) {
+		boolean boolFieldActive = false;
+		if (knowledgeObject != null) {
+			if (Schema.getGlobalDescribe().get(knowledgeObject) != null) {
+				Schema.DescribeSObjectResult sor = Schema.getGlobalDescribe().get(knowledgeObject).getDescribe();
+				Map<String,Schema.SObjectField> sofs = sor.fields.getMap();
+				Set<String> objectFields = sofs.keySet();
+				boolFieldActive = objectFields.contains(fieldName);
+			}
+		}
+
+		return boolFieldActive;
+	}
     
     /*
     * @description

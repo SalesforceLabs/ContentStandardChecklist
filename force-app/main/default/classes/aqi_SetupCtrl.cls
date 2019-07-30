@@ -2,11 +2,11 @@
 * @author Altimetrik
 * @description
 * started on January 2018
-* This class its responsible of resolves logic for custom setting handling
+* Class that resolves logic for custom setting handling
 **/
 public with sharing class aqi_SetupCtrl {
-    public ArticleQuality_index__c aqs {get;set;}
-    public Boolean editMode {get;set;}
+    public ArticleQuality_index__c aqs {get; set;}
+    public Boolean editMode {get; set;}
 
     public aqi_SetupCtrl() {
         editMode = false;
@@ -66,31 +66,5 @@ public with sharing class aqi_SetupCtrl {
         }
 
         return null;
-    }
-
-    /*
-    * @description
-    *   Return api name of Knowledge object
-    * @params
-    *   N/A
-    * @return
-    *   String
-    */
-    public static String getKnowledgeApiName() {
-        String result='';
-        Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
-
-        List<String> apiNames = new List<String>();
-        apiNames.addAll(gd.keySet());
-
-        while (!apiNames.isEmpty() && !String.isNotBlank(result)) {
-            if (apiNames.get(0).contains('__kav')) {
-                result = apiNames.get(0);
-            }
-
-            apiNames.remove(0);
-        }
-        
-        return result;
     }
 }

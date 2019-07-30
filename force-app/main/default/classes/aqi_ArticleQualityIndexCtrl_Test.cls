@@ -9,42 +9,13 @@ private class aqi_ArticleQualityIndexCtrl_Test {
     static SObject kavObj;
 
     @testSetup static void setup() {
-        ArticleQuality_index__c aqs = new ArticleQuality_index__c(
-            Name = 'default',
-            Art_Meets_Content_Standard__c = 5,
-            Article_Unique__c = 5,
-            Content_complete__c = 5,
-            Content_understandable__c = 5,
-            Links_in_article_valid__c = 5,
-            Properties_set_appropriately__c = 5,
-            Title_Accurate__c = 5,
-            Possible_Points__c = 35,
-            Selected_Languages__c = 'en_US'
-        );
-       
-        INSERT aqs;
+        aqi_TestDataFactory.insertArticleQualitySetting();
     }
 
     // Aux method that inserts kav data
     private static void insertKavObject() {
-        Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
-        String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
-        List<String> kavNames = new List<String>();
-        for (String s : gd.keySet()) {
-            if (s.contains('__kav')) {
-                kavNames.add(s);
-            }
-        }
-
-        String objType = kavNames.get(0);
         aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
-        kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
-        aqi_SecurityHandlerLng.canAccess(Schema.getGlobalDescribe().get(objType));
-        kavObj.put('Title', 'Test Method Title' + String.valueOf(Crypto.getRandomInteger()));
-        kavObj.put('UrlName', 'test-method-url-name' + String.valueOf(Crypto.getRandomInteger()));
-        kavObj.put('Summary', 'Test Method Summary');
-        kavObj.put('Language', default_language);
-        INSERT kavObj;
+        kavObj = aqi_TestDataFactory.insertKnowledgeArticle();
     }
 
     /*

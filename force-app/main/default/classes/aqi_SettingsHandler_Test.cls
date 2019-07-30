@@ -2,28 +2,20 @@
  * @author Altimetrik
  * @description
  *	started on January 2018
- *   This class test the aqi_SettingsHandler Class
+ *   Test class for aqi_SettingsHandler 
  **/
 @isTest
 private class aqi_SettingsHandler_Test {
-    /*
-    Description: Check that the checkForAppConfiguration method return an instance of Config Details Setting
-    */
 	@isTest static void test_checkForAppConfiguration() {
 		System.Test.startTest();
-		// Implement test code
 		ArticleQuality_index__c config   = aqi_SettingsHandler.checkForAppConfiguration();
 		System.Test.stopTest();
 		
 		System.assertNotEquals(null,config,'Config details shouldn\'t be null');//
 	}
 
-	/*
-    Description: Check that the checkForAppConfiguration method return an instance of Config Details Setting
-    */
 	@isTest static void test_cleanCS() {
 		System.Test.startTest();
-		// Implement test code
 		Decimal testDecimal = 989;
 		ArticleQuality_index__c config   = aqi_SettingsHandler.checkForAppConfiguration();
 		config.Possible_Points__c = testDecimal;

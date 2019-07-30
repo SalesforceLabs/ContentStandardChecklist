@@ -2,7 +2,7 @@
 * @author Altimetrik
 * @description
 * started on January 2018
-* This class its responsible of resolves logic for custom setting handling
+* Class that resolves logic for custom setting handling
 **/
 public class aqi_SettingsHandler {
 	public static String CUSTOM_SETTING_NAME = 'default';
@@ -37,7 +37,7 @@ public class aqi_SettingsHandler {
 	* @params
 	*   N/A
 	* @return
-	*   Return a new cleaned instance of ArticleQuality_index__c
+	*   Return a new clean instance of ArticleQuality_index__c
 	*/
 	public static ArticleQuality_index__c cleanCS() {
 		ArticleQuality_index__c  aq = (aqi_SecurityHandlerLng.isAccessible(ArticleQuality_index__c.sObjectType)) ? ArticleQuality_index__c.getInstance(CUSTOM_SETTING_NAME) : null;

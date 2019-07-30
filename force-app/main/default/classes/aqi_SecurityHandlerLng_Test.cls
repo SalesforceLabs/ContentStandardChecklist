@@ -2,12 +2,12 @@
 * @author Altimetrik
 * @description
 *	started on January 2018
-*   This class test the aqi_LightningResponse Class
+*   Test class the aqi_LightningResponse
 **/
 @isTest
 private class aqi_SecurityHandlerLng_Test {
     @isTest static void allRecordTypes_test() {
-        if (aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')) {
+        if (aqi_SecurityHandlerLng.checkForSchemaFieldActive('recordtypeid')) {
             System.Test.startTest();
             List<Object> result = aqi_SecurityHandlerLng.allRecordTypes;
             System.Test.stopTest();
@@ -17,7 +17,7 @@ private class aqi_SecurityHandlerLng_Test {
     }
 
     @isTest static void getAllowedRecordTypes_test() {
-        if (aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')) {
+        if (aqi_SecurityHandlerLng.checkForSchemaFieldActive('recordtypeid')) {
             String result = '';
             System.Test.startTest();
             result = aqi_SecurityHandlerLng.getAllowedRecordTypes();
@@ -28,7 +28,7 @@ private class aqi_SecurityHandlerLng_Test {
     }
     
     @isTest static void getAllowedRecordTypesMap_test() {
-        if (aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')) {
+        if (aqi_SecurityHandlerLng.checkForSchemaFieldActive('recordtypeid')) {
             System.Test.startTest();
             Map<Id,String> all = aqi_SecurityHandlerLng.getAllowedRecordTypesMap() ;
             System.Test.stopTest();
@@ -36,17 +36,14 @@ private class aqi_SecurityHandlerLng_Test {
             System.assertNotEquals(null, all, 'The Record Type Map should not be null');
         }
     }
-    
-    /*
-    Description: Check if exist any record type - if exist then check that the map shouldn't be null
-    */
+ 
     @isTest static void getAllowedRecordTypeNameToIdMap_test() {
-        if (aqi_KnowledgeSearchCtrl.checkForSchemaFieldActive('recordtypeid')) {
+        if (aqi_SecurityHandlerLng.checkForSchemaFieldActive('recordtypeid')) {
             System.Test.startTest();
             Map<String,Id> all = aqi_SecurityHandlerLng.getAllowedRecordTypeNameToIdMap();
             System.Test.stopTest();
 
-            System.assertNotEquals(null,all,'The Record Type Map should not be null');
+            System.assertNotEquals(null, all, 'The Record Type Map should not be null');
         }
     }
     
@@ -90,7 +87,6 @@ private class aqi_SecurityHandlerLng_Test {
                         System.assert(false);
                     } catch (SecurityException e) {}
                 }
-                    
                         
                 if (Case.sObjectType.getDescribe().isUpdateable()) {
                     aqi_SecurityHandlerLng.canUpdate(Case.sObjectType);
@@ -101,7 +97,6 @@ private class aqi_SecurityHandlerLng_Test {
                     } catch (SecurityException e) {}
                 }
                 
-
                 if (Case.sObjectType.getDescribe().isDeletable()) {
                     aqi_SecurityHandlerLng.canDelete(Case.sObjectType);
                 } else {
@@ -110,7 +105,6 @@ private class aqi_SecurityHandlerLng_Test {
                         System.assert(false);
                     } catch (SecurityException e) {}
                 }
-                
     
                 if (Case.subject.getDescribe().isAccessible()) {
                     aqi_SecurityHandlerLng.canAccess(Case.subject);
@@ -121,7 +115,6 @@ private class aqi_SecurityHandlerLng_Test {
                     } catch (SecurityException e) {}
                 }
                 
-        
                 if (Case.subject.getDescribe().isCreateable()) {
                     aqi_SecurityHandlerLng.canCreate(Case.subject);
                 } else {
@@ -130,7 +123,6 @@ private class aqi_SecurityHandlerLng_Test {
                         System.assert(false);
                     } catch (SecurityException e) {}
                 }
-                
             
                 if (Case.subject.getDescribe().isUpdateable()) { 
                     aqi_SecurityHandlerLng.canUpdate(Case.subject);
@@ -148,7 +140,7 @@ private class aqi_SecurityHandlerLng_Test {
     @isTest static void securityDisabled_test() {
         System.Test.startTest();
         aqi_SecurityHandlerLng.securityEnabled = false;
-        Profile[] profileList = [SELECT Id, Name FROM Profile where Name = 'System Administrator' OR Name = 'Standar User' LIMIT 2];
+        Profile[] profileList = [SELECT Id, Name FROM Profile WHERE Name = 'System Administrator' OR Name = 'Standar User' LIMIT 2];
         Map<Id,String> profileMap = new Map<Id,String>();
         for (Profile p : profileList) {
             profileMap.put(p.id, p.Name);

@@ -2,7 +2,7 @@
 * @author Altimetrik
 * @description
 * started on January 2018
-* This class its responsible of return the dynamic picklist for aqi and the default value
+* Class is responsible of returning the dynamic picklist for aqi and the default value
 **/
 global class aqi_DynamicPickList_AQI extends VisualEditor.DynamicPickList {
     /*

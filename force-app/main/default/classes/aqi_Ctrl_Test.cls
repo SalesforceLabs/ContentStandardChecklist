@@ -27,25 +27,13 @@ private class aqi_Ctrl_Test {
 
 	static void populateData() {
 		// Create Custom Article type
-		string publishStatus = 'draft';
-		Map<String,Schema.SOBjectType> gd = Schema.getGlobalDescribe();
+		String publishStatus = 'draft';
 
-		List<String> kavNames = new List<String>();
-		for (String s : gd.keySet()) {
-			if (s.contains('__kav')) {
-				kavNames.add(s);
-			}
-		}
 		String default_language = aqi_SettingsHandler.customOrDefaultLanguage();
-		String objType = kavNames.get(0);
 		aqi_SecurityHandlerLng.canAccess(KnowledgeArticleVersion.sObjectType);
-		kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
-		kavObj.put('Title', 'Test Title' + String.valueOf(Crypto.getRandomInteger()));
-		kavObj.put('UrlName', 'testurlname' + String.valueOf(Crypto.getRandomInteger()));
-		kavObj.put('Summary', 'Test Summary');
-		kavObj.put('Language', default_language);
-		insert kavObj;
-		// requery the kavObj to get the KnowledgeArticleId on it that is created automatically
+		kavObj = aqi_TestDataFactory.insertKnowledgeArticle();
+		
+		// Requery the kavObj to get the KnowledgeArticleId on it that is created automatically
 		String q = ' SELECT Id, ArticleNumber, CreatedDate, LastPublishedDate, LastModifiedDate, LastModifiedById, '+
 		' PublishStatus, Summary, Title, UrlName, VersionNumber, Language, KnowledgeArticleId '+
 		' FROM KnowledgeArticleVersion WHERE Id = \'' + kavObj.get('Id') +  '\' and PublishStatus = :publishStatus';

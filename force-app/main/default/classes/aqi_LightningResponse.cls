@@ -2,7 +2,7 @@
 * @author Altimetrik
 * @description
 * started on January 2018
-* This class its responsible of the interaction with lightning components
+* Classesponsible of the interaction with lightning components
 **/
 public class aqi_LightningResponse {
 	@AuraEnabled public String jsonResponse {get; set;}

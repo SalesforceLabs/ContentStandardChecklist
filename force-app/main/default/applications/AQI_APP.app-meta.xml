@@ -13,11 +13,11 @@
         <headerColor>#086108</headerColor>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
-    <description>AQI App for lightning</description>
+    <description>Article Quality Index App for lightning UI</description>
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
-    <label>Article Quality Index for Lng</label>
+    <label>Article Quality Index App for Lightning</label>
     <navType>Standard</navType>
     <tabs>Article_Quality__c</tabs>
     <tabs>standard-report</tabs>

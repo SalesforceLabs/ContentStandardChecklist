@@ -1,14 +1,14 @@
 <design:component label="Article Quality Index Component">
 	<design:attribute name="displayFollowUpSection" label="Display Follow Up section?"/>
 
-	<design:attribute name="indexField1" label="Select AQI first field" datasource="apex://aqi_DynamicPickList_AQI"/>
-	<design:attribute name="indexField2" label="Select AQI second field" datasource="apex://aqi_DynamicPickList_AQI"/>
-	<design:attribute name="indexField3" label="Select AQI third field" datasource="apex://aqi_DynamicPickList_AQI"/>
-	<design:attribute name="indexField4" label="Select AQI fourth field" datasource="apex://aqi_DynamicPickList_AQI"/>
-	<design:attribute name="indexField5" label="Select AQI fifth field" datasource="apex://aqi_DynamicPickList_AQI"/>
-	<design:attribute name="indexField6" label="Select AQI sixth field" datasource="apex://aqi_DynamicPickList_AQI"/>
-	<design:attribute name="indexField7" label="Select AQI seventh field" datasource="apex://aqi_DynamicPickList_AQI"/>
-	<design:attribute name="indexField8" label="Select AQI eight field" datasource="apex://aqi_DynamicPickList_AQI"/>
-	<design:attribute name="indexField9" label="Select AQI ninth field" datasource="apex://aqi_DynamicPickList_AQI"/>
-	<design:attribute name="indexField10" label="Select AQI tenth field" datasource="apex://aqi_DynamicPickList_AQI"/>
+	<design:attribute name="indexField1" label="Select AQI first field" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
+	<design:attribute name="indexField2" label="Select AQI second field" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
+	<design:attribute name="indexField3" label="Select AQI third field" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
+	<design:attribute name="indexField4" label="Select AQI fourth field" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
+	<design:attribute name="indexField5" label="Select AQI fifth field" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
+	<design:attribute name="indexField6" label="Select AQI sixth field" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
+	<design:attribute name="indexField7" label="Select AQI seventh field" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
+	<design:attribute name="indexField8" label="Select AQI eight field" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
+	<design:attribute name="indexField9" label="Select AQI ninth field" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
+	<design:attribute name="indexField10" label="Select AQI tenth field" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
 </design:component>

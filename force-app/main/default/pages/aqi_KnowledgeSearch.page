@@ -161,7 +161,7 @@
                     articleLastModifiedDateFrom,articleLastModifiedDateTo,
                     pageNum,sortBy,sortAsc,
                     handleResult
-               );
+                );
             }
 
             function handleResult(result, event) {
@@ -203,7 +203,7 @@
                 if ( isNaN(pageNum))
                     pageNum = 0;
                 switch (pageStr) {
-                     case '0':
+                    case '0':
                         pageNum = 0;
                         break;
                     case '-1':
@@ -237,21 +237,21 @@
                         $('#btnStart').attr('disabled',false);
                         $('#btnPrev').attr('disabled',false);
                     }
-                 }
-                 if (!showNext) {
-                        //hideLoadMore
-                        $('#btnNext').attr('disabled',true);
-                        reachedEndOfList= true;
-                 } else {
-                        $('#btnNext').attr('disabled',false);
-                 }
+                }
+                if (!showNext) {
+                    //hideLoadMore
+                    $('#btnNext').attr('disabled',true);
+                    reachedEndOfList= true;
+                } else {
+                    $('#btnNext').attr('disabled',false);
+                }
             }
-
+                
             function navigateToEdit(kavId, language, version) {
                 kavId = encodeURIComponent(kavId);
                 language = encodeURIComponent(language);
                 version = encodeURIComponent(version);
-
+                
                 var newUrl = '{!$Page.aqi_Edit}?kaId=' + kavId + '&lang=' + language + '&version=' + version;
                 window.navigateToUrl(encodeURI(newUrl));
             }
@@ -269,6 +269,11 @@
                 }
                 getRemoteArticles(true);
             }
+            
+            var parentPageUrl = document.referrer;
+            if(parentPageUrl.indexOf('.lightning.force.com') > 0){
+                alert('This tab is intended to be displayed using Salesforce Classic UI. For Lightning Experience please use the Lightning component provided in the package.');
+            }
 
             $(document).ready(function() {
                 getRemoteArticles(true);
@@ -278,16 +283,16 @@
             });
 
             $('#searchForm').submit(function (e) {
-               //prevents the default action
-               e.preventDefault();
-           });
+                //prevents the default action
+                e.preventDefault();
+            }); 
         </script>
         <script id="myTmpl" type="text/x-jsrender">{{:name}}</script>
         <script id="tplTableRow" type="text/x-jsrender">
             <tr class="slds-hint-parent">
                 <td class="slds-text-align_right slds-cell-buffer_left newAQI_IconContainer" role="gridcell" title="Create or Edit" >
                     <div class="slds-truncate slds-text-body_small newAQI_Icon" onclick="navigateToEdit('{{:KnowledgeArticleId}}','{{:Language}}','{{:VersionNumber}}');">
-                  &nbsp;
+                        &nbsp;
                     </div>
                 </td>
                 <td class=" slds-text-align_left" role="gridcell">

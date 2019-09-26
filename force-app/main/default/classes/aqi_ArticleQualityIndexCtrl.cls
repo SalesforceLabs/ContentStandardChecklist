@@ -170,10 +170,10 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 WHERE Id =: kavId
             ];
             
-            if (aqi_SecurityHandlerLng.isCreateable(Article_Quality__c.sObjectType)) {
-                result = new Article_Quality__c();
-                result = aqi_Ctrl.loadKavDetails(article, result);
-            }
+            aqi_SecurityHandlerLng.canCreate(Article_Quality__c.sObjectType);
+            result = new Article_Quality__c();
+            result = aqi_Ctrl.loadKavDetails(article, result);
+            
         }
         
         return result;

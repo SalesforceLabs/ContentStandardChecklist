@@ -63,8 +63,13 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 
                 if (l.isEmpty()) {
                     aqi_result = populateInitialAQI(recordId);
-                    User relatedInitiallyAgent = [SELECT FullPhotoUrl, Id, Name FROM User WHERE Id =: aqi_result.Agent__c];
-                    result.put('relatedInitiallyAgent', relatedInitiallyAgent);
+                    List<User> relatedInitiallyAgents = [SELECT FullPhotoUrl, Id, Name FROM User WHERE Id =: aqi_result.Agent__c];
+
+                    if (relatedInitiallyAgents.size() > 0) {
+                        result.put('relatedInitiallyAgent', relatedInitiallyAgents.get(0));
+                    } else {
+                        result.put('relatedInitiallyAgent', null);
+                    }
                 } else {
                     aqi_result = l.get(0);
                 }

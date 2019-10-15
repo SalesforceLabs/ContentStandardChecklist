@@ -71,6 +71,8 @@
 				"duration" : 30000
 			});
 			toastEvent.fire();
+		} else {
+			alert(message);
 		}
 	}
 })

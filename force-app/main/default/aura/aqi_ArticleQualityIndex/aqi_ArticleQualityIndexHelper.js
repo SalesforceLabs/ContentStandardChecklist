@@ -83,22 +83,28 @@
 			var agentAssigned = aqi_record[component.get('v.prefixOrg') + 'Agent__r'];
 			
 			if ((agentAssigned === undefined || agentAssigned === '')) {
-				agentAssigned = relatedInitiallyAgent;
+				if (!$A.util.isUndefinedOrNull(relatedInitiallyAgent)) {
+					agentAssigned = relatedInitiallyAgent;
+				} else {
+					ctx.showToast('error', 'Article contributor was not found', 'The Article Contributor on the AQI record was not set because the Last Modified By user on the article could not be found.  Please select an Article Contributor.')
+				}
 			}
 			
-			var agentValuesOwner = [{
-				type : 'User',
-				id: agentAssigned.Id,
-				label: agentAssigned.Name,
-				icon : {
-					url:agentAssigned.FullPhotoUrl,
-					backgroundColor:'65CAE4',
-					alt:'User'
-				},
-				record: agentAssigned.Id,
-				placeHolder: 'Search Users'
-			}];
-			component.find("Agent__c").get("v.body")[0].set("v.values", agentValuesOwner);
+			if (!$A.util.isUndefinedOrNull(agentAssigned)) {
+				var agentValuesOwner = [{
+					type : 'User',
+					id: agentAssigned.Id,
+					label: agentAssigned.Name,
+					icon : {
+						url:agentAssigned.FullPhotoUrl,
+						backgroundColor:'65CAE4',
+						alt:'User'
+					},
+					record: agentAssigned.Id,
+					placeHolder: 'Search Users'
+				}];
+				component.find("Agent__c").get("v.body")[0].set("v.values", agentValuesOwner);
+			}
 		}
 	},
 	

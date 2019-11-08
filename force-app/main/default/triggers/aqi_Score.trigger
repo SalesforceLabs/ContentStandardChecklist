@@ -47,4 +47,60 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
             }
         }
     }
+    
+    //GET KNOWLEDGE OBJECT NAME
+    String knowledgeObject = '';
+    Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
+    Set<String> keySet = gd.keySet();
+    for (String key : keySet) {
+        Schema.SObjectType objectType = gd.get(key);
+        if (key.endsWith('kav')) {
+            knowledgeObject = objectType.getDescribe().getName();
+        }
+    }
+    //CHECK IF RELATED ARTICLE IS ARCHIVED
+    List<Article_Quality__c> listOfArt = Trigger.New;
+    for(Article_Quality__c a : listOfArt) {
+        Boolean foundSameVersion = false;
+        String kavIDAQI = String.valueOf(a.Knowledge_Article_Version_Id__c);
+        Integer versionAQI = Integer.valueOf(a.Article_Version__c);
+        String numberA = a.Article_Number__c;
+        Integer actualVersionOfKav = 0;
+        //GET PUBLISH STATUS BY ARTICLE NUMBER AND VERSION
+        String queryS = 'SELECT Id, PublishStatus, VersionNumber FROM ' + knowledgeObject;
+        queryS += ' WHERE ArticleNumber = \'' + numberA + '\'';
+        List<SObject> listArticles = Database.query(queryS);
+        Boolean showArchivedError = false;
+        Boolean dontThrowErrorFoundAnotherVersionRelated = false;
+        if (listArticles.size() > 0) {
+            for (SObject currentSObj : listArticles) {
+                Integer currentVersionNumber = Integer.valueOf(currentSObj.get('VersionNumber'));
+                if (currentVersionNumber == versionAQI) { 
+                    foundSameVersion = true;
+                }
+                if (String.valueOf(currentSObj.get('Id')) == kavIDAQI) {
+                    dontThrowErrorFoundAnotherVersionRelated = true;
+                    actualVersionOfKav = currentVersionNumber;
+                    String currentPublishStatus = String.valueOf(currentSObj.get('PublishStatus'));
+                    system.debug('currentPublishStatus: ' +currentPublishStatus);
+                    if (currentPublishStatus == 'Archived') {
+                        showArchivedError = true;
+                    }
+                }
+            }
+            Article_Quality__c actualRecord = a.Id != null ? Trigger.newMap.get(a.Id) : a;
+            if (!foundSameVersion && !dontThrowErrorFoundAnotherVersionRelated) {
+                actualRecord.addError('You cant create or edit this AQI if the related article for this version don\'t exist.');
+            } else {
+                if (!foundSameVersion) {
+                    //updateTheArticleVersionInAQI
+                    a.Article_Version__c = double.valueOf(actualVersionOfKav);
+                    a.Name = 'AQI for article ' + String.valueOf(numberA) + ' – ' + String.valueOf(actualVersionOfKav);
+                }
+                if (showArchivedError) {
+                    actualRecord.addError('You cant create or edit this AQI if the related article is archived.');
+                }
+            }
+        }
+    }
 }

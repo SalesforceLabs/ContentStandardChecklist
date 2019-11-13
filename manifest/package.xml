@@ -82,5 +82,5 @@
 		<members>aqi_resources</members>
 		<name>StaticResource</name>
 	</types>
-	<version>46.0</version>
+	<version>47.0</version>
 </Package>

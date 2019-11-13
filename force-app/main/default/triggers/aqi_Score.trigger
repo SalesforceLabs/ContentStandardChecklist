@@ -65,9 +65,10 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
             Integer actualVersionOfKav = 0;
             //GET PUBLISH STATUS BY ARTICLE NUMBER AND VERSION
             String queryS = 'SELECT Id, PublishStatus, VersionNumber FROM ' + knowledgeObject;
-            queryS += ' WHERE PublishStatus = \'Archived\' AND ArticleNumber = \'' + numberA + '\'';
+            queryS += ' WHERE ArticleNumber = \'' + numberA + '\'';
             List<SObject> listArticles = Database.query(queryS);
             Boolean showArchivedError = false;
+            Boolean showDraftError = false;
             Boolean dontThrowErrorFoundAnotherVersionRelated = false;
             if (listArticles.size() > 0) {
                 for (SObject currentSObj : listArticles) {
@@ -82,6 +83,9 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
                         if (currentPublishStatus == 'Archived') {
                             showArchivedError = true;
                         }
+                        if (currentPublishStatus == 'Draft') {
+                            showDraftError = true;
+                        }
                     }
                 }
                 Article_Quality__c actualRecord = aq.Id != null ? Trigger.newMap.get(aq.Id) : aq;
@@ -95,6 +99,9 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
                     }
                     if (showArchivedError) {
                         actualRecord.addError('You cant create or edit this AQI if the related article is archived.');
+                    }
+                    if (showDraftError) {
+                        actualRecord.addError('You cant create or edit this AQI if the related article is a draft.');
                     }
                 }
             }

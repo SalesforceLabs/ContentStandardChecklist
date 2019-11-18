@@ -10,6 +10,8 @@ public class aqi_SettingsHandler {
 	public static Integer DEFAULT_VALUE = 1;
 	public static Integer DEFAULT_POSSIBLE_POINTS = 7;
 	public static Boolean DEFAULT_ENABLE_TRIGGER = true;
+	public static Boolean DEFAULT_EDIT_ARCHIVED = false;
+	public static Boolean DEFAULT_EDIT_DRAFT = false;
 
 	/*
 	* @description
@@ -55,7 +57,9 @@ public class aqi_SettingsHandler {
 					Possible_Points__c = DEFAULT_POSSIBLE_POINTS,
 					Properties_set_appropriately__c = DEFAULT_VALUE,
 					Title_Accurate__c = DEFAULT_VALUE,
-					Trigger_Enabled__c = DEFAULT_ENABLE_TRIGGER
+					Trigger_Enabled__c = DEFAULT_ENABLE_TRIGGER,
+					Prevent_AQI_Edit_on_Archived_Article__c = DEFAULT_EDIT_ARCHIVED,
+					Prevent_AQI_Edit_on_Draft_Article__c = DEFAULT_EDIT_DRAFT
 				);
 			}
 
@@ -91,7 +95,9 @@ public class aqi_SettingsHandler {
 					Possible_Points__c = DEFAULT_POSSIBLE_POINTS,
 					Properties_set_appropriately__c = DEFAULT_VALUE,
 					Title_Accurate__c = DEFAULT_VALUE,
-					Trigger_Enabled__c = DEFAULT_ENABLE_TRIGGER
+					Trigger_Enabled__c = DEFAULT_ENABLE_TRIGGER,
+					Prevent_AQI_Edit_on_Archived_Article__c = DEFAULT_EDIT_ARCHIVED,
+					Prevent_AQI_Edit_on_Draft_Article__c = DEFAULT_EDIT_DRAFT
 				);
 			}
 		}

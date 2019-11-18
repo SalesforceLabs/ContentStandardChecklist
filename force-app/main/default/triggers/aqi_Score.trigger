@@ -80,10 +80,10 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
                         dontThrowErrorFoundAnotherVersionRelated = true;
                         actualVersionOfKav = currentVersionNumber;
                         String currentPublishStatus = String.valueOf(currentSObj.get('PublishStatus'));
-                        if (currentPublishStatus == 'Archived') {
+                        if (aqs.Prevent_AQI_Edit_on_Archived_Article__c && currentPublishStatus == 'Archived') {
                             showArchivedError = true;
                         }
-                        if (currentPublishStatus == 'Draft') {
+                        if (aqs.Prevent_AQI_Edit_on_Draft_Article__c && currentPublishStatus == 'Draft') {
                             showDraftError = true;
                         }
                     }

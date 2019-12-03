@@ -7,6 +7,7 @@
 public with sharing class aqi_SetupCtrl {
     public ArticleQuality_index__c aqs {get; set;}
     public Boolean editMode {get; set;}
+    public Boolean checkboxEnabled {get;set;}
 
     public aqi_SetupCtrl() {
         editMode = false;
@@ -65,6 +66,26 @@ public with sharing class aqi_SetupCtrl {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, e.getMessage()));
         }
 
+        return null;
+    }
+
+
+    /*
+    * @description
+    *   Set the checkbox enabled or disabled
+    * @params
+    *   N/A
+    * @return
+    *   pageReference
+    */
+    public pageReference disableEditCheckboxes(){
+        if(aqs.Trigger_Enabled__c){
+            checkboxEnabled = true;
+        } else {
+            checkboxEnabled = false;
+            aqs.Prevent_AQI_Edit_on_Archived_Article__c = false;
+            aqs.Prevent_AQI_Edit_on_Draft_Article__c = false;
+        }
         return null;
     }
 }

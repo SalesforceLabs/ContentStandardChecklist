@@ -15,6 +15,7 @@ public with sharing class aqi_SetupCtrl {
 
     public pageReference checkForAppConfiguration() {
         aqs = aqi_SettingsHandler.checkForAppConfiguration();
+        disableEditCheckboxes();
         return null;
     }
 
@@ -83,8 +84,6 @@ public with sharing class aqi_SetupCtrl {
             checkboxEnabled = true;
         } else {
             checkboxEnabled = false;
-            aqs.Prevent_AQI_Edit_on_Archived_Article__c = false;
-            aqs.Prevent_AQI_Edit_on_Draft_Article__c = false;
         }
         return null;
     }

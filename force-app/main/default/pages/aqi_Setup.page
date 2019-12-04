@@ -22,8 +22,8 @@
                 <apex:inputField value="{!aqs.Properties_set_appropriately__c}"/>
                 <apex:inputField value="{!aqs.Selected_Languages__c}"/>
                 <apex:inputField value="{!aqs.Title_Accurate__c}"/>
-                <apex:outputField rendered="{!!checkboxEnabled}" value="{!aqs.Prevent_AQI_Edit_on_Archived_Article__c}"/>
-                <apex:outputField rendered="{!!checkboxEnabled}" value="{!aqs.Prevent_AQI_Edit_on_Draft_Article__c}"/>
+                <apex:outputField rendered="{!!checkboxEnabled}" value="{!aqs.Trigger_Enabled__c}" label="Prevent AQI Edit on Archived Article"/>
+                <apex:outputField rendered="{!!checkboxEnabled}" value="{!aqs.Trigger_Enabled__c}" label="Prevent AQI Edit on Draft Article"/>
                 <apex:inputField rendered="{!checkboxEnabled}" value="{!aqs.Prevent_AQI_Edit_on_Archived_Article__c}"/>
                 <apex:inputField rendered="{!checkboxEnabled}" value="{!aqs.Prevent_AQI_Edit_on_Draft_Article__c}"/>
                 <apex:outputText value="Migration Tool Section" />

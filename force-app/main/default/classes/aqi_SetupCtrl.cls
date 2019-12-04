@@ -7,7 +7,6 @@
 public with sharing class aqi_SetupCtrl {
     public ArticleQuality_index__c aqs {get; set;}
     public Boolean editMode {get; set;}
-    public Boolean checkboxEnabled {get;set;}
 
     public aqi_SetupCtrl() {
         editMode = false;
@@ -15,7 +14,6 @@ public with sharing class aqi_SetupCtrl {
 
     public pageReference checkForAppConfiguration() {
         aqs = aqi_SettingsHandler.checkForAppConfiguration();
-        disableEditCheckboxes();
         return null;
     }
 
@@ -71,20 +69,4 @@ public with sharing class aqi_SetupCtrl {
     }
 
 
-    /*
-    * @description
-    *   Set the checkbox enabled or disabled
-    * @params
-    *   N/A
-    * @return
-    *   pageReference
-    */
-    public pageReference disableEditCheckboxes(){
-        if(aqs.Trigger_Enabled__c){
-            checkboxEnabled = true;
-        } else {
-            checkboxEnabled = false;
-        }
-        return null;
-    }
 }

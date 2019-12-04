@@ -67,6 +67,4 @@ public with sharing class aqi_SetupCtrl {
 
         return null;
     }
-
-
 }

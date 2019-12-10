@@ -11,7 +11,7 @@ public class aqi_SettingsHandler {
 	public static Integer DEFAULT_POSSIBLE_POINTS = 7;
 	public static Boolean DEFAULT_ENABLE_TRIGGER = true;
 	public static Boolean DEFAULT_EDIT_ARCHIVED = false;
-	public static Boolean DEFAULT_EDIT_DRAFT = false;
+	public static Boolean DEFAULT_EDIT_DRAFT = true;
 
 	/*
 	* @description

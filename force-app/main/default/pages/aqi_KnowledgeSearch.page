@@ -1,7 +1,7 @@
 <apex:page showHeader="true" standardStylesheets="false" sidebar="false" docType="html-5.0" controller="aqi_KnowledgeSearchCtrl" applyBodyTag="False" applyHtmlTag="true" >
   <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <head>
-        <title>Create AQI</title>
+        <title>{!$Label.Create_AQI_title}</title>
         <apex:slds />
         <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/jquery.min.js')}" />
         <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/jsrender.js')}" />
@@ -144,12 +144,12 @@
                 }
                 if (articlePublishDateFrom!='' && articlePublishDateTo!='' &&
                     articlePublishDateFrom > articlePublishDateTo) {
-                    alert('Date Range in First Published Range is invalid ');
+                    alert('{!$Label.Date_Range_invalid_first_alert}');
                     return;
                 }
                 if ( articleLastModifiedDateFrom!='' && articleLastModifiedDateTo!='' &&
                     articleLastModifiedDateFrom > articleLastModifiedDateTo) {
-                    alert('Date Range in Last Modified  Range is invalid ');
+                    alert('{!$Label.Date_Range_invalid_last_alert}');
                     return;
                 }
                 // This remoting call will use the page's timeout value
@@ -272,7 +272,7 @@
             
             var parentPageUrl = document.referrer;
             if(parentPageUrl.indexOf('.lightning.force.com') > 0){
-                alert('This tab is intended to be displayed using Salesforce Classic UI. For Lightning Experience please use the Lightning component provided in the package.');
+                alert('{!$Label.Display_in_Classic_alert}');
             }
 
             $(document).ready(function() {
@@ -290,7 +290,7 @@
         <script id="myTmpl" type="text/x-jsrender">{{:name}}</script>
         <script id="tplTableRow" type="text/x-jsrender">
             <tr class="slds-hint-parent">
-                <td class="slds-text-align_right slds-cell-buffer_left newAQI_IconContainer" role="gridcell" title="Create or Edit" >
+                <td class="slds-text-align_right slds-cell-buffer_left newAQI_IconContainer" role="gridcell" title="{!$Label.Create_or_Edit_helptext}" >
                     <div class="slds-truncate slds-text-body_small newAQI_Icon" onclick="navigateToEdit('{{:KnowledgeArticleId}}','{{:Language}}','{{:VersionNumber}}');">
                         &nbsp;
                     </div>
@@ -368,7 +368,7 @@
                                     <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
                                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
                                     </svg>
-                                    <input type="text" id="searchByString" class="slds-input" placeholder="Search Knowledge..." />
+                                    <input type="text" id="searchByString" class="slds-input" placeholder="{!$Label.Search_Knowledge_placeholder}" />
                                 </div>
                             </div>
                         </span>
@@ -381,7 +381,7 @@
                                     <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
                                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
                                     </svg>
-                                    <input type="number" min="0" id="searchByArticleNumber" class="slds-input" placeholder="Search Article Number..." />
+                                    <input type="number" min="0" id="searchByArticleNumber" class="slds-input" placeholder="{!$Label.Search_Article_Number_placeholder}" />
                                 </div>
                             </div>
                         </span>
@@ -413,7 +413,7 @@
                                     <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
                                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
                                     </svg>
-                                    <input type="text" id="articleCreatedBy" class="slds-input" placeholder="Search Created By..." />
+                                    <input type="text" id="articleCreatedBy" class="slds-input" placeholder="{!$Label.Search_Created_By_placeholder}" />
                                 </div>
                             </div>
                         </span>
@@ -427,7 +427,7 @@
                                     <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
                                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
                                     </svg>
-                                    <input type="text" id="articlelastModifiedBy" class="slds-input" placeholder="Search Last Modified By..." />
+                                    <input type="text" id="articlelastModifiedBy" class="slds-input" placeholder="{!$Label.Search_Last_Modified_By_placeholder}" />
                                 </div>
                             </div>
                         </span>
@@ -439,7 +439,7 @@
                             <div class="slds-form-element">
                                 <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
                                     <select id="searchByrecordType" class="slds-select">
-                                        <option value="all"> All </option>
+                                        <option value="all"> {!$Label.All_picklistValue} </option>
                                         <apex:repeat value="{!availableRecordTypes}" var="k">
                                             <option value="{!k}"> {!availableRecordTypes[k]}</option>
                                         </apex:repeat>
@@ -456,7 +456,7 @@
                     <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
                         <div class="slds-form slds-form_horizontal">
                             <div class="slds-form-element">
-                                <label class="slds-form-element__label" for="input-id-01">First Published date from</label>
+                                <label class="slds-form-element__label" for="input-id-01">{!$Label.First_Published_date_from_label} </label>
                                 <div class="slds-form-element__control">
                                     <input type="date" id="articlePublishDateFrom" class="slds-input" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" min="1990-01-01" max="2030-12-31" />
                                 </div>
@@ -467,7 +467,7 @@
                     <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
                         <div class="slds-form slds-form_horizontal">
                             <div class="slds-form-element">
-                                <label class="slds-form-element__label" for="input-id-01">Last Modified date from </label>
+                                <label class="slds-form-element__label" for="input-id-01">{!$Label.Last_Modified_date_from_label} </label>
                                 <div class="slds-form-element__control">
                                     <input type="date" id="articleLastModifiedDateFrom" class="slds-input" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" min="1990-01-01" max="2030-12-31" />
                                 </div>
@@ -484,7 +484,7 @@
                     <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
                         <div class="slds-form slds-form_horizontal">
                             <div class="slds-form-element">
-                                <label class="slds-form-element__label" for="input-id-01">First Published date to </label>
+                                <label class="slds-form-element__label" for="input-id-01">{!$Label.First_Published_date_to_label} </label>
 
                                 <div class="slds-form-element__control">
                                     <input type="date" id="articlePublishDateTo" class="slds-input"  pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" min="1990-01-01" max="2030-12-31"/>
@@ -496,7 +496,7 @@
                     <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
                         <div class="slds-form slds-form_horizontal">
                             <div class="slds-form-element">
-                                <label class="slds-form-element__label" for="input-id-01">Last Modified date to </label>
+                                <label class="slds-form-element__label" for="input-id-01">{!$Label.Last_Modified_date_to_label} </label>
 
                                 <div class="slds-form-element__control">
                                     <input type="date" id="articleLastModifiedDateTo" class="slds-input" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" min="1990-01-01" max="2030-12-31" />
@@ -510,7 +510,7 @@
                                 <label class="slds-form-element__label" for="input-id-01">&nbsp;</label>
 
                                 <div class="slds-form-element__control">
-                                    <button class="slds-button slds-button_brand" onclick="getRemoteArticles(true); return false;">Search</button>
+                                    <button class="slds-button slds-button_brand" onclick="getRemoteArticles(true); return false;">{!$Label.Search_button}</button>
                                 </div>
                             </div>
                         </div>
@@ -526,82 +526,82 @@
                         <thead>
                              <tr>
                                 <th scope="col" class="col_NEWAQI">
-                                    <div class="slds-truncate slds-align_absolute-left" title="New AQI">&nbsp;</div>
+                                    <div class="slds-truncate slds-align_absolute-left" title="{!$Label.New_AQI_helptext}">&nbsp;</div>
                                 </th>
                                 <!-- TITLE COLUMN -->
                                 <th scope="col"  class="col_Title" >
-                                    <div class="sortableRow slds-align_absolute-left wordWrap " title="Name">
-                                         Title
+                                    <div class="sortableRow slds-align_absolute-left wordWrap " title="{!$Label.Name_helptext}">
+                                         {!$Label.Title_tableheader}
                                         <span id="Title" class="sorting">&nbsp;&nbsp;&darr;</span>
                                     </div>
                                 </th>
                                 <!-- Article Number -->
                                 <th scope="col" class="col_ArticleNumber" >
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Account Name">
-                                         Article Number
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Account_Name_helptext}">
+                                         {!$Label.Article_Number_tableheader}
                                         <span id="ArticleNumber" class="sorting"></span>
                                     </div>
                                 </th>
                                 <!-- Record Type  -->
                                 <th scope="col"  class="col_RecordType">
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Record Type">
-                                         Record Type
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Record_Type_tableheader}">
+                                         {!$Label.Record_type_tableheader}
                                         <span id="RecordType.Name" class="sorting"></span>
                                     </div>
                                 </th>
                                 <!-- Version  -->
                                 <th scope="col"  class="col_VersionNumber">
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Version">
-                                         Version
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Version_tableheader}">
+                                         {!$Label.Version_tableheader}
                                         <span id="VersionNumber" class="sorting"></span>
                                     </div>
                                 </th>
                                 <!-- Summary      -->
                                 <th scope="col"  class="{!IF(isValidationStatusActive,'col_Summary','col_SummaryEXT')}">
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Summary">
-                                         Summary
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Summary_tableheader}">
+                                         {!$Label.Summary_tableheader}
                                         <span id="Summary" class="sorting"></span>
                                     </div>
                                 </th>
                                 <!-- validationstatus -->
                                 <apex:outputPanel rendered="{!isValidationStatusActive}">
                                 <th scope="col"  class="col_validationstatus">
-                                    <div class=" slds-align_absolute-left wordWrap" title="Validation Status">
-                                         Validation Status
+                                    <div class=" slds-align_absolute-left wordWrap" title="{!$Label.Validation_Status_tableheader}">
+                                         {!$Label.Validation_Status_tableheader}
                                     </div>
                                 </th>
                                 </apex:outputPanel>
                                 <!--  Last Modified Date-->
                                 <th scope="col"  class="col_LastModifiedDate">
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Last Modified Date">
-                                         Last Modified
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Last_Modified_Date_helptext}">
+                                         {!$Label.Last_Modified_tableheader}
                                         <span id="LastModifiedDate" class="sorting"></span>
                                     </div>
                                 </th>
                                 <!-- First Published date -->
                                 <th scope="col"  class="col_FirstPublishedDate">
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="First Published Date">
-                                         First Published
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.First_Published_Date_helptext}">
+                                         {!$Label.First_Published_tableheader}
                                         <span id="FirstPublishedDate" class="sorting"></span>
                                     </div>
                                 </th>
                                 <!-- Last modified by -->
                                 <th scope="col"  class="col_lastmodifiedby">
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Last Modified Date">
-                                         Last Modified By
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Last_Modified_By_tableheader}">
+                                         {!$Label.Last_Modified_By_tableheader}
                                         <span id="lastmodifiedby.Name" class="sorting"></span>
                                     </div>
                                 </th>
                                 <!-- Created by -->
                                 <th scope="col"  class="col_createdby" >
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="Created By">
-                                         Created By
+                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Created_By_tableheader}">
+                                        {!$Label.Created_By_tableheader}
                                         <span id="createdby.name" class="sorting"></span>
                                     </div>
                                 </th>
                                 <th scope="col" class="col_HASAQI">
-                                    <span class="slds-truncate slds-align_absolute-left" title="Has AQI">
-                                         AQI
+                                    <span class="slds-truncate slds-align_absolute-left" title="{!$Label.Has_AQI_helptext}">
+                                         {!$Label.AQI_tableheader}
                                     </span>
                                 </th>
                             </tr>
@@ -610,12 +610,12 @@
                     </table>
                     <div class="slds-panel__section slds-has-divider--bottom slds-align_absolute-center ">
                             <div id="paginationBtns" class="slds-button-group" role="group">
-                                <button id="btnStart" onclick="gotoPage('0');" class="slds-button slds-button_neutral" >First</button>
-                                <button id="btnPrev" onclick="gotoPage('-1');"  class="slds-button slds-button_neutral">Previous</button>
-                                <button id="btnNext" onclick="gotoPage('+1');"  class="slds-button slds-button_neutral">Next</button>
+                                <button id="btnStart" onclick="gotoPage('0');" class="slds-button slds-button_neutral" >{!$Label.First_button}</button>
+                                <button id="btnPrev" onclick="gotoPage('-1');"  class="slds-button slds-button_neutral">{!$Label.Previous_button}</button>
+                                <button id="btnNext" onclick="gotoPage('+1');"  class="slds-button slds-button_neutral">{!$Label.Next_button}</button>
                             </div>
                             <div id="noResultsMsg" class="slds-text-heading_small slds-p-left_medium">
-                              No records to display
+                              {!$Label.No_records_to_display_message}
                             </div>
                     </div>
                 </div>

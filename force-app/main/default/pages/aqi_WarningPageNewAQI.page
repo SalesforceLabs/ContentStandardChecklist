@@ -1,6 +1,6 @@
 <apex:page standardController="Article_Quality__c">
       <script>
-        alert('Users can only create Article Quality Index from knowledge articles');
+        alert('{!$Label.Warning_on_create_AQI_alert}');
         history.go(-1);
     </script>
 </apex:page>

@@ -4,13 +4,13 @@
     </script>
     <apex:form id="container">
         <apex:actionFunction action="{!checkForAppConfiguration}" name="checkForCS" reRender="container"></apex:actionFunction>
-        <apex:pageBlock title="Application Setup" mode="edit" rendered="{!editMode}">
+        <apex:pageBlock title="{!$Label.Application_Setup_title}" mode="edit" rendered="{!editMode}">
             <apex:pageBlockButtons >
-                <apex:commandButton action="{!save}" value="Save" reRender="container"/>
-                <apex:commandButton value="Cancel" action="{!cancel}" immediate="true" reRender="container"/>
+                <apex:commandButton action="{!save}" value="{!$Label.Save_button}" reRender="container"/>
+                <apex:commandButton value="{!$Label.Cancel_button}" action="{!cancel}" immediate="true" reRender="container"/>
             </apex:pageBlockButtons>
             <apex:pageBlockSection columns="2" id="editPanel">
-                <apex:outputText value="AQI Section" />
+                <apex:outputText value="{!$Label.AQI_Section_title}" />
                 <apex:outputText value="" />
                 <apex:inputField value="{!aqs.name}" html-disabled="true" />
                 <apex:inputField value="{!aqs.Article_Unique__c}"/>
@@ -22,30 +22,30 @@
                 <apex:inputField value="{!aqs.Properties_set_appropriately__c}"/>
                 <apex:inputField value="{!aqs.Selected_Languages__c}"/>
                 <apex:inputField value="{!aqs.Title_Accurate__c}"/>
-                <apex:outputText value="Migration Tool Section" />
+                <apex:outputText value="{!$Label.Migration_Tool_Section_title}" />
                 <apex:outputText value="" />
                 <apex:inputField value="{!aqs.Trigger_Enabled__c}">
                     <apex:actionSupport event="onchange" rerender="editPanel"/> 
                     <apex:outputPanel rendered="true">
                           <img src="/s.gif" Class="infoIcon"
-                          title="Check to enable the trigger that calculates the aqi score (only needs to be disabled when the AQI migration tool will be used)" />
+                          title="{!$Label.Enable_trigger_helptext}" />
                     </apex:outputPanel>
                 </apex:inputField>
                 <apex:outputText value="" />
-                <apex:outputText value="AQI Edition" />
+                <apex:outputText value="{!$Label.AQI_Edition_title}" />
                 <apex:outputText value="" />
-                <apex:outputField rendered="{!!aqs.Trigger_Enabled__c}" value="{!aqs.Trigger_Enabled__c}" label="Prevent AQI Edit on Archived Article"/>
-                <apex:outputField rendered="{!!aqs.Trigger_Enabled__c}" value="{!aqs.Trigger_Enabled__c}" label="Prevent AQI Edit on Draft Article"/>
+                <apex:outputField rendered="{!!aqs.Trigger_Enabled__c}" value="{!aqs.Trigger_Enabled__c}" label="{!$Label.Edit_Archived_Article_label}"/>
+                <apex:outputField rendered="{!!aqs.Trigger_Enabled__c}" value="{!aqs.Trigger_Enabled__c}" label="{!$Label.Edit_Draft_Article_label}"/>
                 <apex:inputField rendered="{!aqs.Trigger_Enabled__c}" value="{!aqs.Prevent_AQI_Edit_on_Archived_Article__c}"/>
                 <apex:inputField rendered="{!aqs.Trigger_Enabled__c}" value="{!aqs.Prevent_AQI_Edit_on_Draft_Article__c}"/>
             </apex:pageBlockSection>
         </apex:pageBlock>
-        <apex:pageBlock title="Application Setup" mode="detail" rendered="{!!editMode}">
+        <apex:pageBlock title="{!$Label.Application_Setup_title}" mode="detail" rendered="{!!editMode}">
             <apex:pageBlockButtons >
                 <apex:commandButton action="{!edit}" value="Edit"/>
             </apex:pageBlockButtons>
             <apex:pageBlockSection columns="2">
-                <apex:outputText value="AQI Section" />
+                <apex:outputText value="{!$Label.AQI_Section_title}" />
                 <apex:outputText value="" />
                 <apex:outputField value="{!aqs.name}" />
                 <apex:outputField value="{!aqs.Article_Unique__c}"/>
@@ -57,21 +57,21 @@
                 <apex:outputField value="{!aqs.Properties_set_appropriately__c}"/>
                 <apex:outputField value="{!aqs.Selected_Languages__c}"/>
                 <apex:outputField value="{!aqs.Title_Accurate__c}"/>
-                <apex:outputText value="Migration Tool Section" />
+                <apex:outputText value="{!$Label.Migration_Tool_Section_title}" />
                 <apex:outputText value="" />
                 <apex:outputField value="{!aqs.Trigger_Enabled__c}">
                     <apex:outputPanel rendered="true">
                           <img src="/s.gif" Class="infoIcon"
-                          title="Check to enable the trigger that calculates the aqi score (only needs to be disabled when the AQI migration tool will be used)" />
+                          title="{!$Label.Enable_trigger_helptext}" />
                     </apex:outputPanel>
                 </apex:outputField>
                 <apex:outputText value="" />
-                <apex:outputText value="AQI Edition" />
+                <apex:outputText value="{!$Label.AQI_Edition_title}" />
                 <apex:outputText value="" />
                 <apex:outputField rendered="{!aqs.Trigger_Enabled__c}" value="{!aqs.Prevent_AQI_Edit_on_Archived_Article__c}"/>
                 <apex:outputField rendered="{!aqs.Trigger_Enabled__c}" value="{!aqs.Prevent_AQI_Edit_on_Draft_Article__c}"/>
-                <apex:outputField rendered="{!!aqs.Trigger_Enabled__c}" value="{!aqs.Trigger_Enabled__c}" label="Prevent AQI Edit on Archived Article"/>
-                <apex:outputField rendered="{!!aqs.Trigger_Enabled__c}" value="{!aqs.Trigger_Enabled__c}" label="Prevent AQI Edit on Draft Article"/>
+                <apex:outputField rendered="{!!aqs.Trigger_Enabled__c}" value="{!aqs.Trigger_Enabled__c}" label="{!$Label.Edit_Archived_Article_label}"/>
+                <apex:outputField rendered="{!!aqs.Trigger_Enabled__c}" value="{!aqs.Trigger_Enabled__c}" label="{!$Label.Edit_Draft_Article_label}"/>
             </apex:pageBlockSection>
         </apex:pageBlock>
 

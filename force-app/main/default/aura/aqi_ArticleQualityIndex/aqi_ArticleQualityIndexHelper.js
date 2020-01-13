@@ -86,7 +86,7 @@
 				if (!$A.util.isUndefinedOrNull(relatedInitiallyAgent)) {
 					agentAssigned = relatedInitiallyAgent;
 				} else {
-					ctx.showToast('error', 'Article contributor was not found', 'The Article Contributor on the AQI record was not set because the Last Modified By user on the article could not be found.  Please select an Article Contributor.')
+					ctx.showToast('error', '$Label.c.Article_contributor_not_found_error', '$Label.c.Article_contributor_not_found_error_message')
 				}
 			}
 			

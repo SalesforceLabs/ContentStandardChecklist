@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>AQI_Criteria_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AQI Criteria title</shortDescription>
+        <value>AQI Criteria</value>
+    </labels>
+    <labels>
+        <fullName>AQI_Edition_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AQI Edition title</shortDescription>
+        <value>AQI Edition</value>
+    </labels>
+    <labels>
+        <fullName>AQI_Section_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AQI Section title</shortDescription>
+        <value>AQI Section</value>
+    </labels>
+    <labels>
+        <fullName>AQI_tableheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AQI tableheader</shortDescription>
+        <value>AQI</value>
+    </labels>
+    <labels>
+        <fullName>Account_Name_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Account Name helptext</shortDescription>
+        <value>Account Name</value>
+    </labels>
+    <labels>
+        <fullName>Action_assigned_to_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Action assigned to helptext</shortDescription>
+        <value>Action assigned to</value>
+    </labels>
+    <labels>
+        <fullName>Action_date_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Action date helptext</shortDescription>
+        <value>Action date</value>
+    </labels>
+    <labels>
+        <fullName>Action_taken_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Action taken helptext</shortDescription>
+        <value>Action taken</value>
+    </labels>
+    <labels>
+        <fullName>All_picklistValue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>All picklistValue</shortDescription>
+        <value>All</value>
+    </labels>
+    <labels>
+        <fullName>An_error_occurred_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>An error occurred error</shortDescription>
+        <value>An error occurred</value>
+    </labels>
+    <labels>
+        <fullName>Application_Setup_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Application Setup title</shortDescription>
+        <value>Application Setup</value>
+    </labels>
+    <labels>
+        <fullName>Apply_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Apply button</shortDescription>
+        <value>Apply</value>
+    </labels>
+    <labels>
+        <fullName>Article_Created_By_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article Created By label</shortDescription>
+        <value>Article Created By</value>
+    </labels>
+    <labels>
+        <fullName>Article_Created_Date_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article Created Date label</shortDescription>
+        <value>Article Created Date</value>
+    </labels>
+    <labels>
+        <fullName>Article_Number_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article Number label</shortDescription>
+        <value>Article Number</value>
+    </labels>
+    <labels>
+        <fullName>Article_Number_tableheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article Number tableheader</shortDescription>
+        <value>Article Number</value>
+    </labels>
+    <labels>
+        <fullName>Article_Publishing_Status_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article Publishing Status label</shortDescription>
+        <value>Article Publishing Status</value>
+    </labels>
+    <labels>
+        <fullName>Article_Quality_Index_details_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article Quality Index details title</shortDescription>
+        <value>Article Quality Index details</value>
+    </labels>
+    <labels>
+        <fullName>Article_Quality_Index_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article Quality Index title</shortDescription>
+        <value>Article Quality Index</value>
+    </labels>
+    <labels>
+        <fullName>Article_Record_Type_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article Record Type label</shortDescription>
+        <value>Article Record Type</value>
+    </labels>
+    <labels>
+        <fullName>Article_Version_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article Version label</shortDescription>
+        <value>Article Version</value>
+    </labels>
+    <labels>
+        <fullName>Article_contributor_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article contributor label</shortDescription>
+        <value>Article contributor</value>
+    </labels>
+    <labels>
+        <fullName>Article_contributor_not_found_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article contributor not found error</shortDescription>
+        <value>Article contributor was not found</value>
+    </labels>
+    <labels>
+        <fullName>Article_contributor_not_found_error_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article contributor not found error message</shortDescription>
+        <value>The Article Contributor on the AQI record was not set because the Last Modified By user on the article could not be found.  Please select an Article Contributor.</value>
+    </labels>
+    <labels>
+        <fullName>Cancel_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cancel button</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>Create_AQI_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create AQI title</shortDescription>
+        <value>Create AQI</value>
+    </labels>
+    <labels>
+        <fullName>Create_or_Edit_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create or Edit helptext</shortDescription>
+        <value>Create or Edit</value>
+    </labels>
+    <labels>
+        <fullName>Created_By_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Created By label</shortDescription>
+        <value>Created By</value>
+    </labels>
+    <labels>
+        <fullName>Created_By_tableheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Created By tableheader</shortDescription>
+        <value>Created By</value>
+    </labels>
+    <labels>
+        <fullName>Date_Range_invalid_first_alert</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Date Range invalid first alert</shortDescription>
+        <value>Date Range in First Published Range is invalid</value>
+    </labels>
+    <labels>
+        <fullName>Date_Range_invalid_last_alert</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Date Range invalid last alert</shortDescription>
+        <value>Date Range in Last Modified  Range is invalid</value>
+    </labels>
+    <labels>
+        <fullName>Delete_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delete button</shortDescription>
+        <value>Delete</value>
+    </labels>
+    <labels>
+        <fullName>Delete_confirm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delete confirm</shortDescription>
+        <value>Are you sure you want to Delete?</value>
+    </labels>
+    <labels>
+        <fullName>Display_in_Classic_alert</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Display in Classic alert</shortDescription>
+        <value>This tab is intended to be displayed using Salesforce Classic UI. For Lightning Experience please use the Lightning component provided in the package.</value>
+    </labels>
+    <labels>
+        <fullName>Edit_Archived_Article_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Edit Archived Article label</shortDescription>
+        <value>Prevent AQI Edit on Archived Article</value>
+    </labels>
+    <labels>
+        <fullName>Edit_Draft_Article_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Edit Draft Article label</shortDescription>
+        <value>Prevent AQI Edit on Draft Article</value>
+    </labels>
+    <labels>
+        <fullName>Edit_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Edit button</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>Enable_trigger_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enable trigger helptext</shortDescription>
+        <value>Check to enable the trigger that calculates the aqi score (only needs to be disabled when the AQI migration tool will be used)</value>
+    </labels>
+    <labels>
+        <fullName>Error_occurred_in_Apex_call_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error occurred in Apex call error</shortDescription>
+        <value>An error occurred in the apex call</value>
+    </labels>
+    <labels>
+        <fullName>First_Published_Date_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>First Published Date helptext</shortDescription>
+        <value>First Published Date</value>
+    </labels>
+    <labels>
+        <fullName>First_Published_date_from_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>First Published date from label</shortDescription>
+        <value>First Published date from</value>
+    </labels>
+    <labels>
+        <fullName>First_Published_date_to_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>First Published date to label</shortDescription>
+        <value>First Published date to</value>
+    </labels>
+    <labels>
+        <fullName>First_Published_tableheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>First Published tableheader</shortDescription>
+        <value>First Published</value>
+    </labels>
+    <labels>
+        <fullName>First_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>First button</shortDescription>
+        <value>First</value>
+    </labels>
+    <labels>
+        <fullName>Follow_Up_details_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Follow Up details title</shortDescription>
+        <value>Follow Up details</value>
+    </labels>
+    <labels>
+        <fullName>Follow_Up_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Follow Up title</shortDescription>
+        <value>Follow Up</value>
+    </labels>
+    <labels>
+        <fullName>Has_AQI_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Has AQI helptext</shortDescription>
+        <value>Has AQI</value>
+    </labels>
+    <labels>
+        <fullName>Information_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Information helptext</shortDescription>
+        <value>Information</value>
+    </labels>
+    <labels>
+        <fullName>Information_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Information title</shortDescription>
+        <value>Information</value>
+    </labels>
+    <labels>
+        <fullName>Internal_notes_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Internal notes helptext</shortDescription>
+        <value>Internal notes</value>
+    </labels>
+    <labels>
+        <fullName>Language_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Language label</shortDescription>
+        <value>Language</value>
+    </labels>
+    <labels>
+        <fullName>Last_Modified_By_tableheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Modified By tableheader</shortDescription>
+        <value>Last Modified By</value>
+    </labels>
+    <labels>
+        <fullName>Last_Modified_Date_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Modified Date helptext</shortDescription>
+        <value>Last Modified Date</value>
+    </labels>
+    <labels>
+        <fullName>Last_Modified_date_from_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Modified date from label</shortDescription>
+        <value>Last Modified date from</value>
+    </labels>
+    <labels>
+        <fullName>Last_Modified_date_to_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Modified date to label</shortDescription>
+        <value>Last Modified date to</value>
+    </labels>
+    <labels>
+        <fullName>Last_Modified_tableheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Modified tableheader</shortDescription>
+        <value>Last Modified</value>
+    </labels>
+    <labels>
+        <fullName>Loading_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Loading message</shortDescription>
+        <value>Loading...</value>
+    </labels>
+    <labels>
+        <fullName>Migration_Tool_Section_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Migration Tool Section title</shortDescription>
+        <value>Migration Tool Section</value>
+    </labels>
+    <labels>
+        <fullName>Name_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name helptext</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>New_AQI_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New AQI helptext</shortDescription>
+        <value>New AQI</value>
+    </labels>
+    <labels>
+        <fullName>Next_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Next button</shortDescription>
+        <value>Next</value>
+    </labels>
+    <labels>
+        <fullName>No_fields_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No fields message</shortDescription>
+        <value>No index fields were selected in the App Builder</value>
+    </labels>
+    <labels>
+        <fullName>No_records_to_display_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No records to display message</shortDescription>
+        <value>No records to display</value>
+    </labels>
+    <labels>
+        <fullName>Owner_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Owner label</shortDescription>
+        <value>Owner</value>
+    </labels>
+    <labels>
+        <fullName>Previous_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Previous button</shortDescription>
+        <value>Previous</value>
+    </labels>
+    <labels>
+        <fullName>Record_type_tableheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Record type tableheader</shortDescription>
+        <value>Record type</value>
+    </labels>
+    <labels>
+        <fullName>Related_Article_Current_Details_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Related Article Current Details title</shortDescription>
+        <value>Related Article Current Details</value>
+    </labels>
+    <labels>
+        <fullName>Related_Article_Details_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Related Article Details title</shortDescription>
+        <value>Related Article Details</value>
+    </labels>
+    <labels>
+        <fullName>Related_Article_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Related Article title</shortDescription>
+        <value>Related Article</value>
+    </labels>
+    <labels>
+        <fullName>Save_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Save button</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>Score</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Score</shortDescription>
+        <value>Score</value>
+    </labels>
+    <labels>
+        <fullName>Search_Article_Number_placeholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search Article Number placeholder</shortDescription>
+        <value>Search Article Number...</value>
+    </labels>
+    <labels>
+        <fullName>Search_Created_By_placeholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search Created By placeholder</shortDescription>
+        <value>Search Created By...</value>
+    </labels>
+    <labels>
+        <fullName>Search_Knowledge_placeholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search Knowledge placeholder</shortDescription>
+        <value>Search Knowledge...</value>
+    </labels>
+    <labels>
+        <fullName>Search_Last_Modified_By_placeholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search Last Modified By placeholder</shortDescription>
+        <value>Search Last Modified By...</value>
+    </labels>
+    <labels>
+        <fullName>Search_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search button</shortDescription>
+        <value>Search</value>
+    </labels>
+    <labels>
+        <fullName>Section_Title_helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Section Title helptext</shortDescription>
+        <value>Section Title</value>
+    </labels>
+    <labels>
+        <fullName>Summary_tableheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Summary tableheader</shortDescription>
+        <value>Summary</value>
+    </labels>
+    <labels>
+        <fullName>System_Information_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>System Information title</shortDescription>
+        <value>System Information</value>
+    </labels>
+    <labels>
+        <fullName>Title_tableheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Title tableheader</shortDescription>
+        <value>Title</value>
+    </labels>
+    <labels>
+        <fullName>Undetermined_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Undetermined error</shortDescription>
+        <value>An undetermined error occurred with the Apex call.</value>
+    </labels>
+    <labels>
+        <fullName>Validation_Status_tableheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Validation Status tableheader</shortDescription>
+        <value>Validation Status</value>
+    </labels>
+    <labels>
+        <fullName>Version_tableheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Version tableheader</shortDescription>
+        <value>Version</value>
+    </labels>
+    <labels>
+        <fullName>View_article_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View article button</shortDescription>
+        <value>View article</value>
+    </labels>
+    <labels>
+        <fullName>Warning_on_create_AQI_alert</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Warning on create AQI alert</shortDescription>
+        <value>Users can only create Article Quality Index from knowledge articles</value>
+    </labels>
+</CustomLabels>

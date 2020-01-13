@@ -1,14 +1,14 @@
 <apex:page standardController="Article_Quality__c" extensions="aqi_Ctrl"  tabStyle="Create_AQI__tab">
     <apex:stylesheet value="{!URLFOR($Resource.aqi_resources, 'bootstrap.css')}"/>
     <apex:form id="recordForm">
-        <apex:pageBlock id="formBlockAqi" title="Article Quality Index details" mode="detail">
+        <apex:pageBlock id="formBlockAqi" title="{!$Label.Article_Quality_Index_details_title}" mode="detail">
             <apex:pageBlockButtons location="top">
-                <apex:commandButton onclick="checkActNeededIssue();return false;" value="Save"  />
-                <input type="button" value="Cancel" onclick="history.back();" class="btn" />
+                <apex:commandButton onclick="checkActNeededIssue();return false;" value="{!$Label.Save_button}"  />
+                <input type="button" value="{!$Label.Cancel_button}" onclick="history.back();" class="btn" />
             </apex:pageBlockButtons>
             <apex:pageMessage summary="Record saved" severity="confirm" strength="1" rendered="{!saved}" />
             <apex:pageMessages />
-            <apex:pageBlockSection title="Information" columns="2">
+            <apex:pageBlockSection title="{!$Label.Information_title}" columns="2">
                 <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Unique__c.label}" for="articleunique"/>
                     <apex:inputField value="{!record.Article_Unique__c}" id="articleunique"/>
@@ -61,8 +61,8 @@
                 </apex:pageBlockSectionItem>
             </apex:pageBlockSection>
         </apex:pageBlock>
-        <apex:pageBlock id="formBlockFollow" title="Follow Up details" mode="detail">
-            <apex:pageBlockSection id="formBlockSectionFollow" title="Information" columns="2">
+        <apex:pageBlock id="formBlockFollow" title="{!$Label.Follow_Up_details_title}" mode="detail">
+            <apex:pageBlockSection id="formBlockSectionFollow" title="{!$Label.Information_title}" columns="2">
                 <apex:pageBlockSectionItem id="formBlockSectionItemANFollow">
                      <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Action_Needed__c.label}" for="actionneeded"/>
                     <apex:inputField value="{!record.Action_Needed__c}" id="actionneeded"/>
@@ -88,7 +88,7 @@
                 </apex:pageBlockSectionItem>
             </apex:pageBlockSection>
         </apex:pageBlock>
-        <apex:pageBlock id="formBlockRelated" title="Related Article Details" mode="detail">
+        <apex:pageBlock id="formBlockRelated" title="{!$Label.Related_Article_Details_title}" mode="detail">
             <apex:pageBlockSection columns="2">
                 <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Number__c.label}" for="ArticleNumber"/>
@@ -151,8 +151,8 @@
                 </apex:pageBlockSectionItem>
             </apex:pageBlockSection>
             <apex:pageBlockButtons location="bottom">
-                <apex:commandButton onclick="checkActNeededIssue();return false;" value="Save"  />
-                <input type="button" value="Cancel" onclick="history.back();" class="btn" />
+                <apex:commandButton onclick="checkActNeededIssue();return false;" value="{!$Label.Save_button}"  />
+                <input type="button" value="{!$Label.Cancel_button}" onclick="history.back();" class="btn" />
             </apex:pageBlockButtons>
         </apex:pageBlock>
         <apex:actionFunction action="{!save}" name="saveAF">

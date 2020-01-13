@@ -45,6 +45,10 @@
 		<name>CustomApplication</name>
 	</types>
 	<types>
+		<members>*</members>
+		<name>CustomLabels</name>
+	</types>
+	<types>
 		<members>ArticleQuality_index__c</members>
 		<members>Article_Quality__c</members>
 		<name>CustomObject</name>

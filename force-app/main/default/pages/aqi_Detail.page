@@ -2,32 +2,32 @@
     <apex:stylesheet value="{!URLFOR($Resource.aqi_resources, 'bootstrap.css')}"/>
     <script type="text/javascript">
         function confirmation() {
-            return confirm('Are you sure you want to Delete?');
+            return confirm('{!$Label.Delete_confirm}');
         }
     </script>
     <apex:form >
         <apex:pageMessages escape="false"/>
-        <apex:pageBlock title="Article Quality Index details" mode="maindetail">
+        <apex:pageBlock title="{!$Label.Article_Quality_Index_details_title}" mode="maindetail">
             <apex:pageBlockButtons location="top">
                 <apex:commandButton action="{!URLFOR($Action.Article_Quality__c.Edit, Id)}"
                                     id="editButton"
-                                    value="Edit"
+                                    value="{!$Label.Edit_button}"
                                     rendered="{!$ObjectType.Article_Quality__c.updateable}"
                                     />
                 <apex:commandButton action="{!URLFOR($Action.Article_Quality__c.Delete, Id)}"
                                     id="deleteButton"
-                                    value="Delete"
+                                    value="{!$Label.Delete_button}"
                                     onclick="if (!confirmation()) return false;"
                                     rendered="{!$ObjectType.Article_Quality__c.deletable}"
                                     />
             </apex:pageBlockButtons>
-            <apex:pageBlockSection title="Information" columns="2" >
+            <apex:pageBlockSection title="{!$Label.Information_title}" columns="2" >
                 <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Unique__c.label}" for="articleunique"/>
                     <apex:outputField value="{!Article_Quality__c.Article_Unique__c}" id="Article_Unique__c"/>
                 </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
-                    <apex:outputLabel value="Owner" for="Owner"/>
+                    <apex:outputLabel value="{!$Label.Owner_label}" for="Owner"/>
                     <apex:outputField value="{!Article_Quality__c.OwnerId}" id="Owner"/>
                 </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
@@ -43,7 +43,7 @@
                     <apex:outputField value="{!Article_Quality__c.Content_Complete__c}" id="contentcomplete"/>
                 </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
-                    <apex:outputLabel value="Created By" for="CreatedBy"/>
+                    <apex:outputLabel value="{!$Label.Created_By_label}" for="CreatedBy"/>
                     <apex:outputField value="{!Article_Quality__c.CreatedById}" id="CreatedBy"/>
                 </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
@@ -78,7 +78,7 @@
                     &nbsp;
                 </apex:pageBlockSectionItem>
             </apex:pageBlockSection>
-            <apex:pageBlockSection title="Follow Up details" columns="2">
+            <apex:pageBlockSection title="{!$Label.Follow_Up_details_title}" columns="2">
                 <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Action_Needed__c.label}" for="actionneeded"/>
                     <apex:outputField value="{!Article_Quality__c.Action_Needed__c}" id="actionneeded"/>
@@ -103,7 +103,7 @@
                     &nbsp;
                 </apex:pageBlockSectionItem>
             </apex:pageBlockSection>
-            <apex:pageBlockSection title=" Related Article Details" columns="2">
+            <apex:pageBlockSection title="{!$Label.Related_Article_Details_title}" columns="2">
                 <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Number__c.label}" for="ArticleNumber"/>
                     <apex:outputText rendered="{!$ObjectType.Article_Quality__c.fields.Article_Number__c.Accessible}" value="{!Article_Quality__c.Article_Number__c}" id="ArticleNumber"/>
@@ -163,7 +163,7 @@
                     <apex:outputField value="{!Article_Quality__c.Article_Created_By__c}" id="ArtCreatedBy"/>
                 </apex:pageBlockSectionItem>
             </apex:pageBlockSection>
-            <apex:pageBlockSection title="Related Article Current Details" columns="2" rendered="{!AND(!articleNotAvailable,!isCurrentVersion) }">
+            <apex:pageBlockSection title="{!$Label.Related_Article_Current_Details_title}" columns="2" rendered="{!AND(!articleNotAvailable,!isCurrentVersion) }">
                 <!-- latest version -->
                 <apex:pageBlockSectionItem rendered="{!!isCurrentVersion}">
                     <apex:outputLabel value="{!$ObjectType.KnowledgeArticleVersion.fields.VersionNumber.label}" for="latestArticleVersionNumber"/>
@@ -179,18 +179,18 @@
                     &nbsp;
                 </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
-                    <apex:outputLabel value="Article Created Date" for="CreatedDate"/>
+                    <apex:outputLabel value="{!$Label.Article_Created_Date_label}" for="CreatedDate"/>
                     <apex:outputField value="{!article.CreatedDate}" id="createdDate"/>
                 </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
                     &nbsp;
                 </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
-                    <apex:outputLabel value="Article Created By" for="CreatedBy"/>
+                    <apex:outputLabel value="{!$Label.Article_Created_By_label}" for="CreatedBy"/>
                     <apex:outputField value="{!article.CreatedById}" id="createdBy"/>
                 </apex:pageBlockSectionItem>
             </apex:pageBlockSection>
-            <apex:pageBlockSection title="System Information" columns="2">
+            <apex:pageBlockSection title="{!$Label.System_Information_title}" columns="2">
                 <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Name.label}" for="Name"/>
                     <apex:outputText rendered="{!$ObjectType.Article_Quality__c.fields.Name.Accessible}" value="{!Article_Quality__c.Article_Number__c}" id="Name"/>

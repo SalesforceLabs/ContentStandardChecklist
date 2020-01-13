@@ -17,42 +17,42 @@
 	
 	<aura:renderIf isTrue="{! v.kavId != ''}">
 		<h3 class="slds-section__title slds-theme_shade slds-m-bottom_medium">
-			<span class="slds-truncate slds-p-horizontal_small slds-col" title="Section Title">Related Article</span>
-			<a onclick="{!c.navigateTo}"><button class="view-button slds-m-top_xx-small slds-m-bottom_xx-small slds-button_neutral  slds-text-heading_medium slds-m-left_medium slds-m-right_xx-small slds-button" type="button">View article</button></a>
+			<span class="slds-truncate slds-p-horizontal_small slds-col" title="{!$Label.c.Section_Title_helptext}">{!$Label.c.Related_Article_title}</span>
+			<a onclick="{!c.navigateTo}"><button class="view-button slds-m-top_xx-small slds-m-bottom_xx-small slds-button_neutral  slds-text-heading_medium slds-m-left_medium slds-m-right_xx-small slds-button" type="button">{!$Label.c.View_article_button}</button></a>
 		</h3>
 		
 		<div class="slds-m-left_xx-small slds-grid slds-grid_vertical-align-start slds-size_12-of-12 " >
 			<div class="slds-col slds-size_6-of-12">
 				<span>
-					<span class="test-id__field-label slds-form-element__label">Language</span>
+					<span class="test-id__field-label slds-form-element__label">{!$Label.c.Language_label}</span>
 					<br/><span class="uiOutputText">{!v.articleLanguage}</span>
 				</span>
 				
 				<hr class="slds-m-bottom_xxx-small slds-m-top_xxx-small slds-size_5-of-6"/>
 				
 				<span>
-					<span class="test-id__field-label slds-form-element__label">Article Number</span>
+					<span class="test-id__field-label slds-form-element__label">{!$Label.c.Article_Number_label}</span>
 					<br/><span class="uiOutputText">{!v.articleNumber}</span>
 				</span>
 				
 				<hr class="slds-m-bottom_xxx-small slds-m-top_xxx-small slds-size_5-of-6"/>
 				
 				<span>
-					<span class="test-id__field-label slds-form-element__label">Article Publishing Status</span>
+					<span class="test-id__field-label slds-form-element__label">{!$Label.c.Article_Publishing_Status_label}</span>
 					<br/><span class="uiOutputText">{!v.articlePublishingStatus}</span>
 				</span>
 			</div>
 			
 			<div class="slds-col slds-size_6-of-12">
 				<span>
-					<span class="test-id__field-label slds-form-element__label">Article Version</span>
+					<span class="test-id__field-label slds-form-element__label">{!$Label.c.Article_Version_label}</span>
 					<br/><span class="uiOutputText">{!v.articleVersion}</span>
 				</span>
 				
 				<hr class="slds-m-bottom_xxx-small slds-m-top_xxx-small slds-size_5-of-6"/>
 				
 				<span>
-					<span class="test-id__field-label slds-form-element__label">Article Record Type</span>
+					<span class="test-id__field-label slds-form-element__label">{!$Label.c.Article_Record_Type_label}</span>
 					<br/><span class="uiOutputText">{!v.articleRecordType}</span>
 				</span>
 				
@@ -65,7 +65,7 @@
 		<force:recordView aura:id="recordView"  recordId="{!v.kavId}" type="FULL"/>
 		
 		<aura:set attribute="else">
-			Loading...
+			{!$Label.c.Loading_message}
 		</aura:set>
 	</aura:renderIf>
 	

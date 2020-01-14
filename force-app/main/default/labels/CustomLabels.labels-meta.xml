@@ -22,6 +22,13 @@
         <value>AQI Section</value>
     </labels>
     <labels>
+        <fullName>AQI_Team_Summary_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AQI Team Summary title</shortDescription>
+        <value>AQI Team Summary</value>
+    </labels>
+    <labels>
         <fullName>AQI_tableheader</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -230,6 +237,13 @@
         <protected>true</protected>
         <shortDescription>Delete confirm</shortDescription>
         <value>Are you sure you want to Delete?</value>
+    </labels>
+    <labels>
+        <fullName>Display_Follow_Up_section_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Display Follow Up section title</shortDescription>
+        <value>Display Follow Up section?</value>
     </labels>
     <labels>
         <fullName>Display_in_Classic_alert</fullName>
@@ -442,6 +456,13 @@
         <value>No records to display</value>
     </labels>
     <labels>
+        <fullName>None_defaultValue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>None defaultValue</shortDescription>
+        <value>none</value>
+    </labels>
+    <labels>
         <fullName>Owner_label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -538,6 +559,76 @@
         <protected>true</protected>
         <shortDescription>Section Title helptext</shortDescription>
         <value>Section Title</value>
+    </labels>
+    <labels>
+        <fullName>Select_AQI_eight_field_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select AQI eight field label</shortDescription>
+        <value>Select AQI eight field</value>
+    </labels>
+    <labels>
+        <fullName>Select_AQI_fifth_field_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select AQI fifth field label</shortDescription>
+        <value>Select AQI fifth field</value>
+    </labels>
+    <labels>
+        <fullName>Select_AQI_first_field_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select AQI first field label</shortDescription>
+        <value>Select AQI first field</value>
+    </labels>
+    <labels>
+        <fullName>Select_AQI_fourth_field_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select AQI fourth field label</shortDescription>
+        <value>Select AQI fourth field</value>
+    </labels>
+    <labels>
+        <fullName>Select_AQI_ninth_field_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select AQI ninth field label</shortDescription>
+        <value>Select AQI ninth field</value>
+    </labels>
+    <labels>
+        <fullName>Select_AQI_second_field_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select AQI second field label</shortDescription>
+        <value>Select AQI second field</value>
+    </labels>
+    <labels>
+        <fullName>Select_AQI_seventh_field_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select AQI seventh field label</shortDescription>
+        <value>Select AQI seventh field</value>
+    </labels>
+    <labels>
+        <fullName>Select_AQI_sixth_field_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select AQI sixth field label</shortDescription>
+        <value>Select AQI sixth field</value>
+    </labels>
+    <labels>
+        <fullName>Select_AQI_tenth_field_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select AQI tenth field label</shortDescription>
+        <value>Select AQI tenth field</value>
+    </labels>
+    <labels>
+        <fullName>Select_AQI_third_field_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select AQI third field label</shortDescription>
+        <value>Select AQI third field</value>
     </labels>
     <labels>
         <fullName>Summary_tableheader</fullName>

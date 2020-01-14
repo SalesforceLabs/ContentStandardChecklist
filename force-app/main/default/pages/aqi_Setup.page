@@ -42,7 +42,7 @@
         </apex:pageBlock>
         <apex:pageBlock title="{!$Label.Application_Setup_title}" mode="detail" rendered="{!!editMode}">
             <apex:pageBlockButtons >
-                <apex:commandButton action="{!edit}" value="Edit"/>
+                <apex:commandButton action="{!edit}" value="{!$Label.Edit_button}"/>
             </apex:pageBlockButtons>
             <apex:pageBlockSection columns="2">
                 <apex:outputText value="{!$Label.AQI_Section_title}" />

@@ -52,7 +52,7 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
                 aq.AQ_Score__c = ((Double)aqi_value * 100) / aq.Possible_Points__c;
             } else {
                 aq.Knowledge_Article_Version_Id__c.addError(
-                    'You have already a Quality Index record for this article version :'+
+                    System.Label.AQI_duplicate_error + ' :' +
                     ' <a href=\'/'+duplicate.Id+'\' > link </a>'
                );
             }
@@ -90,7 +90,7 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
                 }
                 Article_Quality__c actualRecord = aq.Id != null ? Trigger.newMap.get(aq.Id) : aq;
                 if (!foundSameVersion && !dontThrowErrorFoundAnotherVersionRelated) {
-                    actualRecord.addError('You cant create or edit this AQI if the related article for this version don\'t exist.');
+                    actualRecord.addError(System.Label.Cant_create_AQI_article_not_exists_error);
                 } else {
                     if (!foundSameVersion) {
                         //updateTheArticleVersionInAQI
@@ -98,10 +98,10 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
                         aq.Name = 'AQI for article ' + String.valueOf(numberA) + ' – ' + String.valueOf(actualVersionOfKav);
                     }
                     if (showArchivedError) {
-                        actualRecord.addError('You cant create or edit this AQI if the related article is archived.');
+                        actualRecord.addError(System.Label.Cant_create_AQI_article_archived_error);
                     }
                     if (showDraftError) {
-                        actualRecord.addError('You cant create or edit this AQI if the related article is a draft.');
+                        actualRecord.addError(System.Label.Cant_create_AQI_article_draft_error);
                     }
                 }
             }

@@ -161,13 +161,13 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 		List<String> errorsOnInput = new list<String>();
 		if (String.isNotBlank(searchString)) {
 			if (searchString.length() < 2) {
-				errorsOnInput.add('Search criteria must be at least two characters ');
+				errorsOnInput.add(System.Label.Search_criteria_error);
 			}
 		}
 		// Validate Article Number
 		if (String.isNotBlank(articleNumber)) {
 			if (!articleNumber.isNumeric()) {
-				errorsOnInput.add('Article Number must contain only numbers');
+				errorsOnInput.add(System.Label.Article_number_error);
 			} else {
 				whereConditions.add(' articlenumber LIKE \'%' + escapeString(articleNumber) + '%\' ');
 			}
@@ -198,7 +198,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 		DateTime auxDTT_to = strToDateTime(escapeString(articleLastModifiedDateTo),true);
 		if (auxDTT_from != null && auxDTT_to!= null) {
 			if (auxDTT_from > auxDTT_to) {
-				ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING, 'Last Modified Date range is invalid'));
+				ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING, System.Label.Last_Modified_date_invalid_error));
 				return '';
 			}
 		}
@@ -217,7 +217,7 @@ global with sharing class aqi_KnowledgeSearchCtrl {
 		auxDTT_to = strToDateTime(escapeString(articlePublishDateTo),true);
 		if (auxDTT_from != null && auxDTT_to != null) {
 			if (auxDTT_from > auxDTT_to) {
-				ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING, 'First Published Date range is invalid'));
+				ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING, System.Label.First_Published_date_invalid_error));
 				return '';
 			}
 		}

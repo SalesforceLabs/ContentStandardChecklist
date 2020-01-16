@@ -37,7 +37,7 @@ public with sharing class aqi_Ctrl {
 					recordTypesMap = new Map<Id,String>();
 				}
 
-				recordTypesMap.put(null,'This article has no record type');
+				recordTypesMap.put(null,System.Label.Article_has_no_record_type_error);
 			}
 
 			return recordTypesMap;
@@ -282,7 +282,7 @@ public with sharing class aqi_Ctrl {
 		Boolean canReadKav = aqi_securityHandlerLng.getKAVPermissions();
 		Boolean result = false;
 		if (!String.isNotBlank(kaId)) {
-			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Invalid Knowledge Article.'));
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Invalid_Knowledge_Article_error));
 			return result;
 		}
 
@@ -311,7 +311,7 @@ public with sharing class aqi_Ctrl {
 			} else {
 				result = false;
 				if (!canReadKAv) {
-					ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'You need permissions to access this Article Type.'));
+					ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Article_Type_permissions_error));
 				}
 			}
 		} else {
@@ -321,12 +321,12 @@ public with sharing class aqi_Ctrl {
 				//check if article is in draft
 				lKAV =  getArticleByPublishedStatus('\'Draft\'', kaId, kaLang);
 				if (lKAV.isEmpty()) {
-					ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'The related Knowledge Article was not found.'));
+					ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Related_article_not_found_error));
 				} else {
-					ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING, 'The related Knowledge Article is in draft.'));
+					ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING, System.Label.Related_article_is_draft_message));
 				}
 			} else {
-				ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING, 'The related Knowledge Article is archived.'));
+				ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING, System.Label.Related_article_is_archived_message));
 			}
 			result = false;
 			articleNotAvailable = true;
@@ -390,7 +390,7 @@ public with sharing class aqi_Ctrl {
 	*	N/A
 	*/
 	public PageReference setErrorOnSave() {
-		ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Please specify coaching provided by'));
+		ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Specify_coaching_error));
 		iserror = true;
 
 		return null;
@@ -406,7 +406,7 @@ public with sharing class aqi_Ctrl {
 	*/
 	public PageReference save() {
 		if (!String.isNotBlank(record.Knowledge_Article_Version_Id__c)) {
-			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Please specify Article Version reference'));
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Specify_article_version_error));
 			iserror = true;
 			return null;
 		}

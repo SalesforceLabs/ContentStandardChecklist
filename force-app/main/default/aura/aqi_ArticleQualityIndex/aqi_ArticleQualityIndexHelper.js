@@ -86,7 +86,7 @@
 				if (!$A.util.isUndefinedOrNull(relatedInitiallyAgent)) {
 					agentAssigned = relatedInitiallyAgent;
 				} else {
-					ctx.showToast('error', '$Label.c.Article_contributor_not_found_error', '$Label.c.Article_contributor_not_found_error_message')
+					ctx.showToast('error', $A.get("$Label.c.Article_contributor_not_found_error"), $A.get("$Label.c.Article_contributor_not_found_error_message"))
 				}
 			}
 			
@@ -148,18 +148,18 @@
 			}
 			
 			component.set('v.aqi_record',aqi_record);
-			toastCmp.set("v.title",'AQI Successfully updated');
+			toastCmp.set("v.title",$A.get("$Label.c.AQI_Successfully_updated_message"));
 			toastCmp.set("v.className",'slds-show');
 			toastCmp.set("v.severity",'info');
 			
 			if (!component.get("v.noFieldsAvailable")) {
-				toastCmp.set("v.description",'The AQI has been updated. The new score is : '+Math.round(aq_score));
+				toastCmp.set("v.description",$A.get("$Label.c.AQI_has_been_updated_message") + ' ' + $A.get("$Label.c.The_new_score_is_message") + ' : '+Math.round(aq_score));
 			} else {
-				toastCmp.set("v.description",'The AQI has been updated.');
+				toastCmp.set("v.description",$A.get("$Label.c.AQI_has_been_updated_message"));
 			}
 		} else {
-			toastCmp.set("v.title",'Warning');
-			toastCmp.set("v.description",'ResponseMap empty');
+			toastCmp.set("v.title",$A.get("$Label.c.Warning_message"));
+			toastCmp.set("v.description",$A.get("$Label.c.ResponseMap_empty_message"));
 			toastCmp.set("v.className",'slds-show');
 			toastCmp.set("v.severity",'warning');
 		}

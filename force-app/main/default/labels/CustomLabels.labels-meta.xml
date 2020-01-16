@@ -22,11 +22,32 @@
         <value>AQI Section</value>
     </labels>
     <labels>
+        <fullName>AQI_Successfully_updated_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AQI Successfully updated message</shortDescription>
+        <value>AQI Successfully updated</value>
+    </labels>
+    <labels>
         <fullName>AQI_Team_Summary_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AQI Team Summary title</shortDescription>
         <value>AQI Team Summary</value>
+    </labels>
+    <labels>
+        <fullName>AQI_duplicate_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AQI duplicate error</shortDescription>
+        <value>You have already a Quality Index record for this article version</value>
+    </labels>
+    <labels>
+        <fullName>AQI_has_been_updated_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AQI has been updated message</shortDescription>
+        <value>The AQI has been updated.</value>
     </labels>
     <labels>
         <fullName>AQI_tableheader</fullName>
@@ -106,6 +127,13 @@
         <value>Article Created Date</value>
     </labels>
     <labels>
+        <fullName>Article_Id_empty_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article Id empty error</shortDescription>
+        <value>Article Id can not be empty</value>
+    </labels>
+    <labels>
         <fullName>Article_Number_label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -148,6 +176,13 @@
         <value>Article Record Type</value>
     </labels>
     <labels>
+        <fullName>Article_Type_permissions_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article Type permissions error</shortDescription>
+        <value>You need permissions to access this Article Type.</value>
+    </labels>
+    <labels>
         <fullName>Article_Version_label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -176,11 +211,46 @@
         <value>The Article Contributor on the AQI record was not set because the Last Modified By user on the article could not be found.  Please select an Article Contributor.</value>
     </labels>
     <labels>
+        <fullName>Article_has_no_record_type_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article has no record type error</shortDescription>
+        <value>This article has no record type</value>
+    </labels>
+    <labels>
+        <fullName>Article_number_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article number error</shortDescription>
+        <value>Article Number must contain only numbers</value>
+    </labels>
+    <labels>
         <fullName>Cancel_button</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Cancel button</shortDescription>
         <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>Cant_create_AQI_article_archived_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cant create AQI article archived error</shortDescription>
+        <value>You cant create or edit this AQI if the related article is archived.</value>
+    </labels>
+    <labels>
+        <fullName>Cant_create_AQI_article_draft_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cant create AQI article draft error</shortDescription>
+        <value>You cant create or edit this AQI if the related article is a draft.</value>
+    </labels>
+    <labels>
+        <fullName>Cant_create_AQI_article_not_exists_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cant create AQI article not exists error</shortDescription>
+        <value>You cant create or edit this AQI if the related article for this version don&#39;t exist.</value>
     </labels>
     <labels>
         <fullName>Create_AQI_title</fullName>
@@ -281,6 +351,13 @@
         <value>Check to enable the trigger that calculates the aqi score (only needs to be disabled when the AQI migration tool will be used)</value>
     </labels>
     <labels>
+        <fullName>Error_getting_id_of_related_article_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error getting id of related article error</shortDescription>
+        <value>An error occurred getting the id of the related article, please check that the component is in the correct record page.</value>
+    </labels>
+    <labels>
         <fullName>Error_occurred_in_Apex_call_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -300,6 +377,13 @@
         <protected>true</protected>
         <shortDescription>First Published date from label</shortDescription>
         <value>First Published date from</value>
+    </labels>
+    <labels>
+        <fullName>First_Published_date_invalid_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>First Published date invalid error</shortDescription>
+        <value>First Published Date range is invalid</value>
     </labels>
     <labels>
         <fullName>First_Published_date_to_label</fullName>
@@ -337,6 +421,13 @@
         <value>Follow Up</value>
     </labels>
     <labels>
+        <fullName>Follow_up_field_not_retrieved_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Follow up field not retrieved error</shortDescription>
+        <value>Some of the follow up section fields label were not retrieved</value>
+    </labels>
+    <labels>
         <fullName>Has_AQI_helptext</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -363,6 +454,13 @@
         <protected>true</protected>
         <shortDescription>Internal notes helptext</shortDescription>
         <value>Internal notes</value>
+    </labels>
+    <labels>
+        <fullName>Invalid_Knowledge_Article_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invalid Knowledge Article error</shortDescription>
+        <value>Invalid Knowledge Article.</value>
     </labels>
     <labels>
         <fullName>Language_label</fullName>
@@ -393,6 +491,13 @@
         <value>Last Modified date from</value>
     </labels>
     <labels>
+        <fullName>Last_Modified_date_invalid_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Modified date invalid error</shortDescription>
+        <value>Last Modified Date range is invalid</value>
+    </labels>
+    <labels>
         <fullName>Last_Modified_date_to_label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -405,6 +510,13 @@
         <protected>true</protected>
         <shortDescription>Last Modified tableheader</shortDescription>
         <value>Last Modified</value>
+    </labels>
+    <labels>
+        <fullName>List_of_API_names_empty_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>List of API names empty error</shortDescription>
+        <value>List of API names can not be empty</value>
     </labels>
     <labels>
         <fullName>Loading_message</fullName>
@@ -463,6 +575,13 @@
         <value>none</value>
     </labels>
     <labels>
+        <fullName>None_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>None message</shortDescription>
+        <value>None</value>
+    </labels>
+    <labels>
         <fullName>Owner_label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -498,11 +617,46 @@
         <value>Related Article Details</value>
     </labels>
     <labels>
+        <fullName>Related_Article_archived_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Related Article archived error</shortDescription>
+        <value>The related Knowledge Article is archived.</value>
+    </labels>
+    <labels>
         <fullName>Related_Article_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Related Article title</shortDescription>
         <value>Related Article</value>
+    </labels>
+    <labels>
+        <fullName>Related_article_is_archived_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Related article is archived message</shortDescription>
+        <value>The related Knowledge Article is archived.</value>
+    </labels>
+    <labels>
+        <fullName>Related_article_is_draft_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Related article is draft message</shortDescription>
+        <value>The related Knowledge Article is in draft.</value>
+    </labels>
+    <labels>
+        <fullName>Related_article_not_found_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Related article not found error</shortDescription>
+        <value>The related knowledge article cannot be found.</value>
+    </labels>
+    <labels>
+        <fullName>ResponseMap_empty_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ResponseMap empty message</shortDescription>
+        <value>ResponseMap empty</value>
     </labels>
     <labels>
         <fullName>Save_button</fullName>
@@ -552,6 +706,13 @@
         <protected>true</protected>
         <shortDescription>Search button</shortDescription>
         <value>Search</value>
+    </labels>
+    <labels>
+        <fullName>Search_criteria_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search criteria error</shortDescription>
+        <value>Search criteria must be at least two characters</value>
     </labels>
     <labels>
         <fullName>Section_Title_helptext</fullName>
@@ -631,6 +792,20 @@
         <value>Select AQI third field</value>
     </labels>
     <labels>
+        <fullName>Specify_article_version_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Specify article version error</shortDescription>
+        <value>Please specify Article Version reference</value>
+    </labels>
+    <labels>
+        <fullName>Specify_coaching_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Specify coaching error</shortDescription>
+        <value>Please specify coaching provided by</value>
+    </labels>
+    <labels>
         <fullName>Summary_tableheader</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -643,6 +818,13 @@
         <protected>true</protected>
         <shortDescription>System Information title</shortDescription>
         <value>System Information</value>
+    </labels>
+    <labels>
+        <fullName>The_new_score_is_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>The new score is message</shortDescription>
+        <value>The new score is</value>
     </labels>
     <labels>
         <fullName>Title_tableheader</fullName>
@@ -678,6 +860,13 @@
         <protected>true</protected>
         <shortDescription>View article button</shortDescription>
         <value>View article</value>
+    </labels>
+    <labels>
+        <fullName>Warning_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Warning message</shortDescription>
+        <value>Warning</value>
     </labels>
     <labels>
         <fullName>Warning_on_create_AQI_alert</fullName>

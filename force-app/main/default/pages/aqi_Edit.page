@@ -112,7 +112,7 @@
                 <apex:pageBlockSectionItem >
                      <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Article_Type__c.label}"
                             for="type"/>
-                    <apex:outputLabel style="{! If( showNoRecordTypeMessage ,'font-style: italic;','') }"  value="{! If( showNoRecordTypeMessage ,'This article has no record type',recordTypesMap[record.Article_Type__c]) }" id="type"/>
+                    <apex:outputLabel style="{! If( showNoRecordTypeMessage ,'font-style: italic;','') }"  value="{! If( showNoRecordTypeMessage ,'{!$Label.Article_has_no_record_type_error}',recordTypesMap[record.Article_Type__c]) }" id="type"/>
                 </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Last_Published_By__c.label}" for="ArticleNumber"/>

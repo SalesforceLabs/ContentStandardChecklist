@@ -25,8 +25,8 @@
 		
 		if (response.isArchived) {
 			var toastCmp =  cmp.find("toastNotif");
-			toastCmp.set("v.title",'WARNING');
-			toastCmp.set("v.description",'The related Knowledge Article is archived.');
+			toastCmp.set("v.title",$A.get("$Label.c.Warning_message"));
+			toastCmp.set("v.description",$A.get("$Label.c.Related_Article_archived_error"));
 			toastCmp.set("v.className",'');
 			toastCmp.set("v.severity",'warning');
 		}

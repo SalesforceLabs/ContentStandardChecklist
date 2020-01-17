@@ -6,7 +6,7 @@
 		action.setCallback(self,function(a) {
 			try {
 				if (a.getState() !== 'SUCCESS') {
-					throw {'message' : '$Label.c.Undetermined_error'};
+					throw {'message' : $A.get("$Label.c.Undetermined_error")};
 				}
 				
 				var result = a.getReturnValue();
@@ -22,7 +22,7 @@
 					}
 
 					throw {
-						'message' : '$Label.c.Error_occurred_in_Apex_call_error',
+						'message' : $A.get("$Label.c.Error_occurred_in_Apex_call_error"),
 						'extendedMessage' : errorEncountered
 					};
 				}
@@ -37,7 +37,7 @@
 				successCallback(concreteComponent,returnValue, self);
 			} catch(ex) {
 				// Handle any exceptions encountered in the callback
-				var errorTitle = "$Label.c.An_error_occurred_error";
+				var errorTitle = $A.get("$Label.c.An_error_occurred_error");
 				var errorMessage = ex.message;
 				
 				// Add a detailed description of the error if one is found.

@@ -24,13 +24,13 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         Map<String,String> listApiNamesToLabels = aqi_Ctrl.getAqiObjectApiNameToLabel();
         if (!listApiNamesToLabels.containsKey('Action_Assigned_To__c')) {
             response.state = 'ERROR';
-            response.error = 'Some of the follow up section fields label were not retrieved';
+            response.error = System.Label.Follow_up_field_not_retrieved_error;
         } else if (!String.isNotBlank(apiNames)) {
             response.state = 'ERROR';
-            response.error = 'List of API names can not be empty';
+            response.error = System.Label.List_of_API_names_empty_error;
         } else if (!String.isNotBlank(recordId)) {
             response.state = 'ERROR';
-            response.error = 'Article Id  can not be empty';
+            response.error = System.Label.Article_Id_empty_error;
         } else {
             try {
                 Article_Quality__c aqi_result;
@@ -231,9 +231,9 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 }
             }
             
-            result.put('errors', 'None');
+            result.put('errors', System.Label.None_message);
         } else {
-            result.put('errors', 'The related knowledge article cannot be found.');
+            result.put('errors', System.Label.Related_article_not_found_error);
         }
         
         return result;
@@ -280,7 +280,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 }
             } else {
                 response.state = 'ERROR';
-                response.error = 'An error occurred getting the id of the related article, please check that the component is in the correct record page.';
+                response.error = System.Label.Error_getting_id_of_related_article_error;
             }
             response.jsonResponse = JSON.serialize(result);
         } catch(Exception e) {

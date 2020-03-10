@@ -48,20 +48,15 @@ private class aqi_SecurityHandlerLng_Test {
     }
     
     @isTest static void securityEnabled_test() {
-        System.Test.startTest();
-        Profile[] profileList = [select Id, Name from Profile where Name = 'System Administrator' OR Name = 'Standar User' LIMIT 2];
-        Map<Id,String> profileMap = new Map<Id,String>();
-        for (Profile p : profileList) {
-            profileMap.put( p.id, p.Name);
-        }
+        List<User> userList = new List<User>();
+        // Create admin user
+        userList.add(aqi_TestDataFactory.createUser(true));
+        // Create non admin user
+        userList.add(aqi_TestDataFactory.createUser(false));
 
-        List<User> u = [select id, profileId from User where Id =: UserInfo.getUserId() limit 1];
-        
-        if (profileMap.containsKey( UserInfo.getProfileId()) && profileMap.get( UserInfo.getProfileId()) == 'System Administrator') {
-            for (Profile p : profileList) {
-                u[0].profileId = p.Id;
-                UPDATE u;
-                
+        System.Test.startTest();
+        for (User currentUser : userList) {
+            System.runAs(currentUser) {
                 System.assertEquals(aqi_SecurityHandlerLng.isAccessible(Case.sObjectType), Case.sObjectType.getDescribe().isAccessible());
                 System.assertEquals(aqi_SecurityHandlerLng.isCreateable(Case.sObjectType), Case.sObjectType.getDescribe().isCreateable());
                 System.assertEquals(aqi_SecurityHandlerLng.isUpdateable(Case.sObjectType), Case.sObjectType.getDescribe().isUpdateable());
@@ -92,8 +87,8 @@ private class aqi_SecurityHandlerLng_Test {
                     aqi_SecurityHandlerLng.canUpdate(Case.sObjectType);
                 } else {
                     try {
-                    aqi_SecurityHandlerLng.canUpdate(Case.sObjectType);
-                    System.assert(false);
+                        aqi_SecurityHandlerLng.canUpdate(Case.sObjectType);
+                        System.assert(false);
                     } catch (SecurityException e) {}
                 }
                 
@@ -105,7 +100,7 @@ private class aqi_SecurityHandlerLng_Test {
                         System.assert(false);
                     } catch (SecurityException e) {}
                 }
-    
+
                 if (Case.subject.getDescribe().isAccessible()) {
                     aqi_SecurityHandlerLng.canAccess(Case.subject);
                 } else {
@@ -134,23 +129,20 @@ private class aqi_SecurityHandlerLng_Test {
                 }
             }
         }
+
         System.Test.stopTest();
     }
 
     @isTest static void securityDisabled_test() {
-        System.Test.startTest();
-        aqi_SecurityHandlerLng.securityEnabled = false;
-        Profile[] profileList = [SELECT Id, Name FROM Profile WHERE Name = 'System Administrator' OR Name = 'Standar User' LIMIT 2];
-        Map<Id,String> profileMap = new Map<Id,String>();
-        for (Profile p : profileList) {
-            profileMap.put(p.id, p.Name);
-        }
+        List<User> userList = new List<User>();
+        // Create admin user
+        userList.add(aqi_TestDataFactory.createUser(true));
+        // Create non admin user
+        userList.add(aqi_TestDataFactory.createUser(false));
 
-        List<User> u = [SELECT id, profileId FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
-        if (profileMap.containsKey( UserInfo.getProfileId()) && profileMap.get( UserInfo.getProfileId()) == 'System Administrator') {
-            for (Profile p : profileList) {
-                u[0].profileId = p.id;
-                UPDATE u;
+        System.Test.startTest();
+        for (User currentUser : userList) {
+            System.runAs(currentUser) {
                 System.assertEquals(aqi_SecurityHandlerLng.isAccessible(Case.sObjectType), true);
                 System.assertEquals(aqi_SecurityHandlerLng.isCreateable(Case.sObjectType), true);
                 System.assertEquals(aqi_SecurityHandlerLng.isUpdateable(Case.sObjectType), true);

@@ -46,4 +46,32 @@ public class aqi_TestDataFactory {
        
         INSERT aqs;
     }
+
+	public static User createUser(Boolean isAdmin) {
+		// Create user for test
+		Profile prof = [
+			SELECT Id 
+			FROM Profile 
+			WHERE UserType = 'Standard' 
+			AND PermissionsCustomizeApplication =: isAdmin 
+			AND PermissionsModifyAllData =: isAdmin
+			AND PermissionsManageCases = true
+			ORDER BY CreatedDate ASC 
+			LIMIT 1
+		];
+
+		User testUser = new User(
+			Alias = 'newUser',
+			Email='newuser@testorg.com',
+			EmailEncodingKey='UTF-8',
+			LastName='Testing',
+			LanguageLocaleKey='en_US',
+			LocaleSidKey='en_US',
+			ProfileId = prof.Id,
+			TimeZoneSidKey='America/Los_Angeles',
+			UserName = String.valueOf(Crypto.getRandomInteger()) + 'myusername@testorg.com'
+		);
+
+		return testUSer;
+	}
 }

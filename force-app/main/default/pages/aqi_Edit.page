@@ -1,4 +1,4 @@
-<apex:page standardController="Article_Quality__c" extensions="aqi_Ctrl"  tabStyle="Create_AQI__tab">
+<apex:page standardController="Article_Quality__c" extensions="aqi_Ctrl" tabStyle="Create_AQI__tab" lightningStylesheets="true">
     <apex:stylesheet value="{!URLFOR($Resource.aqi_resources, 'bootstrap.css')}"/>
     <apex:form id="recordForm">
         <apex:pageBlock id="formBlockAqi" title="{!$Label.Article_Quality_Index_details_title}" mode="detail">

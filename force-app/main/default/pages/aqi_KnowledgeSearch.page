@@ -1,626 +1,664 @@
-<apex:page showHeader="true" standardStylesheets="false" sidebar="false" docType="html-5.0" controller="aqi_KnowledgeSearchCtrl" applyBodyTag="False" applyHtmlTag="true" >
-  <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <head>
-        <title>{!$Label.Create_AQI_title}</title>
-        <apex:slds />
-        <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/jquery.min.js')}" />
-        <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/jsrender.js')}" />
-        <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/moment.js')}" />
-        <style type="text/css">
-            span.sorting {
-                cursor: pointer;
-            }
-            input[type=date]::-webkit-inner-spin-button,
-            input[type=date]::-webkit-outer-spin-button {
-              -webkit-appearance: none;
-            }
-            input[type=number]::-webkit-inner-spin-button,
-            input[type=number]::-webkit-outer-spin-button {
-              -webkit-appearance: none;
-            }
-            th.col_NEWAQI{
-                width: 3%;
-            }
-            th.col_Title{
-                width: 7%;
-            }
-            th.col_ArticleNumber{
-                width: 10%;
-            }
-            th.col_RecordType{
-                width: 8%;
-            }
-            th.col_VersionNumber{
-                width: 6%;
-            }
-            th.col_SummaryEXT{
-                width: 35%;
-            }
-            th.col_Summary{
-                width: 20%;
-            }
-            th.col_validationstatus{
-                width: 9%;
-            }
-            th.col_LastModifiedDate{
-                width: 9%;
-            }
-            th.col_FirstPublishedDate{
-                width: 9%;
-            }
-            th.col_lastmodifiedby{
-                width: 11%;
-            }
-            th.col_createdby{
-                width: 9%;
-            }
-            /* has aqi col */
-            th.col_HASAQI{
-                width: 3%;
-            }
-            th.paddingLeftText {
-                padding-left:22%;
-            }
-            div.newAQI_Icon{
-                background-image: url("{!URLFOR($Resource.aqi_resources, 'images/edit_120.png')}");
-                background-repeat: no-repeat;
-                background-size: cover;
-                cursor: pointer;
-                background-position: 0 0;
-            }
-            td.newAQI_IconContainer{
-                padding: 0.7rem !important;
-            }
-            div.wordWrap{
-                white-space: normal;
-                word-wrap: inherit;
-            }
-            .sortableRow{
-                    text-align: center;
-            }
-        </style>
-        <script type="text/javascript">
-            var pageSize = {!pageSize};
-            var sortBy = "Title";
-            var sortAsc = false;
-            var pageNum = 0;
-            var reachedEndOfList = false;
-            var SORT_ASC ='&nbsp;&nbsp;&uarr;';
-            var SORT_DESC = '&nbsp;&nbsp;&darr;';
+<apex:page sidebar="false" docType="html-5.0" controller="aqi_KnowledgeSearchCtrl" lightningStylesheets="true">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <head>
+            <title>{!$Label.Create_AQI_title}</title>
+            <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/jquery.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/jsrender.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.aqi_resources, 'js/moment.js')}" />
+            <style type="text/css">
+                span.sorting {
+                    cursor: pointer;
+                
+                }
+                input[type=date]::-webkit-inner-spin-button,
+                input[type=date]::-webkit-outer-spin-button {
+                    -webkit-appearance: none;
+                }
+                
+                input[type=number]::-webkit-inner-spin-button,
+                input[type=number]::-webkit-outer-spin-button {
+                    -webkit-appearance: none;
+                }
+                
+                th.col_NEWAQI{
+                    width: 3%;
+                }
+                
+                th.col_Title{
+                    width: 7%;
+                }
+                
+                th.col_ArticleNumber{
+                    width: 10%;
+                }
+                
+                th.col_RecordType{
+                    width: 8%;
+                }
+                
+                th.col_VersionNumber{
+                    width: 6%;
+                }
+                
+                th.col_SummaryEXT{
+                    width: 35%;
+                }
+                
+                th.col_Summary{
+                    width: 20%;
+                }
+                
+                th.col_validationstatus{
+                    width: 9%;
+                }
+                
+                th.col_LastModifiedDate{
+                    width: 9%;
+                }
+                
+                th.col_FirstPublishedDate{
+                    width: 9%;
+                }
+                
+                th.col_lastmodifiedby{
+                    width: 11%;
+                }
+                
+                th.col_createdby{
+                    width: 9%;
+                }
+                /* has aqi col */
+                
+                th.col_HASAQI{
+                    width: 3%;
+                }
+                
+                th.paddingLeftText {
+                    padding-left:22%;
+                }
+                
+                div.newAQI_Icon{
+                    background-image: url("{!URLFOR($Resource.aqi_resources, 'images/edit_120.png')}");
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    cursor: pointer;
+                    background-position: 0 0;
+                }
+                
+                td.newAQI_IconContainer{
+                    padding: 0.7rem !important;
+                }
+                
+                div.wordWrap{
+                    white-space: normal;
+                    word-wrap: inherit;
+                }
+                
+                .sortableRow{
+                        text-align: center;
+                }
+            </style>
 
-            function formatDate(mili) {
-                var tmpOffset =parseFloat('{!JSENCODE(tzOffset)}');
-                var intOffset = (tmpOffset)*60;
-                var d_offset = moment(mili).utcOffset(intOffset);
-                return d_offset.format('MM/DD/YYYY');
-            }
+            <script type="text/javascript">
+                var pageSize = {!pageSize};
+                var sortBy = "Title";
+                var sortAsc = false;
+                var pageNum = 0;
+                var reachedEndOfList = false;
+                var SORT_ASC ='&nbsp;&nbsp;&uarr;';
+                var SORT_DESC = '&nbsp;&nbsp;&darr;';
 
-            function unescapeMe(content) {
-                if (content != null && content != undefined && content != '') {
-                    if (content.includes('&amp')) {
-                        if (content.includes(';lt;')) {
-                            content = content.replace(/&amp/g, '&');
-                            content = content.replace(/;lt;/g, '<');
-                            content = content.replace(/&</g, '<');
-                        }
-                        if (content.includes(';gt;')) {
-                            content = content.replace(/&amp/g, '&');
-                            content = content.replace(/;gt;/g, '>');
-                            content = content.replace(/&>/g, '>');
+                function formatDate(mili) {
+                    var tmpOffset = parseFloat('{!JSENCODE(tzOffset)}');
+                    var intOffset = (tmpOffset)*60;
+                    var d_offset = moment(mili).utcOffset(intOffset);
+
+                    return d_offset.format('MM/DD/YYYY');
+                }
+
+                function unescapeMe(content) {
+                    if (content != null && content != undefined && content != '') {
+                        if (content.includes('&amp')) {
+                            if (content.includes(';lt;')) {
+                                content = content.replace(/&amp/g, '&');
+                                content = content.replace(/;lt;/g, '<');
+                                content = content.replace(/&</g, '<');
+                            }
+
+                            if (content.includes(';gt;')) {
+                                content = content.replace(/&amp/g, '&');
+                                content = content.replace(/;gt;/g, '>');
+                                content = content.replace(/&>/g, '>');
+                            }
                         }
                     }
-                }
-                return content;
-            }
 
-            // Shortens names longer that 25 characters
-            function truncName(name) {
-                if (name !== undefined && name !== null && name !== '' && name.length > 0) {
-                    if (name.length > 30) {
-                        name = name.substr(0, 30) + '&hellip;';
+                    return content;
+                }
+
+                // Shortens names longer that 25 characters
+                function truncName(name) {
+                    if (name !== undefined && name !== null && name !== '' && name.length > 0) {
+                        if (name.length > 30) {
+                            name = name.substr(0, 30) + '&hellip;';
+                        }
                     }
-                }
-                return name;
-            }
 
-            function getRemoteArticles(refresh) {
-                if (refresh) {
-                    pageNum = 0;
+                    return name;
                 }
-                var searchString 	= $('#searchByString').val();
-                var articleNumber	= $('#searchByArticleNumber').val();
-                var articleLanguage = $('#searchByLanguage').val();
-                var articleCreatedBy = $('#articleCreatedBy').val();
-                var articlelastModifiedBy = $('#articlelastModifiedBy').val();
-                var articleRecordType =		$('#searchByrecordType').val();
-                var articlePublishDateFrom = $('#articlePublishDateFrom').val();
-                var articlePublishDateTo = $('#articlePublishDateTo').val();
-                var articleLastModifiedDateFrom = $('#articleLastModifiedDateFrom').val();
-                var articleLastModifiedDateTo = $('#articleLastModifiedDateTo').val();
-                // If articleNumber is negative get the absolute and replace value in input
-                if (articleNumber < 0) {
-                    articleNumber = Math.abs(articleNumber);
-                    $('#searchByArticleNumber').val(articleNumber);
-                }
-                if (articlePublishDateFrom!='' && articlePublishDateTo!='' &&
-                    articlePublishDateFrom > articlePublishDateTo) {
-                    alert('{!$Label.Date_Range_invalid_first_alert}');
-                    return;
-                }
-                if ( articleLastModifiedDateFrom!='' && articleLastModifiedDateTo!='' &&
-                    articleLastModifiedDateFrom > articleLastModifiedDateTo) {
-                    alert('{!$Label.Date_Range_invalid_last_alert}');
-                    return;
-                }
-                // This remoting call will use the page's timeout value
-                Visualforce.remoting.Manager.invokeAction(
-                    '{!$RemoteAction.aqi_KnowledgeSearchCtrl.getArticles}',
-                    searchString, articleNumber,articleLanguage,
-                    articleCreatedBy,articlelastModifiedBy,articleRecordType,
-                    articlePublishDateFrom,articlePublishDateTo,
-                    articleLastModifiedDateFrom,articleLastModifiedDateTo,
-                    pageNum,sortBy,sortAsc,
-                    handleResult
-                );
-            }
 
-            function handleResult(result, event) {
-                var tplTableRow = $.templates("#tplTableRow");
-                var tplIsStatusValidated = $.templates("#tplIsStatusValidated");
-                $("tbody#articleList").empty('');
-                if (event.status) {
-                    //debugger;
-                    $(result.items).each(function (i,e) {
-                        var htmlOutput = tplTableRow.render(e,{
-                            truncName: function(name) {
-                                return truncName(name);
-                            },
-                            formatDate: function(mili) {
-                                return formatDate(mili);
-                            },
-                            unescapeMe: function(content) {
-                                return unescapeMe(content);
+                function getRemoteArticles(refresh) {
+                    if (refresh) {
+                        pageNum = 0;
+                    }
+
+                    var searchString 	= $('#searchByString').val();
+                    var articleNumber	= $('#searchByArticleNumber').val();
+                    var articleLanguage = $('#searchByLanguage').val();
+                    var articleCreatedBy = $('#articleCreatedBy').val();
+                    var articlelastModifiedBy = $('#articlelastModifiedBy').val();
+                    var articleRecordType =		$('#searchByrecordType').val();
+                    var articlePublishDateFrom = $('#articlePublishDateFrom').val();
+                    var articlePublishDateTo = $('#articlePublishDateTo').val();
+                    var articleLastModifiedDateFrom = $('#articleLastModifiedDateFrom').val();
+                    var articleLastModifiedDateTo = $('#articleLastModifiedDateTo').val();
+                   
+                    // If articleNumber is negative get the absolute and replace value in input
+                    if (articleNumber < 0) {
+                        articleNumber = Math.abs(articleNumber);
+                        $('#searchByArticleNumber').val(articleNumber);
+                    }
+
+                    if (articlePublishDateFrom!='' && articlePublishDateTo!='' &&
+                        articlePublishDateFrom > articlePublishDateTo) {
+                        alert('{!$Label.Date_Range_invalid_first_alert}');
+                        return;
+                    }
+                    
+                    if ( articleLastModifiedDateFrom!='' && articleLastModifiedDateTo!='' &&
+                        articleLastModifiedDateFrom > articleLastModifiedDateTo) {
+                        alert('{!$Label.Date_Range_invalid_last_alert}');
+                        return;
+                    }
+                    // This remoting call will use the page's timeout value
+                    Visualforce.remoting.Manager.invokeAction(
+                        '{!$RemoteAction.aqi_KnowledgeSearchCtrl.getArticles}',
+                        searchString, articleNumber,articleLanguage,
+                        articleCreatedBy,articlelastModifiedBy,articleRecordType,
+                        articlePublishDateFrom,articlePublishDateTo,
+                        articleLastModifiedDateFrom,articleLastModifiedDateTo,
+                        pageNum,sortBy,sortAsc,
+                        handleResult
+                    );
+                }
+
+                function handleResult(result, event) {
+                    var tplTableRow = $.templates("#tplTableRow");
+                    var tplIsStatusValidated = $.templates("#tplIsStatusValidated");
+                    $("tbody#articleList").empty('');
+
+                    if (event.status) {
+                        //debugger;
+                        $(result.items).each(function (i,e) {
+                            var htmlOutput = tplTableRow.render(e,{
+                                truncName: function(name) {
+                                    return truncName(name);
+                                },
+                                formatDate: function(mili) {
+                                    return formatDate(mili);
+                                },
+                                unescapeMe: function(content) {
+                                    return unescapeMe(content);
+                                }
+                            });
+                            $("tbody#articleList").append(htmlOutput);
+                            if (e.isValidationStatusActive) {
+                                var innerHtml = tplIsStatusValidated.render(e);
+                                $("tbody#articleList").append(htmlOutput);
                             }
                         });
-                        $("tbody#articleList").append(htmlOutput);
-                        if (e.isValidationStatusActive) {
-                            var innerHtml = tplIsStatusValidated.render(e);
-                            $("tbody#articleList").append(htmlOutput);
-                        }
-                    });
-                    handlePagination(result.items.length , result.showNext);
-                } else if (event.type === 'exception') {
-                    document.getElementById("responseErrors").innerHTML =
-                        event.message + "<br/>\n<pre>" + event.where + "</pre>";
-                } else {
-                    document.getElementById("responseErrors").innerHTML = event.message;
-                }
-            }
-
-            function gotoPage(pageStr) {
-                var actualPage = pageNum;
-                if (reachedEndOfList && pageStr =='+1') return;
-                if ( isNaN(pageNum))
-                    pageNum = 0;
-                switch (pageStr) {
-                    case '0':
-                        pageNum = 0;
-                        break;
-                    case '-1':
-                        pageNum--;
-                        break;pageNum
-                    case '+1':
-                        pageNum++;
-                        break;
-                    default:
-                        break;
-                    if (pageNum<0)
-                        pageNum ==0 ;
-                }
-                if (actualPage!= pageNum)
-                    getRemoteArticles(false);
-            }
-
-            function handlePagination(rSize, showNext) {
-                $('#paginationBtns button').attr('disabled',true);
-                reachedEndOfList = false;
-                if (rSize === 0 && pageNum === 0) {
-                    $('#noResultsMsg').show();
-                } else {
-                    $('#noResultsMsg').hide();
-                }
-                //btnStart btnPrev btnNext
-                if (pageNum === 0) {
-                    $('#btnNext').attr('disabled',false);
-                } else {
-                    if (pageNum > 0) {
-                        $('#btnStart').attr('disabled',false);
-                        $('#btnPrev').attr('disabled',false);
+                        handlePagination(result.items.length, result.showNext);
+                    } else if (event.type === 'exception') {
+                        document.getElementById("responseErrors").innerHTML = event.message + "<br/>\n<pre>" + event.where + "</pre>";
+                    } else {
+                        document.getElementById("responseErrors").innerHTML = event.message;
                     }
                 }
-                if (!showNext) {
-                    //hideLoadMore
-                    $('#btnNext').attr('disabled',true);
-                    reachedEndOfList= true;
-                } else {
-                    $('#btnNext').attr('disabled',false);
-                }
-            }
-                
-            function navigateToEdit(kavId, language, version) {
-                kavId = encodeURIComponent(kavId);
-                language = encodeURIComponent(language);
-                version = encodeURIComponent(version);
-                
-                var newUrl = '{!$Page.aqi_Edit}?kaId=' + kavId + '&lang=' + language + '&version=' + version;
-                window.navigateToUrl(encodeURI(newUrl));
-            }
 
-            function switchSortAndSearch(obj) {
-                //remove all sort indicators
-                $('.sortableRow  span').html('');
-                sortBy = $(obj).find('span').attr('id');
-                sortAsc = !sortAsc;
-                if (sortAsc) {
-                    $(obj).find('span').html(SORT_ASC);
-                }
-                else {
-                    $(obj).find('span').html(SORT_DESC);
-                }
-                getRemoteArticles(true);
-            }
-            
-            var parentPageUrl = document.referrer;
-            if(parentPageUrl.indexOf('.lightning.force.com') > 0){
-                alert('{!$Label.Display_in_Classic_alert}');
-            }
+                function gotoPage(pageStr) {
+                    var actualPage = pageNum;
+                    if (reachedEndOfList && pageStr =='+1') {
+                        return;
+                    } 
 
-            $(document).ready(function() {
-                getRemoteArticles(true);
-                $('.sortableRow ').on('click', function (e) {
-                    switchSortAndSearch($(this));
+                    if (isNaN(pageNum)) {
+                        pageNum = 0;
+
+                    }
+
+                    switch (pageStr) {
+                        case '0':
+                            pageNum = 0;
+                            break;
+                        case '-1':
+                            pageNum--;
+                            break;pageNum
+                        case '+1':
+                            pageNum++;
+                            break;
+                        default:
+                            break;
+                        if (pageNum<0)
+                            pageNum ==0 ;
+                    }
+                    if (actualPage!= pageNum) {
+                        getRemoteArticles(false);
+                    }
+                }
+
+                function handlePagination(rSize, showNext) {
+                    $('#paginationBtns button').attr('disabled',true);
+                    reachedEndOfList = false;
+                    if (rSize === 0 && pageNum === 0) {
+                        $('#noResultsMsg').show();
+                    } else {
+                        $('#noResultsMsg').hide();
+                    }
+                    //btnStart btnPrev btnNext
+                    if (pageNum === 0) {
+                        $('#btnNext').attr('disabled',false);
+                    } else {
+                        if (pageNum > 0) {
+                            $('#btnStart').attr('disabled',false);
+                            $('#btnPrev').attr('disabled',false);
+                        }
+                    }
+                    if (!showNext) {
+                        //hideLoadMore
+                        $('#btnNext').attr('disabled',true);
+                        reachedEndOfList= true;
+                    } else {
+                        $('#btnNext').attr('disabled',false);
+                    }
+                }
+                    
+                function navigateToEdit(kavId, language, version) {
+                    kavId = encodeURIComponent(kavId);
+                    language = encodeURIComponent(language);
+                    version = encodeURIComponent(version);
+                    
+                    var newUrl = '{!$Page.aqi_Edit}?kaId=' + kavId + '&lang=' + language + '&version=' + version;
+                    window.navigateToUrl(encodeURI(newUrl));
+                }
+
+                function switchSortAndSearch(obj) {
+                    //remove all sort indicators
+                    $('.sortableRow  span').html('');
+                    sortBy = $(obj).find('span').attr('id');
+                    sortAsc = !sortAsc;
+                    if (sortAsc) {
+                        $(obj).find('span').html(SORT_ASC);
+                    }
+                    else {
+                        $(obj).find('span').html(SORT_DESC);
+                    }
+                    getRemoteArticles(true);
+                }
+                
+                var parentPageUrl = document.referrer;
+                if (parentPageUrl.indexOf('.lightning.force.com') > 0){
+                    alert('{!$Label.Display_in_Classic_alert}');
+                }
+
+                $(document).ready(function() {
+                    getRemoteArticles(true);
+                    $('.sortableRow ').on('click', function (e) {
+                        switchSortAndSearch($(this));
+                    });
                 });
-            });
 
-            $('#searchForm').submit(function (e) {
-                //prevents the default action
-                e.preventDefault();
-            }); 
-        </script>
-        <script id="myTmpl" type="text/x-jsrender">{{:name}}</script>
-        <script id="tplTableRow" type="text/x-jsrender">
-            <tr class="slds-hint-parent">
-                <td class="slds-text-align_right slds-cell-buffer_left newAQI_IconContainer" role="gridcell" title="{!$Label.Create_or_Edit_helptext}" >
-                    <div class="slds-truncate slds-text-body_small newAQI_Icon" onclick="navigateToEdit('{{:KnowledgeArticleId}}','{{:Language}}','{{:VersionNumber}}');">
-                        &nbsp;
-                    </div>
-                </td>
-                <td class=" slds-text-align_left" role="gridcell">
-                    <div class="slds-truncate" title="{{:Title}}">{{:Title}}</div>
-                </td>
-                <th class=" slds-text-align_left"  scope="row">
-                    <div class="slds-truncate" title="{{:ArticleNumber}}">
-                        <a href="/{{:KnowledgeArticleId}}" tabindex="0" target="_blank">{{:ArticleNumber}}</a>
-                    </div>
-                </th>
-                <td class=" slds-text-align_left"  role="gridcell">
-                        {{if RecordType }}
-                            <div class="slds-truncate" title="{{:RecordType.Name}}">
-                                 {{:RecordType.Name}}
-                            </div>
-                        {{/if}}
-                        {{if !RecordType}}
-                            <div class="slds-truncate" title="">
-                            </div>
-                        {{/if}}
-                </td>
-                <td class=" slds-text-align_left"  role="gridcell">
-                    <div class="slds-truncate" title="{{:VersionNumber}}">{{:VersionNumber}}</div>
-                </td>
-                <td class=" slds-text-align_left"  role="gridcell">
-                    <div class="slds-truncate" title="{{:Summary}}">{{:Summary}}</div>
-                </td>
-                {{if isValidationStatusEnabled  }}
-                <td class=" slds-text-align_left"  role="gridcell">
-                    <div class="slds-truncate" title="{{:ValidationStatus}}">{{:ValidationStatus}}</div>
-                </td>
-                {{/if}}
-                <td class="slds-text-align_left"  role="gridcell">
-                    <div class="slds-truncate" title="{{:~formatDate(LastModifiedDate)}} ">{{:~formatDate(LastModifiedDate)}}</div>
-                </td>
-                <td class="slds-text-align_left"  role="gridcell">
-                    <div class="slds-truncate" title="{{:~formatDate(FirstPublishedDate)}}">
-                        {{:~formatDate(FirstPublishedDate)}}
-                    </div>
-                </td>
-                <td class="slds-text-align_left"  role="gridcell">
-                    <div class="slds-truncate" title="{{:LastModifiedBy.Name}}">
-                        {{:LastModifiedBy.Name}}
-                    </div>
-                </td>
-                <td class="slds-text-align_left"  role="gridcell">
-                    <div class="slds-truncate" title="{{:CreatedBy.Name}} ">
-                        {{:CreatedBy.Name}}
-                    </div>
-                </td>
-                <td class="slds-text-align_left"  role="gridcell">
-                    {{if hasAQI  }}
-                        <input type="checkbox" disabled="true" name="options" id="checkbox-01" tabindex="0" value="on" checked="{{:hasAQI}}" />
-                    {{else}}
-                        <input type="checkbox" disabled="true" name="options" id="checkbox-01" tabindex="0" value="on"  />
+                $('#searchForm').submit(function (e) {
+                    //prevents the default action
+                    e.preventDefault();
+                }); 
+            </script>
+
+            <script id="myTmpl" type="text/x-jsrender">{{:name}}</script>
+            
+            <script id="tplTableRow" type="text/x-jsrender">
+                <tr class="slds-hint-parent">
+                    <td class="slds-text-align_right slds-cell-buffer_left newAQI_IconContainer" role="gridcell" title="{!$Label.Create_or_Edit_helptext}" >
+                        <div class="slds-truncate slds-text-body_small newAQI_Icon" onclick="navigateToEdit('{{:KnowledgeArticleId}}','{{:Language}}','{{:VersionNumber}}');">
+                            &nbsp;
+                        </div>
+                    </td>
+                    <td class=" slds-text-align_left" role="gridcell">
+                        <div class="slds-truncate" title="{{:Title}}">{{:Title}}</div>
+                    </td>
+                    <th class=" slds-text-align_left"  scope="row">
+                        <div class="slds-truncate" title="{{:ArticleNumber}}">
+                            <a href="/{{:KnowledgeArticleId}}" tabindex="0" target="_blank">{{:ArticleNumber}}</a>
+                        </div>
+                    </th>
+                    <td class=" slds-text-align_left"  role="gridcell">
+                            {{if RecordType }}
+                                <div class="slds-truncate" title="{{:RecordType.Name}}">
+                                    {{:RecordType.Name}}
+                                </div>
+                            {{/if}}
+                            {{if !RecordType}}
+                                <div class="slds-truncate" title="">
+                                </div>
+                            {{/if}}
+                    </td>
+                    <td class=" slds-text-align_left"  role="gridcell">
+                        <div class="slds-truncate" title="{{:VersionNumber}}">{{:VersionNumber}}</div>
+                    </td>
+                    <td class=" slds-text-align_left"  role="gridcell">
+                        <div class="slds-truncate" title="{{:Summary}}">{{:Summary}}</div>
+                    </td>
+                    {{if isValidationStatusEnabled  }}
+                    <td class=" slds-text-align_left"  role="gridcell">
+                        <div class="slds-truncate" title="{{:ValidationStatus}}">{{:ValidationStatus}}</div>
+                    </td>
                     {{/if}}
-                </td>
-            </tr>
-        </script>
-    </head>
+                    <td class="slds-text-align_left"  role="gridcell">
+                        <div class="slds-truncate" title="{{:~formatDate(LastModifiedDate)}} ">{{:~formatDate(LastModifiedDate)}}</div>
+                    </td>
+                    <td class="slds-text-align_left"  role="gridcell">
+                        <div class="slds-truncate" title="{{:~formatDate(FirstPublishedDate)}}">
+                            {{:~formatDate(FirstPublishedDate)}}
+                        </div>
+                    </td>
+                    <td class="slds-text-align_left"  role="gridcell">
+                        <div class="slds-truncate" title="{{:LastModifiedBy.Name}}">
+                            {{:LastModifiedBy.Name}}
+                        </div>
+                    </td>
+                    <td class="slds-text-align_left"  role="gridcell">
+                        <div class="slds-truncate" title="{{:CreatedBy.Name}} ">
+                            {{:CreatedBy.Name}}
+                        </div>
+                    </td>
+                    <td class="slds-text-align_left"  role="gridcell">
+                        {{if hasAQI  }}
+                            <input type="checkbox" disabled="true" name="options" id="checkbox-01" tabindex="0" value="on" checked="{{:hasAQI}}" />
+                        {{else}}
+                            <input type="checkbox" disabled="true" name="options" id="checkbox-01" tabindex="0" value="on"  />
+                        {{/if}}
+                    </td>
+                </tr>
+            </script>
+        </head>
 
-    <body>
-        <!-- PAGE HEADER -->
-        <form id="searchForm">
-            <div class="slds-page-header" role="banner">
-                <!--  1st filter row -->
-                <div class="slds-grid slds-p-bottom_small  slds-grid_pull-padded-medium">
-                    <!-- SEARCH KNOWLEDGE FIELD-->
-                    <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <span>
-                            <div class="slds-form-element">
-                                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
-                                    <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
-                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
-                                    </svg>
-                                    <input type="text" id="searchByString" class="slds-input" placeholder="{!$Label.Search_Knowledge_placeholder}" />
+        <body>
+            <apex:slds />
+            <!-- PAGE HEADER -->
+            <form id="searchForm">
+                <div class="slds-page-header" role="banner">
+                    <!--  1st filter row -->
+                    <div class="slds-grid slds-p-bottom_small  slds-grid_pull-padded-medium">
+                        <!-- SEARCH KNOWLEDGE FIELD-->
+                        <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+                            <span>
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                                        <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#search')}"/>
+                                        </svg>
+                                        <input type="text" id="searchByString" class="slds-input" placeholder="{!$Label.Search_Knowledge_placeholder}" />
+                                    </div>
                                 </div>
-                            </div>
-                        </span>
-                    </div>
-                    <!-- SEARCH ARTICLE NUMBER FIELD-->
-                    <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <span>
-                            <div class="slds-form-element">
-                                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
-                                    <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
-                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
-                                    </svg>
-                                    <input type="number" min="0" id="searchByArticleNumber" class="slds-input" placeholder="{!$Label.Search_Article_Number_placeholder}" />
+                            </span>
+                        </div>
+                        <!-- SEARCH ARTICLE NUMBER FIELD-->
+                        <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+                            <span>
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                                        <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#search')}"/>
+                                        </svg>
+                                        <input type="number" min="0" id="searchByArticleNumber" class="slds-input" placeholder="{!$Label.Search_Article_Number_placeholder}" />
+                                    </div>
                                 </div>
-                            </div>
-                        </span>
-                    </div>
+                            </span>
+                        </div>
 
-                    <!-- LANGUAGE  FIELD-->
-                    <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <span>
-                            <div class="slds-form-element">
-                                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
-                                    <select id="searchByLanguage" class="slds-select">
-                                        <apex:repeat value="{!allLanguageOptions}" var="k">
-                                            <option value="{!k}"> {!allLanguageOptions[k]}</option>
-                                        </apex:repeat>
-                                    </select>
+                        <!-- LANGUAGE  FIELD-->
+                        <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+                            <span>
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                                        <select id="searchByLanguage" class="slds-select">
+                                            <apex:repeat value="{!allLanguageOptions}" var="k">
+                                                <option value="{!k}"> {!allLanguageOptions[k]}</option>
+                                            </apex:repeat>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                        </span>
-                    </div>
-                </div>
-
-                <!--  2nd filter row -->
-                <div class="slds-grid  slds-p-bottom_small slds-grid_pull-padded-medium">
-                    <!-- SEARCH CREATED BY FIELD-->
-                    <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <span>
-                            <div class="slds-form-element">
-                                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
-                                    <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
-                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
-                                    </svg>
-                                    <input type="text" id="articleCreatedBy" class="slds-input" placeholder="{!$Label.Search_Created_By_placeholder}" />
-                                </div>
-                            </div>
-                        </span>
-                    </div>
-
-                    <!-- SEARCH LAST MODIFIED BY FIELD-->
-                    <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <span>
-                            <div class="slds-form-element">
-                                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
-                                    <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
-                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
-                                    </svg>
-                                    <input type="text" id="articlelastModifiedBy" class="slds-input" placeholder="{!$Label.Search_Last_Modified_By_placeholder}" />
-                                </div>
-                            </div>
-                        </span>
+                            </span>
+                        </div>
                     </div>
 
-                    <!-- RECORD TYPE  FIELD-->
-                    <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <span>
-                            <div class="slds-form-element">
-                                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
-                                    <select id="searchByrecordType" class="slds-select">
-                                        <option value="all"> {!$Label.All_picklistValue} </option>
-                                        <apex:repeat value="{!availableRecordTypes}" var="k">
-                                            <option value="{!k}"> {!availableRecordTypes[k]}</option>
-                                        </apex:repeat>
-                                    </select>
+                    <!--  2nd filter row -->
+                    <div class="slds-grid  slds-p-bottom_small slds-grid_pull-padded-medium">
+                        <!-- SEARCH CREATED BY FIELD-->
+                        <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+                            <span>
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                                        <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#search')}"/>
+                                        </svg>
+                                        <input type="text" id="articleCreatedBy" class="slds-input" placeholder="{!$Label.Search_Created_By_placeholder}" />
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+
+                        <!-- SEARCH LAST MODIFIED BY FIELD-->
+                        <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+                            <span>
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                                        <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#search')}"/>
+                                        </svg>
+                                        <input type="text" id="articlelastModifiedBy" class="slds-input" placeholder="{!$Label.Search_Last_Modified_By_placeholder}" />
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+
+                        <!-- RECORD TYPE  FIELD-->
+                        <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+                            <span>
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                                        <select id="searchByrecordType" class="slds-select">
+                                            <option value="all"> {!$Label.All_picklistValue} </option>
+                                            <apex:repeat value="{!availableRecordTypes}" var="k">
+                                                <option value="{!k}"> {!availableRecordTypes[k]}</option>
+                                            </apex:repeat>
+                                        </select>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!--  3rd filter row -->
+                    <div class="slds-grid  slds-p-bottom_small slds-grid_pull-padded-medium">
+                        <!-- FIRST PUBLISHED DATE FROM-->
+                        <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+                            <div class="slds-form slds-form_horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="input-id-01">{!$Label.First_Published_date_from_label} </label>
+                                    <div class="slds-form-element__control">
+                                        <input type="date" id="articlePublishDateFrom" class="slds-input" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" min="1990-01-01" max="2030-12-31" />
+                                    </div>
                                 </div>
                             </div>
-                        </span>
+                        </div>
+                        <!-- LAST  MODIFIED DATE FROM FIELD-->
+                        <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+                            <div class="slds-form slds-form_horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="input-id-01">{!$Label.Last_Modified_date_from_label} </label>
+                                    <div class="slds-form-element__control">
+                                        <input type="date" id="articleLastModifiedDateFrom" class="slds-input" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" min="1990-01-01" max="2030-12-31" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+                            <span>&nbsp;</span>
+                        </div>
                     </div>
-                </div>
+                    <!--  4th filter row -->
+                    <div class="slds-grid  slds-p-bottom_small slds-grid_pull-padded-medium">
+                        <!-- FIRST PUBLISHED DATE TO-->
+                        <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+                            <div class="slds-form slds-form_horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="input-id-01">{!$Label.First_Published_date_to_label} </label>
 
-                <!--  3rd filter row -->
-                <div class="slds-grid  slds-p-bottom_small slds-grid_pull-padded-medium">
-                    <!-- FIRST PUBLISHED DATE FROM-->
-                    <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <div class="slds-form slds-form_horizontal">
-                            <div class="slds-form-element">
-                                <label class="slds-form-element__label" for="input-id-01">{!$Label.First_Published_date_from_label} </label>
-                                <div class="slds-form-element__control">
-                                    <input type="date" id="articlePublishDateFrom" class="slds-input" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" min="1990-01-01" max="2030-12-31" />
+                                    <div class="slds-form-element__control">
+                                        <input type="date" id="articlePublishDateTo" class="slds-input"  pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" min="1990-01-01" max="2030-12-31"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- LAST  MODIFIED DATE TO FIELD-->
+                        <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+                            <div class="slds-form slds-form_horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="input-id-01">{!$Label.Last_Modified_date_to_label} </label>
+
+                                    <div class="slds-form-element__control">
+                                        <input type="date" id="articleLastModifiedDateTo" class="slds-input" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" min="1990-01-01" max="2030-12-31" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
+                            <div class="slds-form slds-form_horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="input-id-01">&nbsp;</label>
+
+                                    <div class="slds-form-element__control">
+                                        <button class="slds-button slds-button_brand" onclick="getRemoteArticles(true); return false;">{!$Label.Search_button}</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- LAST  MODIFIED DATE FROM FIELD-->
-                    <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <div class="slds-form slds-form_horizontal">
-                            <div class="slds-form-element">
-                                <label class="slds-form-element__label" for="input-id-01">{!$Label.Last_Modified_date_from_label} </label>
-                                <div class="slds-form-element__control">
-                                    <input type="date" id="articleLastModifiedDateFrom" class="slds-input" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" min="1990-01-01" max="2030-12-31" />
+                </div>
+                <!-- / PAGE HEADER -->
+            </form>
+                <!-- DATA RESULTS  -->
+                <div class="slds-panel slds-grid slds-grid--vertical slds-nowrap">
+                    <div class="slds-form--stacked slds-grow slds-scrollable--y">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped slds-table_fixed-layout slds-text-body_small">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col_NEWAQI">
+                                        <div class="slds-truncate slds-align_absolute-left" title="{!$Label.New_AQI_helptext}">&nbsp;</div>
+                                    </th>
+                                    <!-- TITLE COLUMN -->
+                                    <th scope="col"  class="col_Title" >
+                                        <div class="sortableRow slds-align_absolute-left wordWrap " title="{!$Label.Name_helptext}">
+                                            {!$Label.Title_tableheader}
+                                            <span id="Title" class="sorting">&nbsp;&nbsp;&darr;</span>
+                                        </div>
+                                    </th>
+                                    <!-- Article Number -->
+                                    <th scope="col" class="col_ArticleNumber" >
+                                        <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Account_Name_helptext}">
+                                            {!$Label.Article_Number_tableheader}
+                                            <span id="ArticleNumber" class="sorting"></span>
+                                        </div>
+                                    </th>
+                                    <!-- Record Type  -->
+                                    <th scope="col"  class="col_RecordType">
+                                        <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Record_Type_tableheader}">
+                                            {!$Label.Record_type_tableheader}
+                                            <span id="RecordType.Name" class="sorting"></span>
+                                        </div>
+                                    </th>
+                                    <!-- Version  -->
+                                    <th scope="col"  class="col_VersionNumber">
+                                        <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Version_tableheader}">
+                                            {!$Label.Version_tableheader}
+                                            <span id="VersionNumber" class="sorting"></span>
+                                        </div>
+                                    </th>
+                                    <!-- Summary      -->
+                                    <th scope="col"  class="{!IF(isValidationStatusActive,'col_Summary','col_SummaryEXT')}">
+                                        <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Summary_tableheader}">
+                                            {!$Label.Summary_tableheader}
+                                            <span id="Summary" class="sorting"></span>
+                                        </div>
+                                    </th>
+                                    <!-- validationstatus -->
+                                    <apex:outputPanel rendered="{!isValidationStatusActive}">
+                                    <th scope="col"  class="col_validationstatus">
+                                        <div class=" slds-align_absolute-left wordWrap" title="{!$Label.Validation_Status_tableheader}">
+                                            {!$Label.Validation_Status_tableheader}
+                                        </div>
+                                    </th>
+                                    </apex:outputPanel>
+                                    <!--  Last Modified Date-->
+                                    <th scope="col"  class="col_LastModifiedDate">
+                                        <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Last_Modified_Date_helptext}">
+                                            {!$Label.Last_Modified_tableheader}
+                                            <span id="LastModifiedDate" class="sorting"></span>
+                                        </div>
+                                    </th>
+                                    <!-- First Published date -->
+                                    <th scope="col"  class="col_FirstPublishedDate">
+                                        <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.First_Published_Date_helptext}">
+                                            {!$Label.First_Published_tableheader}
+                                            <span id="FirstPublishedDate" class="sorting"></span>
+                                        </div>
+                                    </th>
+                                    <!-- Last modified by -->
+                                    <th scope="col"  class="col_lastmodifiedby">
+                                        <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Last_Modified_By_tableheader}">
+                                            {!$Label.Last_Modified_By_tableheader}
+                                            <span id="lastmodifiedby.Name" class="sorting"></span>
+                                        </div>
+                                    </th>
+                                    <!-- Created by -->
+                                    <th scope="col"  class="col_createdby" >
+                                        <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Created_By_tableheader}">
+                                            {!$Label.Created_By_tableheader}
+                                            <span id="createdby.name" class="sorting"></span>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="col_HASAQI">
+                                        <span class="slds-truncate slds-align_absolute-left" title="{!$Label.Has_AQI_helptext}">
+                                            {!$Label.AQI_tableheader}
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="articleList"></tbody>
+                        </table>
+                        <div class="slds-panel__section slds-has-divider--bottom slds-align_absolute-center ">
+                                <div id="paginationBtns" class="slds-button-group" role="group">
+                                    <button id="btnStart" onclick="gotoPage('0');" class="slds-button slds-button_neutral" >{!$Label.First_button}</button>
+                                    <button id="btnPrev" onclick="gotoPage('-1');"  class="slds-button slds-button_neutral">{!$Label.Previous_button}</button>
+                                    <button id="btnNext" onclick="gotoPage('+1');"  class="slds-button slds-button_neutral">{!$Label.Next_button}</button>
                                 </div>
-                            </div>
+                                <div id="noResultsMsg" class="slds-text-heading_small slds-p-left_medium">
+                                {!$Label.No_records_to_display_message}
+                                </div>
                         </div>
-                    </div>
-                    <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <span>&nbsp;</span>
                     </div>
                 </div>
-                <!--  4th filter row -->
-                <div class="slds-grid  slds-p-bottom_small slds-grid_pull-padded-medium">
-                    <!-- FIRST PUBLISHED DATE TO-->
-                    <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <div class="slds-form slds-form_horizontal">
-                            <div class="slds-form-element">
-                                <label class="slds-form-element__label" for="input-id-01">{!$Label.First_Published_date_to_label} </label>
-
-                                <div class="slds-form-element__control">
-                                    <input type="date" id="articlePublishDateTo" class="slds-input"  pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" min="1990-01-01" max="2030-12-31"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- LAST  MODIFIED DATE TO FIELD-->
-                    <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <div class="slds-form slds-form_horizontal">
-                            <div class="slds-form-element">
-                                <label class="slds-form-element__label" for="input-id-01">{!$Label.Last_Modified_date_to_label} </label>
-
-                                <div class="slds-form-element__control">
-                                    <input type="date" id="articleLastModifiedDateTo" class="slds-input" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" min="1990-01-01" max="2030-12-31" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slds-col slds-size_4-of-12 slds-p-horizontal_medium">
-                        <div class="slds-form slds-form_horizontal">
-                            <div class="slds-form-element">
-                                <label class="slds-form-element__label" for="input-id-01">&nbsp;</label>
-
-                                <div class="slds-form-element__control">
-                                    <button class="slds-button slds-button_brand" onclick="getRemoteArticles(true); return false;">{!$Label.Search_button}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- / PAGE HEADER -->
-        </form>
-            <!-- DATA RESULTS  -->
-            <div class="slds-panel slds-grid slds-grid--vertical slds-nowrap">
-                <div class="slds-form--stacked slds-grow slds-scrollable--y">
-                    <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped slds-table_fixed-layout slds-text-body_small">
-                        <thead>
-                             <tr>
-                                <th scope="col" class="col_NEWAQI">
-                                    <div class="slds-truncate slds-align_absolute-left" title="{!$Label.New_AQI_helptext}">&nbsp;</div>
-                                </th>
-                                <!-- TITLE COLUMN -->
-                                <th scope="col"  class="col_Title" >
-                                    <div class="sortableRow slds-align_absolute-left wordWrap " title="{!$Label.Name_helptext}">
-                                         {!$Label.Title_tableheader}
-                                        <span id="Title" class="sorting">&nbsp;&nbsp;&darr;</span>
-                                    </div>
-                                </th>
-                                <!-- Article Number -->
-                                <th scope="col" class="col_ArticleNumber" >
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Account_Name_helptext}">
-                                         {!$Label.Article_Number_tableheader}
-                                        <span id="ArticleNumber" class="sorting"></span>
-                                    </div>
-                                </th>
-                                <!-- Record Type  -->
-                                <th scope="col"  class="col_RecordType">
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Record_Type_tableheader}">
-                                         {!$Label.Record_type_tableheader}
-                                        <span id="RecordType.Name" class="sorting"></span>
-                                    </div>
-                                </th>
-                                <!-- Version  -->
-                                <th scope="col"  class="col_VersionNumber">
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Version_tableheader}">
-                                         {!$Label.Version_tableheader}
-                                        <span id="VersionNumber" class="sorting"></span>
-                                    </div>
-                                </th>
-                                <!-- Summary      -->
-                                <th scope="col"  class="{!IF(isValidationStatusActive,'col_Summary','col_SummaryEXT')}">
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Summary_tableheader}">
-                                         {!$Label.Summary_tableheader}
-                                        <span id="Summary" class="sorting"></span>
-                                    </div>
-                                </th>
-                                <!-- validationstatus -->
-                                <apex:outputPanel rendered="{!isValidationStatusActive}">
-                                <th scope="col"  class="col_validationstatus">
-                                    <div class=" slds-align_absolute-left wordWrap" title="{!$Label.Validation_Status_tableheader}">
-                                         {!$Label.Validation_Status_tableheader}
-                                    </div>
-                                </th>
-                                </apex:outputPanel>
-                                <!--  Last Modified Date-->
-                                <th scope="col"  class="col_LastModifiedDate">
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Last_Modified_Date_helptext}">
-                                         {!$Label.Last_Modified_tableheader}
-                                        <span id="LastModifiedDate" class="sorting"></span>
-                                    </div>
-                                </th>
-                                <!-- First Published date -->
-                                <th scope="col"  class="col_FirstPublishedDate">
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.First_Published_Date_helptext}">
-                                         {!$Label.First_Published_tableheader}
-                                        <span id="FirstPublishedDate" class="sorting"></span>
-                                    </div>
-                                </th>
-                                <!-- Last modified by -->
-                                <th scope="col"  class="col_lastmodifiedby">
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Last_Modified_By_tableheader}">
-                                         {!$Label.Last_Modified_By_tableheader}
-                                        <span id="lastmodifiedby.Name" class="sorting"></span>
-                                    </div>
-                                </th>
-                                <!-- Created by -->
-                                <th scope="col"  class="col_createdby" >
-                                    <div class="sortableRow slds-align_absolute-left wordWrap" title="{!$Label.Created_By_tableheader}">
-                                        {!$Label.Created_By_tableheader}
-                                        <span id="createdby.name" class="sorting"></span>
-                                    </div>
-                                </th>
-                                <th scope="col" class="col_HASAQI">
-                                    <span class="slds-truncate slds-align_absolute-left" title="{!$Label.Has_AQI_helptext}">
-                                         {!$Label.AQI_tableheader}
-                                    </span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="articleList"></tbody>
-                    </table>
-                    <div class="slds-panel__section slds-has-divider--bottom slds-align_absolute-center ">
-                            <div id="paginationBtns" class="slds-button-group" role="group">
-                                <button id="btnStart" onclick="gotoPage('0');" class="slds-button slds-button_neutral" >{!$Label.First_button}</button>
-                                <button id="btnPrev" onclick="gotoPage('-1');"  class="slds-button slds-button_neutral">{!$Label.Previous_button}</button>
-                                <button id="btnNext" onclick="gotoPage('+1');"  class="slds-button slds-button_neutral">{!$Label.Next_button}</button>
-                            </div>
-                            <div id="noResultsMsg" class="slds-text-heading_small slds-p-left_medium">
-                              {!$Label.No_records_to_display_message}
-                            </div>
-                    </div>
-                </div>
-            </div>
-        <!-- / ACCOUNT DETAIL CARD -->
-    </body>
+            <!-- / ACCOUNT DETAIL CARD -->
+        </body>
     </html>
 </apex:page>

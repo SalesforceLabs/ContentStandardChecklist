@@ -316,13 +316,6 @@
         <value>Display Follow Up section?</value>
     </labels>
     <labels>
-        <fullName>Display_in_Classic_alert</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Display in Classic alert</shortDescription>
-        <value>This tab is intended to be displayed using Salesforce Classic UI. For Lightning Experience please use the Lightning component provided in the package.</value>
-    </labels>
-    <labels>
         <fullName>Edit_Archived_Article_label</fullName>
         <language>en_US</language>
         <protected>true</protected>

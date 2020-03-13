@@ -286,9 +286,13 @@
                     kavId = encodeURIComponent(kavId);
                     language = encodeURIComponent(language);
                     version = encodeURIComponent(version);
-                    
-                    var newUrl = '{!$Page.aqi_Edit}?kaId=' + kavId + '&lang=' + language + '&version=' + version;
-                    window.navigateToUrl(encodeURI(newUrl));
+                    var parentPageUrl = document.referrer;
+                    if (parentPageUrl.indexOf('.lightning.force.com') > 0){
+                        sforce.one.navigateToSObject(kavId,"detail");
+                    } else {
+                        var newUrl = '{!$Page.aqi_Edit}?kaId=' + kavId + '&lang=' + language + '&version=' + version;
+                        window.navigateToUrl(encodeURI(newUrl));
+                    }
                 }
 
                 function switchSortAndSearch(obj) {

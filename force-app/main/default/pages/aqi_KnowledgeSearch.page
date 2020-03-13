@@ -304,11 +304,6 @@
                     }
                     getRemoteArticles(true);
                 }
-                
-                var parentPageUrl = document.referrer;
-                if (parentPageUrl.indexOf('.lightning.force.com') > 0){
-                    alert('{!$Label.Display_in_Classic_alert}');
-                }
 
                 $(document).ready(function() {
                     getRemoteArticles(true);

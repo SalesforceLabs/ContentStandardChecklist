@@ -101,7 +101,6 @@ public with sharing class aqi_CustomLabels {
             String create_AQI_title = Label.Create_AQI_title;
             String date_Range_invalid_first_alert = Label.Date_Range_invalid_first_alert;
             String date_Range_invalid_last_alert = Label.Date_Range_invalid_last_alert;
-            String display_in_Classic_alert = Label.Display_in_Classic_alert;
             String create_or_Edit_helptext = Label.Create_or_Edit_helptext;
             String search_Knowledge_placeholder = Label.Search_Knowledge_placeholder;
             String search_Article_Number_placeholder = Label.Search_Article_Number_placeholder;

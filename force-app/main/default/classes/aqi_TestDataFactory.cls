@@ -22,7 +22,6 @@ public class aqi_TestDataFactory {
 		if (gd != null) {
             Schema.DescribeSObjectResult sor = gd.get(objType).getDescribe();
             Map<String,Schema.SObjectField> sofs = sor.fields.getMap();
-			system.debug('sofs.get(\'Language\'): ' + sofs.get('Language'));
             Schema.DescribeFieldResult dfr = sofs.get('Language').getDescribe();
             if (dfr != null) {
                 List<Schema.PicklistEntry> ples = dfr.getPicklistValues();

@@ -16,6 +16,13 @@ private class aqi_SecurityHandlerLng_Test {
         }
     }
 
+    @isTest static void getLabelLanguage() {
+        System.Test.startTest();
+        String labelLanguage = aqi_SecurityHandlerLng.getLabelLanguage('en_US');
+        System.Test.stopTest();
+
+        System.assertNotEquals('', labelLanguage, 'The returned language should be distinct from empty');
+    }
     @isTest static void getAllowedRecordTypes_test() {
         if (aqi_SecurityHandlerLng.checkForSchemaFieldActive('recordtypeid')) {
             String result = '';

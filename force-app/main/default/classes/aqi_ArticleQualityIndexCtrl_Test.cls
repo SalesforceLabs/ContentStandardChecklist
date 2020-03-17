@@ -28,13 +28,8 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         System.Test.stopTest();
        
         String languageValue = String.valueOf(kavObj.get('Language'));
-        String labelLanguage = '';
-		for(PicklistEntry value: User.LanguageLocalekey.getDescribe().getPicklistValues()) {
-			if(value.getValue() == languageValue) {
-				labelLanguage = value.getLabel();
-				break;
-			}
-		}
+        
+        String labelLanguage = aqi_SecurityHandlerLng.getLabelLanguage(languageValue);
         
         System.assertEquals(labelLanguage, result.get('articleLanguage'), 'The language returned by CompactLayoutData is not the same as at the beginning');
         System.assertEquals(0, result.get('articleVersion'), 'The article version is not the expected');
@@ -103,13 +98,8 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         System.Test.stopTest();
 
         String languageValue = String.valueOf(kavObj.get('Language'));
-        String labelLanguage = '';
-		for(PicklistEntry value: User.LanguageLocalekey.getDescribe().getPicklistValues()) {
-			if(value.getValue() == languageValue) {
-				labelLanguage = value.getLabel();
-				break;
-			}
-		}
+        
+        String labelLanguage = aqi_SecurityHandlerLng.getLabelLanguage(languageValue);
 
         System.assertEquals(labelLanguage, lst_JsonParse.get('articleLanguage'), 'The language returned by CompactLayoutData is not the same as at the beginning');
         System.assertEquals(0, lst_JsonParse.get('articleVersion'), 'The article version is not the expected');

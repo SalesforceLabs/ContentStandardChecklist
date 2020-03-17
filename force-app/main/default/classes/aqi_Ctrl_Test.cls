@@ -40,24 +40,6 @@ private class aqi_Ctrl_Test {
 		kavObj = (KnowledgeArticleVersion)Database.query(q);
 	}
 
-	static User createTestUser() {
-		Profile p = [SELECT Id FROM Profile WHERE UserType = 'Standard' LIMIT 1];
-		User testUser = new User(
-			Alias = 'newUser',
-			Email = 'newuser@testorg.com',
-			EmailEncodingKey = 'UTF-8',
-			LastName = 'Testing',
-			LanguageLocaleKey = 'en_US',
-			LocaleSidKey = 'en_US',
-			ProfileId = p.Id,
-			TimeZoneSidKey = 'America/Los_Angeles',
-			UserName = String.valueOf(Crypto.getRandomInteger()) + 'myusername@testorg.com'
-		);
-		INSERT testUser;
-
-		return testUser;
-	}
-
 	static Article_Quality__c populateFields (KnowledgeArticleVersion article) {
 		Article_Quality__c result = new Article_Quality__c();
 		result.Knowledge_Article_Version_Id__c = article.Id;
@@ -195,7 +177,7 @@ private class aqi_Ctrl_Test {
 
 		System.Test.startTest();
 		// Create user for test
-		User testUser = createTestUser();
+		User testUser = aqi_TestDataFactory.createUser(false);
 
 		System.runAs(testUser) {
 			ctr.save();
@@ -218,7 +200,7 @@ private class aqi_Ctrl_Test {
 
 		System.Test.startTest();
 		// Create user for test
-		User testUser = createTestUser();
+		User testUser = aqi_TestDataFactory.createUser(false);
 
 		System.runAs(testUser) {
 			ctr.save();

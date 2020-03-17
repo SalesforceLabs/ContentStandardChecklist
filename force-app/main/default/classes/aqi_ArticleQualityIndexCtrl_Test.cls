@@ -27,7 +27,11 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         Map<String,Object> result = aqi_ArticleQualityIndexCtrl.getCompactLayoutData(((Id) kavObj.get('Id')), new Map<String,Object>());
         System.Test.stopTest();
        
-        System.assertEquals('English', result.get('articleLanguage'), 'The language returned by CompactLayoutData is not the same as at the beginning');
+        String languageValue = String.valueOf(kavObj.get('Language'));
+        
+        String labelLanguage = aqi_SecurityHandlerLng.getLabelLanguage(languageValue);
+        
+        System.assertEquals(labelLanguage, result.get('articleLanguage'), 'The language returned by CompactLayoutData is not the same as at the beginning');
         System.assertEquals(0, result.get('articleVersion'), 'The article version is not the expected');
     }
 
@@ -93,7 +97,11 @@ private class aqi_ArticleQualityIndexCtrl_Test {
         Map<String,Object> lst_JsonParse = (Map<String,Object>) JSON.deserializeUntyped(responseLKID.jsonResponse);
         System.Test.stopTest();
 
-        System.assertEquals('English', lst_JsonParse.get('articleLanguage'), 'The language returned by CompactLayoutData is not the same as at the beginning');
+        String languageValue = String.valueOf(kavObj.get('Language'));
+        
+        String labelLanguage = aqi_SecurityHandlerLng.getLabelLanguage(languageValue);
+
+        System.assertEquals(labelLanguage, lst_JsonParse.get('articleLanguage'), 'The language returned by CompactLayoutData is not the same as at the beginning');
         System.assertEquals(0, lst_JsonParse.get('articleVersion'), 'The article version is not the expected');
         System.assertEquals(aqr.Article_Unique__c, record.Article_Unique__c, 'Article unique index should be set to TRUE ');
         System.assertEquals('SUCCESS', resp.State, 'State should be SUCCESS ');

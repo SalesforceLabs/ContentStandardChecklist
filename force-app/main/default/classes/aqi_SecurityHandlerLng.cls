@@ -58,6 +58,18 @@ public with sharing class aqi_SecurityHandlerLng {
         isPrivateSharingEnabled = true;
     }
     
+
+    Public static String getLabelLanguage(String languageValue) {
+        String labelLanguage = '';
+		for(PicklistEntry value: User.LanguageLocalekey.getDescribe().getPicklistValues()) {
+			if(value.getValue() == languageValue) {
+				labelLanguage = value.getLabel();
+				break;
+			}
+		}
+        return labelLanguage;
+    }
+
     /*
     * @description
     *   Checks that RecordType exists in schema

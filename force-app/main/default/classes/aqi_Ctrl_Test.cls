@@ -41,7 +41,7 @@ private class aqi_Ctrl_Test {
 	}
 
 	static User createTestUser() {
-		Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
+		Profile p = [SELECT Id FROM Profile WHERE UserType = 'Standard' LIMIT 1];
 		User testUser = new User(
 			Alias = 'newUser',
 			Email = 'newuser@testorg.com',

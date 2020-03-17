@@ -18,6 +18,18 @@ public class aqi_TestDataFactory {
 		}
 
 		String objType = kavNames.get(0);
+
+		if (gd != null) {
+            Schema.DescribeSObjectResult sor = gd.get(objType).getDescribe();
+            Map<String,Schema.SObjectField> sofs = sor.fields.getMap();
+			system.debug('sofs.get(\'Language\'): ' + sofs.get('Language'));
+            Schema.DescribeFieldResult dfr = sofs.get('Language').getDescribe();
+            if (dfr != null) {
+                List<Schema.PicklistEntry> ples = dfr.getPicklistValues();
+                default_language = ples.get(0).getValue();
+            }
+        }
+
         aqi_SecurityHandlerLng.canAccess(Schema.getGlobalDescribe().get(objType));
 		SObject kavObj = Schema.getGlobalDescribe().get(objType).newSObject();
 		kavObj.put('Title', 'Test Method Title' + String.valueOf(Crypto.getRandomInteger()));

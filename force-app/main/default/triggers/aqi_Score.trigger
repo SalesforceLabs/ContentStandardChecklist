@@ -132,7 +132,6 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
                         actualRecord.Name = 'AQI for article ' + String.valueOf(numberA) + ' – ' + String.valueOf(actualVersionOfKav);
                     }
                     if (showArchivedError) {
-                        system.debug('validation enter archived');
                         actualRecord.addError(System.Label.Cant_create_AQI_article_archived_error);
                     }
                     if (showDraftError) {

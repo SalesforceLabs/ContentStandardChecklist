@@ -1,7 +1,7 @@
 trigger aqi_Score on Article_Quality__c (before insert, before update) {
     String nm = aqi_Ctrl.getPackagePrefix();
     ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();
-    
+
     //GET KNOWLEDGE OBJECT NAME
     String knowledgeObject = '';
     Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
@@ -16,7 +16,6 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
     if (aqs.Trigger_Enabled__c) {
         Map<String,Double> indexValues = aqi_Ctrl.getindexApiNameToValue();
         Boolean idx_checked;
-
         Set<Id> kaIds = new Set<Id>();
         Set<String> kaLangs = new Set<String>();
         Set<Decimal> kaVersions = new Set<Decimal>();
@@ -29,12 +28,12 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
 
         Map<String,Article_Quality__c> allDuplicates = aqi_Ctrl.findDuplicates(kaIds, kaLangs, kaVersions);
         Article_Quality__c duplicate = new Article_Quality__c();
-
         // List of article numbers that appears on the current trigger
         Set<String> listOfArticleNumber = new Set<String>();
         // Map of current index related to the article number, article version and article version id
         Map<Integer, Article_Quality__c> mapCurrentAQToData = new Map<Integer, Article_Quality__c>();
         Integer i = 0;
+
         for (Article_Quality__c aq : trigger.new) {
             // Check for duplicates
             String key = aq.Knowledge_Article_Id__c + '-' + aq.Language__c + '-' + Decimal.valueOf(String.valueOf(aq.Article_Version__c));
@@ -91,7 +90,6 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
         }
 
         for (Article_Quality__c currentAQData : mapCurrentAQToData.values()) {
-
             String kavIDAQI = String.valueOf(currentAQData.Knowledge_Article_Version_Id__c);
             Integer versionAQI = Integer.valueOf(currentAQData.Article_Version__c);
             Integer numberA = currentAQData.Article_Number__c != null ? Integer.valueOf(currentAQData.Article_Number__c) : 0;
@@ -99,7 +97,6 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
             //CHECK IF RELATED ARTICLE IS ARCHIVED
             Boolean foundSameVersion = false;
             Integer actualVersionOfKav = 0;
-            
             List<SObject> listOfArticlesByArticleNumber =  (List<SObject>) articleNumberToKavList.get(numberA);
             Boolean showArchivedError = false;
             Boolean showDraftError = false;
@@ -122,7 +119,7 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
                         }
                     }
                 }
-                Article_Quality__c actualRecord = currentAQData.Id != null ? Trigger.newMap.get(currentAQData.Id) : currentAQData;
+                Article_Quality__c actualRecord = currentAQData.Id != null ? trigger.newMap.get(currentAQData.Id) : currentAQData;
                 if (!foundSameVersion && !dontThrowErrorFoundAnotherVersionRelated) {
                     actualRecord.addError(System.Label.Cant_create_AQI_article_not_exists_error);
                 } else {

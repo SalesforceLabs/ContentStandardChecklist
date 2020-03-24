@@ -1,7 +1,7 @@
 trigger aqi_Score on Article_Quality__c (before insert, before update) {
     String nm = aqi_Ctrl.getPackagePrefix();
     ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();
-    
+
     //GET KNOWLEDGE OBJECT NAME
     String knowledgeObject = '';
     Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
@@ -16,7 +16,6 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
     if (aqs.Trigger_Enabled__c) {
         Map<String,Double> indexValues = aqi_Ctrl.getindexApiNameToValue();
         Boolean idx_checked;
-
         Set<Id> kaIds = new Set<Id>();
         Set<String> kaLangs = new Set<String>();
         Set<Decimal> kaVersions = new Set<Decimal>();
@@ -29,6 +28,11 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
 
         Map<String,Article_Quality__c> allDuplicates = aqi_Ctrl.findDuplicates(kaIds, kaLangs, kaVersions);
         Article_Quality__c duplicate = new Article_Quality__c();
+        // List of article numbers that appears on the current trigger
+        Set<String> listOfArticleNumber = new Set<String>();
+        // Map of current index related to the article number, article version and article version id
+        Map<Integer, Article_Quality__c> mapCurrentAQToData = new Map<Integer, Article_Quality__c>();
+        Integer i = 0;
 
         for (Article_Quality__c aq : trigger.new) {
             // Check for duplicates
@@ -56,22 +60,49 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
                     ' <a href=\'/'+duplicate.Id+'\' > link </a>'
                );
             }
-            
+            String numberA = aq.Article_Number__c;
+            // store article number to be retrieve for each AQ without any repetition
+            listOfArticleNumber.add(numberA);
+            // Store data of each AQ to iterate after the query
+            mapCurrentAQToData.put(i, aq);
+            i++;
+
+        }
+
+        //GET PUBLISH STATUS BY ARTICLE NUMBER AND VERSION
+        String queryS = 'SELECT Id, PublishStatus, VersionNumber, ArticleNumber FROM ' + knowledgeObject;
+        queryS += ' WHERE ArticleNumber IN: listOfArticleNumber';
+        List<SObject> listArticles = Database.query(queryS);
+
+        Map<Integer, List<SObject>> articleNumberToKavList = new Map<Integer, List<SObject>>();
+        //Order the current kav objects by article number
+        for (SObject currentKav : listArticles) {
+            Integer currentArticleNumber = Integer.valueOf(currentKav.get('ArticleNumber'));
+            if (!articleNumberToKavList.containsKey(currentArticleNumber)) {
+                List<SObject> listOfKav = new List<SObject>();
+                listOfKav.add(currentKav);
+                articleNumberToKavList.put(currentArticleNumber, listOfKav);
+            } else {
+                List<SObject> existingListForArticleNumber = (List<SObject>) articleNumberToKavList.get(currentArticleNumber);
+                existingListForArticleNumber.add(currentKav);
+                articleNumberToKavList.put(currentArticleNumber, existingListForArticleNumber);
+            }
+        }
+
+        for (Article_Quality__c currentAQData : mapCurrentAQToData.values()) {
+            String kavIDAQI = String.valueOf(currentAQData.Knowledge_Article_Version_Id__c);
+            Integer versionAQI = Integer.valueOf(currentAQData.Article_Version__c);
+            Integer numberA = currentAQData.Article_Number__c != null ? Integer.valueOf(currentAQData.Article_Number__c) : 0;
+
             //CHECK IF RELATED ARTICLE IS ARCHIVED
             Boolean foundSameVersion = false;
-            String kavIDAQI = String.valueOf(aq.Knowledge_Article_Version_Id__c);
-            Integer versionAQI = Integer.valueOf(aq.Article_Version__c);
-            String numberA = aq.Article_Number__c;
             Integer actualVersionOfKav = 0;
-            //GET PUBLISH STATUS BY ARTICLE NUMBER AND VERSION
-            String queryS = 'SELECT Id, PublishStatus, VersionNumber FROM ' + knowledgeObject;
-            queryS += ' WHERE ArticleNumber = \'' + numberA + '\'';
-            List<SObject> listArticles = Database.query(queryS);
+            List<SObject> listOfArticlesByArticleNumber =  (List<SObject>) articleNumberToKavList.get(numberA);
             Boolean showArchivedError = false;
             Boolean showDraftError = false;
             Boolean dontThrowErrorFoundAnotherVersionRelated = false;
-            if (listArticles.size() > 0) {
-                for (SObject currentSObj : listArticles) {
+            if (listOfArticlesByArticleNumber != null && !listOfArticlesByArticleNumber.isEmpty()) {
+                for (SObject currentSObj : listOfArticlesByArticleNumber) {
                     Integer currentVersionNumber = Integer.valueOf(currentSObj.get('VersionNumber'));
                     if (currentVersionNumber == versionAQI) { 
                         foundSameVersion = true;
@@ -88,14 +119,14 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
                         }
                     }
                 }
-                Article_Quality__c actualRecord = aq.Id != null ? Trigger.newMap.get(aq.Id) : aq;
+                Article_Quality__c actualRecord = currentAQData.Id != null ? trigger.newMap.get(currentAQData.Id) : currentAQData;
                 if (!foundSameVersion && !dontThrowErrorFoundAnotherVersionRelated) {
                     actualRecord.addError(System.Label.Cant_create_AQI_article_not_exists_error);
                 } else {
                     if (!foundSameVersion) {
                         //updateTheArticleVersionInAQI
-                        aq.Article_Version__c = double.valueOf(actualVersionOfKav);
-                        aq.Name = 'AQI for article ' + String.valueOf(numberA) + ' – ' + String.valueOf(actualVersionOfKav);
+                        actualRecord.Article_Version__c = double.valueOf(actualVersionOfKav);
+                        actualRecord.Name = 'AQI for article ' + String.valueOf(numberA) + ' – ' + String.valueOf(actualVersionOfKav);
                     }
                     if (showArchivedError) {
                         actualRecord.addError(System.Label.Cant_create_AQI_article_archived_error);

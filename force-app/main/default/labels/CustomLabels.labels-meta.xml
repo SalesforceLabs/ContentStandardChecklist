@@ -236,14 +236,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Cant create AQI article archived error</shortDescription>
-        <value>You cant create or edit this AQI if the related article is archived.</value>
+        <value>You can't create or edit this AQI if the related article is archived.</value>
     </labels>
     <labels>
         <fullName>Cant_create_AQI_article_draft_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Cant create AQI article draft error</shortDescription>
-        <value>You cant create or edit this AQI if the related article is a draft.</value>
+        <value>You can't create or edit this AQI if the related article is a draft.</value>
     </labels>
     <labels>
         <fullName>Cant_create_AQI_article_not_exists_error</fullName>

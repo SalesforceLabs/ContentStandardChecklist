@@ -66,7 +66,6 @@ trigger aqi_Score on Article_Quality__c (before insert, before update) {
             // Store data of each AQ to iterate after the query
             mapCurrentAQToData.put(i, aq);
             i++;
-
         }
 
         //GET PUBLISH STATUS BY ARTICLE NUMBER AND VERSION

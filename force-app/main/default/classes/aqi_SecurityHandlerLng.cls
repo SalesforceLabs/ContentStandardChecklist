@@ -188,7 +188,7 @@ public with sharing class aqi_SecurityHandlerLng {
             res.put((ID) rt.get('Id'), (String) rt.get('Name'));
         }
         
-        if (res.size() == 0) {
+        if (res.isEmpty()) {
             res = null;
         }
         
@@ -210,7 +210,7 @@ public with sharing class aqi_SecurityHandlerLng {
             res.put((String) rt.get('Name'), (Id) rt.get('Id'));
         }
         
-        if (res.size() == 0) {
+        if (res.isEmpty()) {
             res = null;
         }
         

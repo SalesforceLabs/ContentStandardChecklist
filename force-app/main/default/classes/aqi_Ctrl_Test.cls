@@ -66,7 +66,7 @@ private class aqi_Ctrl_Test {
 		Map<Id,String> obtainedRecordTypesMap = aqi_Ctrl.recordTypesMap;
 		System.Test.stopTest();
 
-		System.assertEquals(true, obtainedRecordTypesMap.keySet().size() >= 1, 'There should be at least 1 key on the Record Types Map obtained of aqi_Ctrl');
+		System.assertEquals(true, !obtainedRecordTypesMap.keySet().isEmpty(), 'There should be at least 1 key on the Record Types Map obtained of aqi_Ctrl');
 	}
 
 	@isTest static void getIndexApiNameToValue_test() {
@@ -104,7 +104,7 @@ private class aqi_Ctrl_Test {
 		Database.SaveResult result = Database.insert(testRecord2, false);
 		// Verify that there was an error.
 		System.assert(!result.isSuccess());
-		System.assert(result.getErrors().size() > 0);
+		System.assert(!result.getErrors().isEmpty());
 	}
 
 	@isTest static void findDuplicates_test() {

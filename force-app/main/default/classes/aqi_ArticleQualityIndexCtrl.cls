@@ -59,19 +59,19 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 qStr += ' FROM Article_Quality__c WHERE Knowledge_Article_Version_Id__c =\'' + recordId + '\'';
                 
                 aqi_SecurityHandlerLng.canAccess(Article_Quality__c.sObjectType);
-                List<Article_Quality__c> l = Database.query(qStr);
+                List<Article_Quality__c> aqiList = Database.query(qStr);
                 
-                if (l.isEmpty()) {
+                if (aqiList.isEmpty()) {
                     aqi_result = populateInitialAQI(recordId);
                     List<User> relatedInitiallyAgents = [SELECT FullPhotoUrl, Id, Name FROM User WHERE Id =: aqi_result.Agent__c];
 
-                    if (relatedInitiallyAgents.size() > 0) {
+                    if (!relatedInitiallyAgents.isEmpty()) {
                         result.put('relatedInitiallyAgent', relatedInitiallyAgents.get(0));
                     } else {
                         result.put('relatedInitiallyAgent', null);
                     }
                 } else {
-                    aqi_result = l.get(0);
+                    aqi_result = aqiList.get(0);
                 }
                 
                 Map<String,Schema.SObjectField> allFields = Schema.SObjectType.Article_Quality__c.fields.getMap();
@@ -158,14 +158,14 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     */
     private static Article_Quality__c populateInitialAQI(String kavId) {
         Article_Quality__c result = null;
-        List<Article_Quality__c > l = [
+        List<Article_Quality__c > aqiList = [
             SELECT Id
             FROM Article_Quality__c
             WHERE Knowledge_Article_Version_Id__c =: kavId
         ];
         
-        if (!l.isEmpty()) {
-            result = l.get(0);
+        if (!aqiList.isEmpty()) {
+            result = aqiList.get(0);
         } else {
             KnowledgeArticleVersion article = [
                 SELECT ArticleNumber, CreatedById, CreatedDate, FirstPublishedDate, Id,
@@ -178,7 +178,6 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             aqi_SecurityHandlerLng.canCreate(Article_Quality__c.sObjectType);
             result = new Article_Quality__c();
             result = aqi_Ctrl.loadKavDetails(article, result);
-            
         }
         
         return result;
@@ -204,7 +203,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             FROM KnowledgeArticleVersion WHERE Id IN :kavIds 
         ];
         
-        if (articles.size() > 0) {
+        if (!articles.isEmpty()) {
             KnowledgeArticleVersion article = articles.get(0);
             // Find the associated record type
             String queryString = '';
@@ -255,15 +254,15 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         String kavId = '';
         try {
             response.state = 'SUCCESS';
-            List<Article_Quality__c> l = [SELECT Id, Knowledge_Article_Version_Id__c FROM Article_Quality__c WHERE Id=:recordId];
-            if (!l.isEmpty()) {
-                kavId =  l.get(0).Knowledge_Article_Version_Id__c;
+            List<Article_Quality__c> aqiList = [SELECT Id, Knowledge_Article_Version_Id__c FROM Article_Quality__c WHERE Id =:recordId];
+            if (!aqiList.isEmpty()) {
+                kavId =  aqiList.get(0).Knowledge_Article_Version_Id__c;
                 result.put('kavId', kavId);
                 // Get language version
-                result = getCompactLayoutData(kavId,result);
+                result = getCompactLayoutData(kavId, result);
                 if (result.get('errors').equals('None')) {
                     Boolean isArchived = false;
-                    string query = ' SELECT Id, ArchivedDate, KnowledgeArticleId, Language , VersionNumber ' +
+                    String query = ' SELECT Id, ArchivedDate, KnowledgeArticleId, Language , VersionNumber ' +
                     ' FROM KnowledgeArticleVersion ' +
                     ' WHERE PublishStatus = \'Archived\' ' +
                     ' AND Id = \'' + kavId + '\' ';

@@ -63,6 +63,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 
                 if (aqiList.isEmpty()) {
                     aqi_result = populateInitialAQI(recordId);
+                    aqi_SecurityHandlerLng.canAccess(User.sObjectType);
                     List<User> relatedInitiallyAgents = [SELECT FullPhotoUrl, Id, Name FROM User WHERE Id =: aqi_result.Agent__c];
 
                     if (!relatedInitiallyAgents.isEmpty()) {
@@ -110,7 +111,6 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     @AuraEnabled
     public static aqi_LightningResponse upsertAQI(String recordStr) {
         aqi_LightningResponse response = new aqi_LightningResponse();
-        Map<String,Object> result = new Map<String,Object>();
         Map<String,Double> indexValues = aqi_Ctrl.getindexApiNameToValue();
         Set<String> apiNamesWhiteLilst = indexValues.keySet();
         List<String> tmpList = new List<String>();
@@ -121,8 +121,13 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             return response;
         }
 
+        // Check that user can reference a user Id
+        aqi_SecurityHandlerLng.canCreate(User.sObjectType);
+
+        Map<String,Object> result = new Map<String,Object>();
+        
         try {
-            Article_Quality__c record = (Article_Quality__c)System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
+            Article_Quality__c record = (Article_Quality__c) System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
             // Check CRUD permissions
             if (aqi_SecurityHandlerLng.isCreateable(Article_Quality__c.sObjectType) &&
             aqi_SecurityHandlerLng.isUpdateable(Article_Quality__c.sObjectType)) {
@@ -137,6 +142,15 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             ' WHERE Id =\'' + record.Id + '\'');
             result.put('aqi_record', record);
             response.jsonResponse = JSON.serialize(result);
+        } catch(DmlException e) {
+            response = new aqi_LightningResponse(e);
+
+            if (e.getDmlType(0) == StatusCode.INSUFFICIENT_ACCESS_ON_CROSS_REFERENCE_ENTITY) {
+                // Check if user Id is failing
+                if (e.getDmlMessage(0).contains('005')) {
+                    response.error = 'Insufficient access on User object: \'Article contributor\' cannot be assigned. Check that permissions are assigned correctly for the current user, \'View all users\' system permission might be needed.';
+                }
+            }
         } catch(Exception e) {
             response = new aqi_LightningResponse(e);
             String errorMsg = e.getMessage();

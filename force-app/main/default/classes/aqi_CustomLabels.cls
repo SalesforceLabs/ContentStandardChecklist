@@ -9,12 +9,12 @@ public with sharing class aqi_CustomLabels {
     public static Boolean getLabels() {
         Boolean success = true;
         try {
-            //Abstract Lightning Component
+            // Abstract Lightning Component
             String undetermined_error = Label.Undetermined_error;
             String error_occurred_in_Apex_call_error = Label.Error_occurred_in_Apex_call_error;
             String an_error_occurred_error = Label.An_error_occurred_error;
 
-            //Article Quality Index Lightning Component
+            // Article Quality Index Lightning Component
             String article_Quality_Index_title = Label.Article_Quality_Index_title;
             String display_Follow_Up_section_title = Label.Display_Follow_Up_section_title;
             String score = Label.Score;
@@ -44,7 +44,7 @@ public with sharing class aqi_CustomLabels {
             String the_new_score_is_message = Label.The_new_score_is_message;
             String responseMap_empty_message = Label.ResponseMap_empty_message;
 
-            //Related Article Lightning Component
+            // Related Article Lightning Component
             String related_Article_title = Label.Related_Article_title;
             String view_article_button = Label.View_article_button;
             String language_label = Label.Language_label;
@@ -56,7 +56,7 @@ public with sharing class aqi_CustomLabels {
             String warning_message = Label.Warning_message;
             String related_Article_archived_error = Label.Related_Article_archived_error;
 
-            //ArticleQualityIndexCtrl Apex class
+            // ArticleQualityIndexCtrl Apex class
             String follow_Up_field_not_retrieved_error = Label.Follow_Up_field_not_retrieved_error;
             String list_of_API_names_empty_error = Label.List_of_API_names_empty_error;
             String article_Id_empty_error = Label.Article_Id_empty_error;
@@ -64,7 +64,7 @@ public with sharing class aqi_CustomLabels {
             String related_article_not_found_error = Label.Related_article_not_found_error;
             String error_getting_id_of_related_article_error = Label.Error_getting_id_of_related_article_error;
 
-            //Ctrl Apex Class
+            // Ctrl Apex Class
             String article_has_no_record_type_error = Label.Article_has_no_record_type_error;
             String invalid_Knowledge_Article_error = Label.Invalid_Knowledge_Article_error;
             String article_Type_permissions_error = Label.Article_Type_permissions_error;
@@ -73,13 +73,19 @@ public with sharing class aqi_CustomLabels {
             String specify_coaching_error = Label.Specify_coaching_error;
             String specify_article_version_error = Label.Specify_article_version_error;
 
-            //KnowledgeSearchCtrl Apex class
+            // KnowledgeSearchCtrl Apex class
             String search_criteria_error = Label.Search_criteria_error;
             String article_number_error = Label.Article_number_error;
             String last_Modified_date_invalid_error = Label.Last_Modified_date_invalid_error;
             String first_Published_date_invalid_error = Label.First_Published_date_invalid_error;
 
-            //Detail Visualforce page
+            // Aqi Score trigger
+            String aqi_duplicate_error = Label.AQI_duplicate_error;
+            String cant_create_AQI_article_not_exists_error = Label.Cant_create_AQI_article_not_exists_error;
+            String cant_create_AQI_article_archived_error = Label.Cant_create_AQI_article_archived_error;
+            String cant_create_AQI_article_draft_error = Label.Cant_create_AQI_article_draft_error;
+
+            // Detail Visualforce page
             String delete_confirm = Label.Delete_confirm;
             String article_Quality_Index_details_title = Label.Article_Quality_Index_details_title;
             String edit_button = Label.Edit_button;
@@ -94,11 +100,11 @@ public with sharing class aqi_CustomLabels {
             String article_Created_By_label = Label.Article_Created_By_label;
             String system_Information_title = Label.System_Information_title;
                        
-            //Edit Visualforce page
+            // Edit Visualforce page
             String save_button = Label.Save_button;
             String cancel_button = Label.Cancel_button;
             
-            //KnowledgeSearch Visualforce page
+            // KnowledgeSearch Visualforce page
             String create_AQI_title = Label.Create_AQI_title;
             String date_Range_invalid_first_alert = Label.Date_Range_invalid_first_alert;
             String date_Range_invalid_last_alert = Label.Date_Range_invalid_last_alert;
@@ -135,7 +141,7 @@ public with sharing class aqi_CustomLabels {
             String next_button = Label.Next_button;
             String no_records_to_display_message = Label.No_records_to_display_message;
 
-            //Setup Visualforce page
+            // Setup Visualforce page
             String application_Setup_title = Label.Application_Setup_title;
             String aqi_Section_title = Label.AQI_Section_title;
             String migration_Tool_Section_title = Label.Migration_Tool_Section_title;
@@ -144,7 +150,7 @@ public with sharing class aqi_CustomLabels {
             String edit_Archived_Article_label = Label.Edit_Archived_Article_label;
             String edit_Draft_Article_label = Label.Edit_Draft_Article_label;
 
-            //WarningPageNewAQI Visualforce page
+            // WarningPageNewAQI Visualforce page
             String warning_on_create_AQI_alert = Label.Warning_on_create_AQI_alert;
         } catch (Exception e) {
             success = false;

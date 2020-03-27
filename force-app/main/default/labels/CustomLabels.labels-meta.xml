@@ -421,13 +421,6 @@
         <value>Has AQI</value>
     </labels>
     <labels>
-        <fullName>Information_helptext</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Information helptext</shortDescription>
-        <value>Information</value>
-    </labels>
-    <labels>
         <fullName>Information_title</fullName>
         <language>en_US</language>
         <protected>true</protected>

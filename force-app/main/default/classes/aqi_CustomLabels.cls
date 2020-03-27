@@ -16,6 +16,7 @@ public with sharing class aqi_CustomLabels {
 
             //Article Quality Index Lightning Component
             String article_Quality_Index_title = Label.Article_Quality_Index_title;
+            String display_Follow_Up_section_title = Label.Display_Follow_Up_section_title;
             String score = Label.Score;
             String apply_button = Label.Apply_button;
             String aqi_Criteria_title = Label.AQI_Criteria_title;

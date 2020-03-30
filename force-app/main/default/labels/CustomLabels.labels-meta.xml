@@ -29,13 +29,6 @@
         <value>AQI Successfully updated</value>
     </labels>
     <labels>
-        <fullName>AQI_Team_Summary_title</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>AQI Team Summary title</shortDescription>
-        <value>AQI Team Summary</value>
-    </labels>
-    <labels>
         <fullName>AQI_duplicate_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -235,22 +228,22 @@
         <fullName>Cant_create_AQI_article_archived_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Cant create AQI article archived error</shortDescription>
+        <shortDescription>Can't create AQI article archived error</shortDescription>
         <value>You can't create or edit this AQI if the related article is archived.</value>
     </labels>
     <labels>
         <fullName>Cant_create_AQI_article_draft_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Cant create AQI article draft error</shortDescription>
+        <shortDescription>Can't create AQI article draft error</shortDescription>
         <value>You can't create or edit this AQI if the related article is a draft.</value>
     </labels>
     <labels>
         <fullName>Cant_create_AQI_article_not_exists_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Cant create AQI article not exists error</shortDescription>
-        <value>You cant create or edit this AQI if the related article for this version don&#39;t exist.</value>
+        <shortDescription>Can't create AQI article not exists error</shortDescription>
+        <value>You can't create or edit this AQI if the related article for this version doesn&#39;t exist.</value>
     </labels>
     <labels>
         <fullName>Create_AQI_title</fullName>
@@ -426,13 +419,6 @@
         <protected>true</protected>
         <shortDescription>Has AQI helptext</shortDescription>
         <value>Has AQI</value>
-    </labels>
-    <labels>
-        <fullName>Information_helptext</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Information helptext</shortDescription>
-        <value>Information</value>
     </labels>
     <labels>
         <fullName>Information_title</fullName>

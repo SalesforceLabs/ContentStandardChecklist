@@ -128,6 +128,14 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         
         try {
             Article_Quality__c record = (Article_Quality__c) System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
+
+            //Set fields not shown in the component to false
+            for(String s : tmpList) {
+                if(!recordStr.containsIgnoreCase(s) && s != 'Possible_Points__c') {
+                    record.put(s, false);
+                }
+            }
+
             // Check CRUD permissions
             if (aqi_SecurityHandlerLng.isCreateable(Article_Quality__c.sObjectType) &&
             aqi_SecurityHandlerLng.isUpdateable(Article_Quality__c.sObjectType)) {

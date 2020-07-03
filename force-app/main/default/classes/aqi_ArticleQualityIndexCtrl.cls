@@ -37,11 +37,11 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
                 List<indexArticleQualityIndex> indexList = new List<indexArticleQualityIndex>();
                 Map<String,Object> result = new Map<String,Object>();
                 ArticleQuality_index__c aqs = aqi_SettingsHandler.checkForAppConfiguration();
-                Set<String> apiNamesWhiteLilst = indexValues.keySet();
+                Set<String> enabledApiNames = indexValues.keySet();
                 Set<String> apiList = new Set<String>();
                 apiNames = apiNames.replace('"','').replace('[','').replace(']','');
                 for (String a : apiNames.split(',')) {
-                    if (String.isNotBlank(a) && apiNamesWhiteLilst.contains(a)) {
+                    if (String.isNotBlank(a) && enabledApiNames.contains(a)) {
                         apiList.add(a);
                     }
                 }
@@ -112,9 +112,9 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
     public static aqi_LightningResponse upsertAQI(String recordStr) {
         aqi_LightningResponse response = new aqi_LightningResponse();
         Map<String,Double> indexValues = aqi_Ctrl.getindexApiNameToValue();
-        Set<String> apiNamesWhiteLilst = indexValues.keySet();
+        Set<String> enabledApiNames = indexValues.keySet();
         List<String> tmpList = new List<String>();
-        tmpList.addAll(apiNamesWhiteLilst);
+        tmpList.addAll(enabledApiNames);
 
         String qStringApiNames = String.join(tmpList,', ');
         if (!String.isNotBlank(recordStr)) {

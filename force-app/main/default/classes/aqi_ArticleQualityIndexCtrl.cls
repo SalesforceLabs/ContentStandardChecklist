@@ -128,6 +128,14 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
         
         try {
             Article_Quality__c record = (Article_Quality__c) System.JSON.deserializeStrict(recordStr, Article_Quality__c.Class);
+
+            //Set fields not shown in the component to false
+            for(String s : tmpList) {
+                if(!recordStr.containsIgnoreCase(s) && s != 'Possible_Points__c') {
+                    record.put(s, false);
+                }
+            }
+
             // Check CRUD permissions
             if (aqi_SecurityHandlerLng.isCreateable(Article_Quality__c.sObjectType) &&
             aqi_SecurityHandlerLng.isUpdateable(Article_Quality__c.sObjectType)) {
@@ -144,12 +152,15 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
             response.jsonResponse = JSON.serialize(result);
         } catch(DmlException e) {
             response = new aqi_LightningResponse(e);
-
+            String dmlMessage = e.getDmlMessage(0);
+            
             if (e.getDmlType(0) == StatusCode.INSUFFICIENT_ACCESS_ON_CROSS_REFERENCE_ENTITY) {
                 // Check if user Id is failing
-                if (e.getDmlMessage(0).contains('005')) {
+                if (dmlMessage.contains('005')) {
                     response.error = 'Insufficient access on User object: \'Article contributor\' cannot be assigned. Check that permissions are assigned correctly for the current user, \'View all users\' system permission might be needed.';
                 }
+            } else {
+                response.error = dmlMessage;
             }
         } catch(Exception e) {
             response = new aqi_LightningResponse(e);

@@ -1,4 +1,4 @@
-<apex:page controller="aqi_SetupCtrl" showHeader="true" sidebar="true">
+<apex:page controller="aqi_SetupCtrl" showHeader="true" sidebar="true" docType="html-5.0">
     <script>
         document.onreadystatechange = function(e) {if (document.readyState === 'complete') {checkForCS();}};
     </script>
@@ -13,15 +13,15 @@
                 <apex:outputText value="{!$Label.AQI_Section_title}" />
                 <apex:outputText value="" />
                 <apex:inputField value="{!aqs.name}" html-disabled="true" />
-                <apex:inputField value="{!aqs.Article_Unique__c}"/>
-                <apex:inputField value="{!aqs.Art_Meets_Content_Standard__c}"/>
-                <apex:inputField value="{!aqs.Content_complete__c}"/>
-                <apex:inputField value="{!aqs.Content_understandable__c}"/>
-                <apex:inputField value="{!aqs.Links_in_article_valid__c}"/>
-                <apex:inputField value="{!aqs.Possible_Points__c}"/>
-                <apex:inputField value="{!aqs.Properties_set_appropriately__c}"/>
+                <apex:inputField value="{!aqs.Article_Unique__c}" type="number" html-min="0"/>
+                <apex:inputField value="{!aqs.Art_Meets_Content_Standard__c}" type="number" html-min="0"/>
+                <apex:inputField value="{!aqs.Content_complete__c}" type="number" html-min="0"/>
+                <apex:inputField value="{!aqs.Content_understandable__c}" type="number" html-min="0"/>
+                <apex:inputField value="{!aqs.Links_in_article_valid__c}" type="number" html-min="0"/>
+                <apex:inputField value="{!aqs.Possible_Points__c}" type="number" html-min="0"/>
+                <apex:inputField value="{!aqs.Properties_set_appropriately__c}" type="number" html-min="0"/>
                 <apex:inputField value="{!aqs.Selected_Languages__c}"/>
-                <apex:inputField value="{!aqs.Title_Accurate__c}"/>
+                <apex:inputField value="{!aqs.Title_Accurate__c}" type="number" html-min="0"/>
                 <apex:outputText value="{!$Label.Migration_Tool_Section_title}" />
                 <apex:outputText value="" />
                 <apex:inputField value="{!aqs.Trigger_Enabled__c}">

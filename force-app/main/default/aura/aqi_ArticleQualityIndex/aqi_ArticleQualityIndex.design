@@ -1,14 +1,14 @@
 <design:component label="Article Quality Index Component">
 	<design:attribute name="displayFollowUpSection" label="{!$Label.c.Display_Follow_Up_section_title}"/>
 
-	<design:attribute name="indexField1" label="{!$Label.c.Select_AQI_first_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
-	<design:attribute name="indexField2" label="{!$Label.c.Select_AQI_second_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
-	<design:attribute name="indexField3" label="{!$Label.c.Select_AQI_third_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
-	<design:attribute name="indexField4" label="{!$Label.c.Select_AQI_fourth_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
-	<design:attribute name="indexField5" label="{!$Label.c.Select_AQI_fifth_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
-	<design:attribute name="indexField6" label="{!$Label.c.Select_AQI_sixth_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
-	<design:attribute name="indexField7" label="{!$Label.c.Select_AQI_seventh_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
-	<design:attribute name="indexField8" label="{!$Label.c.Select_AQI_eight_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
-	<design:attribute name="indexField9" label="{!$Label.c.Select_AQI_ninth_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
-	<design:attribute name="indexField10" label="{!$Label.c.Select_AQI_tenth_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none"/>
+	<design:attribute name="indexField1" label="{!$Label.c.Select_AQI_first_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField2" label="{!$Label.c.Select_AQI_second_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField3" label="{!$Label.c.Select_AQI_third_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField4" label="{!$Label.c.Select_AQI_fourth_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField5" label="{!$Label.c.Select_AQI_fifth_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField6" label="{!$Label.c.Select_AQI_sixth_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField7" label="{!$Label.c.Select_AQI_seventh_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField8" label="{!$Label.c.Select_AQI_eight_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField9" label="{!$Label.c.Select_AQI_ninth_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField10" label="{!$Label.c.Select_AQI_tenth_field_label}" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
 </design:component>

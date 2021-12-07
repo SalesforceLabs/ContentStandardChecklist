@@ -26,16 +26,6 @@ public with sharing class aqi_CustomLabels {
             String action_date_helptext = Label.Action_date_helptext;
             String action_taken_helptext = Label.Action_taken_helptext;
             String internal_notes_helptext = Label.Internal_notes_helptext;
-            String select_AQI_first_field_label = Label.Select_AQI_first_field_label;
-            String select_AQI_second_field_label = Label.Select_AQI_second_field_label;
-            String select_AQI_third_field_label = Label.Select_AQI_third_field_label;
-            String select_AQI_fourth_field_label = Label.Select_AQI_fourth_field_label;
-            String select_AQI_fifth_field_label = Label.Select_AQI_fifth_field_label;
-            String select_AQI_sixth_field_label = Label.Select_AQI_sixth_field_label;
-            String select_AQI_seventh_field_label = Label.Select_AQI_seventh_field_label;
-            String select_AQI_eight_field_label = Label.Select_AQI_eight_field_label;
-            String select_AQI_ninth_field_label = Label.Select_AQI_ninth_field_label;
-            String select_AQI_tenth_field_label = Label.Select_AQI_tenth_field_label;
             String none_defaultValue = Label.None_defaultValue;
             String article_contributor_not_found_error = Label.Article_contributor_not_found_error;
             String article_contributor_not_found_error_message = Label.Article_contributor_not_found_error_message;

@@ -17,10 +17,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Art_Meets_Content_Standard__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Links_In_Article_Valid__c</field>
             </layoutItems>
         </layoutColumns>

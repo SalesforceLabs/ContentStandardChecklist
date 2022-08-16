@@ -3,7 +3,7 @@
     <fullName>Properties_Set_Appropriately__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Properties set appropriately?</label>
+    <label>Is the Metadata Correct?</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

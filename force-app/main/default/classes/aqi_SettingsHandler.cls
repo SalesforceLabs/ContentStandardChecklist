@@ -8,7 +8,7 @@ public class aqi_SettingsHandler {
 	public static String CUSTOM_SETTING_NAME = 'default';
 	public static String DEFAULT_LANGUAGE = 'en_US';
 	public static Integer DEFAULT_VALUE = 1;
-	public static Integer DEFAULT_POSSIBLE_POINTS = 7;
+	public static Integer DEFAULT_POSSIBLE_POINTS = 6;
 	public static Boolean DEFAULT_ENABLE_TRIGGER = true;
 	public static Boolean DEFAULT_EDIT_ARCHIVED = false;
 	public static Boolean DEFAULT_EDIT_DRAFT = true;
@@ -49,7 +49,6 @@ public class aqi_SettingsHandler {
 				aq = new ArticleQuality_index__c(
 					Name = CUSTOM_SETTING_NAME,
 					Selected_Languages__c  = DEFAULT_LANGUAGE,
-					Art_Meets_Content_Standard__c = DEFAULT_VALUE,
 					Article_Unique__c = DEFAULT_VALUE,
 					Content_complete__c = DEFAULT_VALUE,
 					Content_understandable__c = DEFAULT_VALUE,
@@ -87,7 +86,6 @@ public class aqi_SettingsHandler {
 				aq = new ArticleQuality_index__c(
 					Name = CUSTOM_SETTING_NAME,
 					Selected_Languages__c  = DEFAULT_LANGUAGE,
-					Art_Meets_Content_Standard__c = DEFAULT_VALUE,
 					Article_Unique__c = DEFAULT_VALUE,
 					Content_complete__c = DEFAULT_VALUE,
 					Content_understandable__c = DEFAULT_VALUE,

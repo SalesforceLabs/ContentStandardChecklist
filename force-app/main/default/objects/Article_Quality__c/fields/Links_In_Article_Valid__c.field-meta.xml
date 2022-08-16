@@ -3,7 +3,7 @@
     <fullName>Links_In_Article_Valid__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Links in article valid?</label>
+    <label>Are the Links Valid?</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

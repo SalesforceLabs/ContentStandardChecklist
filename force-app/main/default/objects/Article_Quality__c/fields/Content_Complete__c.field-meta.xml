@@ -3,7 +3,7 @@
     <fullName>Content_Complete__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Content complete?</label>
+    <label>Is the article Complete?</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

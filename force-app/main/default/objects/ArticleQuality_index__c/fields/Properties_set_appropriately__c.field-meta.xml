@@ -3,7 +3,7 @@
     <fullName>Properties_set_appropriately__c</fullName>
     <defaultValue>1</defaultValue>
     <externalId>false</externalId>
-    <label>Properties set appropriately</label>
+    <label>Is the Metadata Correct?</label>
     <precision>18</precision>
     <required>true</required>
     <scale>0</scale>

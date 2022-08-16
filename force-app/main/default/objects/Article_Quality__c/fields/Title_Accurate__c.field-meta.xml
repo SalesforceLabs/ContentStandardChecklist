@@ -3,7 +3,7 @@
     <fullName>Title_Accurate__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Title Accurate?</label>
+    <label>Does the Title Relate to Article?</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,7 @@
     <fullName>Article_Unique__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Article Unique?</label>
+    <label>Is the article Unique?</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

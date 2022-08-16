@@ -3,7 +3,7 @@
     <fullName>Content_understandable__c</fullName>
     <defaultValue>1</defaultValue>
     <externalId>false</externalId>
-    <label>Content understandable</label>
+    <label>Is the Content Clear?</label>
     <precision>18</precision>
     <required>true</required>
     <scale>0</scale>

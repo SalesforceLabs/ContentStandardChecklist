@@ -153,7 +153,7 @@
 			toastCmp.set("v.severity",'info');
 			
 			if (!component.get("v.noFieldsAvailable")) {
-				toastCmp.set("v.description",$A.get("$Label.c.AQI_has_been_updated_message") + ' ' + $A.get("$Label.c.The_new_score_is_message") + ' : '+Math.round(aq_score));
+				toastCmp.set("v.description",$A.get("$Label.c.AQI_has_been_updated_message") + ' ' + $A.get("$Label.c.The_new_score_is_message") + ': ' + Math.round(aq_score) + '%');
 			} else {
 				toastCmp.set("v.description",$A.get("$Label.c.AQI_has_been_updated_message"));
 			}

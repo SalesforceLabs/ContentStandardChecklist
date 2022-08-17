@@ -49,6 +49,7 @@ public class aqi_SettingsHandler {
 				aq = new ArticleQuality_index__c(
 					Name = CUSTOM_SETTING_NAME,
 					Selected_Languages__c  = DEFAULT_LANGUAGE,
+					Art_Meets_Content_Standard__c = 0, //Deprecated field
 					Article_Unique__c = DEFAULT_VALUE,
 					Content_complete__c = DEFAULT_VALUE,
 					Content_understandable__c = DEFAULT_VALUE,
@@ -86,6 +87,7 @@ public class aqi_SettingsHandler {
 				aq = new ArticleQuality_index__c(
 					Name = CUSTOM_SETTING_NAME,
 					Selected_Languages__c  = DEFAULT_LANGUAGE,
+					Art_Meets_Content_Standard__c = 0, //Deprecated field
 					Article_Unique__c = DEFAULT_VALUE,
 					Content_complete__c = DEFAULT_VALUE,
 					Content_understandable__c = DEFAULT_VALUE,

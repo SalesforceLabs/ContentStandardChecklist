@@ -3,7 +3,7 @@
     <fullName>Art_Meets_Content_Standard__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Article meets content standard?</label>
+    <label>Article meets content standard(Obsolete)</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

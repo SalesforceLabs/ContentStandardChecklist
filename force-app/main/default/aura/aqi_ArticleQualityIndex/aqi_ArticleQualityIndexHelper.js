@@ -152,7 +152,7 @@
 			toastCmp.set("v.className",'slds-show');
 			toastCmp.set("v.severity",'info');
 			
-			if (!component.get("v.noFieldsAvailable")) {
+			if (!component.get("v.noFieldsAvailable") && component.get("v.displayCSCScore")) {
 				toastCmp.set("v.description",$A.get("$Label.c.AQI_has_been_updated_message") + ' ' + $A.get("$Label.c.The_new_score_is_message") + ': ' + Math.round(aq_score) + '%');
 			} else {
 				toastCmp.set("v.description",$A.get("$Label.c.AQI_has_been_updated_message"));

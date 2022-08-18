@@ -147,7 +147,7 @@
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
-    <masterLabel>Article Quality Index Record Page</masterLabel>
+    <masterLabel>Content Standard Checklist Record Page</masterLabel>
     <parentFlexiPage>flexipage__default_rec_L</parentFlexiPage>
     <sobjectType>Article_Quality__c</sobjectType>
     <template>

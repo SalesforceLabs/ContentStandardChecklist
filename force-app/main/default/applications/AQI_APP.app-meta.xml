@@ -13,11 +13,11 @@
         <headerColor>#086108</headerColor>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
-    <description>Article Quality Index App for lightning UI</description>
+    <description>Content Standard Checklist App for lightning UI</description>
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
-    <label>Article Quality Index App for Lightning</label>
+    <label>Content Standard Checklist Lightning App</label>
     <navType>Standard</navType>
     <tabs>Article_Quality__c</tabs>
     <tabs>standard-report</tabs>

@@ -4,50 +4,50 @@
         <fullName>AQI_Criteria_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>AQI Criteria title</shortDescription>
-        <value>AQI Criteria</value>
+        <shortDescription>CSC Criteria title</shortDescription>
+        <value>CSC Criteria</value>
     </labels>
     <labels>
         <fullName>AQI_Edition_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>AQI Edition title</shortDescription>
-        <value>AQI Edition</value>
+        <shortDescription>CSC Edition title</shortDescription>
+        <value>CSC Edition</value>
     </labels>
     <labels>
         <fullName>AQI_Section_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>AQI Section title</shortDescription>
-        <value>AQI Section</value>
+        <shortDescription>CSC Section title</shortDescription>
+        <value>CSC Section</value>
     </labels>
     <labels>
         <fullName>AQI_Successfully_updated_message</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>AQI Successfully updated message</shortDescription>
-        <value>AQI Successfully updated</value>
+        <shortDescription>CSC Successfully updated message</shortDescription>
+        <value>CSC Successfully updated</value>
     </labels>
     <labels>
         <fullName>AQI_duplicate_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>AQI duplicate error</shortDescription>
-        <value>You have already a Quality Index record for this article version</value>
+        <shortDescription>CSC duplicate error</shortDescription>
+        <value>You already have a Content Standard Checklist record for this article version</value>
     </labels>
     <labels>
         <fullName>AQI_has_been_updated_message</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>AQI has been updated message</shortDescription>
-        <value>The AQI has been updated.</value>
+        <shortDescription>CSC has been updated message</shortDescription>
+        <value>The CSC has been updated.</value>
     </labels>
     <labels>
         <fullName>AQI_tableheader</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>AQI tableheader</shortDescription>
-        <value>AQI</value>
+        <shortDescription>CSC tableheader</shortDescription>
+        <value>CSC</value>
     </labels>
     <labels>
         <fullName>Account_Name_helptext</fullName>
@@ -151,15 +151,15 @@
         <fullName>Article_Quality_Index_details_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Article Quality Index details title</shortDescription>
-        <value>Article Quality Index details</value>
+        <shortDescription>Content Standard Checklist details title</shortDescription>
+        <value>Content Standard Checklist details</value>
     </labels>
     <labels>
         <fullName>Article_Quality_Index_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Article Quality Index title</shortDescription>
-        <value>Article Quality Index</value>
+        <shortDescription>Content Standard Checklist title</shortDescription>
+        <value>Content Standard Checklist</value>
     </labels>
     <labels>
         <fullName>Article_Record_Type_label</fullName>
@@ -201,7 +201,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Article contributor not found error message</shortDescription>
-        <value>The Article Contributor on the AQI record was not set because the Last Modified By user on the article could not be found.  Please select an Article Contributor.</value>
+        <value>The Article Contributor on the CSC record was not set because the Last Modified By user on the article could not be found.  Please select an Article Contributor.</value>
     </labels>
     <labels>
         <fullName>Article_has_no_record_type_error</fullName>
@@ -228,29 +228,29 @@
         <fullName>Cant_create_AQI_article_archived_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Can&apos;t create AQI article archived error</shortDescription>
-        <value>You can&apos;t create or edit this AQI if the related article is archived.</value>
+        <shortDescription>Can&apos;t create CSC article archived error</shortDescription>
+        <value>You can&apos;t create or edit this CSC if the related article is archived.</value>
     </labels>
     <labels>
         <fullName>Cant_create_AQI_article_draft_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Can&apos;t create AQI article draft error</shortDescription>
-        <value>You can&apos;t create or edit this AQI if the related article is a draft.</value>
+        <shortDescription>Can&apos;t create CSC article draft error</shortDescription>
+        <value>You can&apos;t create or edit this CSC if the related article is a draft.</value>
     </labels>
     <labels>
         <fullName>Cant_create_AQI_article_not_exists_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Can&apos;t create AQI article not exists error</shortDescription>
-        <value>You can&apos;t create or edit this AQI if the related article for this version doesn&apos;t exist.</value>
+        <shortDescription>Can&apos;t create CSC article not exists error</shortDescription>
+        <value>You can&apos;t create or edit this CSC if the related article for this version doesn&apos;t exist.</value>
     </labels>
     <labels>
         <fullName>Create_AQI_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Create AQI title</shortDescription>
-        <value>Create AQI</value>
+        <shortDescription>Create CSC title</shortDescription>
+        <value>Create CSC</value>
     </labels>
     <labels>
         <fullName>Create_or_Edit_helptext</fullName>
@@ -313,14 +313,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Edit Archived Article label</shortDescription>
-        <value>Prevent AQI Edit on Archived Article</value>
+        <value>Prevent CSC Edit on Archived Article</value>
     </labels>
     <labels>
         <fullName>Edit_Draft_Article_label</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Edit Draft Article label</shortDescription>
-        <value>Prevent AQI Edit on Draft Article</value>
+        <value>Prevent CSC Edit on Draft Article</value>
     </labels>
     <labels>
         <fullName>Edit_button</fullName>
@@ -334,7 +334,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Enable trigger helptext</shortDescription>
-        <value>Check to enable the trigger that calculates the aqi score (only needs to be disabled when the AQI migration tool will be used)</value>
+        <value>Check to enable the trigger that calculates the CSC score (only needs to be disabled when the CSC migration tool will be used)</value>
     </labels>
     <labels>
         <fullName>Error_getting_id_of_related_article_error</fullName>
@@ -417,8 +417,8 @@
         <fullName>Has_AQI_helptext</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Has AQI helptext</shortDescription>
-        <value>Has AQI</value>
+        <shortDescription>Has CSC helptext</shortDescription>
+        <value>Has CSC</value>
     </labels>
     <labels>
         <fullName>Information_title</fullName>
@@ -522,8 +522,8 @@
         <fullName>New_AQI_helptext</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>New AQI helptext</shortDescription>
-        <value>New AQI</value>
+        <shortDescription>New CSC helptext</shortDescription>
+        <value>New CSC</value>
     </labels>
     <labels>
         <fullName>Next_button</fullName>
@@ -781,7 +781,7 @@
         <fullName>Warning_on_create_AQI_alert</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Warning on create AQI alert</shortDescription>
-        <value>Users can only create Article Quality Index from knowledge articles</value>
+        <shortDescription>Warning on create CSC alert</shortDescription>
+        <value>Users can only create Content Standard Checklists from knowledge articles</value>
     </labels>
 </CustomLabels>

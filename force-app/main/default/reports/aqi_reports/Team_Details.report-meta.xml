@@ -57,7 +57,7 @@
         <field>Article_Quality__c$Agent__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>AQI Team Summary</name>
+    <name>CSC Team Summary</name>
     <params>
         <name>co</name>
         <value>1</value>

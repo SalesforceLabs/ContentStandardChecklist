@@ -3,7 +3,7 @@
     <fullName>Prevent_AQI_Edit_on_Archived_Article__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Prevent AQI Edit on Archived Article</label>
+    <label>Prevent CSC Edit on Archived Article</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

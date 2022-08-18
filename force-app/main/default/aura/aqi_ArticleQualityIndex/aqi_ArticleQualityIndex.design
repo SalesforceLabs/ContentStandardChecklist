@@ -1,4 +1,4 @@
-<design:component label="Article Quality Index Component">
+<design:component label="Content Standard Checklist Component">
 	<design:attribute name="displayFollowUpSection" label="Display Follow Up section"/>
 
 	<design:attribute name="indexField1" label="First label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>

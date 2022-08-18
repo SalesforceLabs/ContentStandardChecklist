@@ -76,7 +76,7 @@
         <apexClass>aqi_TestDataFactory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <description>Article Quality object and fields permissions for non admin users. Knowledge permissions are not included.</description>
+    <description>Content Standard Checklist object and fields permissions for non admin users. Knowledge permissions are not included.</description>
     <fieldPermissions>
         <editable>true</editable>
         <field>Article_Quality__c.AQ_Score__c</field>
@@ -243,7 +243,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>Article Quality Index Permission Set</label>
+    <label>Content Standard Checklist Permission Set</label>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>

@@ -34,10 +34,6 @@
     </columns>
     <columns>
         <aggregateTypes>Average</aggregateTypes>
-        <field>Article_Quality__c$Art_Meets_Content_Standard__c</field>
-    </columns>
-    <columns>
-        <aggregateTypes>Average</aggregateTypes>
         <field>Article_Quality__c$Properties_Set_Appropriately__c</field>
     </columns>
     <columns>

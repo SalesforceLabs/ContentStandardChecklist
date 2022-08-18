@@ -3,8 +3,8 @@
     <baseObject>Article_Quality__c</baseObject>
     <category>other</category>
     <deployed>true</deployed>
-    <description>Article Quality Index report Type</description>
-    <label>AQI Report Type</label>
+    <description>Content Standard Checklist report Type</description>
+    <label>CSC Report Type</label>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>

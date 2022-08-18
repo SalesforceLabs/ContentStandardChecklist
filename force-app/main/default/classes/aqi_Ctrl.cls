@@ -487,7 +487,7 @@ public with sharing class aqi_Ctrl {
 			record.Agent__c = article.LastModifiedById;
 			record.ArticleFirstPublishedDate__c = article.FirstPublishedDate;
 			record.Article_Link__c = URL.getSalesforceBaseUrl().toExternalForm() + '/' + article.KnowledgeArticleId;
-			record.Name = 'AQI for article ' + article.ArticleNumber + ' – ' +  article.VersionNumber;
+			record.Name = 'CSC for article ' + article.ArticleNumber + ' – ' +  article.VersionNumber;
 		}
 
 		return record;

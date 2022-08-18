@@ -5,7 +5,7 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Article Quality Index Information</label>
+        <label>Content Standard Checklist Information</label>
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>

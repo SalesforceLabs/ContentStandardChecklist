@@ -3,7 +3,7 @@
     <fullName>Trigger_Enabled__c</fullName>
     <defaultValue>true</defaultValue>
     <externalId>false</externalId>
-    <label>AQI Score trigger enabled</label>
+    <label>CSC Score trigger enabled</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

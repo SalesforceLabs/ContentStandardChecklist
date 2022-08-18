@@ -59,14 +59,14 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <label>Article Quality Index</label>
+    <label>Content Standard Checklist</label>
     <nameField>
-        <label>Article Quality Index Name</label>
+        <label>Content Standard Checklist Name</label>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Article Quality Index</pluralLabel>
+    <pluralLabel>Content Standard Checklist</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

@@ -3,7 +3,7 @@
 	
 	<!-- Attributes -->
 	<aura:attribute access="global" name="displayFollowUpSection" type="Boolean" default="true" />
-	<aura:attribute access="global" name="displayCSCScore" type="Boolean" default="true" />
+	<aura:attribute access="global" name="displayCSCScore" type="Boolean" default="true" description="Hides CSC Score"/>
 	<aura:attribute name="noFieldsAvailable" type="Boolean" default="false" />
 	<aura:attribute name="upButtonIsPress" type="Boolean" default="false" />
 	

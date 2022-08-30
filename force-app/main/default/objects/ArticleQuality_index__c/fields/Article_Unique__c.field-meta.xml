@@ -3,7 +3,7 @@
     <fullName>Article_Unique__c</fullName>
     <defaultValue>1</defaultValue>
     <externalId>false</externalId>
-    <label>Is the article Unique?</label>
+    <label>Article Unique?</label>
     <precision>18</precision>
     <required>true</required>
     <scale>0</scale>

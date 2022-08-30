@@ -3,7 +3,7 @@
     <fullName>Links_in_article_valid__c</fullName>
     <defaultValue>1</defaultValue>
     <externalId>false</externalId>
-    <label>Are the Links Valid?</label>
+    <label>Links In Article Valid?</label>
     <precision>18</precision>
     <required>true</required>
     <scale>0</scale>

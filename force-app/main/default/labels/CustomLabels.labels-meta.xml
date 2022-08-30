@@ -648,8 +648,8 @@
         <fullName>Score</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Score</shortDescription>
-        <value>Score</value>
+        <shortDescription>Content Standard Met</shortDescription>
+        <value>Content Standard Met</value>
     </labels>
     <labels>
         <fullName>Search_Article_Number_placeholder</fullName>

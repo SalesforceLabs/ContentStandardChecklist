@@ -34,11 +34,11 @@
 				<div class="slds-media__body ">
 					<h2>
 						<span  class="slds-card__header-link slds-truncate" title="{!v.aqi_record.Name}">
-							<span class="slds-m-left_small slds-text-heading_small">{!$Label.c.Article_Quality_Index_title}</span>
+							<span class="slds-m-left_medium slds-text-heading_small">{!$Label.c.Article_Quality_Index_title}</span>
 						</span>
 						<aura:if isTrue="{!v.displayCSCScore}">
 							<!-- Show CSC Score if option is enabled  -->
-							<span class="inner slds-m-left_medium slds-badge slds-badge_lightest slds-p-bottom_x-small slds-p-top_x-small slds-p-left_large slds-p-right_large">{!$Label.c.Score}: <ui:outputNumber value="{!v.aqi_record.AQ_Score__c}" format="." />%
+							<span class="inner slds-m-left_medium slds-badge slds-badge_lightest slds-p-bottom_x-small slds-p-top_x-small slds-p-left_large slds-p-right_large">{!$Label.c.Score}:&nbsp; <lightning:formattedNumber value="{!v.aqi_record.AQ_Score__c}" style="percent-fixed"/>
 							</span>
 						</aura:if>
 					</h2>

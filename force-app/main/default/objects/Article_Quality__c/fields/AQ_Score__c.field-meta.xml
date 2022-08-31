@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>AQ_Score__c</fullName>
     <externalId>false</externalId>
-    <label>CSC Score</label>
+    <label>Content Standard Met</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>

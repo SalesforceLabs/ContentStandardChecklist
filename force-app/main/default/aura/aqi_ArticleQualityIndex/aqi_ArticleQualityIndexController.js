@@ -2,7 +2,7 @@
 	doInit : function(component, event, helper) {
 		var apiNames= [];
 		
-		for (var i = 1; i < 11; i++) {
+		for (var i = 1; i < 12; i++) {
 			var field = 'v.indexField' + i;
 			
 			if  (!$A.util.isUndefinedOrNull(component.get(field)) && component.get(field) !== 'none') {

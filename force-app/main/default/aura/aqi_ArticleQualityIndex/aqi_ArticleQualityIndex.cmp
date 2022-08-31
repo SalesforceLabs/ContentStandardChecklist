@@ -17,6 +17,7 @@
 	<aura:attribute access="global" name="indexField8" type="String" default="none" />
 	<aura:attribute access="global" name="indexField9" type="String" default="none" />
 	<aura:attribute access="global" name="indexField10" type="String" default="none" />
+	<aura:attribute access="global" name="indexField11" type="String" default="none" />
 	
 	<aura:attribute access="global" name="prefixOrg" type="String" default="none" />
 	

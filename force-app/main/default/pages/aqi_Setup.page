@@ -13,15 +13,19 @@
                 <apex:outputText value="{!$Label.AQI_Section_title}" />
                 <apex:outputText value="" />
                 <apex:inputField value="{!aqs.name}" html-disabled="true" />
+                <apex:inputField value="{!aqs.Selected_Languages__c}" />
                 <apex:inputField value="{!aqs.Article_Unique__c}" type="number" html-min="0"/>
                 <apex:inputField value="{!aqs.Content_complete__c}" type="number" html-min="0"/>
                 <apex:inputField value="{!aqs.Content_understandable__c}" type="number" html-min="0"/>
                 <apex:inputField value="{!aqs.Links_in_article_valid__c}" type="number" html-min="0"/>
-                <apex:inputField value="{!aqs.Possible_Points__c}" type="number" html-min="0"/>
                 <apex:inputField value="{!aqs.Properties_set_appropriately__c}" type="number" html-min="0"/>
-                <apex:inputField value="{!aqs.Selected_Languages__c}"/>
                 <apex:inputField value="{!aqs.Title_Accurate__c}" type="number" html-min="0"/>
-                <apex:outputText value="" />
+                <apex:inputField value="{!aqs.Custom_Question_1__c}" type="number" html-min="0" />
+                <apex:inputField value="{!aqs.Custom_Question_2__c}" type="number" html-min="0" />
+                <apex:inputField value="{!aqs.Custom_Question_3__c}" type="number" html-min="0" />
+                <apex:inputField value="{!aqs.Custom_Question_4__c}" type="number" html-min="0" />
+                <apex:inputField value="{!aqs.Custom_Question_5__c}" type="number" html-min="0" />
+                <apex:inputField value="{!aqs.Possible_Points__c}" type="number" html-min="0" />
                 <apex:outputText value="{!$Label.Migration_Tool_Section_title}" />
                 <apex:outputText value="" />
                 <apex:inputField value="{!aqs.Trigger_Enabled__c}">
@@ -48,15 +52,19 @@
                 <apex:outputText value="{!$Label.AQI_Section_title}" />
                 <apex:outputText value="" />
                 <apex:outputField value="{!aqs.name}" />
+                <apex:outputField value="{!aqs.Selected_Languages__c}" />
                 <apex:outputField value="{!aqs.Article_Unique__c}"/>
                 <apex:outputField value="{!aqs.Content_complete__c}"/>
                 <apex:outputField value="{!aqs.Content_understandable__c}"/>
                 <apex:outputField value="{!aqs.Links_in_article_valid__c}"/>
-                <apex:outputField value="{!aqs.Possible_Points__c}"/>
                 <apex:outputField value="{!aqs.Properties_set_appropriately__c}"/>
-                <apex:outputField value="{!aqs.Selected_Languages__c}"/>
                 <apex:outputField value="{!aqs.Title_Accurate__c}"/>
-                <apex:outputText value="" />
+                <apex:outputField value="{!aqs.Custom_Question_1__c}"/>
+                <apex:outputField value="{!aqs.Custom_Question_2__c}"/>
+                <apex:outputField value="{!aqs.Custom_Question_3__c}"/>
+                <apex:outputField value="{!aqs.Custom_Question_4__c}"/>
+                <apex:outputField value="{!aqs.Custom_Question_5__c}"/>
+                <apex:outputField value="{!aqs.Possible_Points__c}" />
                 <apex:outputText value="{!$Label.Migration_Tool_Section_title}" />
                 <apex:outputText value="" />
                 <apex:outputField value="{!aqs.Trigger_Enabled__c}">

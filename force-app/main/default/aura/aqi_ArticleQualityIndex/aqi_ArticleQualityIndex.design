@@ -12,4 +12,5 @@
 	<design:attribute name="indexField8" label="Eighth label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
 	<design:attribute name="indexField9" label="Ninth label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
 	<design:attribute name="indexField10" label="Tenth label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField11" label="Eleventh label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none" />
 </design:component>

@@ -2,15 +2,15 @@
 	<design:attribute name="displayFollowUpSection" label="Display Follow Up section"/>
 	<design:attribute name="displayCSCScore" label="Display CSC Score"/>
 
-	<design:attribute name="indexField1" label="First label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
-	<design:attribute name="indexField2" label="Second label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
-	<design:attribute name="indexField3" label="Third label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
-	<design:attribute name="indexField4" label="Fourth label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
-	<design:attribute name="indexField5" label="Fifth label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
-	<design:attribute name="indexField6" label="Sixth label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
-	<design:attribute name="indexField7" label="Seventh label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
-	<design:attribute name="indexField8" label="Eighth label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
-	<design:attribute name="indexField9" label="Ninth label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
-	<design:attribute name="indexField10" label="Tenth label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
-	<design:attribute name="indexField11" label="Eleventh label" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none" />
+	<design:attribute name="indexField1" label="First question" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField2" label="Second question" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField3" label="Third question" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField4" label="Fourth question" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField5" label="Fifth question" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField6" label="Sixth question" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField7" label="Seventh question" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField8" label="Eighth question" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField9" label="Ninth question" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField10" label="Tenth question" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none"/>
+	<design:attribute name="indexField11" label="Eleventh question" datasource="apex://aqi_DynamicPickList_AQI" default="none" placeholder="none" />
 </design:component>

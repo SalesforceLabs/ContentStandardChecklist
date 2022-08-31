@@ -50,6 +50,11 @@ public class aqi_SettingsHandler {
 					Name = CUSTOM_SETTING_NAME,
 					Selected_Languages__c  = DEFAULT_LANGUAGE,
 					Art_Meets_Content_Standard__c = 0, //Deprecated field
+					Custom_Question_1__c = 0,
+					Custom_Question_2__c = 0,
+					Custom_Question_3__c = 0,
+					Custom_Question_4__c = 0,
+					Custom_Question_5__c = 0,
 					Article_Unique__c = DEFAULT_VALUE,
 					Content_complete__c = DEFAULT_VALUE,
 					Content_understandable__c = DEFAULT_VALUE,
@@ -88,6 +93,11 @@ public class aqi_SettingsHandler {
 					Name = CUSTOM_SETTING_NAME,
 					Selected_Languages__c  = DEFAULT_LANGUAGE,
 					Art_Meets_Content_Standard__c = 0, //Deprecated field
+					Custom_Question_1__c = 0,
+					Custom_Question_2__c = 0,
+					Custom_Question_3__c = 0,
+					Custom_Question_4__c = 0,
+					Custom_Question_5__c = 0,
 					Article_Unique__c = DEFAULT_VALUE,
 					Content_complete__c = DEFAULT_VALUE,
 					Content_understandable__c = DEFAULT_VALUE,

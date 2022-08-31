@@ -196,6 +196,31 @@
             <field>Title_Accurate__c</field>
             <table>Article_Quality__c</table>
         </columns>
-        <masterLabel>Articles Quality</masterLabel>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Custom_Question_1__c</field>
+            <table>Article_Quality__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Custom_Question_2__c</field>
+            <table>Article_Quality__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Custom_Question_3__c</field>
+            <table>Article_Quality__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Custom_Question_4__c</field>
+            <table>Article_Quality__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Custom_Question_5__c</field>
+            <table>Article_Quality__c</table>
+        </columns>
+        <masterLabel>Content Standard Checklist</masterLabel>
     </sections>
 </ReportType>

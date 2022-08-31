@@ -20,6 +20,11 @@ private class aqi_Ctrl_Test {
 		setting.Possible_Points__c = 2;
 		setting.Properties_set_appropriately__c = 2;
 		setting.Title_Accurate__c = 4;
+		setting.Custom_Question_1__c = 0;
+		setting.Custom_Question_2__c = 0;
+		setting.Custom_Question_3__c = 0;
+		setting.Custom_Question_4__c = 0;
+		setting.Custom_Question_5__c = 0;
 		setting.Selected_Languages__c = 'en_US';
 		setting.Trigger_Enabled__c = true;
 		INSERT setting;
@@ -75,7 +80,7 @@ private class aqi_Ctrl_Test {
 		result = aqi_Ctrl.getIndexApiNameToValue();
 		System.Test.stopTest();
 
-		System.assertEquals(8, result.size(), 'There should be 8 indexes defined');
+		System.assertEquals(13, result.size(), 'There should be 13 indexes defined');
 	}
 
 	@isTest static void aqiDupe_test() {

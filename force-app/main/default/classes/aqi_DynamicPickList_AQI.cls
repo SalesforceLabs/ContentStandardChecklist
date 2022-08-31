@@ -33,7 +33,7 @@ global class aqi_DynamicPickList_AQI extends VisualEditor.DynamicPickList {
         Map<String,Double> indexValues = aqi_Ctrl.getindexApiNameToValue();
 		Map<String,String> indexLabels = aqi_Ctrl.getindexApiNameToLabel();
         for (String k :indexValues.keySet()) {
-            if ((!k.contains('Possible_Points__c')) && indexLabels.containsKey(k) && indexValues.get(k)>0) {
+            if ((!k.contains('Possible_Points__c')) && indexLabels.containsKey(k) && (!k.contains('Art_Meets_Content_Standard__c'))) {
     			myValues.addRow(new VisualEditor.DataRow(indexLabels.get(k), k));
             }
         }

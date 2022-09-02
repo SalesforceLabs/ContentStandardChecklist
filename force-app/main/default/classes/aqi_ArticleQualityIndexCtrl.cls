@@ -131,7 +131,7 @@ public with sharing class aqi_ArticleQualityIndexCtrl {
 
             //Set fields not shown in the component to false
             for(String s : tmpList) {
-                if(!recordStr.containsIgnoreCase(s) && s != 'Possible_Points__c') {
+                if(!recordStr.containsIgnoreCase(s) && s != (aqi_Ctrl.getPackagePrefix() + 'Possible_Points__c')) {
                     record.put(s, false);
                 }
             }

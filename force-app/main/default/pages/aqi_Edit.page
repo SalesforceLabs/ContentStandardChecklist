@@ -39,13 +39,6 @@
                     &nbsp;
                 </apex:pageBlockSectionItem>
                 <apex:pageBlockSectionItem >
-                    <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Art_Meets_Content_Standard__c.label}" for="artmeetscontent"/>
-                    <apex:inputField value="{!record.Art_Meets_Content_Standard__c}" id="artmeetscontent"/>
-                </apex:pageBlockSectionItem>
-                <apex:pageBlockSectionItem >
-                    &nbsp;
-                </apex:pageBlockSectionItem>
-                <apex:pageBlockSectionItem >
                     <apex:outputLabel value="{!$ObjectType.Article_Quality__c.fields.Properties_Set_Appropriately__c.label}" for="propertiessetappropriately"/>
                     <apex:inputField value="{!record.Properties_Set_Appropriately__c}" id="propertiessetappropriately"/>
                 </apex:pageBlockSectionItem>

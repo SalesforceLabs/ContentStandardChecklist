@@ -3,5 +3,5 @@
     <fullName>CheckActionProviderBy</fullName>
     <active>true</active>
     <errorConditionFormula>Action_Needed__c &amp;&amp;  ISBLANK( Action_Assigned_To__c )</errorConditionFormula>
-    <errorMessage>A user must be assigned if the chekbox on the &#39;Follow Up&#39; section was selected.</errorMessage>
+    <errorMessage>A user must be assigned if the checkbox on the &#39;Follow Up&#39; section was selected.</errorMessage>
 </ValidationRule>

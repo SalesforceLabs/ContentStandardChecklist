@@ -4,7 +4,7 @@
     <description>Content Standard Checklist App for Classic UI</description>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
-    <label>CSC App for Classic UI</label>
+    <label>Content Standard Checklist (Classic UI)</label>
     <tabs>standard-Knowledge</tabs>
     <tabs>standard-KnowledgePublishing</tabs>
     <tabs>Create_AQI</tabs>

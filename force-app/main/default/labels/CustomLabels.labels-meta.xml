@@ -4,50 +4,50 @@
         <fullName>AQI_Criteria_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>CSC Criteria title</shortDescription>
-        <value>CSC Criteria</value>
+        <shortDescription>Content Standard Checklist Criteria title</shortDescription>
+        <value>Content Standard Checklist Criteria</value>
     </labels>
     <labels>
         <fullName>AQI_Edition_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>CSC Edition title</shortDescription>
-        <value>CSC Edition</value>
+        <shortDescription>Content Standard Checklist Edition title</shortDescription>
+        <value>Content Standard Checklist Edition</value>
     </labels>
     <labels>
         <fullName>AQI_Section_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>CSC Section title</shortDescription>
-        <value>CSC Section</value>
+        <shortDescription>Content Standard Checklist Section title</shortDescription>
+        <value>Content Standard Checklist Section</value>
     </labels>
     <labels>
         <fullName>AQI_Successfully_updated_message</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>CSC Successfully updated message</shortDescription>
-        <value>CSC Successfully updated</value>
+        <shortDescription>Content Standard Checklist Successfully updated message</shortDescription>
+        <value>Content Standard Checklist Successfully updated</value>
     </labels>
     <labels>
         <fullName>AQI_duplicate_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>CSC duplicate error</shortDescription>
+        <shortDescription>Content Standard Checklist duplicate error</shortDescription>
         <value>You already have a Content Standard Checklist record for this article version</value>
     </labels>
     <labels>
         <fullName>AQI_has_been_updated_message</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>CSC has been updated message</shortDescription>
-        <value>The CSC has been updated.</value>
+        <shortDescription>Content Standard Checklist has been updated message</shortDescription>
+        <value>The Content Standard Checklist has been updated.</value>
     </labels>
     <labels>
         <fullName>AQI_tableheader</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>CSC tableheader</shortDescription>
-        <value>CSC</value>
+        <shortDescription>Content Standard Checklist tableheader</shortDescription>
+        <value>Content Standard Checklist</value>
     </labels>
     <labels>
         <fullName>Account_Name_helptext</fullName>
@@ -201,7 +201,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Article contributor not found error message</shortDescription>
-        <value>The Article Contributor on the CSC record was not set because the Last Modified By user on the article could not be found.  Please select an Article Contributor.</value>
+        <value>The Article Contributor on the Content Standard Checklist record was not set because the Last Modified By user on the article could not be found.  Please select an Article Contributor.</value>
     </labels>
     <labels>
         <fullName>Article_has_no_record_type_error</fullName>
@@ -228,29 +228,29 @@
         <fullName>Cant_create_AQI_article_archived_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Can&apos;t create CSC article archived error</shortDescription>
-        <value>You can&apos;t create or edit this CSC if the related article is archived.</value>
+        <shortDescription>Can&apos;t create Content Standard Checklist article archived error</shortDescription>
+        <value>You can&apos;t create or edit this Content Standard Checklist if the related article is archived.</value>
     </labels>
     <labels>
         <fullName>Cant_create_AQI_article_draft_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Can&apos;t create CSC article draft error</shortDescription>
-        <value>You can&apos;t create or edit this CSC if the related article is a draft.</value>
+        <shortDescription>Can&apos;t create Content Standard Checklist article draft error</shortDescription>
+        <value>You can&apos;t create or edit this Content Standard Checklist if the related article is a draft.</value>
     </labels>
     <labels>
         <fullName>Cant_create_AQI_article_not_exists_error</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Can&apos;t create CSC article not exists error</shortDescription>
-        <value>You can&apos;t create or edit this CSC if the related article for this version doesn&apos;t exist.</value>
+        <shortDescription>Can&apos;t create Content Standard Checklist article not exists error</shortDescription>
+        <value>You can&apos;t create or edit this Content Standard Checklist if the related article for this version doesn&apos;t exist.</value>
     </labels>
     <labels>
         <fullName>Create_AQI_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Create CSC title</shortDescription>
-        <value>Create CSC</value>
+        <shortDescription>Create Content Standard Checklist title</shortDescription>
+        <value>Create Content Standard Checklist</value>
     </labels>
     <labels>
         <fullName>Create_or_Edit_helptext</fullName>
@@ -313,14 +313,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Edit Archived Article label</shortDescription>
-        <value>Prevent CSC Edit on Archived Article</value>
+        <value>Prevent Content Standard Checklist Edit on Archived Article</value>
     </labels>
     <labels>
         <fullName>Edit_Draft_Article_label</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Edit Draft Article label</shortDescription>
-        <value>Prevent CSC Edit on Draft Article</value>
+        <value>Prevent Content Standard Checklist Edit on Draft Article</value>
     </labels>
     <labels>
         <fullName>Edit_button</fullName>
@@ -334,7 +334,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Enable trigger helptext</shortDescription>
-        <value>Check to enable the trigger that calculates the CSC score (only needs to be disabled when the CSC migration tool will be used)</value>
+        <value>Check to enable the trigger that calculates the Content Standard Checklist score (only needs to be disabled when the Content Standard Checklist migration tool will be used)</value>
     </labels>
     <labels>
         <fullName>Error_getting_id_of_related_article_error</fullName>
@@ -417,8 +417,8 @@
         <fullName>Has_AQI_helptext</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Has CSC helptext</shortDescription>
-        <value>Has CSC</value>
+        <shortDescription>Has Content Standard Checklist helptext</shortDescription>
+        <value>Has Content Standard Checklist</value>
     </labels>
     <labels>
         <fullName>Information_title</fullName>
@@ -522,8 +522,8 @@
         <fullName>New_AQI_helptext</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>New CSC helptext</shortDescription>
-        <value>New CSC</value>
+        <shortDescription>New Content Standard Checklist helptext</shortDescription>
+        <value>New Content Standard Checklist</value>
     </labels>
     <labels>
         <fullName>Next_button</fullName>
@@ -781,7 +781,7 @@
         <fullName>Warning_on_create_AQI_alert</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Warning on create CSC alert</shortDescription>
+        <shortDescription>Warning on create Content Standard Checklist alert</shortDescription>
         <value>Users can only create Content Standard Checklists from knowledge articles</value>
     </labels>
 </CustomLabels>

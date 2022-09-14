@@ -53,7 +53,7 @@
         <field>Article_Quality__c$Agent__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>CSC Team Summary</name>
+    <name>Content Standard Checklist Team Summary</name>
     <params>
         <name>co</name>
         <value>1</value>

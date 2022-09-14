@@ -4,7 +4,7 @@
     <category>other</category>
     <deployed>true</deployed>
     <description>Content Standard Checklist report Type</description>
-    <label>CSC Report Type</label>
+    <label>Content Standard Checklist Report Type</label>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>

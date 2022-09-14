@@ -72,10 +72,10 @@
 		<name>PermissionSet</name>
 	</types>
 	<types>
-		<members>aqi_reports</members>
-		<members>aqi_reports/Individual_Totales</members>
-		<members>aqi_reports/Individual_Totals_byMonth</members>
-		<members>aqi_reports/Team_Details</members>
+		<members>Content_Standard_Checklist_reports</members>
+		<members>Content_Standard_Checklist_reports/CSC_Individual_Totales</members>
+		<members>Content_Standard_Checklist_reports/CSC_Individual_Totals_byMonth</members>
+		<members>Content_Standard_Checklist_reports/CSC_Team_Details</members>
 		<name>Report</name>
 	</types>
 	<types>

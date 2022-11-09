@@ -1,0 +1,182 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId"
+	access="global" controller="aqi_ArticleQualityIndexCtrl" extends="c:aqi_Abstract" >
+	
+	<!-- Attributes -->
+	<aura:attribute access="global" name="displayFollowUpSection" type="Boolean" default="true" />
+	<aura:attribute access="global" name="displayCSCScore" type="Boolean" default="true" description="Hides CSC Score"/>
+	<aura:attribute name="noFieldsAvailable" type="Boolean" default="false" />
+	<aura:attribute name="upButtonIsPress" type="Boolean" default="false" />
+	
+	<aura:attribute access="global" name="indexField1" type="String" default="none" />
+	<aura:attribute access="global" name="indexField2" type="String" default="none" />
+	<aura:attribute access="global" name="indexField3" type="String" default="none" />
+	<aura:attribute access="global" name="indexField4" type="String" default="none" />
+	<aura:attribute access="global" name="indexField5" type="String" default="none" />
+	<aura:attribute access="global" name="indexField6" type="String" default="none" />
+	<aura:attribute access="global" name="indexField7" type="String" default="none" />
+	<aura:attribute access="global" name="indexField8" type="String" default="none" />
+	<aura:attribute access="global" name="indexField9" type="String" default="none" />
+	<aura:attribute access="global" name="indexField10" type="String" default="none" />
+	<aura:attribute access="global" name="indexField11" type="String" default="none" />
+	
+	<aura:attribute access="global" name="prefixOrg" type="String" default="none" />
+	
+	<aura:attribute access="global" name="aqi_record" type="Article_Quality__c" default="{ 'sobjectType': 'Article_Quality__c' }"  />
+	<aura:attribute access="global" name="apiNames" type="List" default="" />
+	<aura:attribute name="aqi_fuFields" type="Map" />
+	
+	<!-- Handlers-->
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+	
+	<!-- Body-->
+	<article class="slds-card">
+		<div class="slds-card__header slds-border_bottom">
+			<lightning:layout horizontalAlign="spread" verticalAlign="center">
+				<lightning:layoutItem padding="horizontal-medium">
+					<div class="slds-card__header-link slds-truncate slds-text-heading_small slds-text-align_center slds-p-bottom_xx-small" title="{!v.aqi_record.Name}">
+						{!$Label.c.Article_Quality_Index_title}
+					</div>
+					<!-- Show CSC Score if option is enabled  -->
+					<aura:if isTrue="{!v.displayCSCScore}">
+						<div class="inner slds-badge slds-badge_lightest slds-p-horizontal_large slds-p-vertical_x-small">
+							{!$Label.c.Score}:&nbsp;
+							<lightning:formattedNumber value="{!v.aqi_record.AQ_Score__c}" style="percent-fixed"/>
+						</div>
+					</aura:if>
+				</lightning:layoutItem>
+				<lightning:layoutItem padding="horizontal-medium">
+					<lightning:button aura:id="applyButtonTop" variant="brand" class="slds-button slds-button--brand applyButton" label="{!$Label.c.Apply_button}" onclick="{!c.updateAQI}" />
+				</lightning:layoutItem>
+			</lightning:layout>
+		</div>
+		
+		<div class="slds-card__body slds-card__body_inner">
+			<div class="slds-m-bottom_medium"></div>
+			
+			<c:aqi_Toast aura:id="toastNotifUp"/>
+			
+			<p class="slds-p-horizontal--small">
+				<div class="slds-text-heading_medium mediumTitle">{!$Label.c.AQI_Criteria_title}</div>
+				<!-- If there are no fields selected in the app builder this paragraph will be displayed. Otherwise it is hidden -->
+				<aura:if isTrue="{!v.noFieldsAvailable}">
+					<p class="noFieldsMessage">&nbsp; {!$Label.c.No_fields_message}</p>
+				</aura:if>
+				
+				<!-- Fields container -->
+				<div aura:id="fieldsContainer" class="fieldsContainer slds-m-bottom_medium" />
+				
+				<!-- Article contributor -->
+				<lightning:layout horizontalAlign="space" verticalAlign="center">
+					<lightning:layoutItem size="12" flexibility="auto" padding="around-small">
+						<div class="slds-size_1-of-1">
+							<p class="slds-truncate inputLabel" title="{!$Label.c.Article_contributor_label}">
+								<ui:outputText value="{!v.aqi_fuFields.Agent__c}"/>
+							</p>
+						</div>
+						
+						<div class="slds-size_1-of-1">
+							<force:inputField aura:id="Agent__c" value="{!v.aqi_record.Agent__c}"/>
+						</div>
+					</lightning:layoutItem>
+				</lightning:layout>
+				<!-- Article contributor -->
+				
+				<!-- Follow up section -->
+				<aura:if isTrue="{!v.displayFollowUpSection}">
+					<!-- AQI input fileds section -->
+					<hr/>
+					<div class="slds-text-heading_medium">{!$Label.c.Follow_Up_title}</div>
+					<!-- Coaching Needed -->
+					<lightning:layout horizontalAlign="space" verticalAlign="center">
+						<lightning:layoutItem size="9" flexibility="auto" padding="around-small">
+							<div class="slds-size_1-of-1">
+								<p class="slds-truncate" title="{!v.fieldLabel}">
+									<ui:outputText value="{!v.aqi_fuFields.Action_Needed__c}" />
+								</p>
+							</div>
+						</lightning:layoutItem>
+						
+						<lightning:layoutItem size="3" flexibility="auto" padding="around-small">
+							<force:inputField class="checkBox" aura:id="Action_Needed__c" value="{!v.aqi_record.Action_Needed__c}"/>
+						</lightning:layoutItem>
+					</lightning:layout>
+					<!-- Coaching Needed -->
+					
+					<!-- Action assigned to -->
+					<lightning:layout horizontalAlign="space" verticalAlign="center">
+						<lightning:layoutItem size="12" flexibility="auto" padding="around-small">
+							<div class="slds-size_1-of-1">
+								<p class="slds-truncate inputLabel" title="{!$Label.c.Action_assigned_to_helptext}">
+									<ui:outputText value="{!v.aqi_fuFields.Action_Assigned_To__c}"/>
+								</p>
+							</div>
+							
+							<div class="slds-size_1-of-1">
+								<force:inputField aura:id="Action_Assigned_To__c" value="{!v.aqi_record.Action_Assigned_To__c}"/>
+							</div>
+						</lightning:layoutItem>
+					</lightning:layout>
+					<!-- Action assigned to -->
+					
+					<!-- Action Date -->
+					<lightning:layout horizontalAlign="space" verticalAlign="center">
+						<lightning:layoutItem size="12" flexibility="auto" padding="around-small">
+							<div class="slds-size_1-of-1">
+								<p class="slds-truncate inputLabel" title="{!$Label.c.Action_date_helptext}">
+									<ui:outputText value="{!v.aqi_fuFields.Action_Date__c}"/>
+								</p>
+							</div>
+							<div class="slds-size_1-of-1">
+								<force:inputField aura:id="Action_Date__c" value="{!v.aqi_record.Action_Date__c}"/>
+							</div>
+						</lightning:layoutItem>
+					</lightning:layout>
+					<!-- Action Date -->
+					
+					<!-- Action taken -->
+					<lightning:layout horizontalAlign="space" verticalAlign="center">
+						<lightning:layoutItem size="12" flexibility="auto" padding="around-small">
+							<div class="slds-size_1-of-1">
+								<p class="slds-truncate inputLabel" title="{!$Label.c.Action_taken_helptext}">
+									<ui:outputText value="{!v.aqi_fuFields.Action_Taken__c}" />
+								</p>
+							</div>
+							
+							<div class="slds-size_1-of-1">
+								<force:inputField value="{!v.aqi_record.Action_Taken__c}"/>
+							</div>
+						</lightning:layoutItem>
+					</lightning:layout>
+					<!-- Action taken -->
+					
+					<!-- Internal notes -->
+					<lightning:layout horizontalAlign="space" verticalAlign="center">
+						<lightning:layoutItem size="12" flexibility="auto" padding="around-small">
+							<div class="slds-size_1-of-1">
+								<p class="slds-truncate inputLabel" title="{!$Label.c.Internal_notes_helptext}">
+									<ui:outputText value="{!v.aqi_fuFields.Internal_Notes__c}" />
+								</p>
+							</div>
+							
+							<div class="slds-size_1-of-1">
+								<force:inputField value="{!v.aqi_record.Internal_Notes__c}"/>
+							</div>
+						</lightning:layoutItem>
+					</lightning:layout>
+					<!-- Internal notes -->
+				</aura:if>
+				<!-- Follow up section -->
+			</p>
+		</div>
+		
+		<div class="slds-card__body slds-card__body_inner">
+			<c:aqi_Toast aura:id="toastNotifBot"/>
+		</div>
+		
+		<div class="slds-card__footer slds-card__header">
+			<div class="buttonsContainer slds-align_absolute-center">
+				<lightning:button aura:id="applyButtonBot" variant="brand" class=" slds-button slds-button--brand applyButton" label="{!$Label.c.Apply_button}" onclick="{!c.updateAQI}" />
+			</div>
+		</div>
+	</article>
+</aura:component>

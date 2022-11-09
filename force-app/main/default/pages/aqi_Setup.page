@@ -1,0 +1,87 @@
+<apex:page controller="aqi_SetupCtrl" showHeader="true" sidebar="true" docType="html-5.0">
+    <script>
+        document.onreadystatechange = function(e) {if (document.readyState === 'complete') {checkForCS();}};
+    </script>
+    <apex:form id="container">
+        <apex:actionFunction action="{!checkForAppConfiguration}" name="checkForCS" reRender="container"></apex:actionFunction>
+        <apex:pageBlock title="{!$Label.Application_Setup_title}" mode="edit" rendered="{!editMode}">
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!save}" value="{!$Label.Save_button}" reRender="container"/>
+                <apex:commandButton value="{!$Label.Cancel_button}" action="{!cancel}" immediate="true" reRender="container"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="2" id="editPanel">
+                <apex:outputText value="{!$Label.AQI_Section_title}" />
+                <apex:outputText value="" />
+                <apex:inputField value="{!aqs.name}" html-disabled="true" />
+                <apex:inputField value="{!aqs.Selected_Languages__c}" />
+                <apex:inputField value="{!aqs.Article_Unique__c}" type="number" html-min="0"/>
+                <apex:inputField value="{!aqs.Content_complete__c}" type="number" html-min="0"/>
+                <apex:inputField value="{!aqs.Content_understandable__c}" type="number" html-min="0"/>
+                <apex:inputField value="{!aqs.Links_in_article_valid__c}" type="number" html-min="0"/>
+                <apex:inputField value="{!aqs.Properties_set_appropriately__c}" type="number" html-min="0"/>
+                <apex:inputField value="{!aqs.Title_Accurate__c}" type="number" html-min="0"/>
+                <apex:inputField value="{!aqs.Custom_Question_1__c}" type="number" html-min="0" />
+                <apex:inputField value="{!aqs.Custom_Question_2__c}" type="number" html-min="0" />
+                <apex:inputField value="{!aqs.Custom_Question_3__c}" type="number" html-min="0" />
+                <apex:inputField value="{!aqs.Custom_Question_4__c}" type="number" html-min="0" />
+                <apex:inputField value="{!aqs.Custom_Question_5__c}" type="number" html-min="0" />
+                <apex:inputField value="{!aqs.Possible_Points__c}" type="number" html-min="0" />
+                <apex:outputText value="{!$Label.Migration_Tool_Section_title}" />
+                <apex:outputText value="" />
+                <apex:inputField value="{!aqs.Trigger_Enabled__c}">
+                    <apex:actionSupport event="onchange" rerender="editPanel"/> 
+                    <apex:outputPanel rendered="true">
+                          <img src="/s.gif" Class="infoIcon"
+                          title="{!$Label.Enable_trigger_helptext}" />
+                    </apex:outputPanel>
+                </apex:inputField>
+                <apex:outputText value="" />
+                <apex:outputText value="{!$Label.AQI_Edition_title}" />
+                <apex:outputText value="" />
+                <apex:outputField rendered="{!!aqs.Trigger_Enabled__c}" value="{!aqs.Trigger_Enabled__c}" label="{!$Label.Edit_Archived_Article_label}"/>
+                <apex:outputField rendered="{!!aqs.Trigger_Enabled__c}" value="{!aqs.Trigger_Enabled__c}" label="{!$Label.Edit_Draft_Article_label}"/>
+                <apex:inputField rendered="{!aqs.Trigger_Enabled__c}" value="{!aqs.Prevent_AQI_Edit_on_Archived_Article__c}"/>
+                <apex:inputField rendered="{!aqs.Trigger_Enabled__c}" value="{!aqs.Prevent_AQI_Edit_on_Draft_Article__c}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <apex:pageBlock title="{!$Label.Application_Setup_title}" mode="detail" rendered="{!!editMode}">
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!edit}" value="{!$Label.Edit_button}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="2">
+                <apex:outputText value="{!$Label.AQI_Section_title}" />
+                <apex:outputText value="" />
+                <apex:outputField value="{!aqs.name}" />
+                <apex:outputField value="{!aqs.Selected_Languages__c}" />
+                <apex:outputField value="{!aqs.Article_Unique__c}"/>
+                <apex:outputField value="{!aqs.Content_complete__c}"/>
+                <apex:outputField value="{!aqs.Content_understandable__c}"/>
+                <apex:outputField value="{!aqs.Links_in_article_valid__c}"/>
+                <apex:outputField value="{!aqs.Properties_set_appropriately__c}"/>
+                <apex:outputField value="{!aqs.Title_Accurate__c}"/>
+                <apex:outputField value="{!aqs.Custom_Question_1__c}"/>
+                <apex:outputField value="{!aqs.Custom_Question_2__c}"/>
+                <apex:outputField value="{!aqs.Custom_Question_3__c}"/>
+                <apex:outputField value="{!aqs.Custom_Question_4__c}"/>
+                <apex:outputField value="{!aqs.Custom_Question_5__c}"/>
+                <apex:outputField value="{!aqs.Possible_Points__c}" />
+                <apex:outputText value="{!$Label.Migration_Tool_Section_title}" />
+                <apex:outputText value="" />
+                <apex:outputField value="{!aqs.Trigger_Enabled__c}">
+                    <apex:outputPanel rendered="true">
+                          <img src="/s.gif" Class="infoIcon"
+                          title="{!$Label.Enable_trigger_helptext}" />
+                    </apex:outputPanel>
+                </apex:outputField>
+                <apex:outputText value="" />
+                <apex:outputText value="{!$Label.AQI_Edition_title}" />
+                <apex:outputText value="" />
+                <apex:outputField rendered="{!aqs.Trigger_Enabled__c}" value="{!aqs.Prevent_AQI_Edit_on_Archived_Article__c}"/>
+                <apex:outputField rendered="{!aqs.Trigger_Enabled__c}" value="{!aqs.Prevent_AQI_Edit_on_Draft_Article__c}"/>
+                <apex:outputField rendered="{!!aqs.Trigger_Enabled__c}" value="{!aqs.Trigger_Enabled__c}" label="{!$Label.Edit_Archived_Article_label}"/>
+                <apex:outputField rendered="{!!aqs.Trigger_Enabled__c}" value="{!aqs.Trigger_Enabled__c}" label="{!$Label.Edit_Draft_Article_label}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+
+    </apex:form>
+</apex:page>

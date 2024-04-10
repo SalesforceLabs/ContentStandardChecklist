@@ -21,7 +21,7 @@
                 }
                 
                 th.col_NEWAQI{
-                    width: 3%;
+                    width: 2.5rem;
                 }
                 
                 th.col_Title{
@@ -80,13 +80,13 @@
                 div.newAQI_Icon{
                     background-image: url("{!URLFOR($Resource.aqi_resources, 'images/edit_120.png')}");
                     background-repeat: no-repeat;
-                    background-size: cover;
+                    background-size: contain;
                     cursor: pointer;
                     background-position: 0 0;
                 }
                 
                 td.newAQI_IconContainer{
-                    padding: 0.7rem !important;
+                    padding: 0.75rem !important;
                 }
                 
                 div.wordWrap{
